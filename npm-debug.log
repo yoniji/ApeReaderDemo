@@ -1,0 +1,601 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.36
+4 verbose readDependencies using package.json deps
+5 verbose install where, deps [ '/Users/yoniji/Documents/Projects/ape-reader',
+5 verbose install   [ 'grunt',
+5 verbose install     'grunt-contrib-jshint',
+5 verbose install     'grunt-contrib-cssmin',
+5 verbose install     'grunt-contrib-copy',
+5 verbose install     'grunt-contrib-clean',
+5 verbose install     'grunt-contrib-requirejs',
+5 verbose install     'grunt-processhtml',
+5 verbose install     'grunt-karma',
+5 verbose install     'grunt-karma-coveralls',
+5 verbose install     'grunt-bbb-styles',
+5 verbose install     'grunt-bbb-server',
+5 verbose install     'karma-jasmine',
+5 verbose install     'karma-mocha',
+5 verbose install     'karma-qunit',
+5 verbose install     'karma-phantomjs-launcher',
+5 verbose install     'karma-coverage' ] ]
+6 info preinstall backbone-boilerplate@1.0.0
+7 verbose readDependencies using package.json deps
+8 verbose already installed skipping grunt-contrib-requirejs@~0.4.4 /Users/yoniji/Documents/Projects/ape-reader
+9 verbose already installed skipping grunt-processhtml@~0.3.3 /Users/yoniji/Documents/Projects/ape-reader
+10 verbose cache add [ 'grunt-karma@~0.8.3', null ]
+11 verbose cache add name=undefined spec="grunt-karma@~0.8.3" args=["grunt-karma@~0.8.3",null]
+12 verbose parsed url { protocol: null,
+12 verbose parsed url   slashes: null,
+12 verbose parsed url   auth: null,
+12 verbose parsed url   host: null,
+12 verbose parsed url   port: null,
+12 verbose parsed url   hostname: null,
+12 verbose parsed url   hash: null,
+12 verbose parsed url   search: null,
+12 verbose parsed url   query: null,
+12 verbose parsed url   pathname: 'grunt-karma@~0.8.3',
+12 verbose parsed url   path: 'grunt-karma@~0.8.3',
+12 verbose parsed url   href: 'grunt-karma@~0.8.3' }
+13 verbose already installed skipping grunt-karma-coveralls@~2.5.1 /Users/yoniji/Documents/Projects/ape-reader
+14 verbose already installed skipping grunt-bbb-styles@~0.1.0-alpha.5 /Users/yoniji/Documents/Projects/ape-reader
+15 verbose cache add name="grunt-karma" spec="~0.8.3" args=["grunt-karma","~0.8.3"]
+16 verbose parsed url { protocol: null,
+16 verbose parsed url   slashes: null,
+16 verbose parsed url   auth: null,
+16 verbose parsed url   host: null,
+16 verbose parsed url   port: null,
+16 verbose parsed url   hostname: null,
+16 verbose parsed url   hash: null,
+16 verbose parsed url   search: null,
+16 verbose parsed url   query: null,
+16 verbose parsed url   pathname: '~0.8.3',
+16 verbose parsed url   path: '~0.8.3',
+16 verbose parsed url   href: '~0.8.3' }
+17 verbose addNamed [ 'grunt-karma', '~0.8.3' ]
+18 verbose addNamed [ null, '>=0.8.3-0 <0.9.0-0' ]
+19 verbose already installed skipping grunt-bbb-server@~0.1.0-alpha.13 /Users/yoniji/Documents/Projects/ape-reader
+20 silly lockFile 1545a07a-grunt-karma-0-8-3 grunt-karma@~0.8.3
+21 verbose lock grunt-karma@~0.8.3 /Users/yoniji/.npm/1545a07a-grunt-karma-0-8-3.lock
+22 verbose already installed skipping karma-jasmine@~0.2.2 /Users/yoniji/Documents/Projects/ape-reader
+23 silly addNameRange { name: 'grunt-karma',
+23 silly addNameRange   range: '>=0.8.3-0 <0.9.0-0',
+23 silly addNameRange   hasData: false }
+24 verbose already installed skipping karma-mocha@~0.1.4 /Users/yoniji/Documents/Projects/ape-reader
+25 verbose already installed skipping karma-qunit@~0.1.3 /Users/yoniji/Documents/Projects/ape-reader
+26 verbose request where is /grunt-karma
+27 verbose request registry https://registry.npmjs.org/
+28 verbose request id 0c22043b884cb22e
+29 verbose url raw /grunt-karma
+30 verbose url resolving [ 'https://registry.npmjs.org/', './grunt-karma' ]
+31 verbose url resolved https://registry.npmjs.org/grunt-karma
+32 verbose request where is https://registry.npmjs.org/grunt-karma
+33 info trying registry request attempt 1 at 12:14:35
+34 verbose etag "BSH5IB7CB2VWYVVYV99RBHGH8"
+35 http GET https://registry.npmjs.org/grunt-karma
+36 verbose already installed skipping karma-phantomjs-launcher@~0.1.4 /Users/yoniji/Documents/Projects/ape-reader
+37 verbose already installed skipping karma-coverage@~0.2.4 /Users/yoniji/Documents/Projects/ape-reader
+38 verbose already installed skipping grunt@~0.4.5 /Users/yoniji/Documents/Projects/ape-reader
+39 verbose already installed skipping grunt-contrib-jshint@~0.10.0 /Users/yoniji/Documents/Projects/ape-reader
+40 verbose already installed skipping grunt-contrib-cssmin@~0.10.0 /Users/yoniji/Documents/Projects/ape-reader
+41 verbose already installed skipping grunt-contrib-copy@~0.5.0 /Users/yoniji/Documents/Projects/ape-reader
+42 verbose already installed skipping grunt-contrib-clean@~0.5.0 /Users/yoniji/Documents/Projects/ape-reader
+43 http 304 https://registry.npmjs.org/grunt-karma
+44 silly registry.get cb [ 304,
+44 silly registry.get   { date: 'Fri, 24 Jul 2015 04:14:36 GMT',
+44 silly registry.get     via: '1.1 varnish',
+44 silly registry.get     'cache-control': 'max-age=60',
+44 silly registry.get     etag: '"BSH5IB7CB2VWYVVYV99RBHGH8"',
+44 silly registry.get     age: '51',
+44 silly registry.get     connection: 'keep-alive',
+44 silly registry.get     'x-served-by': 'cache-sin6923-SIN',
+44 silly registry.get     'x-cache': 'HIT',
+44 silly registry.get     'x-cache-hits': '1',
+44 silly registry.get     'x-timer': 'S1437711276.844449,VS0,VE0',
+44 silly registry.get     vary: 'Accept' } ]
+45 verbose etag https://registry.npmjs.org/grunt-karma from cache
+46 silly addNameRange number 2 { name: 'grunt-karma',
+46 silly addNameRange   range: '>=0.8.3-0 <0.9.0-0',
+46 silly addNameRange   hasData: true }
+47 silly addNameRange versions [ 'grunt-karma',
+47 silly addNameRange   [ '0.3.0',
+47 silly addNameRange     '0.4.0',
+47 silly addNameRange     '0.4.1',
+47 silly addNameRange     '0.4.2',
+47 silly addNameRange     '0.4.3',
+47 silly addNameRange     '0.4.4',
+47 silly addNameRange     '0.5.0',
+47 silly addNameRange     '0.4.5',
+47 silly addNameRange     '0.5.1',
+47 silly addNameRange     '0.5.2',
+47 silly addNameRange     '0.4.6',
+47 silly addNameRange     '0.5.3',
+47 silly addNameRange     '0.5.4',
+47 silly addNameRange     '0.6.0',
+47 silly addNameRange     '0.6.1',
+47 silly addNameRange     '0.7.0',
+47 silly addNameRange     '0.6.2',
+47 silly addNameRange     '0.7.1',
+47 silly addNameRange     '0.7.2',
+47 silly addNameRange     '0.7.3',
+47 silly addNameRange     '0.8.0',
+47 silly addNameRange     '0.8.1',
+47 silly addNameRange     '0.8.2',
+47 silly addNameRange     '0.8.3',
+47 silly addNameRange     '0.9.0',
+47 silly addNameRange     '0.10.0',
+47 silly addNameRange     '0.10.1',
+47 silly addNameRange     '0.11.0',
+47 silly addNameRange     '0.11.1',
+47 silly addNameRange     '0.11.2',
+47 silly addNameRange     '0.12.0' ] ]
+48 verbose addNamed [ 'grunt-karma', '0.8.3' ]
+49 verbose addNamed [ '0.8.3', '0.8.3' ]
+50 silly lockFile e0300b7e-grunt-karma-0-8-3 grunt-karma@0.8.3
+51 verbose lock grunt-karma@0.8.3 /Users/yoniji/.npm/e0300b7e-grunt-karma-0-8-3.lock
+52 silly lockFile e0300b7e-grunt-karma-0-8-3 grunt-karma@0.8.3
+53 silly lockFile e0300b7e-grunt-karma-0-8-3 grunt-karma@0.8.3
+54 silly lockFile 1545a07a-grunt-karma-0-8-3 grunt-karma@~0.8.3
+55 silly lockFile 1545a07a-grunt-karma-0-8-3 grunt-karma@~0.8.3
+56 silly resolved [ { name: 'grunt-karma',
+56 silly resolved     version: '0.8.3',
+56 silly resolved     description: 'grunt plugin for karma test runner',
+56 silly resolved     main: 'tasks/grunt-karma.js',
+56 silly resolved     repository:
+56 silly resolved      { type: 'git',
+56 silly resolved        url: 'https://github.com/karma-runner/grunt-karma.git' },
+56 silly resolved     keywords: [ 'gruntplugin', 'karma', 'grunt', 'test', 'unit', 'runner', 'TDD' ],
+56 silly resolved     scripts: { test: 'grunt test' },
+56 silly resolved     author: { name: 'Dave Geddes' },
+56 silly resolved     license: 'MIT',
+56 silly resolved     dependencies: { lodash: '~2.4.1' },
+56 silly resolved     devDependencies:
+56 silly resolved      { grunt: '~0.4.3',
+56 silly resolved        'expect.js': '~0.2.0',
+56 silly resolved        'grunt-release': '~0.5.1',
+56 silly resolved        'grunt-contrib-watch': '~0.2.0',
+56 silly resolved        'grunt-conventional-changelog': '~0.0.12',
+56 silly resolved        'karma-mocha': '~0.1.3',
+56 silly resolved        karma: '~0.12.0',
+56 silly resolved        'karma-firefox-launcher': '~0.1.3',
+56 silly resolved        'karma-chrome-launcher': '~0.1.2' },
+56 silly resolved     peerDependencies: { grunt: '0.4.x', karma: '~0.12.0' },
+56 silly resolved     bugs: { url: 'https://github.com/karma-runner/grunt-karma/issues' },
+56 silly resolved     homepage: 'https://github.com/karma-runner/grunt-karma',
+56 silly resolved     _id: 'grunt-karma@0.8.3',
+56 silly resolved     dist:
+56 silly resolved      { shasum: 'e9ecf718153af1914aa53602a37f85de04310e7f',
+56 silly resolved        tarball: 'http://registry.npmjs.org/grunt-karma/-/grunt-karma-0.8.3.tgz' },
+56 silly resolved     _from: 'grunt-karma@~0.8.3',
+56 silly resolved     _npmVersion: '1.4.6',
+56 silly resolved     _npmUser: { name: 'dignifiedquire', email: 'dignifiedquire@gmail.com' },
+56 silly resolved     maintainers: [ [Object], [Object], [Object], [Object] ],
+56 silly resolved     directories: {},
+56 silly resolved     _shasum: 'e9ecf718153af1914aa53602a37f85de04310e7f',
+56 silly resolved     _resolved: 'https://registry.npmjs.org/grunt-karma/-/grunt-karma-0.8.3.tgz',
+56 silly resolved     readme: 'ERROR: No README data found!' } ]
+57 info install grunt-karma@0.8.3 into /Users/yoniji/Documents/Projects/ape-reader
+58 info installOne grunt-karma@0.8.3
+59 verbose node_modules/grunt-karma unbuild
+60 info preuninstall grunt-karma@0.12.0
+61 info uninstall grunt-karma@0.12.0
+62 verbose true,/Users/yoniji/Documents/Projects/ape-reader/node_modules,/Users/yoniji/Documents/Projects/ape-reader/node_modules unbuild grunt-karma@0.12.0
+63 info postuninstall grunt-karma@0.12.0
+64 verbose tar unpack /Users/yoniji/.npm/grunt-karma/0.8.3/package.tgz
+65 silly lockFile b4a13eb4--reader-node-modules-grunt-karma tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma
+66 verbose lock tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma /Users/yoniji/.npm/b4a13eb4--reader-node-modules-grunt-karma.lock
+67 silly lockFile 1903db22-pm-grunt-karma-0-8-3-package-tgz tar:///Users/yoniji/.npm/grunt-karma/0.8.3/package.tgz
+68 verbose lock tar:///Users/yoniji/.npm/grunt-karma/0.8.3/package.tgz /Users/yoniji/.npm/1903db22-pm-grunt-karma-0-8-3-package-tgz.lock
+69 silly gunzTarPerm modes [ '755', '644' ]
+70 silly gunzTarPerm extractEntry package.json
+71 silly gunzTarPerm extractEntry .npmignore
+72 silly gunzTarPerm extractEntry README.md
+73 silly gunzTarPerm extractEntry LICENSE
+74 silly gunzTarPerm extractEntry Gruntfile.js
+75 silly gunzTarPerm extractEntry .travis.yml
+76 silly gunzTarPerm extractEntry TODO.md
+77 silly gunzTarPerm extractEntry lib/background.js
+78 silly gunzTarPerm extractEntry CHANGELOG.md
+79 silly gunzTarPerm extractEntry tasks/grunt-karma.js
+80 silly gunzTarPerm extractEntry test/grunt-karma-test.js
+81 silly lockFile b4a13eb4--reader-node-modules-grunt-karma tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma
+82 silly lockFile b4a13eb4--reader-node-modules-grunt-karma tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma
+83 silly lockFile 1903db22-pm-grunt-karma-0-8-3-package-tgz tar:///Users/yoniji/.npm/grunt-karma/0.8.3/package.tgz
+84 silly lockFile 1903db22-pm-grunt-karma-0-8-3-package-tgz tar:///Users/yoniji/.npm/grunt-karma/0.8.3/package.tgz
+85 info preinstall grunt-karma@0.8.3
+86 verbose readDependencies using package.json deps
+87 verbose readDependencies using package.json deps
+88 verbose cache add [ 'lodash@~2.4.1', null ]
+89 verbose cache add name=undefined spec="lodash@~2.4.1" args=["lodash@~2.4.1",null]
+90 verbose parsed url { protocol: null,
+90 verbose parsed url   slashes: null,
+90 verbose parsed url   auth: null,
+90 verbose parsed url   host: null,
+90 verbose parsed url   port: null,
+90 verbose parsed url   hostname: null,
+90 verbose parsed url   hash: null,
+90 verbose parsed url   search: null,
+90 verbose parsed url   query: null,
+90 verbose parsed url   pathname: 'lodash@~2.4.1',
+90 verbose parsed url   path: 'lodash@~2.4.1',
+90 verbose parsed url   href: 'lodash@~2.4.1' }
+91 verbose cache add name="lodash" spec="~2.4.1" args=["lodash","~2.4.1"]
+92 verbose parsed url { protocol: null,
+92 verbose parsed url   slashes: null,
+92 verbose parsed url   auth: null,
+92 verbose parsed url   host: null,
+92 verbose parsed url   port: null,
+92 verbose parsed url   hostname: null,
+92 verbose parsed url   hash: null,
+92 verbose parsed url   search: null,
+92 verbose parsed url   query: null,
+92 verbose parsed url   pathname: '~2.4.1',
+92 verbose parsed url   path: '~2.4.1',
+92 verbose parsed url   href: '~2.4.1' }
+93 verbose addNamed [ 'lodash', '~2.4.1' ]
+94 verbose addNamed [ null, '>=2.4.1-0 <2.5.0-0' ]
+95 silly lockFile 257f9ab3-lodash-2-4-1 lodash@~2.4.1
+96 verbose lock lodash@~2.4.1 /Users/yoniji/.npm/257f9ab3-lodash-2-4-1.lock
+97 silly addNameRange { name: 'lodash', range: '>=2.4.1-0 <2.5.0-0', hasData: false }
+98 verbose request where is /lodash
+99 verbose request registry https://registry.npmjs.org/
+100 verbose url raw /lodash
+101 verbose url resolving [ 'https://registry.npmjs.org/', './lodash' ]
+102 verbose url resolved https://registry.npmjs.org/lodash
+103 verbose request where is https://registry.npmjs.org/lodash
+104 info trying registry request attempt 1 at 12:14:37
+105 verbose etag "DPBETPUBC73RQJ6K961FFQGXG"
+106 http GET https://registry.npmjs.org/lodash
+107 http 304 https://registry.npmjs.org/lodash
+108 silly registry.get cb [ 304,
+108 silly registry.get   { date: 'Fri, 24 Jul 2015 04:14:38 GMT',
+108 silly registry.get     via: '1.1 varnish',
+108 silly registry.get     'cache-control': 'max-age=60',
+108 silly registry.get     etag: '"DPBETPUBC73RQJ6K961FFQGXG"',
+108 silly registry.get     age: '23',
+108 silly registry.get     connection: 'keep-alive',
+108 silly registry.get     'x-served-by': 'cache-sin6922-SIN',
+108 silly registry.get     'x-cache': 'HIT',
+108 silly registry.get     'x-cache-hits': '4',
+108 silly registry.get     'x-timer': 'S1437711278.578527,VS0,VE0',
+108 silly registry.get     vary: 'Accept' } ]
+109 verbose etag https://registry.npmjs.org/lodash from cache
+110 silly addNameRange number 2 { name: 'lodash', range: '>=2.4.1-0 <2.5.0-0', hasData: true }
+111 silly addNameRange versions [ 'lodash',
+111 silly addNameRange   [ '0.1.0',
+111 silly addNameRange     '0.2.0',
+111 silly addNameRange     '0.2.1',
+111 silly addNameRange     '0.2.2',
+111 silly addNameRange     '0.3.0',
+111 silly addNameRange     '0.3.1',
+111 silly addNameRange     '0.3.2',
+111 silly addNameRange     '0.4.0',
+111 silly addNameRange     '0.4.1',
+111 silly addNameRange     '0.4.2',
+111 silly addNameRange     '0.5.0-rc.1',
+111 silly addNameRange     '0.5.0',
+111 silly addNameRange     '0.5.1',
+111 silly addNameRange     '0.5.2',
+111 silly addNameRange     '0.6.0',
+111 silly addNameRange     '0.6.1',
+111 silly addNameRange     '0.7.0',
+111 silly addNameRange     '0.8.0',
+111 silly addNameRange     '0.8.1',
+111 silly addNameRange     '0.8.2',
+111 silly addNameRange     '0.9.0',
+111 silly addNameRange     '0.9.1',
+111 silly addNameRange     '0.9.2',
+111 silly addNameRange     '0.10.0',
+111 silly addNameRange     '1.0.0-rc.1',
+111 silly addNameRange     '1.0.0-rc.2',
+111 silly addNameRange     '1.0.0-rc.3',
+111 silly addNameRange     '1.0.0',
+111 silly addNameRange     '1.0.1',
+111 silly addNameRange     '1.1.0',
+111 silly addNameRange     '1.1.1',
+111 silly addNameRange     '1.2.0',
+111 silly addNameRange     '1.2.1',
+111 silly addNameRange     '1.3.0',
+111 silly addNameRange     '1.3.1',
+111 silly addNameRange     '2.0.0',
+111 silly addNameRange     '2.1.0',
+111 silly addNameRange     '2.2.0',
+111 silly addNameRange     '2.2.1',
+111 silly addNameRange     '2.3.0',
+111 silly addNameRange     '2.4.0',
+111 silly addNameRange     '2.4.1',
+111 silly addNameRange     '3.0.0',
+111 silly addNameRange     '3.0.1',
+111 silly addNameRange     '3.1.0',
+111 silly addNameRange     '3.2.0',
+111 silly addNameRange     '3.3.0',
+111 silly addNameRange     '3.3.1',
+111 silly addNameRange     '3.4.0',
+111 silly addNameRange     '3.5.0',
+111 silly addNameRange     '3.6.0',
+111 silly addNameRange     '1.0.2',
+111 silly addNameRange     '3.7.0',
+111 silly addNameRange     '2.4.2',
+111 silly addNameRange     '3.8.0',
+111 silly addNameRange     '3.9.0',
+111 silly addNameRange     '3.9.1',
+111 silly addNameRange     '3.9.2',
+111 silly addNameRange     '3.9.3',
+111 silly addNameRange     '3.10.0' ] ]
+112 verbose addNamed [ 'lodash', '2.4.2' ]
+113 verbose addNamed [ '2.4.2', '2.4.2' ]
+114 silly lockFile c9ffd2e6-lodash-2-4-2 lodash@2.4.2
+115 verbose lock lodash@2.4.2 /Users/yoniji/.npm/c9ffd2e6-lodash-2-4-2.lock
+116 silly lockFile c9ffd2e6-lodash-2-4-2 lodash@2.4.2
+117 silly lockFile c9ffd2e6-lodash-2-4-2 lodash@2.4.2
+118 silly lockFile 257f9ab3-lodash-2-4-1 lodash@~2.4.1
+119 silly lockFile 257f9ab3-lodash-2-4-1 lodash@~2.4.1
+120 silly resolved [ { name: 'lodash',
+120 silly resolved     version: '2.4.2',
+120 silly resolved     description: 'A utility library delivering consistency, customization, performance, & extras.',
+120 silly resolved     homepage: 'http://lodash.com/',
+120 silly resolved     license: 'MIT',
+120 silly resolved     main: 'dist/lodash.js',
+120 silly resolved     keywords:
+120 silly resolved      [ 'amd',
+120 silly resolved        'browser',
+120 silly resolved        'client',
+120 silly resolved        'customize',
+120 silly resolved        'functional',
+120 silly resolved        'server',
+120 silly resolved        'util' ],
+120 silly resolved     author:
+120 silly resolved      { name: 'John-David Dalton',
+120 silly resolved        email: 'john.david.dalton@gmail.com',
+120 silly resolved        url: 'http://allyoucanleet.com/' },
+120 silly resolved     contributors: [ [Object], [Object], [Object], [Object] ],
+120 silly resolved     bugs: { url: 'https://github.com/lodash/lodash/issues' },
+120 silly resolved     repository: { type: 'git', url: 'https://github.com/lodash/lodash.git' },
+120 silly resolved     engines: [ 'node', 'rhino' ],
+120 silly resolved     files:
+120 silly resolved      [ 'LICENSE.txt',
+120 silly resolved        'lodash.js',
+120 silly resolved        'dist/lodash.js',
+120 silly resolved        'dist/lodash.min.js',
+120 silly resolved        'dist/lodash.compat.js',
+120 silly resolved        'dist/lodash.compat.min.js',
+120 silly resolved        'dist/lodash.underscore.js',
+120 silly resolved        'dist/lodash.underscore.min.js' ],
+120 silly resolved     jam: { main: 'dist/lodash.compat.js', include: [Object] },
+120 silly resolved     volo: { type: 'directory', ignore: [Object] },
+120 silly resolved     _id: 'lodash@2.4.2',
+120 silly resolved     scripts: {},
+120 silly resolved     _shasum: 'fadd834b9683073da179b3eae6d9c0d15053f73e',
+120 silly resolved     _from: 'lodash@~2.4.1',
+120 silly resolved     _npmVersion: '2.7.5',
+120 silly resolved     _nodeVersion: '0.12.2',
+120 silly resolved     _npmUser: { name: 'jdalton', email: 'john.david.dalton@gmail.com' },
+120 silly resolved     maintainers: [ [Object], [Object], [Object], [Object], [Object] ],
+120 silly resolved     dist:
+120 silly resolved      { shasum: 'fadd834b9683073da179b3eae6d9c0d15053f73e',
+120 silly resolved        tarball: 'http://registry.npmjs.org/lodash/-/lodash-2.4.2.tgz' },
+120 silly resolved     directories: {},
+120 silly resolved     _resolved: 'https://registry.npmjs.org/lodash/-/lodash-2.4.2.tgz',
+120 silly resolved     readme: 'ERROR: No README data found!' } ]
+121 info install lodash@2.4.2 into /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma
+122 info installOne lodash@2.4.2
+123 verbose node_modules/grunt-karma/node_modules/lodash unbuild
+124 verbose tar unpack /Users/yoniji/.npm/lodash/2.4.2/package.tgz
+125 silly lockFile 01ca302b--grunt-karma-node-modules-lodash tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules/lodash
+126 verbose lock tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules/lodash /Users/yoniji/.npm/01ca302b--grunt-karma-node-modules-lodash.lock
+127 silly lockFile 97db456c-iji-npm-lodash-2-4-2-package-tgz tar:///Users/yoniji/.npm/lodash/2.4.2/package.tgz
+128 verbose lock tar:///Users/yoniji/.npm/lodash/2.4.2/package.tgz /Users/yoniji/.npm/97db456c-iji-npm-lodash-2-4-2-package-tgz.lock
+129 silly gunzTarPerm modes [ '755', '644' ]
+130 silly gunzTarPerm extractEntry package.json
+131 silly gunzTarPerm extractEntry README.md
+132 silly gunzTarPerm extractEntry lodash.js
+133 silly gunzTarPerm extractEntry LICENSE.txt
+134 silly gunzTarPerm extractEntry dist/lodash.compat.js
+135 silly gunzTarPerm extractEntry dist/lodash.compat.min.js
+136 silly gunzTarPerm extractEntry dist/lodash.js
+137 silly gunzTarPerm extractEntry dist/lodash.min.js
+138 silly gunzTarPerm extractEntry dist/lodash.underscore.js
+139 silly gunzTarPerm extractEntry dist/lodash.underscore.min.js
+140 silly lockFile 01ca302b--grunt-karma-node-modules-lodash tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules/lodash
+141 silly lockFile 01ca302b--grunt-karma-node-modules-lodash tar:///Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules/lodash
+142 silly lockFile 97db456c-iji-npm-lodash-2-4-2-package-tgz tar:///Users/yoniji/.npm/lodash/2.4.2/package.tgz
+143 silly lockFile 97db456c-iji-npm-lodash-2-4-2-package-tgz tar:///Users/yoniji/.npm/lodash/2.4.2/package.tgz
+144 info preinstall lodash@2.4.2
+145 verbose readDependencies using package.json deps
+146 verbose readDependencies using package.json deps
+147 silly resolved []
+148 verbose about to build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules/lodash
+149 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules/lodash
+150 verbose linkStuff [ false,
+150 verbose linkStuff   false,
+150 verbose linkStuff   false,
+150 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma/node_modules' ]
+151 info linkStuff lodash@2.4.2
+152 verbose linkBins lodash@2.4.2
+153 verbose linkMans lodash@2.4.2
+154 verbose rebuildBundles lodash@2.4.2
+155 info install lodash@2.4.2
+156 info postinstall lodash@2.4.2
+157 verbose about to build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma
+158 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-karma
+159 verbose linkStuff [ false,
+159 verbose linkStuff   false,
+159 verbose linkStuff   false,
+159 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+160 info linkStuff grunt-karma@0.8.3
+161 verbose linkBins grunt-karma@0.8.3
+162 verbose linkMans grunt-karma@0.8.3
+163 verbose rebuildBundles grunt-karma@0.8.3
+164 verbose rebuildBundles [ 'lodash' ]
+165 info install grunt-karma@0.8.3
+166 info postinstall grunt-karma@0.8.3
+167 verbose readDependencies using package.json deps
+168 verbose already installed skipping karma@~0.12.0 /Users/yoniji/Documents/Projects/ape-reader
+169 silly resolved []
+170 info build /Users/yoniji/Documents/Projects/ape-reader
+171 verbose linkStuff [ false, false, false, '/Users/yoniji/Documents/Projects' ]
+172 info linkStuff backbone-boilerplate@1.0.0
+173 verbose linkBins backbone-boilerplate@1.0.0
+174 verbose linkMans backbone-boilerplate@1.0.0
+175 verbose rebuildBundles backbone-boilerplate@1.0.0
+176 verbose rebuildBundles [ '.DS_Store',
+176 verbose rebuildBundles   '.bin',
+176 verbose rebuildBundles   'grunt',
+176 verbose rebuildBundles   'grunt-bbb-server',
+176 verbose rebuildBundles   'grunt-bbb-styles',
+176 verbose rebuildBundles   'grunt-browser-sync',
+176 verbose rebuildBundles   'grunt-contrib-clean',
+176 verbose rebuildBundles   'grunt-contrib-copy',
+176 verbose rebuildBundles   'grunt-contrib-cssmin',
+176 verbose rebuildBundles   'grunt-contrib-jshint',
+176 verbose rebuildBundles   'grunt-contrib-requirejs',
+176 verbose rebuildBundles   'grunt-contrib-sass',
+176 verbose rebuildBundles   'grunt-contrib-watch',
+176 verbose rebuildBundles   'grunt-karma',
+176 verbose rebuildBundles   'grunt-karma-coveralls',
+176 verbose rebuildBundles   'grunt-processhtml',
+176 verbose rebuildBundles   'karma',
+176 verbose rebuildBundles   'karma-coverage',
+176 verbose rebuildBundles   'karma-jasmine',
+176 verbose rebuildBundles   'karma-mocha',
+176 verbose rebuildBundles   'karma-phantomjs-launcher',
+176 verbose rebuildBundles   'karma-qunit',
+176 verbose rebuildBundles   'mocha',
+176 verbose rebuildBundles   'qunitjs' ]
+177 verbose rebuild bundle /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-browser-sync
+178 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-browser-sync
+179 info preinstall grunt-browser-sync@2.1.3
+180 verbose linkStuff [ false,
+180 verbose linkStuff   false,
+180 verbose linkStuff   false,
+180 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+181 info linkStuff grunt-browser-sync@2.1.3
+182 verbose linkBins grunt-browser-sync@2.1.3
+183 verbose linkMans grunt-browser-sync@2.1.3
+184 verbose rebuildBundles grunt-browser-sync@2.1.3
+185 verbose rebuildBundles [ '.bin', 'browser-sync' ]
+186 info install grunt-browser-sync@2.1.3
+187 info postinstall grunt-browser-sync@2.1.3
+188 verbose rebuild bundle /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-contrib-sass
+189 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-contrib-sass
+190 info preinstall grunt-contrib-sass@0.9.2
+191 verbose linkStuff [ false,
+191 verbose linkStuff   false,
+191 verbose linkStuff   false,
+191 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+192 info linkStuff grunt-contrib-sass@0.9.2
+193 verbose linkBins grunt-contrib-sass@0.9.2
+194 verbose linkMans grunt-contrib-sass@0.9.2
+195 verbose rebuildBundles grunt-contrib-sass@0.9.2
+196 verbose rebuildBundles [ '.bin', 'async', 'chalk', 'cross-spawn', 'dargs', 'which' ]
+197 info install grunt-contrib-sass@0.9.2
+198 info postinstall grunt-contrib-sass@0.9.2
+199 verbose rebuild bundle /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-contrib-watch
+200 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/grunt-contrib-watch
+201 info preinstall grunt-contrib-watch@0.6.1
+202 verbose linkStuff [ false,
+202 verbose linkStuff   false,
+202 verbose linkStuff   false,
+202 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+203 info linkStuff grunt-contrib-watch@0.6.1
+204 verbose linkBins grunt-contrib-watch@0.6.1
+205 verbose linkMans grunt-contrib-watch@0.6.1
+206 verbose rebuildBundles grunt-contrib-watch@0.6.1
+207 verbose rebuildBundles [ '.bin', 'async', 'gaze', 'lodash', 'tiny-lr-fork' ]
+208 info install grunt-contrib-watch@0.6.1
+209 info postinstall grunt-contrib-watch@0.6.1
+210 verbose rebuild bundle /Users/yoniji/Documents/Projects/ape-reader/node_modules/karma
+211 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/karma
+212 info preinstall karma@0.13.3
+213 verbose linkStuff [ false,
+213 verbose linkStuff   false,
+213 verbose linkStuff   false,
+213 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+214 info linkStuff karma@0.13.3
+215 verbose linkBins karma@0.13.3
+216 verbose link bins [ { karma: './bin/karma' },
+216 verbose link bins   '/Users/yoniji/Documents/Projects/ape-reader/node_modules/.bin',
+216 verbose link bins   false ]
+217 verbose linkMans karma@0.13.3
+218 verbose rebuildBundles karma@0.13.3
+219 verbose rebuildBundles [ '.bin',
+219 verbose rebuildBundles   'bluebird',
+219 verbose rebuildBundles   'body-parser',
+219 verbose rebuildBundles   'chokidar',
+219 verbose rebuildBundles   'colors',
+219 verbose rebuildBundles   'connect',
+219 verbose rebuildBundles   'core-js',
+219 verbose rebuildBundles   'di',
+219 verbose rebuildBundles   'dom-serialize',
+219 verbose rebuildBundles   'expand-braces',
+219 verbose rebuildBundles   'glob',
+219 verbose rebuildBundles   'graceful-fs',
+219 verbose rebuildBundles   'http-proxy',
+219 verbose rebuildBundles   'lodash',
+219 verbose rebuildBundles   'log4js',
+219 verbose rebuildBundles   'memoizee',
+219 verbose rebuildBundles   'mime',
+219 verbose rebuildBundles   'minimatch',
+219 verbose rebuildBundles   'optimist',
+219 verbose rebuildBundles   'rimraf',
+219 verbose rebuildBundles   'socket.io',
+219 verbose rebuildBundles   'source-map',
+219 verbose rebuildBundles   'useragent' ]
+220 info install karma@0.13.3
+221 info postinstall karma@0.13.3
+222 verbose rebuild bundle /Users/yoniji/Documents/Projects/ape-reader/node_modules/mocha
+223 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/mocha
+224 info preinstall mocha@2.2.5
+225 verbose linkStuff [ false,
+225 verbose linkStuff   false,
+225 verbose linkStuff   false,
+225 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+226 info linkStuff mocha@2.2.5
+227 verbose linkBins mocha@2.2.5
+228 verbose link bins [ { mocha: './bin/mocha', _mocha: './bin/_mocha' },
+228 verbose link bins   '/Users/yoniji/Documents/Projects/ape-reader/node_modules/.bin',
+228 verbose link bins   false ]
+229 verbose linkMans mocha@2.2.5
+230 verbose rebuildBundles mocha@2.2.5
+231 verbose rebuildBundles [ '.bin',
+231 verbose rebuildBundles   'commander',
+231 verbose rebuildBundles   'debug',
+231 verbose rebuildBundles   'diff',
+231 verbose rebuildBundles   'escape-string-regexp',
+231 verbose rebuildBundles   'glob',
+231 verbose rebuildBundles   'growl',
+231 verbose rebuildBundles   'jade',
+231 verbose rebuildBundles   'mkdirp',
+231 verbose rebuildBundles   'supports-color' ]
+232 info install mocha@2.2.5
+233 info postinstall mocha@2.2.5
+234 verbose rebuild bundle /Users/yoniji/Documents/Projects/ape-reader/node_modules/qunitjs
+235 info build /Users/yoniji/Documents/Projects/ape-reader/node_modules/qunitjs
+236 info preinstall qunitjs@1.18.0
+237 verbose linkStuff [ false,
+237 verbose linkStuff   false,
+237 verbose linkStuff   false,
+237 verbose linkStuff   '/Users/yoniji/Documents/Projects/ape-reader/node_modules' ]
+238 info linkStuff qunitjs@1.18.0
+239 verbose linkBins qunitjs@1.18.0
+240 verbose linkMans qunitjs@1.18.0
+241 verbose rebuildBundles qunitjs@1.18.0
+242 info install qunitjs@1.18.0
+243 info postinstall qunitjs@1.18.0
+244 info install backbone-boilerplate@1.0.0
+245 info postinstall backbone-boilerplate@1.0.0
+246 info prepublish backbone-boilerplate@1.0.0
+247 error peerinvalid The package karma does not satisfy its siblings' peerDependencies requirements!
+247 error peerinvalid Peer grunt-karma@0.8.3 wants karma@~0.12.0
+247 error peerinvalid Peer karma-jasmine@0.2.3 wants karma@>=0.9
+247 error peerinvalid Peer karma-mocha@0.1.10 wants karma@>=0.12.8
+247 error peerinvalid Peer karma-phantomjs-launcher@0.1.4 wants karma@>=0.9
+247 error peerinvalid Peer karma-coverage@0.2.7 wants karma@>=0.9
+248 error System Darwin 14.0.0
+249 error command "node" "/usr/local/bin/npm" "install"
+250 error cwd /Users/yoniji/Documents/Projects/ape-reader
+251 error node -v v0.10.36
+252 error npm -v 1.4.28
+253 error code EPEERINVALID
+254 verbose exit [ 1, true ]

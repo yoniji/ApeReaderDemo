@@ -1,0 +1,248 @@
+@import "settings/settings";
+@import "settings/mixins";
+$background-color:$white;
+$text-color:$black;
+$pixels-per-mm:6px;
+html,
+body {
+    background: $background-color;
+    color: $text-color;
+}
+
+html,
+body,
+#mainWrapper,
+#homeWrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#homeWrapper {
+    @include size(100%);
+    @include position(relative);
+}
+
+$homeNavigationHeihgt:40px;
+$homeNavigationBackground:$white;
+$homeNavigationTextColor:$black;
+
+#homeNavigation {
+    background: $homeNavigationBackground;
+    
+    @include clearfix();
+    @include position(absolute, null null 0 0);
+    @include size(100% $homeNavigationHeihgt);
+    border-top:1px solid $border-color;
+}
+
+.homeNavigation-item {
+    @include size(33.33333% 100%);
+    float: left;
+    display: inline-block;
+    text-align: center;
+    font-size: 24px;
+    >.icon {
+        line-height: $homeNavigationHeihgt;
+        height: $homeNavigationHeihgt;
+        color: lighten($homeNavigationTextColor,60%);
+    }
+    &.current {
+        border-bottom: 2px solid $main-color;
+        >.icon {
+            line-height: $homeNavigationHeihgt -2;
+            height: $homeNavigationHeihgt - 2;
+            color: $homeNavigationTextColor;
+        }
+    }
+}
+#primary {
+	background:#f5f5f5;
+}
+
+#feedsWrapper {
+    @include position(relative);
+}
+
+$topBarHeight:48px;
+$topBarBackground:$white;
+$topBarColor:$black;
+.topBar {
+	height:$topBarHeight;
+	line-height:$topBarHeight;
+	background:$topBarBackground;
+	color:$topBarColor;
+	text-align:center;
+	border-bottom:1px solid $border-color;
+}
+#feedsTopBar-category-switch,#feedsTopBar-search-switch {
+	color:$topBarColor;
+	line-height:$topBarHeight;
+}
+#feedsTopBar-category-switch {
+	width:100%;
+}
+#feedsTopBar-search-switch {
+	width:$topBarHeight;
+	@include position(absolute,0 0 null null);
+}
+
+.pageWrapper,.tempCurrentPage,.tempNextPage,.tempCurrentPageTop {
+    @include size(100%);
+    @include position(absolute, 0 null null 0);
+}
+.tempCurrentPage,.tempNextPage,.tempCurrentPageTop {
+	@include size(100% 50%);
+	overflow:hidden;
+}
+.tempCurrentPage {
+	top:50%;
+	@include transform-origin(center top);
+	@include backface-visibility(hidden);
+	.cover {
+		top:-100%;
+		height:200%;
+	}
+}
+.tempCurrentPageTop {
+	.info {
+		bottom:-100%;
+	}
+}
+.tempNextPage {
+	.info {
+		bottom:-100%;
+	}
+	@include backface-visibility(hidden);
+	@include transform-origin(center bottom);
+	@include transform(rotate3d(1,0,0,-180deg));
+}
+.cover {
+    @include size(100%);
+    @include position(absolute, 0 null null 0);
+    img {
+        @include position(absolute);
+        max-width: none;
+    }
+}
+
+.info {
+    @include size(100% auto);
+    @include position(absolute, null null -1px 0);
+    padding: $basic-gap*2 $basic-gap $basic-gap*1.5;
+    @include background-image(linear-gradient(transparent 0, rgba(0, 0, 0, .9) 100%));
+    .title {
+        font-size: 24px;
+        line-height: 28px;
+        padding-bottom: $basic-gap/2;
+        font-weight: bold;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, .5);
+    }
+    .excerpt {
+        font-size: 14px;
+        line-height: 18px;
+        height:54px;
+        overflow: hidden;
+    }
+}
+
+
+//========== Cell ===========
+.creditItem {
+	display:block;
+	@include clearfix();
+}
+.creditImage {
+	float:left;
+	@include size(30px);
+	margin:0 10px 10px 0;
+	border-radius:100%;
+	overflow:hidden;
+	>img {
+		min-width: 100%;
+		min-height: 100%;
+		max-height: 100%;
+		max-width: none;
+	}
+}
+.creditName { 
+	color:$black;
+	line-height:1.2em;
+}
+.creditMeta {
+	color:$caption-color; 
+	font-size:0.8em;
+	line-height:1.2em;
+}
+
+.coverImage
+{
+	background:#f0f0f0;
+	overflow: hidden;
+	>img{
+		max-width:100%;
+	}
+}
+
+.multiCover {
+	@include clearfix();
+	.coverImage {
+		float: left;
+		display: inline-block;
+		
+	}
+}
+$cellBackground:#fafafa;
+$cellTextColor:#333;
+$cellBorderColor:#dedede;
+.cellWrapper {
+	font-size:$body-size;
+	background:$cellBackground;
+	color:$cellTextColor;
+	padding:$basic-gap 0;
+	border-bottom:1px solid $cellBorderColor;
+
+	&:active {
+		background: lighten($cellBackground,20%);
+	}
+	.creditItem {
+		padding:0 $basic-gap;
+	}
+	.title {
+		font-size: 1.4em;
+		line-height: 1.2em;
+		padding:0.5em $basic-gap 0.4em;
+	}
+	.excerpt {
+		font-size: 1em;
+		line-height: 1.4em;
+		color:lighten($cellTextColor, 30%);
+		padding:0 $basic-gap;
+	}
+}
+
+$toolBarHeight:40px;
+$toolBarBackground:$white;
+$toolBarColor:$white;
+.toolBar {
+	height:$toolBarHeight;
+	background:$toolBarBackground;
+	color:$toolBarColor;
+	@include clearfix();
+}
+.toolBar-item {
+	float:left;
+	display:inline-block;
+	width:25%;
+	text-align:center;
+	>.icon {
+	height:$toolBarHeight;
+	line-height:$toolBarHeight;
+	}
+}
+
+
+.articleShellWrapper {
+	@include position(absolute,0 null null 0);
+	@include size(100%);
+}

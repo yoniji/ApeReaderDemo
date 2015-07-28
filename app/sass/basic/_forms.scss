@@ -1,0 +1,133 @@
+@import "../settings/settings";
+
+    label {
+        display: block;
+        margin-bottom: 0;
+        color: $caption-color;
+        font-size: $caption-size;
+    }
+    input:not([class^="btn"]), textarea {
+        border: none;
+        border-bottom: 1px solid $field-border-color;
+        border-radius: 0;
+        margin-bottom: 1px;
+        background: transparent;
+        padding: $basic-gap/4 $basic-gap/2;
+        -webkit-appearance: none;
+        &:hover {
+            outline: none;
+        }
+        &:focus {
+            border-color: $field-active-color;
+            border-width: 1px;
+            outline: none;
+        }
+        &.field-fw {
+            width: 100%;
+        }
+    }
+    textarea {
+        border: 1px solid $field-border-color;
+    }
+
+.required {
+    color: $field-required-color;
+}
+fieldset {
+    border-color: $field-border-color;
+    padding: 1.5em;
+    margin-bottom: $baseline;
+    legend {
+        font-weight: bold;
+        padding: 0 .5em;
+    }
+}
+input[type="checkbox"], input[type="radio"] {
+    display: none;
+}
+input[type="checkbox"] + label:before {
+    background-color: #fff;
+    border: 1px solid $field-border-color;
+    content: "";
+    display: inline-block;
+    height: 1.25em;
+    margin: -2px 6px 0 0;
+    vertical-align: middle;
+    width: 1.25em;
+    font-size: .75em;
+    line-height: 1.25em;
+    text-align: center;
+}
+input[type="checkbox"]:checked + label:before {
+    content: "\2713";
+}
+input[type="radio"] + label:before {
+    background-color: #fff;
+    border: 1px solid $field-border-color;
+    border-radius: 1.25em;
+    content: "";
+    display: inline-block;
+    height: .6em;
+    margin: -2px 6px 0 0;
+    width: .6em;
+    vertical-align: middle;
+    font-size: 1.65em;
+    line-height: .6em;
+    text-align: center;
+}
+input[type="radio"]:checked + label:before {
+    content: "\2022";
+}
+.input-group {
+    position: relative;
+    vertical-align: middle;
+    color: #757575;
+    &:hover {
+        .input-group-addon-icon {
+            color: $main-color;
+        }
+    }
+    input:not([class^="btn"]) {
+        display: block;
+    }
+}
+.input-group-addon:first-child {} .input-group-addon, .input-group-append {
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    margin: 0 $basic-gap/2;
+}
+.input-group-addon + input:not([class^="btn"]) {
+    padding-left: $basic-gap * 3;
+}
+.edit-form {
+    .input-group-addon+input:not([class^="btn"]) {
+        padding-left: $basic-gap * 3;
+    }
+}
+.input-group-append {
+    right: 0;
+    left: auto;
+}
+.input-group-append-icon, .input-group-addon-icon {
+    font-size: 24px;
+}
+.input-group-append-icon, .input-group-addon-icon, .input-group-addon-text, .input-group-append-text {
+    vertical-align: middle;
+    &:active {
+        color: $main-color;
+    }
+}
+input:not([class^="btn"]), textarea {
+    width: 100%;
+    padding: $basic-gap/4 $basic-gap/2;
+    font-size: 16px;
+    line-height: $basic-gap * 1.5;
+}
+label {
+    padding-left: $basic-gap/2;
+    &+input:not([class^="btn"]) {
+        padding-top: 0;
+    }
+}
+

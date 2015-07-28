@@ -1,0 +1,116 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('/app/fonts/icomoon.eot?5km0ci');
+	src:url('/app/fonts/icomoon.eot?#iefix5km0ci') format('embedded-opentype'),
+		url('/app/fonts/icomoon.woff?5km0ci') format('woff'),
+		url('/app/fonts/icomoon.ttf?5km0ci') format('truetype'),
+		url('/app/fonts/icomoon.svg?5km0ci#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+
+.icon-chevron-left:before {
+	content: "\e8a7";
+}
+.icon-expand-more:before {
+	content: "\e8ab";
+}
+.icon-ribbon2:before {
+	content: "\e05a";
+}
+.icon-envelope:before {
+	content: "\e06e";
+}
+.icon-telescope:before {
+	content: "\e07a";
+}
+.icon-pricetags:before {
+	content: "\e07f";
+}
+.icon-lightbulb:before {
+	content: "\e08a";
+}
+.icon-paintbrush:before {
+	content: "\e09a";
+}
+.icon-beaker:before {
+	content: "\e0a0";
+}
+.icon-dial:before {
+	content: "\e0ac";
+}
+.icon-chat2:before {
+	content: "\e0ad";
+}
+.icon-heart2:before {
+	content: "\e0ae";
+}
+.icon-upload2:before {
+	content: "\e0b0";
+}
+.icon-aperture:before {
+	content: "\e0ba";
+}
+.icon-refresh2:before {
+	content: "\e0be";
+}
+.icon-happy:before {
+	content: "\e0bf";
+}
+.icon-heart3:before {
+	content: "\e8f5";
+}
+.icon-star3:before {
+	content: "\e8f7";
+}
+.icon-trash2:before {
+	content: "\e8fb";
+}
+.icon-user:before {
+	content: "\e8fc";
+}
+.icon-search4:before {
+	content: "\e8fe";
+}
+.icon-settings2:before {
+	content: "\e8ff";
+}
+.icon-bulb:before {
+	content: "\e903";
+}
+.icon-pen:before {
+	content: "\e904";
+}
+.icon-location2:before {
+	content: "\e907";
+}
+.icon-bubble:before {
+	content: "\e909";
+}
+.icon-news:before {
+	content: "\e90d";
+}
+.icon-photo2:before {
+	content: "\e910";
+}
+.icon-paperplane:before {
+	content: "\e913";
+}
+.icon-lab:before {
+	content: "\e91a";
+}

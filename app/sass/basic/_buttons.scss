@@ -1,0 +1,72 @@
+@import "../settings/settings";
+
+button,
+.btn,
+a.btn {
+	border: 0;
+	border-radius: $btn-roundness;
+
+	background-color: $btn-default-bg;
+
+	color: $btn-default-text-color;
+	cursor: pointer;
+
+	line-height: 1;
+	font-family: inherit;
+	font-size: inherit;
+	text-decoration: none;
+
+	display: inline-block;
+	padding: .75em 1.5em;
+
+	&:hover {
+		background-color: $main-color;
+
+		color: #fff;
+	}
+
+	&:active {
+		background-color: darken($main-color, 10%);
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+.btn-primary {
+	@extend .btn;
+
+	background-color: $btn-primary-bg;
+
+	color: $btn-primary-text-color;
+}
+.btn-block {
+  width:100%;
+  display:block;
+  text-align:center;
+}
+.btn-small {
+	@extend .btn;
+
+	font-size: $btn-small-font-size;
+}
+
+.btn-large {
+	@extend .btn;
+
+	font-size: $btn-large-font-size;
+	font-weight: bold;
+}
+
+.btn-link {
+  background-color:transparent;
+  padding:$basic-gap/2 $basic-gap;
+  &:hover,&:active {
+    background-color: transparent;
+    color:$main-color;
+  }
+}
+
+
+ 

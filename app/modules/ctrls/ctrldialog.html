@@ -1,0 +1,17 @@
+﻿<div class="dialogOverlay">
+    <div class="comfirm-dialog dialog">
+        <div class="dialog-content">
+            <div class="dialog-title-icon {{title_color}}"><i class="icon icon-{{icon_name}}"></i> {{title}}
+            </div>
+            <p>{{{text}}}</p>
+        </div>
+        <div class="dialog-action">
+            {{#cancel_text}}<a class="dialog-action-button {{#ok_text}}dialog-action-button-half{{/ok_text}} btn-cancel">{{cancel_text}}</a>{{/cancel_text}} {{#ok_text}}
+            <a class="dialog-action-button {{#cancel_text}}dialog-action-button-half{{/cancel_text}} btn btn-primary btn-ok">{{ok_text}}</a>{{/ok_text}}
+        </div>
+        {{#show_close}}
+        <div class="dialog-close">
+            <i class="icon icon-close"></i>
+        </div>{{/show_close}}
+    </div>
+</div>'

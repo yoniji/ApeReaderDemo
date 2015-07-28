@@ -1,0 +1,88 @@
+.clearListStyle {
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+@mixin clearListStyle {
+    list-style:none;
+    padding:0;
+    margin:0;
+}
+
+.clearUserSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.hideBackface {
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden; /* Chrome and Safari */
+    -moz-backface-visibility:hidden; /* Firefox */
+    -ms-backface-visibility:hidden; /* Internet Explorer 10+ */
+}
+@mixin reset-transform {
+    @include transform(translate3d(0,0,0) scale3d(1,1,1));
+    @extend .hideBackface;
+    @include transform-style(preserve-3d);
+}
+.reset-transform {
+    @include reset-transform();
+}
+
+%clearfix {
+    @include clearfix;
+}
+
+
+
+@mixin horizontal-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+%horizontal-center {
+    @include horizontal-center;
+}
+
+
+
+@mixin pomeTransition() {
+    @include transition( all .3s cubic-bezier(.36,0,.15,1));
+}
+
+@mixin resetTranslate {
+    @include transform(translate3d(0,0,0));
+}
+@mixin resetAllTransform {
+    @include transform(translate3d(0,0,0) scale3d(1,1,1) rotate3d(0,0,1,0deg));
+}
+@mixin rotateZ($angle: 0deg) {
+    @include transform(rotate3d(0, 0, 1, $angle));
+}
+
+@mixin sizeAndBackground($width, $height, $image-file-name) {
+    @include size($width $height);
+    background: url($images-dir +  $image-file-name);
+    background-size: $width $height;
+}
+@mixin centerAndOffset($width, $height:$width, $offsetX:0, $offsetY:$offsetX) {
+    @include position(absolute, 50% null null 50%);
+    @include size($width $height);
+    @include margin((0-$height/2+$offsetY) null null (0-$width/2+$offsetX));
+}
+
+
+
+
+@include keyframes(spin) {
+    0% {
+        @include transform(rotate(0deg));
+    }
+
+    100% {
+        @include transform(rotate(360deg));
+    }
+}
