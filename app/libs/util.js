@@ -203,4 +203,9 @@ define(function(require, exports, module) {
     };
 
 
+    exports.calculateSizeWithMinimumEdgeAdaptive = function(containerSize, originalImageSize) {
+        
+    };
+
+
 });

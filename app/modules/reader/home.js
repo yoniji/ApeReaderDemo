@@ -10,8 +10,51 @@
                 "code": 0,
                 "message": "",
                 "data": [{
+                    "id": "134392805842",
+                    "link": "http://www.qdaily.com/articles/12477.html",
+                    "images": [{
+                        "url": "http://www.qdaily.com/uploads/image/201507/aae9288b5076.jpg",
+                        "width": 1080,
+                        "height": 740
+                    }],
+                    "title": "杂志 Wallpaper* 做的汽车旅馆是什么样子？",
+                    "excerpt": "作为一本杂志，wallpaper* 试水电商后的一种新尝试。",
+                    "tags": [],
+                    "counts": {
+                        "views": 134,
+                        "likes": 4354,
+                        "comments": 0
+                    },
+                    "source": {
+                        "url": "http://www.qdaily.com",
+                        "name": "好奇心日报",
+                        "wechat": "Qdaily",
+                        "bio": "你感兴趣的商业新闻",
+                        "image": {
+                            "url": "http://www.qdaily.com/img/display2/logo-q.png",
+                            "width": 61,
+                            "height": 129
+                        }
+
+                    },
+                    "author": {
+                        "name": "马梦涵"
+                    },
+                    "metadata": {},
+                    "created_at": 10325249054,
+                    "recommend_reason": {
+                        "type":"friend",
+                        "relate_friends":[{
+                            "name":"Wuweining"
+                        },{
+                            "name":"可"
+                        }],
+                        "relate_tags":[{"name":"商业设计"}],
+                    }
+
+                },{
                     "id": "134392805843",
-                    "link": "http://www.qdaily.com/articles/12029.html",
+                    "link": "http://www.shejiben.com/sjs/1044214/case-2851898-1.html",
                     "images": [{
                         "url": "http://pic.shejiben.com/i/upload/2015/07/27/20150727152126-3e9bb792-2s.jpg",
                         "width": 660,
@@ -45,7 +88,14 @@
                         "name": "周书砚-台湾双宝"
                     },
                     "metadata": {},
-                    "created_at": 10325249054
+                    "created_at": 10325249054,
+                    "recommend_reason": {
+                        "type":"friend",
+                        "relate_friends":[{
+                            "name":"可"
+                        }],
+                        "relate_tags":[{"name":"设计思想"}],
+                    }
 
                 }, {
                     "id": "134392805844",
@@ -79,7 +129,16 @@
                         "name": "爱谁谁"
                     },
                     "metadata": {},
-                    "created_at": 10325249054
+                    "created_at": 10325249054,
+                    "recommend_reason": {
+                        "type":"tag",
+                        "relate_friends":[{
+                            "name":"Wuweining"
+                        },{
+                            "name":"可"
+                        }],
+                        "relate_tags":[{"name":"设计思想"}],
+                    }
 
                 }, {
                     "id": "134392805845",
@@ -121,7 +180,9 @@
                         "name": "陈德坚"
                     },
                     "metadata": {},
-                    "created_at": 10325249054
+                    "created_at": 10325249054,
+                    "recommend_reason": {
+                    }
 
                 }]
             },

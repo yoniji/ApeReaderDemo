@@ -5,6 +5,6 @@ require(['backbone', 'marionette', 'modules/common/router', 'modules/common/cont
     app.appRouter = new Router({controller: new Controller()});
     app.rootView = new MainView();
     app.start();
-    Backbone.history.start({ pushState: true, root: '/' });
+    Backbone.history.start({ pushState: false, root: '/' });
 
 });

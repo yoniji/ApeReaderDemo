@@ -1,4 +1,10 @@
-﻿<a class="creditItem" >
+﻿<div class="cardCover">
+	{{{getCoverHtml}}}
+</div>
+<div class="title">
+	{{title}}
+</div>
+<a class="creditItem" >
     <div class="creditImage">
         <img src="{{source.image.url}}" />
     </div>
@@ -7,13 +13,3 @@
         <div class="creditMeta">{{author.name}} 1分钟前</div>
     </div>
 </a>
-<div class="cellCover {{getCoverType}}">
-	{{{getCoverHtml}}}
-</div>
-<div class="title">
-	{{title}}
-</div>
-<div class="excerpt">
-	{{excerpt}}
-</div>
-<div class="recommendReason">{{{getRecommendReasonHtml}}}</div>

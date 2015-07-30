@@ -20,7 +20,8 @@
     "iscroll": "~5.1.3",
     "waitForImages": "alexanderdickson/waitForImages#~2.0.0",
     "hammerjs": "~2.0.4",
-    "jquery-hammerjs": "~2.0.0"
+    "jquery-hammerjs": "~2.0.0",
+    "animate.css": "https://github.com/daneden/animate.css.git#~3.3.0"
   },
   "devDependencies": {
     "layoutmanager": "~0.9.5"

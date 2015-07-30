@@ -11,12 +11,14 @@ require.config({
         "text": "../vendor/bower/text/text",
         "hammerjs":"../vendor/bower/hammerjs/hammer",
         "jquery-hammerjs":"../vendor/bower/jquery-hammerjs/jquery.hammer",
-        "iscroll":"../vendor/bower/iscroll/build/iscroll",
+        "iscroll":"../vendor/bower/iscroll/build/iscroll-probe",
         "waitforimages":"../vendor/bower/waitForImages/dist/jquery.waitforimages.min",
         "ajaxpro": "libs/ajaxpro",
         "util": 'libs/util',
         "flytoeffect": "libs/effectflyto",
-        "urls": "modules/common/urls"
+        "urls": "modules/common/urls",
+        "dropdown": "modules/ctrls/ctrldropdown",
+        "iscroll-pullupdown": "modules/ctrls/iscrollpullupdown"
     },
 
     deps: ["main"],

@@ -36,7 +36,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             onRender: function() {
                 this.initHammer();
-                this.windowHeight = $(window).height() - 40;
+                this.windowHeight = $(window).height() - 56;
                 this.ui.primary.height(this.windowHeight);
                 this.ui.secondary.height(this.windowHeight);
                 this.ui.tertiary.height(this.windowHeight);

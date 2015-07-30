@@ -18,22 +18,20 @@ body,
     overflow: hidden;
 }
 
-#homeWrapper {
+.rootWrapper {
     @include size(100%);
     @include position(relative);
 }
 
-$homeNavigationHeihgt:40px;
+$homeNavigationHeihgt:56px;
 $homeNavigationBackground:$white;
 $homeNavigationTextColor:$black;
-
 #homeNavigation {
     background: $homeNavigationBackground;
-    
     @include clearfix();
     @include position(absolute, null null 0 0);
     @include size(100% $homeNavigationHeihgt);
-    border-top:1px solid $border-color;
+    border-top: 1px solid $border-color;
 }
 
 .homeNavigation-item {
@@ -42,81 +40,152 @@ $homeNavigationTextColor:$black;
     display: inline-block;
     text-align: center;
     font-size: 24px;
+    >span {
+        font-size: 8px;
+        line-height: 10px;
+        display: block;
+        color: lighten($homeNavigationTextColor, 60%);
+        @include position(relative, -6px null nulll null);
+    }
     >.icon {
-        line-height: $homeNavigationHeihgt;
-        height: $homeNavigationHeihgt;
-        color: lighten($homeNavigationTextColor,60%);
+        line-height: $homeNavigationHeihgt - 10;
+        height: $homeNavigationHeihgt - 10;
+        color: lighten($homeNavigationTextColor, 60%);
+        display: block;
     }
     &.current {
         border-bottom: 2px solid $main-color;
         >.icon {
-            line-height: $homeNavigationHeihgt -2;
-            height: $homeNavigationHeihgt - 2;
-            color: $homeNavigationTextColor;
+            color: $main-color;
+        }
+        >span {
+            font-size: 8px;
+            line-height: 8px;
+            color: $main-color;
         }
     }
 }
+
 #primary {
-	background:#f5f5f5;
+    background: #f5f5f5;
 }
 
-#feedsWrapper {
+@include keyframes(flip) {
+    0% {
+        @include transform(rotate(0));
+    }
+    100% {
+        @include transform(rotate(180deg));
+    }
+}
+
+.feedsWrapper {
     @include position(relative);
+    top:-40px;
+
+    .pullDown,.pullUp {
+        height: 40px;
+        text-align:center;
+        line-height: 40px;
+        color:#999;
+        font-size: 10px;
+    }
+    .pullDown.loading {
+        height: 70px;
+        padding-top:40px;
+        line-height: 30px;
+        .icon {
+            display: inline-block;
+            @include animation(spin 1s linear infinite);
+        }
+        .icon:before {
+            content: "\e0be";
+        }
+    }
+    .flip .icon {
+        display: inline-block;
+        @include animation(flip .5s linear both);
+    }
 }
 
 $topBarHeight:48px;
 $topBarBackground:$white;
 $topBarColor:$black;
 .topBar {
-	height:$topBarHeight;
-	line-height:$topBarHeight;
-	background:$topBarBackground;
-	color:$topBarColor;
-	text-align:center;
-	border-bottom:1px solid $border-color;
-}
-#feedsTopBar-category-switch,#feedsTopBar-search-switch {
-	color:$topBarColor;
-	line-height:$topBarHeight;
-}
-#feedsTopBar-category-switch {
-	width:100%;
-}
-#feedsTopBar-search-switch {
-	width:$topBarHeight;
-	@include position(absolute,0 0 null null);
+    height: $topBarHeight;
+    line-height: $topBarHeight;
+    background: $topBarBackground;
+    color: $topBarColor;
+    text-align: center;
+    border-bottom: 1px solid $border-color;
+    position:relative;
+    z-index: 1;
 }
 
-.pageWrapper,.tempCurrentPage,.tempNextPage,.tempCurrentPageTop {
+#feedsTopBar-category-switch,
+#feedsTopBar-search-switch {
+    color: $topBarColor;
+    line-height: $topBarHeight;
+    >.icon {
+        color: $main-color;
+    }
+}
+
+.dropDown-switch {
+    >.icon {
+        color: $main-color;
+    }
+}
+
+#feedsTopBar-category-switch {
+    width: 100%;
+}
+
+#feedsTopBar-search-switch {
+    width: $topBarHeight;
+    @include position(absolute, 0 0 null null);
+}
+
+.pageWrapper,
+.tempCurrentPage,
+.tempNextPage,
+.tempCurrentPageTop {
     @include size(100%);
     @include position(absolute, 0 null null 0);
 }
-.tempCurrentPage,.tempNextPage,.tempCurrentPageTop {
-	@include size(100% 50%);
-	overflow:hidden;
-}
-.tempCurrentPage {
-	top:50%;
-	@include transform-origin(center top);
-	@include backface-visibility(hidden);
-	.cover {
-		top:-100%;
-		height:200%;
-	}
-}
+
+.tempCurrentPage,
+.tempNextPage,
 .tempCurrentPageTop {
-	.info {
-		bottom:-100%;
-	}
+    @include size(100% 50%);
+    overflow: hidden;
 }
+
+.tempCurrentPage {
+    top: 50%;
+    @include transform-origin(center top);
+    @include backface-visibility(hidden);
+    .cover {
+        top: -100%;
+        height: 200%;
+    }
+}
+
+.tempCurrentPageTop {
+    .info {
+        bottom: -100%;
+    }
+}
+
 .tempNextPage {
-	.info {
-		bottom:-100%;
-	}
-	@include backface-visibility(hidden);
-	@include transform-origin(center bottom);
-	@include transform(rotate3d(1,0,0,-180deg));
+    .info {
+        bottom: -100%;
+    }
+    @include backface-visibility(hidden);
+    @include transform-origin(center bottom);
+    @include transform(rotate3d(1, 0, 0, -180deg));
 }
+
 .cover {
     @include size(100%);
     @include position(absolute, 0 null null 0);
@@ -141,108 +210,320 @@ $topBarColor:$black;
     .excerpt {
         font-size: 14px;
         line-height: 18px;
-        height:54px;
+        height: 54px;
         overflow: hidden;
     }
 }
 
-
 //========== Cell ===========
 .creditItem {
-	display:block;
-	@include clearfix();
-}
-.creditImage {
-	float:left;
-	@include size(30px);
-	margin:0 10px 10px 0;
-	border-radius:100%;
-	overflow:hidden;
-	>img {
-		min-width: 100%;
-		min-height: 100%;
-		max-height: 100%;
-		max-width: none;
-	}
-}
-.creditName { 
-	color:$black;
-	line-height:1.2em;
-}
-.creditMeta {
-	color:$caption-color; 
-	font-size:0.8em;
-	line-height:1.2em;
+    display: block;
+    @include clearfix();
 }
 
-.coverImage
-{
-	background:#f0f0f0;
-	overflow: hidden;
-	>img{
-		max-width:100%;
-	}
+.creditImage {
+    float: left;
+    @include size(30px);
+    margin: 0 10px 10px 0;
+    border-radius: 100%;
+    overflow: hidden;
+    >img {
+        min-width: 100%;
+        min-height: 100%;
+        max-height: 100%;
+        max-width: none;
+    }
+}
+
+.creditName {
+    color: $black;
+    line-height: 1.2em;
+}
+
+.creditMeta {
+    color: $caption-color;
+    font-size: 0.8em;
+    line-height: 1.2em;
+}
+
+.coverImage {
+    background: #f0f0f0;
+    overflow: hidden;
+    >img {
+        max-width: 100%;
+    }
 }
 
 .multiCover {
-	@include clearfix();
-	.coverImage {
-		float: left;
-		display: inline-block;
-		
-	}
+    @include clearfix();
+    .coverImage {
+        float: left;
+        display: inline-block;
+    }
 }
+
 $cellBackground:#fafafa;
 $cellTextColor:#333;
 $cellBorderColor:#dedede;
 .cellWrapper {
-	font-size:$body-size;
-	background:$cellBackground;
-	color:$cellTextColor;
-	padding:$basic-gap 0;
-	border-bottom:1px solid $cellBorderColor;
-
-	&:active {
-		background: lighten($cellBackground,20%);
-	}
-	.creditItem {
-		padding:0 $basic-gap;
-	}
-	.title {
-		font-size: 1.4em;
-		line-height: 1.2em;
-		padding:0.5em $basic-gap 0.4em;
-	}
-	.excerpt {
-		font-size: 1em;
-		line-height: 1.4em;
-		color:lighten($cellTextColor, 30%);
-		padding:0 $basic-gap;
-	}
+    font-size: $body-size;
+    background: $cellBackground;
+    color: $cellTextColor;
+    padding: $basic-gap 0;
+    border-bottom: 1px solid $cellBorderColor;
+    position:relative;
+    &:active {
+        background: lighten($cellBackground, 20%);
+    }
+    .creditItem {
+        padding: 0 $basic-gap;
+    }
+    .title {
+        font-size: 1.4em;
+        line-height: 1.2em;
+        padding: 0.5em $basic-gap 0.4em;
+    }
+    .excerpt {
+        font-size: 1em;
+        line-height: 1.4em;
+        color: lighten($cellTextColor, 30%);
+        padding: 0 $basic-gap;
+    }
+    .recommendReason {
+        @include position(absolute,$basic-gap $basic-gap null null);
+        font-size: 14px;
+        color:lighten($cellTextColor, 30%);
+        font-size: 8px;
+    }
 }
 
-$toolBarHeight:40px;
+.topItemWrapper {
+    @include position(relative);
+    .title {
+        padding-top: 0;
+        padding-bottom: 0.5em;
+        padding-left: $basic-gap*3;
+    }
+    .excerpt {
+        padding: $basic-gap;
+    }
+    .rank {
+        @include position(absolute, $basic-gap+2 null null $basic-gap -4);
+        @include size(24px);
+        color: $main-color;
+        border: 1px solid $main-color;
+        font-size: $body-size;
+        line-height: 22px;
+        text-align: center;
+        border-radius: 100%;
+    }
+}
+
+$toolBarHeight:56px;
 $toolBarBackground:$white;
-$toolBarColor:$white;
+$toolBarColor:$black;
 .toolBar {
-	height:$toolBarHeight;
-	background:$toolBarBackground;
-	color:$toolBarColor;
-	@include clearfix();
-}
-.toolBar-item {
-	float:left;
-	display:inline-block;
-	width:25%;
-	text-align:center;
-	>.icon {
-	height:$toolBarHeight;
-	line-height:$toolBarHeight;
-	}
+    @include size(100% $toolBarHeight);
+    @include clearfix();
+    background: $toolBarBackground;
+    color: $toolBarColor;
+    border-top: 1px solid $border-color;
 }
 
+.toolBar-item {
+    float: left;
+    display: inline-block;
+    width: 25%;
+    text-align: center;
+    height: $toolBarHeight;
+    line-height: $toolBarHeight;
+    >.icon {
+        height: $toolBarHeight;
+        line-height: $toolBarHeight;
+    }
+}
+
+.articleToolBar {
+    @include position(absolute, null null 0 0);
+}
 
 .articleShellWrapper {
-	@include position(absolute,0 null null 0);
-	@include size(100%);
+    @include position(absolute, 0 null null 0);
+    @include size(100%);
+    background: $cellBackground;
+    z-index: 2;
+    .creditItem {
+        @include position(absolute, 0 null null 0);
+        @include size(100% auto);
+        background: $cellBackground;
+        padding: $basic-gap $basic-gap 0;
+    }
+}
+
+.articleShell {
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    >iframe {
+        width: 100%;
+        min-height: 100%;
+    }
+}
+
+$profileHeaderHeight:56px;
+.profileHeader {
+    @include size(100% $profileHeaderHeight);
+    background: $white;
+    color: $black;
+    border-bottom: 1px solid $border-color;
+    position: relative;
+}
+
+.profileImage {
+    @include size($profileHeaderHeight - $basic-gap);
+    border-radius: 100%;
+    overflow: hidden;
+    float: left;
+    display: inline-block;
+    margin-right: $basic-gap;
+    @include position(relative, $basic-gap/2 null null $basic-gap/2);
+}
+
+.profileInfo-name {
+    font-size: 16px;
+    line-height: 18px;
+    padding-top: $basic-gap;
+}
+
+.profileInfo-meta {
+    font-size: 10px;
+    color: $caption-color;
+    line-height: 12px;
+}
+
+.profileFilter {
+    @include position(absolute, $basic-gap*1.5 $basic-gap/2 null null);
+    font-size: 14px;
+    line-height: 1.2em;
+}
+
+#cards {
+    @include clearfix();
+}
+@include keyframes(cardFlyIn){
+    0% {
+        @include transform( translate3d(-500px, 1000px,0) rotate3d(0,0,1,30deg) );
+    }
+}
+.cardWrapper {
+    width: 48%;
+    margin: 1%;
+    float: left;
+    display: inline-block;
+    border-radius: 2px;
+    font-size: 10px;
+    padding: 0;
+    border: none;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    background: $white;
+    position: relative;
+    .coverImage {
+        border-radius: 2px 2px 0 0;
+        overflow: hidden;
+        position: relative;
+        >img {
+            position: absolute;
+            max-width: none;
+        }
+    }
+    .title {
+        padding: 0.5em;
+        line-height: 1.2em;
+        height: 4.6em;
+        overflow: hidden;
+    }
+    .creditMeta {
+        line-height: 1.2em;
+        height: 1.2em;
+        overflow: hidden;
+    }
+    .creditImage {
+        @include size(20px);
+    }
+    &:nth-child(1) {
+        @include animation( cardFlyIn .5s both cubic-bezier(.36,0,.15,1));
+    }
+    &:nth-child(2) {
+        @include animation( cardFlyIn .5s .1s both cubic-bezier(.36,0,.15,1));
+    }
+    &:nth-child(3) {
+        @include animation( cardFlyIn .5s .2s both cubic-bezier(.36,0,.15,1));
+    }
+    &:nth-child(4) {
+        @include animation( cardFlyIn .5s .3s both cubic-bezier(.36,0,.15,1));
+    }
+    &:nth-child(5) {
+        @include animation( cardFlyIn .5s .4s both cubic-bezier(.36,0,.15,1));
+    }
+    &:nth-child(6) {
+        @include animation( cardFlyIn .5s .5s both cubic-bezier(.36,0,.15,1));
+    }
+}
+
+$menuItemHeight:48px;
+.dropDown-menu {
+    @include position(absolute);
+    display: none;
+    width: auto;
+    min-width: 50%;
+    z-index: 1;
+    background: $white;
+    box-shadow:1px 1px 1px rgba(0,0,0,.3);
+    left:25%;
+    top:100%;
+}
+
+.dropDown-menu-item {
+    line-height: $menuItemHeight/2;
+    font-size:16px;
+    padding: $menuItemHeight/4;
+    
+    position: relative;
+    border-bottom:1px solid $border-color;
+
+    &.checked,&:active {
+        color: $main-color;
+    }
+    &.checked:after,&:active:after {
+        font-size: $menuItemHeight/2;
+        @include size($menuItemHeight/2);
+        @include position(absolute, $menuItemHeight/4 $menuItemHeight/8 null null);
+        content: "\e8a6";
+        font-family: 'icomoon';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        /* Better Font Rendering =========== */
+        
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    &:last-child {
+        border-bottom:none;
+    }
+}
+
+.dropDown-open {
+    position:relative;
+    .dropDown-menu {
+        display: block;
+    }
+    .icon-expand-more:before {
+        content: "\e8aa";
+        color:$text-color;
+    }
 }
