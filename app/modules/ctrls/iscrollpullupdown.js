@@ -16,7 +16,7 @@ define(['iscroll'], function() {
 
 
     var IScrollPullUpDown = function(wrapperObj, iScrollConfig, pullDownActionHandler, pullUpActionHandler) {
-        var iScrollConfig, pullDownActionHandler, pullUpActionHandler, pullDownEl, pullDownOffset, pullUpEl, scrollStartPos;
+        var pullDownEl, pullDownOffset, pullUpEl, scrollStartPos;
         var pullThreshold = 5;
         var me = this;
 
@@ -38,19 +38,13 @@ define(['iscroll'], function() {
             if (refresh) setTimeout(function() {
                 me.myScroll.refresh();
             }, time + 10);
-        }
+        };
 
         function init() {
             var scrollerObj = wrapperObj.children[0];
             if (!iScrollConfig) {
                 iScrollConfig = {
-                    probeType: 2,
-                    bounceTime: 250,
-                    bounceEasing: 'quadratic',
-                    mouseWheel: false,
-
-                    click: true,
-                    tap: true
+                    probeType: 2
                 };
             }
             if (pullDownActionHandler) {
@@ -79,15 +73,15 @@ define(['iscroll'], function() {
                     if (this.y >= 0) {
                         // The pull-down-bar is fully visible:
                         // Hide it with a simple 250ms animation
-                        hidePullDownEl(250, true);
+                        hidePullDownEl(600, true);
                     } else if (this.y > -pullDownOffset) {
                         // The pull-down-bar is PARTLY visible:
                         pullDownEl.style.marginTop = this.y + 'px';
 
                         // CSS-trick to force webkit to render/update any CSS-changes immediately: Access the offsetHeight property...
-                        pullDownEl.offsetHeight;
+                        var temp = pullDownEl.offsetHeight;
 
-                        var animTime = (250 * (pullDownOffset + this.y) / pullDownOffset);
+                        var animTime = (600 * (pullDownOffset + this.y) / pullDownOffset);
                         this.scrollTo(0, 0, 0);
                         setTimeout(function() {
                             hidePullDownEl(animTime, true);
@@ -100,7 +94,7 @@ define(['iscroll'], function() {
                 }
                 if ((pullUpEl) && (pullUpEl.className.match('loading'))) {
                     pullUpEl.className = 'pullUp';
-                    pullUpEl.querySelector('.pullUpLabel').innerHTML = 'Pull up to load more...';
+                    pullUpEl.querySelector('.pullUpLabel').innerHTML = '加载更多';
                 }
             });
 
@@ -110,7 +104,7 @@ define(['iscroll'], function() {
 
             me.myScroll.on('scroll', function() {
                 if (pullDownEl || pullUpEl) {
-                    if ((scrollStartPos == 0) && (this.y == 0)) {
+                    if ((scrollStartPos === 0) && (this.y === 0)) {
                         this.hasVerticalScroll = true;
 
                         // Set scrollStartPos to -1000 to be able to detect this state later...
@@ -157,13 +151,21 @@ define(['iscroll'], function() {
                     pullUpEl.querySelector('.pullUpLabel').innerHTML = '小空刷的好累呀...';
                     pullUpActionHandler(this); // Execute custom function (ajax call?)
                 }
-                if (scrollStartPos = -1000) {
+                if (scrollStartPos == -1000) {
                     this.hasVerticalScroll = this.options.scrollY && this.maxScrollY < 0;
                 }
             });
 
             me.destroy = function() {
                 me.myScroll.destroy();
+            };
+
+            me.refresh = function() {
+                me.myScroll.refresh();
+            };
+
+            me.getOriginalScroll = function() {
+                return me.myScroll;
             };
 
             me.myScroll.refresh();

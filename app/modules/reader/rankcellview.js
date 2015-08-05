@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/topitem.html'],
-    function(Marionette, Mustache, $,CellView, template, ArticleShellView) {
+﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/rankcell.html'],
+    function(Marionette, Mustache, $, CellView, template) {
 
         return CellView.extend({
             template: function(serialized_model) {
@@ -9,6 +9,6 @@
 
 
             },
-            className: 'cellWrapper topItemWrapper'
+            className: 'cell rankCell'
         });
     });

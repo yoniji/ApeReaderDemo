@@ -1,0 +1,16 @@
+﻿<div id="exploreTopBar" class="topBar">
+    <div id="exploreTopBar-category-switch" class="dropDown-switch"><span class="dropDown-text">全部领域</span><i class="icon icon-expand-more"></i>
+        <div id="exploreTopBar-category-menu" class="dropDown-menu">
+            <div class="dropDown-menu-item checked">全部领域</div>
+            {{#categories}}
+            <div class="dropDown-menu-item" data-id="{{id}}">{{name}}</div>
+            {{/categories}}
+        </div>
+    </div>
+</div>
+<div class="filterBar">
+
+</div>
+<div class="streamWrapper">
+    <div id="cells"></div>
+</div>

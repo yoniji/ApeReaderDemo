@@ -6,10 +6,13 @@
                 return Mustache.render(template, serialized_model);
             },
             ui: {
-
+                'inner': '.inner'
             },
             events: {
-                'tap': 'onTap'
+                'tap .more': 'toggleActions',
+                'tap': 'onTap',
+                'panleft': 'showActions',
+                'panright': 'hideActions'
             },
             initialize: function() {
 
@@ -38,20 +41,27 @@
                     'getCoverHtml': function() {
 
                         var outStr = '';
+                        var imageWidth, imageHeight, img, outHeight;
                         if (this.images && this.images.length > 0) {
 
-                            var imageWidth = Math.floor(windowWidth / this.images.length);
-                            var imageHeight = maxHeight;
+                            imageHeight = maxHeight;
+                            if (this.images.length < 4) {
+                                imageWidth = Math.floor(windowWidth / this.images.length);
+                            } else {
+                                imageWidth = Math.floor(windowWidth * 2 / this.images.length);
+                            }
+
 
                             for (var i = 0; i < this.images.length; i++) {
-                                var img = this.images[i];
-                                var outHeight = Math.floor(imageWidth / img.width * img.height);
+                                img = this.images[i];
+                                outHeight = Math.floor(imageWidth / img.width * img.height);
                                 imageHeight = Math.min(outHeight, imageHeight);
                             }
 
                             for (i = 0; i < this.images.length; i++) {
                                 outStr += '<div class="coverImage" style="width:' + imageWidth + 'px;height:' + imageHeight + 'px"><img src="' + this.images[i].url + '"></div>';
                             }
+
 
                         }
                         return outStr;
@@ -79,7 +89,7 @@
                                         }
                                         outStr += ' ' + this.recommend_reason.relate_friends[i].name;
                                     }
-                                    
+
                                     break;
                                 default:
                                     break;
@@ -92,14 +102,85 @@
             onShow: function() {
 
             },
+            toggleActions: function(ev) {
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+                if (this.isActionsVisible()) {
+                    this.hideActions();
+                } else {
+                    this.showActions();
+                }
+            },
             onTap: function(ev) {
-                new ArticleShellView({
-                    model: this.model
-                });
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+                if (this.isActionsVisible()) {
+                    this.hideActions();
+                } else {
+                    new ArticleShellView({
+                        model: this.model
+                    });
+                }
+
+            },
+            onPanStart: function(ev) {
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+                if (this.isActionsVisible()) {
+                    this.cellInnerPositionX = -64;
+                } else {
+                    this.cellInnerPositionX = 0;
+                }
+                this.$el.siblings().find('.showActions').removeClass('showActions');
+            },
+            onPanMove: function(ev) {
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+                var deltaX = this.cellInnerPositionX + ev.originalEvent.gesture.deltaX;
+                var translateStr = 'translate3d(' + deltaX + 'px,0,0)';
+                var innerEl = this.ui.inner[0];
+                innerEl.style.transition = 'none';
+                innerEl.style.webkitTransition = 'none';
+                innerEl.style.transform = translateStr;
+                innerEl.style.webkitTransform = translateStr;
+            },
+            onPanEnd: function(ev) {
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+                var deltaX = ev.originalEvent.gesture.deltaX;
+                if (deltaX < 0) {
+                    this.showActions();
+                }
+                if (deltaX > 0) {
+                    this.hideActions();
+                }
+
+            },
+            isActionsVisible: function() {
+                return this.ui.inner.hasClass('showActions');
+            },
+            showActions: function() {
+                var innerEl = this.ui.inner[0];
+                this.$el.siblings().find('.showActions').removeClass('showActions');
+                this.ui.inner.addClass('showActions');
+                innerEl.style.transition = '';
+                innerEl.style.webkitTransition = '';
+                innerEl.style.transform = '';
+                innerEl.style.webkitTransform = '';
+                this.cellInnerPositionX = -64;
+            },
+            hideActions: function() {
+                var innerEl = this.ui.inner[0];
+                innerEl.style.transition = '';
+                innerEl.style.webkitTransition = '';
+                innerEl.style.transform = '';
+                innerEl.style.webkitTransform = '';
+                this.ui.inner.removeClass('showActions');
+                this.cellInnerPositionX = -0;
             },
             onDestroy: function() {
                 this.stopListening();
             },
-            className: 'cellWrapper'
+            className: 'cell'
         });
     });

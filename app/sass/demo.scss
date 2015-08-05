@@ -11,8 +11,7 @@ body {
 
 html,
 body,
-#mainWrapper,
-#homeWrapper {
+#main{
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -21,6 +20,7 @@ body,
 .rootWrapper {
     @include size(100%);
     @include position(relative);
+    overflow: hidden;
 }
 
 $homeNavigationHeihgt:56px;
@@ -79,9 +79,10 @@ $homeNavigationTextColor:$black;
     }
 }
 
-.feedsWrapper {
+.streamWrapper {
+
+    
     @include position(relative);
-    top:-40px;
 
     .pullDown,.pullUp {
         height: 40px;
@@ -106,12 +107,16 @@ $homeNavigationTextColor:$black;
         display: inline-block;
         @include animation(flip .5s linear both);
     }
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
 }
+#cells {
 
+}
 $topBarHeight:48px;
 $topBarBackground:$white;
 $topBarColor:$black;
-.topBar {
+.topBar,.filterBar {
     height: $topBarHeight;
     line-height: $topBarHeight;
     background: $topBarBackground;
@@ -119,15 +124,24 @@ $topBarColor:$black;
     text-align: center;
     border-bottom: 1px solid $border-color;
     position:relative;
+    z-index: 2;
+    @include pomeTransition();
+}
+.filterBar {
     z-index: 1;
 }
 
-#feedsTopBar-category-switch,
-#feedsTopBar-search-switch {
+.topBar.hide {
+    @include transform(translate3d(0,-100%,0));
+}
+
+#exploreTopBar-category-switch,
+#exploreTopBar-search-switch {
     color: $topBarColor;
     line-height: $topBarHeight;
     >.icon {
         color: $main-color;
+        @include pomeTransition();
     }
 }
 
@@ -137,15 +151,70 @@ $topBarColor:$black;
     }
 }
 
-#feedsTopBar-category-switch {
+#exploreTopBar-category-switch {
     width: 100%;
 }
 
-#feedsTopBar-search-switch {
+#exploreTopBar-search-switch {
     width: $topBarHeight;
     @include position(absolute, 0 0 null null);
 }
 
+.filter {
+    float: left;
+    display: inline-block;
+    @include position(relative);
+    border-left:1px solid $border-color;
+    height: 100%;
+
+
+    &.selected .fitlerSelection{
+        color: $main-color;
+    }
+    
+}
+.leafFilter.selected .filterTitle{
+    color: $main-color;
+}
+.filter:first-child {
+    border-left:none;
+}
+.filterTitle {
+    height: $topBarHeight/3;
+    line-height: $topBarHeight/3;
+    margin-top: $topBarHeight/4;
+    color:lighten($text-color,40%);
+    @include position(relative);
+
+    >.icon {
+        line-height: $topBarHeight/3;
+        @include position(absolute,0 $basic-gap/4 null null);
+        color: $main-color;
+        @include pomeTransition();
+    }
+}
+.fitlerSelection {
+    height: $topBarHeight/3;
+    line-height: $topBarHeight/3;
+    font-size: 0.6em;
+    color:lighten($text-color,50%);
+}
+.filterMenu {
+    @include position(absolute,$topBarHeight null null 0);
+    width: 100%;
+    display: none;
+    z-index: 1;
+    @include reset-transform();
+}
+.filterMenu-item {
+    height: $topBarHeight;
+    line-height: $topBarHeight;
+    background: $white;
+    border-bottom:1px solid $border-color;
+}
+.menu-open {
+    display: block;
+}
 .pageWrapper,
 .tempCurrentPage,
 .tempNextPage,
@@ -265,24 +334,88 @@ $topBarColor:$black;
 $cellBackground:#fafafa;
 $cellTextColor:#333;
 $cellBorderColor:#dedede;
-.cellWrapper {
+$actionBarWidth:64px;
+.cell {
     font-size: $body-size;
     background: $cellBackground;
     color: $cellTextColor;
-    padding: $basic-gap 0;
-    border-bottom: 1px solid $cellBorderColor;
     position:relative;
-    &:active {
-        background: lighten($cellBackground, 20%);
+    overflow-x: hidden;
+
+    .inner {
+        background: $cellBackground;
+        position:relative;
+        padding: $basic-gap 0;
+        border-bottom: 1px solid $cellBorderColor;
+        height: 100%;
+        
     }
+    .showActions {
+        @include transform(translate3d(0-$actionBarWidth,0,0));
+        @include pomeTransition();
+        .actionsSwitch-dot:first-child {
+            @include size(1px);
+            right: $basic-gap/2;
+            top: $basic-gap*1.5;
+            background: rgba(0,0,0,0);
+        }
+        .actionsSwitch-dot:nth-child(2) {
+            border-radius:0;
+            width: $basic-gap;
+            height: 2px;
+            @include position(absolute, $basic-gap*1.5 $basic-gap null null);
+            @include transform-origin(right center);
+            @include transform(rotate(45deg));
+        }
+        .actionsSwitch-dot:nth-child(3) {
+            border-radius:0;
+            width: $basic-gap;
+            height: 2px;
+            @include position(absolute, $basic-gap*1.5 $basic-gap null null);
+            @include transform-origin(right center);
+            @include transform(rotate(-45deg));
+        }
+    }
+
     .creditItem {
         padding: 0 $basic-gap;
     }
     .title {
-        font-size: 1.4em;
+        font-size: 1.3em;
         line-height: 1.2em;
         padding: 0.5em $basic-gap 0.4em;
     }
+    .more {
+        height: $basic-gap*3;
+        
+
+    }
+    .actionsSwitchIcon {
+        float: right;
+        @include size($basic-gap*3);
+        padding-top:($basic-gap*3 - $basic-gap/2)/2;
+        
+        position:relative;
+    }
+    .actionsSwitch-dot {
+        @include size(6px);
+        border-radius:100%;
+        background:rgba(0,0,0,.2);
+        display: inline-block;
+        @include position(absolute, $basic-gap*1.5 null null null);
+        @include pomeTransition();
+
+    }
+    .actionsSwitch-dot:first-child {
+        background:rgba(0,0,0,.5);
+        right:$basic-gap + 20;
+    }
+    .actionsSwitch-dot:nth-child(2) {
+        right:$basic-gap + 10;
+    }
+    .actionsSwitch-dot:nth-child(3) {
+        right:$basic-gap;
+    } 
     .excerpt {
         font-size: 1em;
         line-height: 1.4em;
@@ -295,9 +428,30 @@ $cellBorderColor:#dedede;
         color:lighten($cellTextColor, 30%);
         font-size: 8px;
     }
+    .actions {
+        @include position(absolute,0 0 null null);
+        @include size($actionBarWidth 100%);
+        border-bottom: 1px solid $cellBorderColor;
+        background: darken($main-color,10%);
+        color:$white;
+
+    }
+    .action-icon {
+        @include size($actionBarWidth);
+        font-size: 24px;
+        text-align: center;
+        padding:($actionBarWidth - 24)/2 0;
+    }
+    .actions-inner {
+        @include position(absolute,null 0 $basic-gap null);
+        @include size($actionBarWidth auto);
+    }
+    .action-block {
+        margin-bottom:$actionBarWidth;
+    }
 }
 
-.topItemWrapper {
+.rankCell {
     @include position(relative);
     .title {
         padding-top: 0;
@@ -308,7 +462,7 @@ $cellBorderColor:#dedede;
         padding: $basic-gap;
     }
     .rank {
-        @include position(absolute, $basic-gap+2 null null $basic-gap -4);
+        @include position(absolute, $basic-gap null null $basic-gap -2);
         @include size(24px);
         color: $main-color;
         border: 1px solid $main-color;
@@ -377,6 +531,7 @@ $profileHeaderHeight:56px;
     color: $black;
     border-bottom: 1px solid $border-color;
     position: relative;
+    z-index: 1;
 }
 
 .profileImage {
@@ -405,6 +560,16 @@ $profileHeaderHeight:56px;
     @include position(absolute, $basic-gap*1.5 $basic-gap/2 null null);
     font-size: 14px;
     line-height: 1.2em;
+    &.dropDown-open {
+        position: absolute;
+    }
+    .dropDown-menu {
+        min-width: 140px;
+        right: 0;
+        left:auto;
+        margin-left: 0;
+        text-align: center;
+    }
 }
 
 #cards {
@@ -476,7 +641,7 @@ $menuItemHeight:48px;
     display: none;
     width: auto;
     min-width: 50%;
-    z-index: 1;
+    z-index: 3;
     background: $white;
     box-shadow:1px 1px 1px rgba(0,0,0,.3);
     left:25%;
@@ -522,8 +687,10 @@ $menuItemHeight:48px;
     .dropDown-menu {
         display: block;
     }
+    .icon-expand-more {
+        @include transform(rotate3d(0,0,1,180deg));
+    }
     .icon-expand-more:before {
-        content: "\e8aa";
         color:$text-color;
     }
 }

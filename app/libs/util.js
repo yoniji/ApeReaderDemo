@@ -207,5 +207,14 @@ define(function(require, exports, module) {
         
     };
 
+    exports.preventDefault = function(event) {
+        event.preventDefault();
+        event.originalEvent.preventDefault();
+        
+    };
+    exports.stopPropagation = function(event) {
+        event.stopPropagation();
+        event.originalEvent.stopPropagation();
+    };
 
 });

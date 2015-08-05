@@ -1,29 +1,140 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1,minimal-ui">
-  <meta name="msapplication-tap-highlight" content="no" />
-  <meta name="format-detection" content="telephone=no">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <title>MKReader</title>
 
-  <!-- Application styles. -->
-  <!-- build:[href] styles.min.css -->
-  <link rel="stylesheet" href="/app/styles/index.css">
-  <!-- /build -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1,minimal-ui">
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>MKReader</title>
+    <!-- Application styles. -->
+    <!-- build:[href] styles.min.css -->
+    <link rel="stylesheet" href="/app/styles/index.css">
+    <!-- /build -->
 </head>
 
 <body>
-  <!-- Application container. -->
-  <main role="main" id="mainWrapper">
-  
-  </main>
-  <!-- Application source. -->
-  <!-- build:[src] source.min.js -->
-  <script src="/vendor/bower/requirejs/require.js" data-main="/app/config"></script>
-  <!-- /build -->
+    <!-- Application container. -->
+    <main role="main" id="main">
+    </main>
+    <script type="text/javascript">
+    var appConfig = {
+        wxConfig: {
+
+        },
+        categories: [{
+            id: "1",
+            name: "项目灵感",
+            children: [{
+                id: "6",
+                name: "风格",
+                children: [{
+                    id: "9",
+                    name: "欧式"
+                }, {
+                    id: "10",
+                    name: "中式"
+                }, {
+                    id: "12",
+                    name: "新古典"
+                }, {
+                    id: "13",
+                    name: "东南亚"
+                }, {
+                    id: "14",
+                    name: "美式"
+                }, {
+                    id: "15",
+                    name: "田园"
+                }, {
+                    id: "16",
+                    name: "地中海"
+                }, {
+                    id: "17",
+                    name: "现代"
+                }, {
+                    id: "18",
+                    name: "混搭"
+                }]
+            }, {
+                id: "7",
+                name: "房间类型",
+                children: [{
+                    id: "19",
+                    name: "客厅"
+                }, {
+                    id: "20",
+                    name: "卧室"
+                }, {
+                    id: "22",
+                    name: "厨房"
+                }, {
+                    id: "23",
+                    name: "浴室"
+                }, {
+                    id: "21",
+                    name: "书房"
+                }, {
+                    id: "24",
+                    name: "户外"
+                }, {
+                    id: "25",
+                    name: "餐厅"
+                }, {
+                    id: "26",
+                    name: "儿童房"
+                }, {
+                    id: "27",
+                    name: "家庭工作室"
+                }]
+            }]
+        }, {
+            id: "2",
+            name: "观点资讯",
+            children: [{
+                    id: "28",
+                    name: "资讯"
+                }, {
+                    id: "29",
+                    name: "观点"
+                }, {
+                    id: "30",
+                    name: "盘点"
+                }, {
+                    id: "31",
+                    name: "活动"
+                }
+            ]
+        }, {
+            id: "3",
+            name: "设计师"
+        }, {
+            id: "4",
+            name: "新产品",
+            children: [{
+                    id: "32",
+                    name: "智能家居"
+                }, {
+                    id: "33",
+                    name: "装饰"
+                }, {
+                    id: "34",
+                    name: "家具"
+                }, {
+                    id: "35",
+                    name: "众筹"
+                }
+            ]
+        }]
+    }
+    </script>
+    <!-- Application source. -->
+    <!-- build:[src] source.min.js -->
+    <script src="/vendor/bower/requirejs/require.js" data-main="/app/config"></script>
+    <!-- /build -->
 </body>
+
 </html>

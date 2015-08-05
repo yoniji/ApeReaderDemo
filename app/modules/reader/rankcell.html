@@ -5,25 +5,18 @@
     </div>
 </div>
 <div class="inner">
-    <a class="creditItem">
-        <div class="creditImage">
-            <img src="{{source.image.url}}" />
-        </div>
-        <div class="creditDetial">
-            <div class="creditName">{{source.name}}</div>
-            <div class="creditMeta">{{author.name}} 1分钟前</div>
-        </div>
-    </a>
-    <div class="cellCover {{getCoverType}}">
-        {{{getCoverHtml}}}
-    </div>
     <div class="title">
         {{title}}
+    </div>
+    <div class="cellCover {{getCoverType}}">
+        {{{getCoverHtml}}}
     </div>
     <div class="excerpt">
         {{excerpt}}
     </div>
-    <div class="recommendReason">{{{getRecommendReasonHtml}}}</div>
+    <div class="rank">
+        {{rank}}
+    </div>
     <div class="more">
         <div class="actionsSwitchIcon">
             <i class="actionsSwitch-dot"></i>

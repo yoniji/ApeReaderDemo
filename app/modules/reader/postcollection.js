@@ -1,5 +1,5 @@
-﻿define(['backbone', 'jquery', 'modules/reader/singlefeed'],
-    function(Backbone, $, SingleFeed) {
+﻿define(['backbone', 'jquery', 'modules/reader/postmodel'],
+    function(Backbone, $, PostModel) {
 
         return Backbone.Collection.extend({
             url: function() {
@@ -14,6 +14,6 @@
             onDestroy: function() {
                 this.stopListening();
             },
-            model:SingleFeed
+            model:PostModel
         });
     });

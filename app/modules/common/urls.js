@@ -2,15 +2,17 @@ define(function(require, exports, module) {
 
 
     var useTestServer = true;
-    var testBaseUrl = 'app/modules/reader/';
+    var testBaseUrl = 'http://private-7f3f9-apereader.apiary-mock.com/reader/';
     var releaseBaseUrl = 'https://shiliujishi.com/';
 
     var testServiceUrls = {
-        'feeds': testBaseUrl + 'feeds.json'
+        'explore': testBaseUrl + 'posts/',
+        'feature': testBaseUrl + 'feature/posts/'
     };
 
     var releaseServiceUrls = {
-        'feeds': testBaseUrl + 'mock/feeds.js'
+        'explore': testBaseUrl + 'posts/',
+        'feature': testBaseUrl + 'feature/posts/'
     };
 
 

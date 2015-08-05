@@ -1,5 +1,5 @@
-﻿define(['backbone', 'marionette','modules/reader/homeview','modules/reader/topsview','modules/reader/profileview'],
-    function (Backbone, Marionette, HomeView, TopsView, ProfileView) {
+﻿define(['backbone', 'marionette','modules/reader/exploreview','modules/reader/featureview','modules/reader/profileview'],
+    function (Backbone, Marionette, ExploreView, FeatureView, ProfileView) {
 
     	function setCurrentNavigationById(targetId) {
     		$('.homeNavigation-item.current').removeClass('current');
@@ -9,13 +9,13 @@
             initialize: function (options) {
             	
             },
-            welcome: function() {
-                var homeView = new HomeView();
-                setCurrentNavigationById('home');
+            explore: function() {
+                var exploreView = new ExploreView();
+                setCurrentNavigationById('explore');
             },
-            tops: function() {
-            	var topsView = new TopsView();
-            	setCurrentNavigationById('tops');
+            feature: function() {
+            	var featureView = new FeatureView();
+            	setCurrentNavigationById('feature');
             },
             me: function() {
             	var profileView = new ProfileView();

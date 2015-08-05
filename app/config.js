@@ -11,7 +11,7 @@ require.config({
         "text": "../vendor/bower/text/text",
         "hammerjs":"../vendor/bower/hammerjs/hammer",
         "jquery-hammerjs":"../vendor/bower/jquery-hammerjs/jquery.hammer",
-        "iscroll":"../vendor/bower/iscroll/build/iscroll-probe",
+        "iscroll":"../vendor/bower/iscroll/build/iscroll-lite",
         "waitforimages":"../vendor/bower/waitForImages/dist/jquery.waitforimages.min",
         "ajaxpro": "libs/ajaxpro",
         "util": 'libs/util',

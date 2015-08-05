@@ -11,7 +11,10 @@
                 'back': '.toolBar-back'
             },
             events: {
-                'tap @ui.back': 'onTapBack'
+                'tap @ui.back': 'onTapBack',
+                'tap .articleShell': 'onPanStart',
+                'panmove .articleShell': 'onPanMove',
+                'panend .articleShell': 'onPanEnd'
             },
             initialize: function(options) {
                 this.render();
@@ -27,6 +30,15 @@
             },
             onTapBack: function() {
                 this.destroy();
+            },
+            onPanStart: function(ev) {
+                console.log('here');
+            },
+            onPanMove: function(ev) {
+                console.log('here');
+            },
+            onPanEnd: function(ev) {
+                console.log('here');
             },
             onShow: function() {
             },

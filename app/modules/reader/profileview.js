@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/profile.html', 'modules/reader/profile','modules/reader/feeds', 'modules/reader/cardview', 'iscroll', 'dropdown', 'iscroll-pullupdown'],
-    function(Marionette, Mustache, $, template, Profile, Feeds, CardView, DropDown, IScrollPullUpDown) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/profile.html', 'modules/reader/profile','modules/reader/postcollection', 'modules/reader/cardview', 'iscroll-pullupdown','dropdown'],
+    function(Marionette, Mustache, $, template, Profile, PostCollection, CardView, IScrollPullUpDown, DropDown) {
 
         return Marionette.CompositeView.extend({
             template: function(serialized_model) {
@@ -7,7 +7,9 @@
             },
             ui: {
                 'feedsWrapper': '.feedsWrapper',
-                'profileHeader': '.profileHeader'
+                'profileHeader': '.profileHeader',
+                'filterSwitch': '.profileFilter',
+                'filterMenu': '#profileFilter-menu'
             },
             events: {
 
@@ -21,12 +23,12 @@
                 this.modelSynced();
             },
             modelSynced: function() {
-                this.collection = new Feeds(this.model.get('feeds'));
+                this.collection = new PostCollection(this.model.get('feeds'));
                 app.rootView.updatePrimaryRegion(this);
             },
             onShow: function() {
                 this.ui.feedsWrapper.height( this.$el.height() - this.ui.profileHeader.height());
-                this.scroller = new IScrollPullUpDown(this.ui.feedsWrapper[0], null , this.pullDownActionHandler, this.pullUpActionHandler);
+                this.menu = new DropDown(this.ui.filterSwitch, this.ui.filterMenu);
             },
             pullDownActionHandler: function(scroller) {
 

@@ -4,7 +4,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
             },
-            el:'#mainWrapper',
+            el:'#main',
             initialize: function() {
                 var self = this;
                 var globalVent = Backbone.Wreqr.radio.channel('global').vent;
@@ -44,18 +44,11 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             initHammer: function() {
                 $('body').hammer({
-                    direction: Hammer.DIRECTION_ALL,
                     domEvents: true
                 });
                 var mc = $('body').data('hammer');
-                mc.get('tap').set({
-                    time: 500,
-                    threshold: 10
-                });
-                mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
                 
                 mc.remove('doubletap');
-                mc.remove('press');
                 mc.remove('rotate');
                 mc.remove('pinch');
             },

@@ -1,15 +1,12 @@
 ﻿define(['jquery', 'hammerjs', 'jquery-hammerjs'], function($, Hammer) {
 
-    var DropDown = function($toggle, $menu, menuItemClass, switchTextClass) {
+    var DropDown = function($toggle, $menu) {
         var self = this;
 
-        if (!menuItemClass) menuItemClass='dropDown-menu-item';
-        if (!switchTextClass) switchTextClass='dropDown-text';
-        
-        var $menuItems = $menu.find('>.' + menuItemClass);
-        var $switchText = $toggle.find('>.' + switchTextClass);
+        var $menuItems = $menu.find('>.dropDown-menu-item');
+        var $switchText = $toggle.find('>.dropDown-text');
 
-        console.log($menuItems);
+
         /**
          * initial
          */
@@ -59,12 +56,10 @@
 
         function openMenu() {
             $toggle.addClass('dropDown-open');
-            $menu.addClass('menu-open');
         }
 
         function closeMenu() {
             $toggle.removeClass('dropDown-open');
-            $menu.removeClass('menu-open');
         }
 
         this.init();
