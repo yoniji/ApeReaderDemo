@@ -17,11 +17,16 @@
                 'tap @ui.leafFilter': 'onTapLeafFilter'
             },
             modelEvents: {
-                'sync': 'modelSynced'
+                'change': 'onModelChange'
             },
             initialize: function() {
                 this.filterMenus = {};
                 this.render();
+            },
+            templateHelpers: {
+                isLeafFilter : function() {
+                    return (!this.children || this.children.length < 1);
+                }
             },
             onSelectFilterMenu: function(ev) {
                 var item = $(ev.currentTarget);
@@ -56,9 +61,15 @@
                         filter.css('width', filterWidth + '%');
                         if (!filter.hasClass('leafFilter')) self.filterMenus[id] = new DropDownControl(filter, filter.next(), 'filterMenu-item', 'fitlerSelection');
                     });
+                    this.$el.removeClass('noFilter');
+                } else {
+                    this.$el.addClass('noFilter');
                 }
                 
 
+            },
+            onModelChange: function() {
+                this.render();
             },
             onDestroy: function() {
 

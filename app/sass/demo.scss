@@ -35,7 +35,7 @@ $homeNavigationTextColor:$black;
 }
 
 .homeNavigation-item {
-    @include size(33.33333% 100%);
+    @include size(25% 100%);
     float: left;
     display: inline-block;
     text-align: center;
@@ -126,13 +126,17 @@ $topBarColor:$black;
     position:relative;
     z-index: 2;
     @include pomeTransition();
+    @include reset-transform();
 }
 .filterBar {
     z-index: 1;
 }
 
 .topBar.hide {
-    @include transform(translate3d(0,-100%,0));
+    @include transform(translate3d(0,-200%,0));
+}
+.filterBar.hide,.filterBar.noFilter {
+    @include transform(translate3d(0,-200%,0));
 }
 
 #exploreTopBar-category-switch,
@@ -173,6 +177,10 @@ $topBarColor:$black;
     }
     
 }
+.leafFilter .fitlerSelection, .leafFilter .icon-expand-more{
+    display: none;
+}
+
 .leafFilter.selected .filterTitle{
     color: $main-color;
 }
@@ -305,7 +313,7 @@ $topBarColor:$black;
 }
 
 .creditName {
-    color: $black;
+    color: $caption-color;
     line-height: 1.2em;
 }
 
@@ -325,9 +333,18 @@ $topBarColor:$black;
 
 .multiCover {
     @include clearfix();
+    padding:0.4em 0 0;
     .coverImage {
         float: left;
         display: inline-block;
+    }
+}
+.noCover {
+    display: none;
+}
+.singleCover {
+    .recommendReason {
+        display: none;
     }
 }
 
@@ -345,7 +362,7 @@ $actionBarWidth:64px;
     .inner {
         background: $cellBackground;
         position:relative;
-        padding: $basic-gap 0;
+        padding: $basic-gap 0 0;
         border-bottom: 1px solid $cellBorderColor;
         height: 100%;
         
@@ -383,7 +400,7 @@ $actionBarWidth:64px;
     .title {
         font-size: 1.3em;
         line-height: 1.2em;
-        padding: 0.5em $basic-gap 0.4em;
+        padding: 0 $basic-gap;
     }
     .more {
         height: $basic-gap*3;
@@ -416,17 +433,23 @@ $actionBarWidth:64px;
     .actionsSwitch-dot:nth-child(3) {
         right:$basic-gap;
     } 
-    .excerpt {
+    .excerpt,.translatedTitle {
         font-size: 1em;
         line-height: 1.4em;
         color: lighten($cellTextColor, 30%);
         padding: 0 $basic-gap;
     }
+    .excerpt,.translatedTitle {
+        display: none;
+    }
     .recommendReason {
-        @include position(absolute,$basic-gap $basic-gap null null);
+        @include position(absolute,null 0 $basic-gap*3 null);
         font-size: 14px;
-        color:lighten($cellTextColor, 30%);
+        color:lighten($cellTextColor, 60%);
         font-size: 8px;
+        @include background-image(linear-gradient(to right,transparent 0, rgba(0, 0, 0, .9) 100%));
+        padding:$basic-gap/4 $basic-gap $basic-gap/4 $basic-gap*2;
+
     }
     .actions {
         @include position(absolute,0 0 null null);
@@ -449,8 +472,82 @@ $actionBarWidth:64px;
     .action-block {
         margin-bottom:$actionBarWidth;
     }
+    .creditDetial {
+        float: left;
+        height: $basic-gap*3;
+        line-height: $basic-gap*3;
+        padding-left:$basic-gap;
+    }
+    .small {
+        padding-left: 96px;
+        overflow:hidden;
+    }
+    .coverImage {
+    >img {
+        min-height: 100%;
+        max-height: 100%;
+        max-width: none;
+        @include transform(translate3d(-50%,0,0));
+        @include position(relative,0 null null 50%);
+    }
+    }
+}
+.brandcell {
+    .title {
+        @include position(absolute, $basic-gap null null null);
+        @include size(61.8% auto);
+        text-align: center;
+        color:$white;
+        font-size: 2em;
+        z-index: 1;
+
+    }
+    .multiCover {
+        padding-top:0;
+    }
+    padding-top:0!important;
 }
 
+.brandcell,.productcell {
+    .cellCover {
+        position:relative;
+    }
+    .coverImage {
+        @include position(absolute);
+        overflow:hidden;
+    }
+    .coverImage:first-child {
+        @include position(relative);
+    }
+    .multiCover>.coverImage>img {
+        max-height: none;
+        @include transform(translate3d(0,0,0));
+    }
+    .coverImage:nth-child(2) {
+        right:0;
+        top:0.4em;
+    }
+    .coverImage:nth-child(3) {
+        right: 0;
+        bottom:0;
+    }
+    .recommendReason {
+        bottom:0;
+    }
+}
+.small {
+    .coverImage {
+        @include size(100%);
+        
+    }
+    .singleCover {
+        @include size(96px 100%);
+        @include position(absolute,0 null null 0);
+    }
+}
+.articlecell.en .translatedTitle {
+    display: block;
+}
 .rankCell {
     @include position(relative);
     .title {
@@ -497,11 +594,11 @@ $toolBarColor:$black;
     }
 }
 
-.articleToolBar {
+.toolBar {
     @include position(absolute, null null 0 0);
 }
 
-.articleShellWrapper {
+.articleWrapper,.productWrapper {
     @include position(absolute, 0 null null 0);
     @include size(100%);
     background: $cellBackground;
@@ -514,7 +611,7 @@ $toolBarColor:$black;
     }
 }
 
-.articleShell {
+.article,.product {
     width: 100%;
     -webkit-overflow-scrolling: touch;
     overflow-y: scroll;
@@ -646,6 +743,7 @@ $menuItemHeight:48px;
     box-shadow:1px 1px 1px rgba(0,0,0,.3);
     left:25%;
     top:100%;
+    @include reset-transform();
 }
 
 .dropDown-menu-item {
@@ -688,7 +786,7 @@ $menuItemHeight:48px;
         display: block;
     }
     .icon-expand-more {
-        @include transform(rotate3d(0,0,1,180deg));
+        @include transform(rotate(180deg));
     }
     .icon-expand-more:before {
         color:$text-color;

@@ -4,24 +4,35 @@
         <div class="action-share action-icon"><i class="icon icon-upload2"></i></div>
     </div>
 </div>
-<div class="inner">
+<div class="inner {{metadata.type}} {{metadata.language}} {{getCellDisplayType}}">
+    <div class="translatedTitle">
+        {{metadata.transilated_title}}
+    </div>
     <div class="title">
         {{title}}
-    </div>
-    <div class="cellCover {{getCoverType}}">
-        {{{getCoverHtml}}}
     </div>
     <div class="excerpt">
         {{excerpt}}
     </div>
-    <div class="rank">
-        {{rank}}
+
+    <div class="cellCover {{getCoverType}}">
+        {{{getCoverHtml}}}
+        <div class="recommendReason">{{{getRecommendReasonHtml}}}</div>
     </div>
+   
     <div class="more">
+        <div class="creditDetial">
+            <span class="creditName">{{source.name}}</span> 
+            <span class="creditMeta">{{author.name}} </span>
+        </div>
         <div class="actionsSwitchIcon">
             <i class="actionsSwitch-dot"></i>
             <i class="actionsSwitch-dot"></i>
             <i class="actionsSwitch-dot"></i>
         </div>
     </div>
+    <div class="rank">
+        {{rank}}
+    </div>
+    
 </div>

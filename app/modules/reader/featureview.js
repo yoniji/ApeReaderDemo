@@ -5,21 +5,9 @@
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
             },
-            ui: {
-                'streamWrapper': '.streamWrapper',
-                'topBar': '.topBar',
-                'filterSwitch': '.dropDown-switch',
-                'filterMenu': '.dropDown-menu'
-            },
-            events: {
-
-            },
-            modelEvents: {
-                'sync': 'modelSynced'
-            },
             initialize: function() {
                 this.model = new FeatureModel();
-                this.modelSynced();
+                this.model.fetch();
             },
             id: 'feature',
             className: 'rootWrapper',

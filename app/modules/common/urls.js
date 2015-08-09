@@ -7,12 +7,16 @@ define(function(require, exports, module) {
 
     var testServiceUrls = {
         'explore': testBaseUrl + 'posts/',
-        'feature': testBaseUrl + 'feature/posts/'
+        'posts': testBaseUrl + 'posts/',
+        'products': testBaseUrl + 'products/',
+        'feature': testBaseUrl + 'feature/'
     };
 
     var releaseServiceUrls = {
         'explore': testBaseUrl + 'posts/',
-        'feature': testBaseUrl + 'feature/posts/'
+        'posts': testBaseUrl + 'posts/',
+        'products': testBaseUrl + 'products/',
+        'feature': testBaseUrl + 'feature/'
     };
 
 

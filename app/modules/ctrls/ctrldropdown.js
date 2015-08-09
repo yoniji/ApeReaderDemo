@@ -5,11 +5,10 @@
 
         if (!menuItemClass) menuItemClass='dropDown-menu-item';
         if (!switchTextClass) switchTextClass='dropDown-text';
-        
+
         var $menuItems = $menu.find('>.' + menuItemClass);
         var $switchText = $toggle.find('>.' + switchTextClass);
 
-        console.log($menuItems);
         /**
          * initial
          */

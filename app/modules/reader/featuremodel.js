@@ -9,7 +9,7 @@
 
         return Backbone.Model.extend({
             url: function() {
-                return urls.getServiceUrlByName('feeds');
+                return urls.getServiceUrlByName('feature') + 'today';
             },
             defaults: {
                 "status": "success",

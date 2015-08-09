@@ -26,7 +26,10 @@
             },
             onShow: function() {
 
-                this.ui.streamWrapper.height(this.$el.height()).css('top',0-this.ui.topBar.height());
+                this.ui.streamWrapper.css({
+                    'height': this.$el.height(),
+                    'top'   : 0 - this.ui.topBar.height()- 1
+                });
                 this.menu = new DropDownControl(this.ui.filterSwitch, this.ui.filterMenu);
                 this.collection.reset(this.model.get('posts'));
 
@@ -37,9 +40,9 @@
                 this.ui.streamWrapper.on('scroll', function(ev) {
                     self.onScroll(ev);
                 });
-                this.afterShow();
+                this.afterOnShow();
             },
-            afterShow: function() {
+            afterOnShow: function() {
 
             },
             onScroll: function(ev) {
@@ -70,11 +73,15 @@
                 var item = $(ev.currentTarget);
                 console.log('tap '+ item.attr('data-id'));
             },
+            afterOnDestroy: function() {
+
+            },
             onDestroy: function() {
+                this.stopListening();
                 this.ui.streamWrapper.off('scroll');
                 if (this.menu) this.menu.destroy();
-                this.stopListening();
 
+                this.afterOnDestroy();
             },
             id: 'explore',
             className: 'rootWrapper',

@@ -7,12 +7,15 @@
         <div class="creditMeta">{{author.name}} 1分钟前</div>
     </div>
 </a>
-<div class="articleShell article">
-	<iframe  src="{{link}}" frameborder="0"></iframe>
+<div class="articleCore article">
+    <div class="articleTitle">{{title}}</div>
+    <div class="articleBody">
+	   {{{content}}}
+    </div>
 </div>
 
 <div class="articleToolBar toolBar">
-	<div class="toolBar-item toolBar-back"><i class="icon icon-beaker"></i></div>
+	<div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
 	<div class="toolBar-item toolBar-like"><i class="icon icon-heart2"></i></div>
 	<div class="toolBar-item toolBar-share"><i class="icon icon-upload2"></i></div>
 	<div class="toolBar-item toolBar-next">下一篇</div>

@@ -204,7 +204,19 @@ define(function(require, exports, module) {
 
 
     exports.calculateSizeWithMinimumEdgeAdaptive = function(containerSize, originalImageSize) {
-        
+        var newSize = { width:0, height:0};
+        var imageWidth = containerSize.width;
+        var imageHeight = Math.round(originalImageSize.height * imageWidth/originalImageSize.width);
+        if(imageHeight < containerSize.height) {
+            imageHeight = containerSize.height;
+            imageWidth = Math.round(originalImageSize.width * imageHeight/originalImageSize.height);
+        }
+        newSize.width = imageWidth;
+        newSize.height = imageHeight;
+
+        newSize.left = Math.round( (containerSize.width - imageWidth) / 2 );
+        newSize.top = Math.round( (containerSize.height - imageHeight) / 2 );
+        return newSize;
     };
 
     exports.preventDefault = function(event) {

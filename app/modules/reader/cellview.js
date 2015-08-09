@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cell.html', 'modules/reader/articleshellview'],
-    function(Marionette, Mustache, $, template, ArticleShellView) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cell.html', 'modules/reader/articleview'],
+    function(Marionette, Mustache, $, template, ArticleView) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -11,7 +11,7 @@
             events: {
                 'tap .more': 'toggleActions',
                 'tap': 'onTap',
-                'panleft': 'showActions',
+                'panleft .more': 'showActions',
                 'panright': 'hideActions'
             },
             initialize: function() {
@@ -23,78 +23,184 @@
                 var windowWidth = $(window).width();
                 var defaultCoverHeight = Math.round(windowWidth * 0.382);
                 var maxHeight = Math.round(windowWidth * 0.618);
-                return {
-                    'getCoverType': function() {
 
-                        if (this.images && this.images.length > 0) {
-                            //has cover
-                            if (this.images.length > 1) {
-                                return 'multiCover';
-                            } else {
-                                return 'sigleCover';
-                            }
+                var coverType = 'noCover';
+                if (this.model.get('images') && this.model.get('images').length > 0) {
+                    //has cover
+                    if (this.model.get('images').length > 1) {
+                        if ( (this.model.get('metadata').type === 'article' || this.model.get('metadata').type === 'brand' || this.model.get('metadata').type === 'product') && this.model.get('images').length < 3) {
+                            coverType = 'singleCover';
                         } else {
-                            return 'noCover';
+                            coverType =  'multiCover';
                         }
+                    } else {
+                        coverType = 'singleCover';
+                    }
+                }
 
+                return {
+                    'getCellDisplayType': function() {
+                        if (this.metadata.type === 'article'  && coverType === 'singleCover' ) {
+                            return 'small';
+                        }
+                    },
+                    'getCoverType': function() {
+                        return coverType;
                     },
                     'getCoverHtml': function() {
 
                         var outStr = '';
+                        var windowWidth = $(window).width();
                         var imageWidth, imageHeight, img, outHeight;
-                        if (this.images && this.images.length > 0) {
+                        var type = this.metadata.type;
+                        var i = 0;
 
-                            imageHeight = maxHeight;
-                            if (this.images.length < 4) {
-                                imageWidth = Math.floor(windowWidth / this.images.length);
-                            } else {
-                                imageWidth = Math.floor(windowWidth * 2 / this.images.length);
-                            }
+                        switch (type) {
+                            case 'product3':
+                                if (this.images && this.images.length > 0) {
+
+                                    imageHeight = maxHeight;
+                                    if (this.images.length < 2) {
+                                        imageWidth = Math.floor(windowWidth / this.images.length);
+                                    } else {
+                                        imageWidth = Math.floor(windowWidth * 2 / this.images.length);
+                                    }
 
 
-                            for (var i = 0; i < this.images.length; i++) {
-                                img = this.images[i];
-                                outHeight = Math.floor(imageWidth / img.width * img.height);
-                                imageHeight = Math.min(outHeight, imageHeight);
-                            }
+                                    for (i = 0; i < this.images.length; i++) {
+                                        img = this.images[i];
+                                        outHeight = Math.floor(imageWidth / img.width * img.height);
+                                        imageHeight = Math.min(outHeight, imageHeight);
+                                    }
 
-                            for (i = 0; i < this.images.length; i++) {
-                                outStr += '<div class="coverImage" style="width:' + imageWidth + 'px;height:' + imageHeight + 'px"><img src="' + this.images[i].url + '"></div>';
-                            }
+                                    for (i = 0; i < this.images.length; i++) {
+                                        outStr += '<div class="coverImage" style="width:' + imageWidth + 'px;height:' + imageHeight + 'px"><img src="' + this.images[i].url + '"></div>';
+                                    }
+
+
+                                }
+                                break;
+                            case 'product':
+                                imageHeight = Math.round(windowWidth*0.618);
+                                if (this.images && this.images.length > 0) {
+                                    if ( this.images.length > 2) {
+                                        innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                            {width:imageHeight, height:imageHeight},
+                                            {width:this.images[0].width,height:this.images[0].height}
+                                        );
+                                        console.log(innerSize);
+                                        outStr += '<div class="coverImage" style="width:' + imageHeight + 'px;height:' + imageHeight + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px" src="' + this.images[0].url + '"></div>';
+                                        innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                            {width:Math.round(windowWidth*0.382), height:Math.round(imageHeight*0.618)},
+                                            {width:this.images[0].width,height:this.images[0].height}
+                                        );
+
+                                        outStr += '<div class="coverImage" style="width:' + Math.round(windowWidth*0.382) + 'px;height:' + Math.round(imageHeight*0.618) + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px"  src="' + this.images[1].url + '"></div>';
+                                        innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                            {width:Math.round(windowWidth*0.382), height:Math.round(imageHeight*0.382)},
+                                            {width:this.images[0].width,height:this.images[0].height}
+                                        );
+                                        outStr += '<div class="coverImage" style="width:' + Math.round(windowWidth*0.382) + 'px;height:' + Math.round(imageHeight*0.382) + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px"  src="' + this.images[2].url + '"></div>';
+                                    } else {
+                                        outStr += '<div class="coverImage" style="height:' + imageHeight + 'px"><img src="' + this.images[0].url + '"></div>';
+                                    }
+
+                                }
+                                break;
+                            case 'brand':
+                                imageHeight = Math.round(windowWidth*0.618);
+                                if (this.images && this.images.length > 0) {
+                                    if ( this.images.length > 2) {
+                                        innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                            {width:imageHeight, height:imageHeight},
+                                            {width:this.images[0].width,height:this.images[0].height}
+                                        );
+                                        outStr += '<div class="coverImage" style="width:' + imageHeight + 'px;height:' + imageHeight + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px" src="' + this.images[0].url + '"></div>';
+                                        innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                            {width:Math.round(windowWidth*0.382), height:Math.round(imageHeight*0.618)},
+                                            {width:this.images[0].width,height:this.images[0].height}
+                                        );
+
+                                        outStr += '<div class="coverImage" style="width:' + Math.round(windowWidth*0.382) + 'px;height:' + Math.round(imageHeight*0.618) + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px"  src="' + this.images[1].url + '"></div>';
+                                        innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                            {width:Math.round(windowWidth*0.382), height:Math.round(imageHeight*0.382)},
+                                            {width:this.images[0].width,height:this.images[0].height}
+                                        );
+                                        outStr += '<div class="coverImage" style="width:' + Math.round(windowWidth*0.382) + 'px;height:' + Math.round(imageHeight*0.382) + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px"  src="' + this.images[2].url + '"></div>';
+                                    } else {
+                                        outStr += '<div class="coverImage" style="height:' + imageHeight + 'px"><img src="' + this.images[0].url + '"></div>';
+                                    }
+
+                                }
+                                break;
+
+                            case 'activity':
+
+                                break;
+                            default:
+                                if (this.images && this.images.length > 0) {
+
+                                    imageHeight = maxHeight;
+                                    if (this.images.length < 3) {
+                                        outStr += '<div class="coverImage"><img src="' + this.images[0].url + '"></div>';
+                                    } else {
+                                        imageHeight = Math.round(windowWidth / 3);
+                                        imageWidth = '33.333%';
+
+                                        for (i = 0; i < 3; i++) {
+                                            outStr += '<div class="coverImage" style="width:' + imageWidth + ';height:' + imageHeight + 'px"><img src="' + this.images[i].url + '"></div>';
+                                        }
+                                    }
+
+                                }
+                                break;
 
 
                         }
+
                         return outStr;
 
                     },
                     'getRecommendReasonHtml': function() {
                         var outStr = '';
                         var i = 0;
-                        if (this.recommend_reason && this.recommend_reason.type) {
-                            switch (this.recommend_reason.type) {
-                                case 'tag':
-                                    outStr += '<i class="icon icon-tag"></i>';
-                                    for (i = 0; i < this.recommend_reason.relate_tags.length; i++) {
-                                        outStr += ' ' + this.recommend_reason.relate_tags[i].name;
-                                        if (i !== this.recommend_reason.relate_tags.length - 1) outStr += ',';
-                                    }
-                                    break;
-                                case 'friend':
-                                    outStr += '<i class="icon icon-heart2"></i> ';
-                                    for (i = 0; i < this.recommend_reason.relate_friends.length; i++) {
-                                        if (i === 1) outStr += ',';
-                                        if (i === 2) {
-                                            outStr += '等人';
-                                            break;
-                                        }
-                                        outStr += ' ' + this.recommend_reason.relate_friends[i].name;
-                                    }
-
-                                    break;
-                                default:
-                                    break;
-                            }
+                        var recommend_reason = '';
+                        if (this.metadata.following_users && this.metadata.following_users.length > 0) {
+                            recommend_reason = 'friend';
+                        } else if (this.metadata.feature) {
+                            recommend_reason = 'feature';
+                        } else if (this.metadata.following_tags && this.metadata.following_tags.length > 0) {
+                            recommend_reason = 'tag';
                         }
+
+
+                        switch (recommend_reason) {
+                            case 'tag':
+                                outStr += '<i class="icon icon-tag"></i>';
+                                for (i = 0; i < this.metadata.following_tags.length; i++) {
+                                    outStr += ' ' + this.metadata.following_tags[i].name;
+                                    if (i !== this.metadata.following_tags.length - 1) outStr += ',';
+                                }
+                                break;
+                            case 'friend':
+                                outStr += '<i class="icon icon-heart2"></i> ';
+                                for (i = 0; i < this.metadata.following_users.length; i++) {
+                                    if (i === 1) outStr += ',';
+                                    if (i === 2) {
+                                        outStr += '等人';
+                                        break;
+                                    }
+                                    outStr += ' ' + this.metadata.following_users[i].name;
+                                }
+
+                                break;
+                            case 'feature':
+                                outStr += '<i class="icon icon-lightbulb"></i> ' + this.metadata.feature;
+                                break;
+                            default:
+                                break;
+                        }
+
                         return outStr;
                     }
                 };
@@ -117,7 +223,7 @@
                 if (this.isActionsVisible()) {
                     this.hideActions();
                 } else {
-                    new ArticleShellView({
+                    new ArticleView({
                         model: this.model
                     });
                 }

@@ -19,18 +19,17 @@
                         var outStr = '';
                         if(this.images&&this.images.length>0) {
                             var img = this.images[0];
-                            var imageWidth = containerWidth,
-                            imageHeight = Math.round(img.height * containerWidth/img.width);
 
-                            if(imageHeight < containerHeight) {
-                                imageHeight = containerHeight;
-                                imageWidth = Math.round(img.width * imageHeight/img.height);
-                            }
 
-                            var left = Math.round( (containerWidth - imageWidth) / 2 );
-                            var top = Math.round( (containerHeight - imageHeight) / 2 );
+                            var newSize = util.calculateSizeWithMinimumEdgeAdaptive(
+                                {width: containerWidth, height:containerHeight},
+                                {width: img.width, height:img.height}
+                            );
+                            
 
-                            outStr+= '<div class="coverImage" style="width:100%;height:' + containerHeight + 'px"><img style="width:' + imageWidth + 'px;height:' + imageHeight + 'px;left:' + left + 'px;top:' + top + 'px" src="' + this.images[0].url + '"></div>';
+                            
+
+                            outStr+= '<div class="coverImage" style="width:100%;height:' + containerHeight + 'px"><img style="width:' + newSize.width + 'px;height:' + newSize.height + 'px;left:' + newSize.left + 'px;top:' + newSize.top + 'px" src="' + this.images[0].url + '"></div>';
                         }
                         return outStr;
 

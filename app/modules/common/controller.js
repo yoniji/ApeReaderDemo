@@ -1,5 +1,5 @@
-﻿define(['backbone', 'marionette','modules/reader/exploreview','modules/reader/featureview','modules/reader/profileview'],
-    function (Backbone, Marionette, ExploreView, FeatureView, ProfileView) {
+﻿define(['backbone', 'marionette','modules/reader/exploreview','modules/reader/featureview','modules/reader/profileview','modules/reader/articleview','modules/reader/productview'],
+    function (Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ProductView) {
 
     	function setCurrentNavigationById(targetId) {
     		$('.homeNavigation-item.current').removeClass('current');
@@ -20,6 +20,16 @@
             me: function() {
             	var profileView = new ProfileView();
             	setCurrentNavigationById('me');
+            },
+            post: function(id) {
+                var articleView = new ArticleView({'id':id});
+                var exploreView = new ExploreView();
+                setCurrentNavigationById('explore');
+            },
+            product: function(id) {
+                var productView = new ProductView({'id':id});
+                var exploreView = new ExploreView();
+                setCurrentNavigationById('explore');
             }
         });
 });
