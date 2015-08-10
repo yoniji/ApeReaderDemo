@@ -335,6 +335,7 @@ $topBarColor:$black;
 }
 .multiCover {
     @include clearfix();
+    border-bottom:3px solid $border-color;
     .coverImage {
         float: left;
         display: inline-block;
@@ -402,11 +403,13 @@ $actionBarWidth:64px;
         padding: 0 $basic-gap;
     }
     .more {
-        height: $basic-gap*2.5;
+        @include size($basic-gap*3);
+        @include position(absolute,0 0 null null);
+
     }
     .actionsSwitchIcon {
         float: right;
-        @include size($basic-gap*3 $basic-gap*2.5);
+        @include size($basic-gap*3 $basic-gap*3);
         padding-top:0;
         
         position:relative;
@@ -416,7 +419,7 @@ $actionBarWidth:64px;
         border-radius:100%;
         background:rgba(0,0,0,.2);
         display: inline-block;
-        @include position(absolute, $basic-gap*1.5 null null null);
+        @include position(absolute, $basic-gap null null null);
         @include pomeTransition();
 
     }
@@ -435,6 +438,9 @@ $actionBarWidth:64px;
         line-height: 1.4em;
         color: lighten($cellTextColor, 30%);
         padding: 0 $basic-gap;
+    }
+    .translatedTitle {
+        padding-top:0.2em;
     }
     .excerpt,.translatedTitle {
         display: none;
@@ -470,10 +476,8 @@ $actionBarWidth:64px;
         margin-bottom:$actionBarWidth;
     }
     .creditDetial {
-        float: left;
-        height: $basic-gap*2.5;
-        line-height: $basic-gap*3;
-        padding-left:$basic-gap;
+        line-height: 1.4em;
+        padding-top:$basic-gap;
     }
     .small {
         padding-left: 96px;
@@ -511,6 +515,7 @@ $actionBarWidth:64px;
 .brandcell,.productcell {
     .cellCover {
         position:relative;
+        border-bottom:3px solid $border-color;
     }
     .coverImage {
         @include position(absolute);
@@ -549,6 +554,9 @@ $actionBarWidth:64px;
     }
     .recommendReason {
         display: none;
+    }
+    .title {
+        padding-bottom: $basic-gap;
     }
 }
 
