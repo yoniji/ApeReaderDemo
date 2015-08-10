@@ -330,19 +330,18 @@ $topBarColor:$black;
         max-width: 100%;
     }
 }
-
+.cellCover {
+    padding:$basic-gap 0 0;
+}
 .multiCover {
     @include clearfix();
-    padding:0.4em 0 0;
     .coverImage {
         float: left;
         display: inline-block;
     }
 }
+
 .noCover {
-    display: none;
-}
-.singleCover {
     .recommendReason {
         display: none;
     }
@@ -362,7 +361,7 @@ $actionBarWidth:64px;
     .inner {
         background: $cellBackground;
         position:relative;
-        padding: $basic-gap 0 0;
+        padding: 0;
         border-bottom: 1px solid $cellBorderColor;
         height: 100%;
         
@@ -403,14 +402,12 @@ $actionBarWidth:64px;
         padding: 0 $basic-gap;
     }
     .more {
-        height: $basic-gap*3;
-        
-
+        height: $basic-gap*2.5;
     }
     .actionsSwitchIcon {
         float: right;
-        @include size($basic-gap*3);
-        padding-top:($basic-gap*3 - $basic-gap/2)/2;
+        @include size($basic-gap*3 $basic-gap*2.5);
+        padding-top:0;
         
         position:relative;
     }
@@ -443,7 +440,7 @@ $actionBarWidth:64px;
         display: none;
     }
     .recommendReason {
-        @include position(absolute,null 0 $basic-gap*3 null);
+        @include position(absolute,null 0 0 null);
         font-size: 14px;
         color:lighten($cellTextColor, 60%);
         font-size: 8px;
@@ -474,7 +471,7 @@ $actionBarWidth:64px;
     }
     .creditDetial {
         float: left;
-        height: $basic-gap*3;
+        height: $basic-gap*2.5;
         line-height: $basic-gap*3;
         padding-left:$basic-gap;
     }
@@ -506,6 +503,9 @@ $actionBarWidth:64px;
         padding-top:0;
     }
     padding-top:0!important;
+    .more {
+        display: none;
+    }
 }
 
 .brandcell,.productcell {
@@ -525,26 +525,33 @@ $actionBarWidth:64px;
     }
     .coverImage:nth-child(2) {
         right:0;
-        top:0.4em;
+        top:0;
     }
     .coverImage:nth-child(3) {
         right: 0;
         bottom:0;
     }
-    .recommendReason {
-        bottom:0;
+
+    .singleCover>.coverImage>img {
+        max-height:none;
+        max-width: 100%;
+        width: 100%;
     }
 }
 .small {
-    .coverImage {
-        @include size(100%);
-        
-    }
-    .singleCover {
+    .cellCover {
+        padding-top:0;
         @include size(96px 100%);
         @include position(absolute,0 null null 0);
     }
+    .coverImage {
+        @include size(100%);
+    }
+    .recommendReason {
+        display: none;
+    }
 }
+
 .articlecell.en .translatedTitle {
     display: block;
 }

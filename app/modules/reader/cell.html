@@ -5,21 +5,6 @@
     </div>
 </div>
 <div class="inner {{#metadata.type}}{{metadata.type}}cell{{/metadata.type}} {{metadata.language}} {{getCellDisplayType}}">
-    <div class="translatedTitle">
-        {{metadata.translated_title}}
-    </div>
-    <div class="title">
-        {{{title}}}
-    </div>
-    <div class="excerpt">
-        {{excerpt}}
-    </div>
-
-    <div class="cellCover {{getCoverType}}">
-        {{{getCoverHtml}}}
-        <div class="recommendReason">{{{getRecommendReasonHtml}}}</div>
-    </div>
-   
     <div class="more">
         <div class="creditDetial">
             <span class="creditName">{{source.name}}</span> 
@@ -31,6 +16,22 @@
             <i class="actionsSwitch-dot"></i>
         </div>
     </div>
+    <div class="title">
+        {{{title}}}
+    </div>
+    <div class="translatedTitle">
+        {{metadata.translated_title}}
+    </div>
+    <div class="excerpt">
+        {{excerpt}}
+    </div>
+
+    <div class="cellCover {{getCoverType}}">
+        {{{getCoverHtml}}}
+        <div class="recommendReason">{{{getRecommendReasonHtml}}}</div>
+    </div>
+   
+    
 
     
 </div>

@@ -1268,20 +1268,18 @@ body,
   .coverImage > img {
     max-width: 100%; }
 
-.multiCover {
-  padding: 0.4em 0 0; }
-  .multiCover:after {
-    content: "";
-    display: table;
-    clear: both; }
-  .multiCover .coverImage {
-    float: left;
-    display: inline-block; }
+.cellCover {
+  padding: 16px 0 0; }
 
-.noCover {
-  display: none; }
+.multiCover:after {
+  content: "";
+  display: table;
+  clear: both; }
+.multiCover .coverImage {
+  float: left;
+  display: inline-block; }
 
-.singleCover .recommendReason {
+.noCover .recommendReason {
   display: none; }
 
 .cell {
@@ -1293,7 +1291,7 @@ body,
   .cell .inner {
     background: #fafafa;
     position: relative;
-    padding: 16px 0 0;
+    padding: 0;
     border-bottom: 1px solid #dedede;
     height: 100%; }
   .cell .showActions {
@@ -1352,12 +1350,12 @@ body,
     line-height: 1.2em;
     padding: 0 16px; }
   .cell .more {
-    height: 48px; }
+    height: 40px; }
   .cell .actionsSwitchIcon {
     float: right;
-    height: 48px;
+    height: 40px;
     width: 48px;
-    padding-top: 20px;
+    padding-top: 0;
     position: relative; }
   .cell .actionsSwitch-dot {
     height: 6px;
@@ -1387,7 +1385,7 @@ body,
   .cell .recommendReason {
     position: absolute;
     right: 0;
-    bottom: 48px;
+    bottom: 0;
     font-size: 14px;
     color: #cccccc;
     font-size: 8px;
@@ -1419,7 +1417,7 @@ body,
     margin-bottom: 64px; }
   .cell .creditDetial {
     float: left;
-    height: 48px;
+    height: 40px;
     line-height: 48px;
     padding-left: 16px; }
   .cell .small {
@@ -1451,6 +1449,8 @@ body,
     z-index: 1; }
   .brandcell .multiCover {
     padding-top: 0; }
+  .brandcell .more {
+    display: none; }
 
 .brandcell .cellCover, .productcell .cellCover {
   position: relative; }
@@ -1468,22 +1468,27 @@ body,
   transform: translate3d(0, 0, 0); }
 .brandcell .coverImage:nth-child(2), .productcell .coverImage:nth-child(2) {
   right: 0;
-  top: 0.4em; }
+  top: 0; }
 .brandcell .coverImage:nth-child(3), .productcell .coverImage:nth-child(3) {
   right: 0;
   bottom: 0; }
-.brandcell .recommendReason, .productcell .recommendReason {
-  bottom: 0; }
-
-.small .coverImage {
-  height: 100%;
+.brandcell .singleCover > .coverImage > img, .productcell .singleCover > .coverImage > img {
+  max-height: none;
+  max-width: 100%;
   width: 100%; }
-.small .singleCover {
+
+.small .cellCover {
+  padding-top: 0;
   height: 100%;
   width: 96px;
   position: absolute;
   top: 0;
   left: 0; }
+.small .coverImage {
+  height: 100%;
+  width: 100%; }
+.small .recommendReason {
+  display: none; }
 
 .articlecell.en .translatedTitle {
   display: block; }
