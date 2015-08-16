@@ -1,28 +1,21 @@
-﻿<div class="inner {{#metadata.type}}{{metadata.type}}cell{{/metadata.type}} {{metadata.language}} {{getCellDisplayType}}">
-    <div class="cell-like">
-            <i class="icon icon-heart2"></i>
+﻿<div class="inner {{#metadata.content_type}}{{metadata.content_type}}cell{{/metadata.content_type}} {{metadata.language}} smallCell">
+    {{{getSmallCellCoverHtml}}}
+    <div class="cellDetail">
+        <div class="creditItem">
+            <span class="creditName">{{source.name}}</span>
+            <span class="creditMeta">{{author.name}} </span>
+        </div>
+        <div class="title">
+            {{{title}}}
+        </div>
+        <div class="meta">
+            <div class="tags">
+                {{{getTagsHtml}}}
+            </div>
+            <div class="more">
+                <div class="more-line-1"></div>
+                <div class="more-line-2"></div>
+            </div>
+        </div>
     </div>
-    <div class="creditItem">
-    <div class="creditDetial">
-        <span class="creditName">{{source.name}}</span> 
-        <span class="creditMeta">{{author.name}} </span>
-    </div>
-    </div>
-    <div class="title">
-        {{{title}}} <span class="subtitle">{{getSubtitile}}</span>
-    </div>
-    <div class="translatedTitle">
-        {{metadata.translated_title}}
-    </div>
-    <div class="excerpt">
-        {{excerpt}}
-    </div>
-
-    <div class="cellCover {{getCoverType}}">
-        {{{getCoverHtml}}}
-    </div>
-   
-    
-
-    
 </div>

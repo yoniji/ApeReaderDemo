@@ -8,8 +8,8 @@
             ui: {
                 'streamWrapper': '.streamWrapper',
                 'topBar': '.topBar',
-                'filterSwitch': '#exploreTopBar-category-switch',
-                'filterMenu': '#exploreTopBar-category-menu',
+                'filterSwitch': '.dropDown-switch',
+                'filterMenu': '.dropDown-menu',
                 'filterMenuItem': '.dropDown-menu-item'
             },
             events: {

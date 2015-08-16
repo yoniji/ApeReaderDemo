@@ -219,6 +219,21 @@ define(function(require, exports, module) {
         return newSize;
     };
 
+    exports.generateImageHtml = function(imageObject, containerSize, containerClass) {
+        var outStr = '';
+        if (!containerClass) containerClass = '';
+        outStr += '<div class="image ' + containerClass + '" style="width:' + containerSize.width + 'px;height:' + containerSize.height + 'px;">';
+
+        if ( imageObject.type === 'oss' ) {
+            outStr += '<img src="' + imageObject.url + '@' + containerSize.width + 'w_' + containerSize.height + 'h_1e_1c'  +'" >';
+        } else {
+            var newSize = util.calculateSizeWithMinimumEdgeAdaptive(containerSize, imageObject);
+            outStr += '<img src="' + imageObject.url + '" style="position:absolute;width:' + newSize.width + 'px;height:' + newSize.height + 'px;left:' + newSize.left + 'px;top:' + newSize.top + 'px;" >';
+        }
+        outStr += '</div>'; 
+        return outStr;
+    };
+
     exports.preventDefault = function(event) {
         event.preventDefault();
         event.originalEvent.preventDefault();

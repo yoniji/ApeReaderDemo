@@ -78,6 +78,15 @@ $homeNavigationTextColor:$black;
         @include transform(rotate(180deg));
     }
 }
+.image {
+    overflow:hidden;
+    position:relative;
+    >img {
+        max-width: none;
+        max-height: none;
+    }
+}
+
 
 .streamWrapper {
 
@@ -296,6 +305,7 @@ $topBarColor:$black;
 .creditItem {
     display: block;
     @include clearfix();
+    line-height: 1.2em;
 }
 
 .creditImage {
@@ -323,29 +333,7 @@ $topBarColor:$black;
     line-height: 1.2em;
 }
 
-.coverImage {
-    background: #f0f0f0;
-    overflow: hidden;
-    >img {
-        max-width: 100%;
-    }
-}
-.cellCover {
-    padding:$basic-gap 0 0;
-}
-.multiCover {
-    @include clearfix();
-    .coverImage {
-        float: left;
-        display: inline-block;
-    }
-}
 
-.noCover {
-    .recommendReason {
-        display: none;
-    }
-}
 
 $cellBackground:#fafafa;
 $cellTextColor:#333;
@@ -361,83 +349,21 @@ $actionBarWidth:64px;
     .inner {
         background: $cellBackground;
         position:relative;
-        padding: 0;
-        border-bottom:4px solid $cellBorderColor;
+        border-bottom:1px solid $cellBorderColor;
         height: 100%;
         
     }
-    .showActions {
-        @include transform(translate3d(0-$actionBarWidth,0,0));
-        @include pomeTransition();
-        .actionsSwitch-dot:first-child {
-            @include size(1px);
-            right: $basic-gap/2;
-            top: $basic-gap*1.5;
-            background: rgba(0,0,0,0);
-        }
-        .actionsSwitch-dot:nth-child(2) {
-            border-radius:0;
-            width: $basic-gap;
-            height: 2px;
-            @include position(absolute, $basic-gap*1.5 $basic-gap null null);
-            @include transform-origin(right center);
-            @include transform(rotate(45deg));
-        }
-        .actionsSwitch-dot:nth-child(3) {
-            border-radius:0;
-            width: $basic-gap;
-            height: 2px;
-            @include position(absolute, $basic-gap*1.5 $basic-gap null null);
-            @include transform-origin(right center);
-            @include transform(rotate(-45deg));
-        }
-    }
+    
 
     .creditItem {
-        padding: 0 $basic-gap;
+        padding: 0 $basic-gap 0.2em;
     }
     .title {
         font-size: 1.3em;
         line-height: 1.2em;
         padding: 0 $basic-gap;
     }
-    .more,.cell-like {
-        @include size($basic-gap*3);
-        @include position(absolute,0 0 null null);
-
-    }
-    .cell-like {
-        font-size:20px;
-        line-height: $basic-gap*3;
-        text-align: center;
-        color:#a0a0a0;
-    }
-    .actionsSwitchIcon {
-        float: right;
-        @include size($basic-gap*3 $basic-gap*3);
-        padding-top:0;
-        
-        position:relative;
-    }
-    .actionsSwitch-dot {
-        @include size(6px);
-        border-radius:100%;
-        background:rgba(0,0,0,.2);
-        display: inline-block;
-        @include position(absolute, $basic-gap null null null);
-        @include pomeTransition();
-
-    }
-    .actionsSwitch-dot:first-child {
-        background:rgba(0,0,0,.5);
-        right:$basic-gap + 20;
-    }
-    .actionsSwitch-dot:nth-child(2) {
-        right:$basic-gap + 10;
-    }
-    .actionsSwitch-dot:nth-child(3) {
-        right:$basic-gap;
-    } 
+    
     .excerpt,.translatedTitle {
         font-size: 1em;
         line-height: 1.4em;
@@ -464,73 +390,100 @@ $actionBarWidth:64px;
         padding:$basic-gap/4 $basic-gap $basic-gap/4 $basic-gap*2;
 
     }
-    .actions {
-        @include position(absolute,0 0 null null);
-        @include size($actionBarWidth 100%);
-        border-bottom: 1px solid $cellBorderColor;
-        background: darken($main-color,10%);
-        color:$white;
-
-    }
-    .action-icon {
-        @include size($actionBarWidth);
-        font-size: 24px;
-        text-align: center;
-        padding:($actionBarWidth - 24)/2 0;
-    }
-    .actions-inner {
-        @include position(absolute,null 0 $basic-gap null);
-        @include size($actionBarWidth auto);
-    }
-    .action-block {
-        margin-bottom:$actionBarWidth;
-    }
+    
     .creditDetial {
         line-height: 1.4em;
         padding-top:$basic-gap;
     }
-    .small {
-        padding-left: $basic-gap * 6;
-        overflow:hidden;
-        border-width:1px;
+    .meta {
+        @include position(relative);
+        height: $basic-gap*1.5;
     }
-    .small,.textonly {
-        border-width:1px;
-        .more,.cell-like,.translatedTitle{
-            display: none;
-        }
+    .tags {
+        font-size: 0.8em;
+        color:$caption-color;
+        padding-left:$basic-gap;
+        line-height: $basic-gap;
+        padding-top:$basic-gap/2;
+        
     }
-    .coverImage {
-    >img {
-        min-height: 100%;
-        max-height: 100%;
-        max-width: none;
-        @include transform(translate3d(-50%,0,0));
-        @include position(relative,0 null null 50%);
+    .more {
+        @include size(48px);
+        @include position(absolute,null 0 0-$basic-gap null);
     }
+    .more-line-1,.more-line-2 {
+        @include size(12px 2px);
+        border-radius:2px;
+        background: #e0e0e0;
+        @include reset-transform;
+        @include position(absolute, 50% null null 50%);
+        margin-left:-6px;
+        margin-top:-1px;
+    }
+    .more-line-2 {
+        @include transform(rotate(90deg));
+    }
+    
+}
+$smallCellCoverSize:72px;
+.smallCell {
+    min-height: $smallCellCoverSize + $basic-gap*2;
+    padding:$basic-gap 0;
+    .image {
+        @include position(absolute,$basic-gap null null $basic-gap);
+    }
+    .cellDetail {
+        padding-left:$smallCellCoverSize + $basic-gap;
     }
 }
-.brandcell {
+.mediumCell,.largeCell,.fullCell {
+    padding:$basic-gap 0;
     .title {
-        @include reset-transform();
-        @include position(absolute, 0 null null 0);
-        @include size(61.8% 100%);
-        background: rgba(0,0,0,.5);
-        text-align: center;
-        color:$white;
-        font-size: 2em;
-        z-index: 1;
-        padding-top:20%;
-
+        padding-bottom:$basic-gap/2;
     }
-    .subtitle {
-        display: block;
-        padding-top:0.5em;
-        color: rgba(255,255,255,.7);
+}
+.mediumCell {
+    .image {
+        float: left;
+        display: inline-block;
+        margin-right: 4px;
+    }
+    .cellCover {
+        margin-left: $basic-gap;
+        @include clearfix;
+    }
+}
+.largeCell {
+    .image {
+        margin-left: $basic-gap;
+    }
+}
+.fullCell {
+    .cellCover {
+        margin-left: $basic-gap;
+    }
+    .cellMoreImages {
+        margin-left: $basic-gap;
+        margin-top:$basic-gap/2;
+        @include clearfix;
+        >.image {
+            loat: left;
+            display: inline-block;
+            margin-right: 4px;
+        }
+    }
+}
+
+
+.productcell,.brandcell {
+    .title {
+        position:relative;
+    }
+    .title,.creditItem {
+        padding-left:$basic-gap*3.5;
     }
     .title:before {
         display: block;
-        content: "\e603";
         font-family: 'icomoon';
         speak: none;
         font-style: normal;
@@ -543,146 +496,33 @@ $actionBarWidth:64px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
 
-        @include size(100% $basic-gap*2);
-        text-align: center;
+        @include size($basic-gap*2);
         font-size: $basic-gap*2;
-        @include position(absolute,null null 65% 0);
-        color:$white;
-        
-    }
-    .multiCover {
-        padding-top:0;
-    }
-    padding-top:0!important;
-    .more {
-        display: none;
-    }
-    .creditItem {
-        display: none;
-    }
-}
-
-.brandcell,.productcell {
-    .cellCover {
-        position:relative;
-    }
-    .coverImage {
-        @include position(absolute);
-        overflow:hidden;
-    }
-    .coverImage:first-child {
-        @include position(relative);
-    }
-    .multiCover>.coverImage>img {
-        max-height: none;
-        @include transform(translate3d(0,0,0));
-    }
-    .coverImage:nth-child(2) {
-        right:0;
-        top:0;
-    }
-    .coverImage:nth-child(3) {
-        right: 0;
-        bottom:0;
-    }
-
-    .singleCover>.coverImage>img {
-        max-height:none;
-        max-width: 100%;
-        width: 100%;
-    }
-}
-.productcell {
-    .title {
-        position:relative;
-    }
-    .title,.creditItem {
-        padding-left:$basic-gap*3.5;
+        @include position(absolute,0-$basic-gap null null $basic-gap);
+        color:$caption-color;
     }
 }
 .productcell .title:before {
-    display: block;
     content: "\e602";
-    font-family: 'icomoon';
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    @include size($basic-gap*2);
-    font-size: $basic-gap*2;
-    @include position(absolute,0-$basic-gap null null $basic-gap);
-    color:$caption-color;
-    
 }
-.productcell .cellCover,.articlecell .multiCover {
-    position:relative;
-    &:before {
-        display: block;
-        content: "";
-        width: 0px;
-        height: 0px;
-        font-size: 1px;
-        line-height: 0px;
-        @include position(absolute,$basic-gap/2 null null $basic-gap*2);
-        border-style:solid;
-        border-width:$basic-gap $basic-gap/2 0;
-        border-color:$cellBackground transparent transparent;
-        z-index: 1;
-    }
-}
-.articlecell {
-    border-bottom-width:1px;
-    .multiCover {
-        padding:16px;
-    }
-    
-}
-.small {
-    min-height: $basic-gap*7;
-    .cellCover {
-        padding-top:0;
-        @include size($basic-gap*5);
-        @include position(absolute,$basic-gap null null $basic-gap);
-    }
-    .coverImage {
-        @include size(100%);
-    }
-    .coverImage>img {
-        min-width: 100%;
-        min-height:100%;
-        height: 100%;
-        max-height: none;
-    }
-    .recommendReason {
-        display: none;
-    }
-    .title {
-        padding-bottom: $basic-gap;
-    }
+.brandcell .title:before {
+    content: "\e603";
 }
 
-.articlecell.en .translatedTitle {
+.en .translatedTitle {
     display: block;
 }
 .rankCell {
     @include position(relative);
     .title,.creditItem {
-        padding-top: 0;
-        padding-bottom: 0.5em;
-        padding-left: $basic-gap*3;
+        padding-right:$basic-gap*4;
     }
-    .excerpt {
-        padding: $basic-gap;
+    .viewed .rank{
+        background:$main-color;
+        color:$white;
     }
     .rank {
-        @include position(absolute, $basic-gap null null $basic-gap -2);
+        @include position(absolute, $basic-gap*1.2 $basic-gap null null );
         @include size(24px);
         color: $main-color;
         border: 1px solid $main-color;
@@ -690,6 +530,7 @@ $actionBarWidth:64px;
         line-height: 22px;
         text-align: center;
         border-radius: 100%;
+        letter-spacing: -1px;
     }
 }
 
@@ -916,12 +757,13 @@ $menuItemHeight:48px;
     }
 }
 
-.product-slide {
+.slide {
     width: 100%;
     overflow:hidden;
     @include position(relative);
     @include reset-transform;
 }
+
 .product-slide-large {
     float:left;
     width: 61.8%;
@@ -965,7 +807,22 @@ $menuItemHeight:48px;
         }
     }
 }
-
+.brand-slide-info {
+    @include position(absolute,null null 0 0);
+    @include size(100% auto);
+    padding:$basic-gap;
+    background:rgba(0,0,0,.6);
+    color:$white;
+    >.category,>.meta {
+        font-size: 10px;
+        color:rgba(255,255,255,.6);
+        line-height: 1.2em;
+    }
+    >.title {
+        line-height: 1.2em;
+        padding:0.2em 0 0.4em;
+    }
+}
 .roomsNav {
     @include clearfix();
     .roomsNav-item {
@@ -989,4 +846,137 @@ $menuItemHeight:48px;
         border-right-width:0;
     }
 
+}
+@include keyframes(fade) {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+.fadeIn {
+    @include animation(fadeIn .3s $default-timing-function);
+}
+.fadeOut {
+    @include animation(fade .3s reverse);
+}
+@include keyframes(zoomInActions) {
+    0% {
+        @include transform(scale3d(0,0,1));
+    }
+    100% {
+        @include transform(scale3d(1,1,1));
+    }
+}
+.overlay {
+    @include position(absolute,0 null null 0);
+    @include size(100%);
+    background: rgba(0,0,0,.3);
+    z-index: 10;
+}
+.cellActions {
+    @include position(absolute,null $basic-gap null null);
+    @include clearfix;
+    
+    width: auto;
+    background:$white;
+    border-radius:2px;
+    z-index: 11;
+}
+.zoomInActions {
+    @include animation(zoomInActions .3s $default-timing-function);
+}
+.cellActions:after {
+    content: "";
+    display: block;
+    @include size(0);
+    line-height: 0;
+    font-size: 1px;
+    border-width:$basic-gap/4 $basic-gap/4;
+    border-style:solid;
+}
+.bottomCaret {
+    margin-bottom:-8px;
+    @include transform-origin(right bottom);
+}
+.topCaret {
+    margin-top: 36px;
+    @include transform-origin(right top);
+}
+.bottomCaret:after {
+    @include position(absolute, null $basic-gap 0-$basic-gap/2 null);
+    border-color:$white $white transparent transparent;
+}
+.topCaret:after {
+    @include position(absolute, 0-$basic-gap/2 $basic-gap null null);
+    border-color:transparent $white $white transparent;
+}
+.cellAction {
+    line-height: 24px;
+    height: 48px;
+    padding:$basic-gap/2 $basic-gap;
+    text-align: right;
+    border-bottom:1px solid $border-color;
+    >.icon,>.icon:after {
+        line-height: 24px;
+    }
+}
+.cellAction:last-child {
+    border-bottom:none;
+}
+
+#productLibrary {
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
+}
+#recommendedProduct {
+    padding:$basic-gap 0;
+    background:#f0f0f0;
+    >.title {
+        padding-bottom:$basic-gap/2;
+        font-size: 14px;
+        color: $caption-color;
+        text-align: center;
+    }
+}
+.horizontalProductList {
+    width: 100%;
+    overflow:hidden;
+    
+    
+}
+.horizontalProductListInner {
+    width: 120%;
+    @include clearfix;
+
+    .productItem {
+        width: 33%;
+        height: 90px;
+        padding-left:4px;
+        overflow:hidden;
+        position:relative;
+        float: left;
+        display: inline-block;
+
+        >.image {
+            border-radius:2px;
+            >img {
+                max-width: 100%;
+            }
+        }
+        >.productInfo {
+            background:rgba(0,0,0,.6);
+            color:$white;
+            font-size: 10px;
+            @include size(100% auto);
+            padding:$basic-gap/2;
+            @include position(absolute,null null 0 0);
+            line-height: 1.2em;
+        }
+        .category,.price {
+            font-size: .8em;
+            color:rgba(255,255,255,.6);
+        }
+    }
 }

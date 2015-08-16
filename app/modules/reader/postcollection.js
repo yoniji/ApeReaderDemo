@@ -8,9 +8,6 @@
             initialize: function(options) {
                 
             },
-            parse: function(response){
-                return response.data;
-            },
             onDestroy: function() {
                 this.stopListening();
             },
