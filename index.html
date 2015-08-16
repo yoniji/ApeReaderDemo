@@ -22,23 +22,49 @@
     </main>
     <script type="text/javascript">
     var appConfig = {
-        wxConfig: {
+        wx_config: {
 
         },
-        categories: [{
+        post_menu: [{
             id: "1",
-            name: "项目灵感"
+            name: "灵感案例",
+            children:[
+            {
+              id:"5",
+              name:"风格",
+              children: [
+                {id:"6",name:"现代"},
+                {id:"7",name:"古典"},
+                {id:"8",name:"中式"}
+              ]
+            },
+            {
+              id:"6",
+              name:"房间",
+              children: [
+                {id:"6",name:"客厅和书房"},
+                {id:"8",name:"卧室"},
+                {id:"9",name:"厨房"},
+                {id:"9",name:"浴室"},
+                {id:"7",name:"餐厅"},
+                {id:"7",name:"户外"},
+                {id:"7",name:"健身SPA"}
+                
+              ]
+            }
+
+            ]
             
         }, {
             id: "2",
-            name: "观点资讯"
+            name: "经验观点"
             
         }, {
             id: "3",
-            name: "设计师"
+            name: "产品设计"
         }, {
             id: "4",
-            name: "产品"
+            name: "外文精选"
         }]
     }
     </script>

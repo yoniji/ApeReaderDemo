@@ -1,5 +1,4 @@
-﻿
-<div class="inner articlecell {{metadata.language}} {{getCellDisplayType}}">
+﻿<div class="inner {{#metadata.type}}{{metadata.type}}cell{{/metadata.type}} {{metadata.language}} {{getCellDisplayType}}">
     <div class="cell-like">
             <i class="icon icon-heart2"></i>
     </div>
@@ -12,7 +11,9 @@
     <div class="title">
         {{{title}}} <span class="subtitle">{{getSubtitile}}</span>
     </div>
-
+    <div class="translatedTitle">
+        {{metadata.translated_title}}
+    </div>
     <div class="excerpt">
         {{excerpt}}
     </div>
@@ -21,9 +22,7 @@
         {{{getCoverHtml}}}
     </div>
    
+    
 
-    <div class="rank">
-        {{rank}}
-    </div>
     
 </div>

@@ -1,10 +1,10 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('app/fonts/icomoon.eot?5km0ci');
-	src:url('app/fonts/icomoon.eot?#iefix5km0ci') format('embedded-opentype'),
-		url('app/fonts/icomoon.woff?5km0ci') format('woff'),
-		url('app/fonts/icomoon.ttf?5km0ci') format('truetype'),
-		url('app/fonts/icomoon.svg?5km0ci#icomoon') format('svg');
+	src:url('/app/fonts/icomoon.eot?5km0ci');
+	src:url('/app/fonts/icomoon.eot?#iefix5km0ci') format('embedded-opentype'),
+		url('/app/fonts/icomoon.woff?5km0ci') format('woff'),
+		url('/app/fonts/icomoon.ttf?5km0ci') format('truetype'),
+		url('/app/fonts/icomoon.svg?5km0ci#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -23,7 +23,45 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-
+.icon-bed:before {
+	content: "\e607";
+}
+.icon-kitchen:before {
+	content: "\e608";
+}
+.icon-sofa:before {
+	content: "\e609";
+}
+.icon-table:before {
+	content: "\e60a";
+}
+.icon-bath:before {
+	content: "\e60b";
+}
+.icon-more:before {
+	content: "\e60c";
+}
+.icon-home:before {
+	content: "\e605";
+}
+.icon-user:before {
+	content: "\e606";
+}
+.icon-chair2:before {
+	content: "\e602";
+}
+.icon-brand:before {
+	content: "\e603";
+}
+.icon-chair:before {
+	content: "\e604";
+}
+.icon-heart-o:before {
+	content: "\e600";
+}
+.icon-heart3:before {
+	content: "\e601";
+}
 .icon-search:before {
 	content: "\e660";
 }
@@ -95,6 +133,9 @@
 }
 .icon-beaker:before {
 	content: "\e0a0";
+}
+.icon-profile-male:before {
+	content: "\e0a4";
 }
 .icon-dial:before {
 	content: "\e09f";

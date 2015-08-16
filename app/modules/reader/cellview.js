@@ -42,15 +42,39 @@
                     'getCellDisplayType': function() {
                         if (this.metadata.type === 'article'  && coverType === 'singleCover' ) {
                             return 'small';
-                        }
+                        } else if (coverType === 'noCover') {
+                            return 'textonly';
+                        } 
                     },
                     'getCoverType': function() {
                         return coverType;
                     },
+                    'getSubtitile': function() {
+                        var outStr = '';
+                        var i;
+                        switch (this.metadata.type) {
+                            case 'product':
+                                if (this.tags) {
+                                    for ( i=0; i < this.tags.length; i++ ) {
+                                        outStr += this.tags[i].name + ' ';
+                                    }
+                                }
+                            break;
+                            case 'brand':
+                                if (this.tags) {
+                                    for ( i=0; i < this.tags.length; i++ ) {
+                                        outStr += this.tags[i].name + ' ';
+                                    }
+                                }
+                            break;
+                            default:
+                            break;
+                        }
+                        return outStr;
+                    },
                     'getCoverHtml': function() {
 
                         var outStr = '';
-                        var windowWidth = $(window).width();
                         var imageWidth, imageHeight, img, outHeight;
                         var type = this.metadata.type;
                         var i = 0;
@@ -88,7 +112,6 @@
                                             {width:imageHeight, height:imageHeight},
                                             {width:this.images[0].width,height:this.images[0].height}
                                         );
-                                        console.log(innerSize);
                                         outStr += '<div class="coverImage" style="width:' + imageHeight + 'px;height:' + imageHeight + 'px"><img style="position:absolute;width:' + innerSize.width +'px;height:' + innerSize.height +'px;left:' + innerSize.left +'px;top:' + innerSize.top +'px" src="' + this.images[0].url + '"></div>';
                                         innerSize = util.calculateSizeWithMinimumEdgeAdaptive(
                                             {width:Math.round(windowWidth*0.382), height:Math.round(imageHeight*0.618)},
@@ -134,9 +157,6 @@
                                 }
                                 break;
 
-                            case 'activity':
-
-                                break;
                             default:
                                 if (this.images && this.images.length > 0) {
 
@@ -148,7 +168,7 @@
                                         imageWidth = '33.333%';
 
                                         for (i = 0; i < 3; i++) {
-                                            outStr += '<div class="coverImage" style="width:' + imageWidth + ';height:' + imageHeight + 'px"><img src="' + this.images[i].url + '"></div>';
+                                            outStr += '<div class="coverImage" style="width:' + imageWidth + ';height:' + imageHeight + 'px;padding-right:2px;"><img src="' + this.images[i].url + '"></div>';
                                         }
                                     }
 

@@ -1,0 +1,99 @@
+@import "settings/settings";
+@import "settings/mixins";
+
+/* =Carousel
+-----------------------------------------------------------------------------*/
+$carousel-indicator-height:4px;
+$carousel-caption-height:20px;
+$carousel-caption-padding:10px;
+$carousel-basic-height:180px;
+$carousel-caption-background:rgba(0,0,0,0.5);
+
+/* Carousel */
+.carousel {
+    @include position(relative);
+    @include reset-transform;
+    overflow: hidden;
+    background: lighten($black, 20%);
+  &.animate {
+      @include transition(.15s);
+  }
+  &.loading {
+    min-height:150px;
+  }
+  &.loading:after {
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: absolute;
+    left: 0;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    margin-top: 0-$basic-gap/2;
+    line-height: $basic-gap;
+    content: "\e611";
+    font-size: 36px;
+    display:inline-block;
+    @include animation(spin 2s infinite linear);
+  }
+  &.loading>.carousel-inner {
+      display: none;
+  }
+}
+.carousel-caption {
+    @include position(absolute, null null 0 0);
+    line-height: $carousel-caption-height;
+    padding: $carousel-caption-padding;
+    background-color:$carousel-caption-background;
+    color:$white;
+    text-align: left;
+    width: 100%;
+    
+}
+.carousel-inner {
+    @include position(relative);
+    @include reset-transform();
+    text-align: center;
+   overflow: hidden;
+   
+   &.animate {
+       @include transition(.3s);
+    }
+  .item {
+      float: left;
+      overflow: hidden;
+      @include reset-transform;
+      text-align:center;
+  }
+  
+  
+}
+
+.carousel-indicator {
+    @include position(relative);
+    background-color: rgba(0,0,0,0.3);
+    height: $carousel-indicator-height;
+    line-height: $carousel-indicator-height;
+    font-size: 0px;
+    z-index: 2;
+    display:none;
+    .indicator {
+        background-color: $main-color;
+        height: 100%;
+        @include position(relative);
+        @include reset-transform();
+        &.animate {
+          @include transition(.3s);
+        }
+    }
+}
+

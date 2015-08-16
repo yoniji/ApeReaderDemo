@@ -3,13 +3,13 @@
 
         return Backbone.Model.extend({
             url: function() {
-                return urls.getServiceUrlByName('explore');
+                return urls.getServiceUrlByName('products');
             },
             initialize: function() {
 
             },
             parse: function(response) {
-                if(appConfig) response.categories = appConfig.post_menu;
+                if(appConfig) response.categories = appConfig.product_menu;
                 return response;
             },
             onDestroy: function() {

@@ -30,6 +30,7 @@
                     'height': this.$el.height(),
                     'top'   : 0 - this.ui.topBar.height()- 1
                 });
+                this.updateTopPadding();
                 this.menu = new DropDownControl(this.ui.filterSwitch, this.ui.filterMenu);
                 this.collection.reset(this.model.get('posts'));
 
@@ -75,6 +76,10 @@
             },
             afterOnDestroy: function() {
 
+            },
+            updateTopPadding: function(ev) {
+                var topPadding = this.ui.topBar.height() + 1;
+                this.ui.streamWrapper.css('padding-top', topPadding);
             },
             onDestroy: function() {
                 this.stopListening();

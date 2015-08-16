@@ -8,7 +8,9 @@ define(function(require, exports, module) {
     var testServiceUrls = {
         'explore': testBaseUrl + 'posts/',
         'posts': testBaseUrl + 'posts/',
-        'products': testBaseUrl + 'products/',
+        'brands': testBaseUrl + 'brands',
+        'products': testBaseUrl + 'products',
+        'productlib': testBaseUrl + 'productlib',
         'feature': testBaseUrl + 'feature/'
     };
 

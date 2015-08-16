@@ -335,7 +335,6 @@ $topBarColor:$black;
 }
 .multiCover {
     @include clearfix();
-    border-bottom:3px solid $border-color;
     .coverImage {
         float: left;
         display: inline-block;
@@ -363,7 +362,7 @@ $actionBarWidth:64px;
         background: $cellBackground;
         position:relative;
         padding: 0;
-        border-bottom: 1px solid $cellBorderColor;
+        border-bottom:4px solid $cellBorderColor;
         height: 100%;
         
     }
@@ -402,10 +401,16 @@ $actionBarWidth:64px;
         line-height: 1.2em;
         padding: 0 $basic-gap;
     }
-    .more {
+    .more,.cell-like {
         @include size($basic-gap*3);
         @include position(absolute,0 0 null null);
 
+    }
+    .cell-like {
+        font-size:20px;
+        line-height: $basic-gap*3;
+        text-align: center;
+        color:#a0a0a0;
     }
     .actionsSwitchIcon {
         float: right;
@@ -439,6 +444,10 @@ $actionBarWidth:64px;
         color: lighten($cellTextColor, 30%);
         padding: 0 $basic-gap;
     }
+    .subtitle {
+        color: lighten($cellTextColor, 30%);
+        font-size: 0.5em;
+    }
     .translatedTitle {
         padding-top:0.2em;
     }
@@ -446,6 +455,7 @@ $actionBarWidth:64px;
         display: none;
     }
     .recommendReason {
+        @include reset-transform();
         @include position(absolute,null 0 0 null);
         font-size: 14px;
         color:lighten($cellTextColor, 60%);
@@ -480,8 +490,15 @@ $actionBarWidth:64px;
         padding-top:$basic-gap;
     }
     .small {
-        padding-left: 96px;
+        padding-left: $basic-gap * 6;
         overflow:hidden;
+        border-width:1px;
+    }
+    .small,.textonly {
+        border-width:1px;
+        .more,.cell-like,.translatedTitle{
+            display: none;
+        }
     }
     .coverImage {
     >img {
@@ -495,13 +512,43 @@ $actionBarWidth:64px;
 }
 .brandcell {
     .title {
-        @include position(absolute, $basic-gap null null null);
-        @include size(61.8% auto);
+        @include reset-transform();
+        @include position(absolute, 0 null null 0);
+        @include size(61.8% 100%);
+        background: rgba(0,0,0,.5);
         text-align: center;
         color:$white;
         font-size: 2em;
         z-index: 1;
+        padding-top:20%;
 
+    }
+    .subtitle {
+        display: block;
+        padding-top:0.5em;
+        color: rgba(255,255,255,.7);
+    }
+    .title:before {
+        display: block;
+        content: "\e603";
+        font-family: 'icomoon';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        @include size(100% $basic-gap*2);
+        text-align: center;
+        font-size: $basic-gap*2;
+        @include position(absolute,null null 65% 0);
+        color:$white;
+        
     }
     .multiCover {
         padding-top:0;
@@ -510,12 +557,14 @@ $actionBarWidth:64px;
     .more {
         display: none;
     }
+    .creditItem {
+        display: none;
+    }
 }
 
 .brandcell,.productcell {
     .cellCover {
         position:relative;
-        border-bottom:3px solid $border-color;
     }
     .coverImage {
         @include position(absolute);
@@ -543,14 +592,73 @@ $actionBarWidth:64px;
         width: 100%;
     }
 }
+.productcell {
+    .title {
+        position:relative;
+    }
+    .title,.creditItem {
+        padding-left:$basic-gap*3.5;
+    }
+}
+.productcell .title:before {
+    display: block;
+    content: "\e602";
+    font-family: 'icomoon';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    @include size($basic-gap*2);
+    font-size: $basic-gap*2;
+    @include position(absolute,0-$basic-gap null null $basic-gap);
+    color:$caption-color;
+    
+}
+.productcell .cellCover,.articlecell .multiCover {
+    position:relative;
+    &:before {
+        display: block;
+        content: "";
+        width: 0px;
+        height: 0px;
+        font-size: 1px;
+        line-height: 0px;
+        @include position(absolute,$basic-gap/2 null null $basic-gap*2);
+        border-style:solid;
+        border-width:$basic-gap $basic-gap/2 0;
+        border-color:$cellBackground transparent transparent;
+        z-index: 1;
+    }
+}
+.articlecell {
+    border-bottom-width:1px;
+    .multiCover {
+        padding:16px;
+    }
+    
+}
 .small {
+    min-height: $basic-gap*7;
     .cellCover {
         padding-top:0;
-        @include size(96px 100%);
-        @include position(absolute,0 null null 0);
+        @include size($basic-gap*5);
+        @include position(absolute,$basic-gap null null $basic-gap);
     }
     .coverImage {
         @include size(100%);
+    }
+    .coverImage>img {
+        min-width: 100%;
+        min-height:100%;
+        height: 100%;
+        max-height: none;
     }
     .recommendReason {
         display: none;
@@ -565,7 +673,7 @@ $actionBarWidth:64px;
 }
 .rankCell {
     @include position(relative);
-    .title {
+    .title,.creditItem {
         padding-top: 0;
         padding-bottom: 0.5em;
         padding-left: $basic-gap*3;
@@ -806,4 +914,79 @@ $menuItemHeight:48px;
     .icon-expand-more:before {
         color:$text-color;
     }
+}
+
+.product-slide {
+    width: 100%;
+    overflow:hidden;
+    @include position(relative);
+    @include reset-transform;
+}
+.product-slide-large {
+    float:left;
+    width: 61.8%;
+    height: 100%;
+    overflow:hidden;
+}
+.product-slide-small {
+    float: left;
+    width: 38.2%;
+    height: 100%;
+    overflow:hidden;
+    @include position(relative);
+    >img {
+        max-width: none;
+        max-height: none;
+    }
+}
+.product-slide-info {
+    @include position(absolute,0 null null 0);
+    @include size(100%);
+    background:rgba(0,0,0,.6);
+    color:$white;
+    padding:$basic-gap*3 $basic-gap/2 0;
+
+    >.product-slide-info-inner {
+        @include position(absolute,null null $basic-gap*3 0);
+        width: 100%;
+
+        >.category,>.price {
+            font-size: 10px;
+            line-height: 12px;
+            color:rgba(255,255,255,.5);
+        }
+        >.price {
+            color:rgba(255,255,255,.8);
+        }
+        >.title {
+            font-size: 14px;
+            line-height: 16px;
+            padding-bottom:4px;
+        }
+    }
+}
+
+.roomsNav {
+    @include clearfix();
+    .roomsNav-item {
+        float:left;
+        width:33.333%;
+        height:96px;
+        text-align: center;
+        >.icon {
+            font-size: 48px;
+            line-height: 72px;
+        }
+        border-style:solid;
+        border-width:0 1px 1px 0;
+        border-color:$border-color;
+    }
+    .roomsNav-text {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .roomsNav-item:nth-child(3),.roomsNav-item:nth-child(6) {
+        border-right-width:0;
+    }
+
 }

@@ -1,16 +1,7 @@
-﻿<div class="actions">
-    <div class="actions-inner">
-        <div class="action-like action-icon"><i class="icon icon-heart2"></i></div>
-        <div class="action-share action-icon"><i class="icon icon-upload2"></i></div>
-    </div>
-</div>
+﻿
 <div class="inner {{#metadata.type}}{{metadata.type}}cell{{/metadata.type}} {{metadata.language}} {{getCellDisplayType}}">
-    <div class="more">
-        <div class="actionsSwitchIcon">
-            <i class="actionsSwitch-dot"></i>
-            <i class="actionsSwitch-dot"></i>
-            <i class="actionsSwitch-dot"></i>
-        </div>
+    <div class="cell-like">
+            <i class="icon icon-heart2"></i>
     </div>
     <div class="creditItem">
     <div class="creditDetial">
@@ -19,7 +10,7 @@
     </div>
     </div>
     <div class="title">
-        {{{title}}}
+        {{{title}}} <span class="subtitle">{{getSubtitile}}</span>
     </div>
     <div class="translatedTitle">
         {{metadata.translated_title}}
@@ -30,7 +21,6 @@
 
     <div class="cellCover {{getCoverType}}">
         {{{getCoverHtml}}}
-        <div class="recommendReason">{{{getRecommendReasonHtml}}}</div>
     </div>
    
     

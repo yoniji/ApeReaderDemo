@@ -18,12 +18,13 @@ require.config({
         "flytoeffect": "libs/effectflyto",
         "urls": "modules/common/urls",
         "dropdown": "modules/ctrls/ctrldropdown",
-        "iscroll-pullupdown": "modules/ctrls/iscrollpullupdown"
+        "iscroll-pullupdown": "modules/ctrls/iscrollpullupdown",
+        "carousel":"modules/ctrls/ctrlcarousel",
     },
 
     deps: ["main"],
     shim: {
-        "jquery.hammerjs":{
+        "jquery-hammerjs":{
             deps:["hammerjs","jquery"]
         }
     }
