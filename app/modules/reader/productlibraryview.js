@@ -1,9 +1,12 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel'],
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel', 'iscroll'],
     function(Marionette, Mustache, $, template, ProductLibraryModel, Carousel) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
+            },
+            events: {
+                'tap .tabItem': 'onTapTab'
             },
             initialize: function() {
                 this.model = new ProductLibraryModel();
@@ -12,6 +15,15 @@
             onShow: function() {
                 this.carousel = new Carousel(this.$el.find('.carousel'));
                 this.carousel.init();
+
+                var productList = this.$el.find('.productItem');
+                var productListWidth = ( productList.width() + 5 ) * productList.size();
+                this.$el.find('.horizontalProductListInner').width(productListWidth + 'px');
+
+                this.scroller = new IScroll(this.$el.find('.horizontalProductList')[0], {
+                    'scrollX':true,
+                    'scrollY':false
+                });
             },
             templateHelpers: function() {
                 var windowWidth = $(window).width();
@@ -35,6 +47,25 @@
                         return 'position:absolute;width:' + imgSize + 'px;height:' + imgSize + 'px;left:' + left + 'px;top:' + top +  'px';
                     }
                 };
+            },
+            onTapTab: function(ev) {
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+
+                var target = $(ev.currentTarget);
+                rel = target.attr('rel');
+                
+
+                if ( rel ) {
+                    this.$el.find('.pane.current').removeClass('current');
+                    $('#'+rel).addClass('current');
+
+                    this.$el.find('.tabItem.current').removeClass('current');
+                    target.addClass('current');
+                }
+            },
+            onDestroy: function() {
+                if (this.scroller) this.scroller.destroy();
             },
             id: 'productLibrary',
             className: 'rootWrapper'

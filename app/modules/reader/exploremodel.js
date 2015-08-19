@@ -3,7 +3,8 @@
 
         return Backbone.Model.extend({
             url: function() {
-                return urls.getServiceUrlByName('explore');
+                return 'http://www.apecrafts.com:8080/_/explore/posts';
+                //return urls.getServiceUrlByName('explore');
             },
             initialize: function() {
 

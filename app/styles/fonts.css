@@ -23,6 +23,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-share:before {
+	content: "\e60e";
+}
 .icon-block:before {
 	content: "\e60d";
 }
@@ -116,8 +119,20 @@
 .icon-ellipsis:before {
 	content: "\e129";
 }
+.icon-grid2:before {
+	content: "\e04b";
+}
+.icon-adjustments:before {
+	content: "\e04f";
+}
 .icon-ribbon2:before {
 	content: "\e05a";
+}
+.icon-flag3:before {
+	content: "\e06a";
+}
+.icon-map3:before {
+	content: "\e06b";
 }
 .icon-envelope:before {
 	content: "\e06e";

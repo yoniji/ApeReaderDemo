@@ -8,7 +8,9 @@ body {
     background: $background-color;
     color: $text-color;
 }
-
+.spin {
+    @include animation(spin 1s linear infinite);
+}
 html,
 body,
 #main{
@@ -305,13 +307,16 @@ $topBarColor:$black;
 .creditItem {
     display: block;
     @include clearfix();
-    line-height: 1.2em;
+    line-height: 1em;
+    font-size: 0.8em;
+    padding-bottom:0.2em;
+    color: $caption-color;
 }
 
 .creditImage {
     float: left;
-    @include size(30px);
-    margin: 0 10px 10px 0;
+    @include size(20px);
+    margin: 0 10px 0 0;
     border-radius: 100%;
     overflow: hidden;
     >img {
@@ -322,18 +327,15 @@ $topBarColor:$black;
     }
 }
 
-.creditName {
-    color: $caption-color;
-    line-height: 1.2em;
-}
 
-.creditMeta {
-    color: $caption-color;
+.tags {
     font-size: 0.8em;
-    line-height: 1.2em;
+    color:$caption-color;
+    padding-left:$basic-gap;
+    line-height: $basic-gap;
+    padding-top:$basic-gap/2;
+        
 }
-
-
 
 $cellBackground:#fafafa;
 $cellTextColor:#333;
@@ -359,7 +361,7 @@ $actionBarWidth:64px;
         padding: 0 $basic-gap 0.2em;
     }
     .title {
-        font-size: 1.3em;
+        font-size: 1.2em;
         line-height: 1.2em;
         padding: 0 $basic-gap;
     }
@@ -399,17 +401,10 @@ $actionBarWidth:64px;
         @include position(relative);
         height: $basic-gap*1.5;
     }
-    .tags {
-        font-size: 0.8em;
-        color:$caption-color;
-        padding-left:$basic-gap;
-        line-height: $basic-gap;
-        padding-top:$basic-gap/2;
-        
-    }
+    
     .more {
         @include size(48px);
-        @include position(absolute,null 0 0-$basic-gap null);
+        @include position(absolute,null 0 0-$basic-gap*1 null);
     }
     .more-line-1,.more-line-2 {
         @include size(12px 2px);
@@ -430,10 +425,10 @@ $smallCellCoverSize:72px;
     min-height: $smallCellCoverSize + $basic-gap*2;
     padding:$basic-gap 0;
     .image {
-        @include position(absolute,$basic-gap null null $basic-gap);
+        @include position(absolute,$basic-gap $basic-gap null null);
     }
     .cellDetail {
-        padding-left:$smallCellCoverSize + $basic-gap;
+        padding-right:$smallCellCoverSize + $basic-gap;
     }
 }
 .mediumCell,.largeCell,.fullCell {
@@ -464,10 +459,10 @@ $smallCellCoverSize:72px;
     }
     .cellMoreImages {
         margin-left: $basic-gap;
-        margin-top:$basic-gap/2;
+        margin-top:$basic-gap/4;
         @include clearfix;
         >.image {
-            loat: left;
+            float: left;
             display: inline-block;
             margin-right: 4px;
         }
@@ -548,13 +543,14 @@ $toolBarColor:$black;
 .toolBar-item {
     float: left;
     display: inline-block;
-    width: 25%;
+    width: 20%;
     text-align: center;
     height: $toolBarHeight;
     line-height: $toolBarHeight;
     >.icon {
         height: $toolBarHeight;
         line-height: $toolBarHeight;
+        display: inline-block;
     }
 }
 
@@ -567,24 +563,53 @@ $toolBarColor:$black;
     @include size(100%);
     background: $cellBackground;
     z-index: 2;
+    overflow:hidden;
     .creditItem {
         @include position(absolute, 0 null null 0);
         @include size(100% auto);
         background: $cellBackground;
-        padding: $basic-gap $basic-gap 0;
+        padding: $basic-gap/2 $basic-gap;
+        background: #fff;
+        @include reset-transform;
+        z-index: 2;
+    }
+    .creditName {
+        color: $black;
+        padding-bottom:0.2em;
     }
 }
 
 .article,.product {
     width: 100%;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    overflow-y: scroll;
     >iframe {
         width: 100%;
         min-height: 100%;
     }
 }
+.articleCore {
+    padding:$basic-gap*3 $basic-gap/4*3 $basic-gap*2;
+}
+.articleMeta {
+    .tags {
+        padding-left:0;
+        padding-top:0;
+        padding-bottom:$basic-gap/2;
+    }
+}
+.articleTitle {
+    padding:$basic-gap/2 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+.articleBody {
+    padding:$basic-gap/2 0 0;
+    font-size:14px;
+    line-height: 1.6em;
+    color:#444;
 
+}
 $profileHeaderHeight:56px;
 .profileHeader {
     @include size(100% $profileHeaderHeight);
@@ -943,24 +968,29 @@ $menuItemHeight:48px;
 .horizontalProductList {
     width: 100%;
     overflow:hidden;
-    
-    
 }
 .horizontalProductListInner {
-    width: 120%;
     @include clearfix;
 
     .productItem {
-        width: 33%;
-        height: 90px;
-        padding-left:4px;
+        @include size(140px);
+        margin-left: 4px;
+
+        >.image {
+            border-radius:2px;
+        }
+    }
+}
+.productItem {
+        @include size(50% auto);
         overflow:hidden;
         position:relative;
         float: left;
         display: inline-block;
+        height: 140px;
 
         >.image {
-            border-radius:2px;
+           
             >img {
                 max-width: 100%;
             }
@@ -978,5 +1008,74 @@ $menuItemHeight:48px;
             font-size: .8em;
             color:rgba(255,255,255,.6);
         }
+}
+.tabs {
+    @include clearfix;
+    .tabItem {
+        float: left;
+        display: inline-block;
+        width: 25%;
+        height: $topBarHeight;
+        line-height: $topBarHeight;
+        text-align: center;
+        font-size: 0.8em;
+        background: #fff;
+        border-right:1px solid $border-color;
+        color:#666;
+        border-bottom:1px solid $border-color;
+    }
+    .tabItem.current {
+        border-bottom:2px solid $main-color;
+        color: $main-color;
+    }
+}
+.panes {
+    @include clearfix;
+    width: 100%;
+    overflow:hidden;
+    background:#fff;
+    .pane {
+        width: 100%;
+        float: left;
+        display: inline-block;
+        @include clearfix;
+        display: none;
+    }
+    .current {
+        display: block;
+    }
+
+}
+.brandItem {
+    width: 25%;
+    float: left;
+    display: inline-block;
+    padding:$basic-gap 0 $basic-gap/2;
+    text-align: center;
+    >img {
+        width: $basic-gap*2.5;
+        border-radius:100%;
+        overflow:hidden;
+        margin:0 auto;
+        display: block;
+    }
+    >p {
+        padding:4px 0;
+        margin:0;
+        font-size: 9px;
+        color:$caption-color;
+        line-height: 10px;
+        height: 20px;
+        overflow:hidden;
+    }
+}
+
+
+#productSearch {
+    .streamWrapper {
+        background:$white;
+    }
+    .toolBar-item {
+        width: 25%;
     }
 }

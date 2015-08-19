@@ -86,42 +86,49 @@ define(function(require, exports, module) {
 
 
     exports.ajax = function(options) {
-        var xhr = new XMLHttpRequest(),
-            abortTimeout;
-        xhr.open(options.method.toUpperCase(), options.url, options.async !== false);
-        if (options.contentType) {
-            xhr.setRequestHeader("Content-Type", options.contentType);
-        }
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.setRequestHeader('Accept', '*/*');
-        if (options.withCredentials) {
-            xhr.withCredentials = true;
-        }
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState == 4) {
-                xhr.onreadystatechange = function() {};
-                clearTimeout(abortTimeout);
-                var cb = options.callback;
-                if (!_.isFunction(cb)) return;
-                if (xhr.status == 200) {
-                    cb(xhr.status, xhr.responseText);
+        var STATUS_SUCCESS = 0;
+
+        options = options || {};
+        var url, data, type, success, networkError, complete;
+        url = options.url;
+        data = options.data || {};
+        type = options.method || 'GET';
+        success = options.success;
+        networkError = options.error;
+        complete = options.complete;
+
+        $.ajax({
+            url: url,
+            data: data,
+            dataType: 'json',
+            type: type,
+            success: function(data, textStatus, jqXHR) {
+                if (data && data.code === STATUS_SUCCESS) {
+                    if (success) success(data);
                 } else {
-                    console.log("[ajax] " + options.url + " response status error :" + xhr.status);
-                    if (xhr.status <= 0) {
-                        cb(xhr.status, null);
+                    if (data && data.errorMessage) {
+                        alert('alert: ' + data.message);
                     } else {
-                        cb(xhr.status, xhr.responseText);
+                        alert('alert' + '请稍后再试');
                     }
                 }
+                if (complete) {
+                    complete();
+                }
+
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                if (networkError) {
+                    networkError();
+                } else {
+                    alert('alert', '您的网络情况不太好，请稍后再试');
+                }
+                if (complete) {
+                    complete();
+                }
             }
-        };
-        if (options.timeout > 0)
-            abortTimeout = setTimeout(function() {
-                xhr.onreadystatechange = function() {};
-                xhr.abort();
-                if (options.callback) options.callback("timeout", null);
-            }, options.timeout);
-        xhr.send(options.body ? options.body : null);
+        });
+
     };
 
     var getUserTag = function() {
@@ -202,20 +209,27 @@ define(function(require, exports, module) {
         return time;
     };
 
-
+    exports.getDeviceRatio = function() {
+        var ratio = window.devicePixelRatio;
+        if (!ratio) ratio = 1;
+        if (ratio > 3) ratio = 3;
+    };
     exports.calculateSizeWithMinimumEdgeAdaptive = function(containerSize, originalImageSize) {
-        var newSize = { width:0, height:0};
+        var newSize = {
+            width: 0,
+            height: 0
+        };
         var imageWidth = containerSize.width;
-        var imageHeight = Math.round(originalImageSize.height * imageWidth/originalImageSize.width);
-        if(imageHeight < containerSize.height) {
+        var imageHeight = Math.round(originalImageSize.height * imageWidth / originalImageSize.width);
+        if (imageHeight < containerSize.height) {
             imageHeight = containerSize.height;
-            imageWidth = Math.round(originalImageSize.width * imageHeight/originalImageSize.height);
+            imageWidth = Math.round(originalImageSize.width * imageHeight / originalImageSize.height);
         }
         newSize.width = imageWidth;
         newSize.height = imageHeight;
 
-        newSize.left = Math.round( (containerSize.width - imageWidth) / 2 );
-        newSize.top = Math.round( (containerSize.height - imageHeight) / 2 );
+        newSize.left = Math.round((containerSize.width - imageWidth) / 2);
+        newSize.top = Math.round((containerSize.height - imageHeight) / 2);
         return newSize;
     };
 
@@ -224,24 +238,28 @@ define(function(require, exports, module) {
         if (!containerClass) containerClass = '';
         outStr += '<div class="image ' + containerClass + '" style="width:' + containerSize.width + 'px;height:' + containerSize.height + 'px;">';
 
-        if ( imageObject.type === 'oss' ) {
-            outStr += '<img src="' + imageObject.url + '@' + containerSize.width + 'w_' + containerSize.height + 'h_1e_1c'  +'" >';
+        if (imageObject.type === 'oss') {
+            outStr += '<img src="' + imageObject.url + '@' + containerSize.width*util.getDeviceRatio() + 'w_' + containerSize.height*util.getDeviceRatio() + 'h_1e_1c' + '" >';
         } else {
             var newSize = util.calculateSizeWithMinimumEdgeAdaptive(containerSize, imageObject);
             outStr += '<img src="' + imageObject.url + '" style="position:absolute;width:' + newSize.width + 'px;height:' + newSize.height + 'px;left:' + newSize.left + 'px;top:' + newSize.top + 'px;" >';
         }
-        outStr += '</div>'; 
+        outStr += '</div>';
         return outStr;
     };
 
     exports.preventDefault = function(event) {
         event.preventDefault();
         event.originalEvent.preventDefault();
-        
+
     };
     exports.stopPropagation = function(event) {
         event.stopPropagation();
         event.originalEvent.stopPropagation();
+    };
+    exports.setIconToLoading = function(iconEl) {
+        iconEl.attr('originalClass', iconEl.attr('class'));
+        iconEl.attr('class', 'icon icon-refresh2 spin');
     };
 
 });

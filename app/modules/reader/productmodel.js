@@ -8,7 +8,7 @@
         	like: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/like',
+        			url: urls.getServiceUrlByName('products') + this.get('id') + '/like',
         			data: {
 
         			},
@@ -21,20 +21,7 @@
         	dislike: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/dislike',
-        			data: {
-
-        			},
-        			success: function(response) {
-
-        			},
-        			method:'POST'
-        		});
-        	},
-        	block: function() {
-        		var self = this;
-        		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/block',
+        			url: urls.getServiceUrlByName('products') + this.get('id') + '/dislike',
         			data: {
 
         			},
@@ -47,7 +34,7 @@
         	markShared: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/share',
+        			url: urls.getServiceUrlByName('products') + this.get('id') + '/share',
         			data: {
 
         			},

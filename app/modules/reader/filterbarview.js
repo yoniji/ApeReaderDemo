@@ -41,7 +41,6 @@
             },
             onTapLeafFilter: function(ev) {
                 var item = $(ev.currentTarget);
-                console.log('here');
                 if ( item.hasClass('selected') ) {
                     item.removeClass('selected');
                 } else {

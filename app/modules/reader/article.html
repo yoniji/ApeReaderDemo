@@ -1,14 +1,15 @@
-﻿<a class="creditItem" href="{{source.url}}">
+﻿<div class="creditItem" href="{{source.url}}">
     <div class="creditImage">
         <img src="{{source.image.url}}" />
     </div>
     <div class="creditDetial">
         <div class="creditName">{{source.name}}</div>
-        <div class="creditMeta">{{author.name}} 1分钟前</div>
+        <div class="creditMeta">{{author.name}}</div>
     </div>
-</a>
+</div>
 <div class="articleCore article">
     <div class="articleTitle">{{title}}</div>
+    <div class="articleMeta"><div class="tags">{{{getTagsHtml}}}</div></div>
     <div class="articleBody">
 	   {{{content}}}
     </div>
@@ -17,6 +18,7 @@
 <div class="articleToolBar toolBar">
 	<div class="toolBar-item toolBar-back"><i class="icon icon-home"></i></div>
 	<div class="toolBar-item toolBar-like"><i class="icon icon-heart2"></i></div>
-	<div class="toolBar-item toolBar-share"><i class="icon icon-upload2"></i></div>
+	<div class="toolBar-item toolBar-share"><i class="icon icon-share"></i></div>
+    <div class="toolBar-item toolBar-block"><i class="icon icon-block"></i></div>
 	<div class="toolBar-item toolBar-next">下一篇</div>
 </div>

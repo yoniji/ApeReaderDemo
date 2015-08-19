@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown'],
-    function(Marionette, Mustache, $, template, ExploreModel, PostCollection, CellView, DropDownControl) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productsearch.html', 'modules/reader/productsearchmodel', 'modules/reader/productcollection', 'modules/reader/productitemview', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel'],
+    function(Marionette, Mustache, $, template, ProductSearchModel, ProductCollection, ProductItemView, FilterBarView, FilterBarModel) {
 
         return Marionette.CompositeView.extend({
             template: function(serialized_model) {
@@ -7,33 +7,31 @@
             },
             ui: {
                 'streamWrapper': '.streamWrapper',
-                'topBar': '.topBar',
-                'filterSwitch': '.dropDown-switch',
-                'filterMenu': '.dropDown-menu',
-                'filterMenuItem': '.dropDown-menu-item'
+                'filterBar': '.filterBar',
+                'back': '.toolBar-back'
             },
             events: {
-                'select @ui.filterMenuItem':'onTapMenuItem',
-                'scroll @ui.streamWrapper': 'onScroll'
+                'scroll @ui.streamWrapper': 'onScroll',
+                'tap @ui.back': 'onTapBack'
             },
             modelEvents: {
                 'sync': 'modelSynced'
             },
-            modelSynced: function() {
-                this.collection = new PostCollection();
-                app.rootView.updatePrimaryRegion(this);
-
+            initialize: function() {
+                this.model = new ProductSearchModel();
+                this.modelSynced();
             },
-            onShow: function() {
-
+            modelSynced: function() {
+                this.collection = new ProductCollection(this.model.get('products'));
+                this.render();
+            },
+            onRender: function() {
+                $('body').append(this.$el);
                 this.ui.streamWrapper.css({
                     'height': this.$el.height(),
-                    'top'   : 0 - this.ui.topBar.height()- 1
+                    'top'   : 0 - this.ui.filterBar.height()- 1
                 });
                 this.updateTopPadding();
-                this.menu = new DropDownControl(this.ui.filterSwitch, this.ui.filterMenu);
-                this.collection.reset(this.model.get('posts'));
-
 
                 var self = this;
                 this.lastScrollTop = 0;
@@ -41,16 +39,15 @@
                 this.ui.streamWrapper.on('scroll', function(ev) {
                     self.onScroll(ev);
                 });
-                this.afterOnShow();
-            },
-            afterOnShow: function() {
-
+                this.filterModel = new FilterBarModel();
+                this.filterView = new FilterBarView({model: this.filterModel});
+                this.filterModel.set('filters', appConfig.product_menu);
             },
             onScroll: function(ev) {
                 var currentScrollTop = this.ui.streamWrapper.scrollTop();
                 var currentScrollDirection = this.lastScrollDirection;
                 currentScrollDirection = this.lastScrollTop<currentScrollTop?1:-1;
-                if (currentScrollTop<this.ui.topBar.height()) {
+                if (currentScrollTop<this.ui.filterBar.height()) {
                     this.onScrollUp();
                     this.lastScrollDirection = -1;
                 } else if (currentScrollDirection!= this.lastScrollDirection) {
@@ -65,32 +62,30 @@
                 this.lastScrollTop = currentScrollTop;
             },
             onScrollUp: function() {
-                this.ui.topBar.removeClass('hide');
+                this.ui.filterBar.removeClass('hide');
             },
             onScrollDown: function() {
-                this.ui.topBar.addClass('hide');
+                this.ui.filterBar.addClass('hide');
             },
-            onTapMenuItem: function(ev) {
-                var item = $(ev.currentTarget);
-                console.log('tap '+ item.attr('data-id'));
-            },
-            afterOnDestroy: function() {
-
+            onTapBack: function() {
+                this.destroy();
             },
             updateTopPadding: function(ev) {
-                var topPadding = this.ui.topBar.height() + 1;
+                var topPadding = this.ui.filterBar.height() + 1;
                 this.ui.streamWrapper.css('padding-top', topPadding);
             },
             onDestroy: function() {
                 this.stopListening();
                 this.ui.streamWrapper.off('scroll');
-                if (this.menu) this.menu.destroy();
                 if (this.model) this.model.destroy();
                 this.afterOnDestroy();
             },
-            id: 'explore',
+            afterOnDestroy: function() {
+
+            },
+            id: 'productSearch',
             className: 'rootWrapper',
-            childViewContainer: '#cells',
-            childView: CellView
+            childViewContainer: '.products',
+            childView: ProductItemView
         });
     });

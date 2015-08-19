@@ -1,5 +1,5 @@
 ﻿<div class="inner {{#metadata.content_type}}{{metadata.content_type}}cell{{/metadata.content_type}} {{metadata.language}} smallCell">
-    {{{getSmallCellCoverHtml}}}
+    
     <div class="cellDetail">
         <div class="creditItem">
             <span class="creditName">{{source.name}}</span>
@@ -8,7 +8,10 @@
         <div class="title">
             {{{title}}}
         </div>
-        <div class="meta">
+
+    </div>
+    {{{getSmallCellCoverHtml}}}
+    <div class="meta">
             <div class="tags">
                 {{{getTagsHtml}}}
             </div>
@@ -16,6 +19,5 @@
                 <div class="more-line-1"></div>
                 <div class="more-line-2"></div>
             </div>
-        </div>
     </div>
 </div>

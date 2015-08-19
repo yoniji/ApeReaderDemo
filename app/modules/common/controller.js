@@ -1,5 +1,5 @@
-﻿define(['backbone', 'marionette','modules/reader/exploreview','modules/reader/featureview','modules/reader/profileview','modules/reader/articleview','modules/reader/productview','modules/reader/productlibraryview'],
-    function (Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ProductView, ProductLibraryView) {
+﻿define(['backbone', 'marionette','modules/reader/exploreview','modules/reader/featureview','modules/reader/profileview','modules/reader/articleview','modules/reader/productview','modules/reader/productlibraryview','modules/reader/productsearchview'],
+    function (Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ProductView, ProductLibraryView, ProductSearchView) {
 
     	function setCurrentNavigationById(targetId) {
     		$('.homeNavigation-item.current').removeClass('current');
@@ -22,7 +22,9 @@
                 setCurrentNavigationById('products');
             },
             searchProducts: function(filter) {
-
+                var productLibraryView = new ProductLibraryView();
+                setCurrentNavigationById('products');
+                var productSearchView = new ProductSearchView(filter);
             },
             me: function() {
             	var profileView = new ProfileView();

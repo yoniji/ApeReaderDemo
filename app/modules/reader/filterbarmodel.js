@@ -21,8 +21,10 @@
 
         return Backbone.Model.extend({
             initialize: function(options) {
-                data = options.data;
-                this.updateFilterDataByCategoryId();
+                if(options) {
+                    data = options.data;
+                    this.updateFilterDataByCategoryId();
+                }
             },
             updateFilterDataByCategoryId: function(categoryId) {
                 var filters = getFiltersByCategoryId(categoryId);
