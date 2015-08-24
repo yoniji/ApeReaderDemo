@@ -2,6 +2,10 @@
     function(Backbone, _) {
 
         var data = {};
+        var selectedData = {
+            'level1':[],
+            'level2':[]
+        };
 
         function getFiltersByCategoryId(categoryId) {
             if (!categoryId) {
@@ -27,11 +31,32 @@
                 }
             },
             updateFilterDataByCategoryId: function(categoryId) {
+                
+                if(categoryId) {
+                    selectedData.level1 = [categoryId];
+                } else {
+                    selectedData.level1 = [];
+                }
+                selectedData.level2 = [];
+                this.trigger('changeFilter');
+
                 var filters = getFiltersByCategoryId(categoryId);
                 this.set({'filters': filters});
+
+            },
+            setFilters: function(ids) {
+                selectedData.level2 = ids;
+                this.trigger('changeFilter');
             },
             onDestroy: function() {
                 this.stopListening();
+            },
+            getFilterStr: function () {
+                if ( selectedData.level1.length > 0 || selectedData.level2.length > 0 ) {
+                    return JSON.stringify( selectedData );
+                } else {
+                    return '';
+                }
             }
         });
     });

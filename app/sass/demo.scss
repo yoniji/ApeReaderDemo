@@ -96,16 +96,12 @@ $homeNavigationTextColor:$black;
     @include position(relative);
 
     .pullDown,.pullUp {
-        height: 40px;
+        height: 50px;
         text-align:center;
-        line-height: 40px;
+        line-height: 50px;
         color:#999;
         font-size: 10px;
-    }
-    .pullDown.loading {
-        height: 70px;
-        padding-top:40px;
-        line-height: 30px;
+
         .icon {
             display: inline-block;
             @include animation(spin 1s linear infinite);
@@ -315,7 +311,7 @@ $topBarColor:$black;
 
 .creditImage {
     float: left;
-    @include size(20px);
+    @include size(32px);
     margin: 0 10px 0 0;
     border-radius: 100%;
     overflow: hidden;
@@ -355,7 +351,9 @@ $actionBarWidth:64px;
         height: 100%;
         
     }
-    
+    .inner:active {
+        background:darken($cellBackground, 5%);
+    }
 
     .creditItem {
         padding: 0 $basic-gap 0.2em;
@@ -365,7 +363,9 @@ $actionBarWidth:64px;
         line-height: 1.2em;
         padding: 0 $basic-gap;
     }
-    
+    .viewed .title {
+        color:lighten($caption-color,10%);
+    }
     .excerpt,.translatedTitle {
         font-size: 1em;
         line-height: 1.4em;
@@ -510,14 +510,17 @@ $smallCellCoverSize:72px;
 .rankCell {
     @include position(relative);
     .title,.creditItem {
-        padding-right:$basic-gap*4;
+        padding-left:44px;
+    }
+    .title {
+        font-size: 16px;
     }
     .viewed .rank{
         background:$main-color;
         color:$white;
     }
     .rank {
-        @include position(absolute, $basic-gap*1.2 $basic-gap null null );
+        @include position(absolute, 24px null null 14px);
         @include size(24px);
         color: $main-color;
         border: 1px solid $main-color;
@@ -525,7 +528,8 @@ $smallCellCoverSize:72px;
         line-height: 22px;
         text-align: center;
         border-radius: 100%;
-        letter-spacing: -1px;
+        font-size: 12px;
+        font-family: 'Verdana';
     }
 }
 
@@ -543,7 +547,7 @@ $toolBarColor:$black;
 .toolBar-item {
     float: left;
     display: inline-block;
-    width: 20%;
+    width: 25%;
     text-align: center;
     height: $toolBarHeight;
     line-height: $toolBarHeight;
@@ -551,6 +555,7 @@ $toolBarColor:$black;
         height: $toolBarHeight;
         line-height: $toolBarHeight;
         display: inline-block;
+        font-size: 24px;
     }
 }
 
@@ -560,6 +565,7 @@ $toolBarColor:$black;
 
 .articleWrapper,.productWrapper {
     @include position(absolute, 0 null null 0);
+    @include reset-transform;
     @include size(100%);
     background: $cellBackground;
     z-index: 2;
@@ -572,10 +578,14 @@ $toolBarColor:$black;
         background: #fff;
         @include reset-transform;
         z-index: 2;
+        border-bottom:1px solid $border-color;
     }
     .creditName {
         color: $black;
-        padding-bottom:0.2em;
+        padding:0 0 2px;
+    }
+    .creditDetial {
+        padding-top:$basic-gap/4;
     }
 }
 
@@ -589,7 +599,8 @@ $toolBarColor:$black;
     }
 }
 .articleCore {
-    padding:$basic-gap*3 $basic-gap/4*3 $basic-gap*2;
+    padding:$basic-gap*3 $basic-gap 0;
+    
 }
 .articleMeta {
     .tags {
@@ -599,16 +610,35 @@ $toolBarColor:$black;
     }
 }
 .articleTitle {
-    padding:$basic-gap/2 0;
+    padding:$basic-gap 0 $basic-gap/2;
     font-size: 18px;
     font-weight: bold;
 }
 .articleBody {
-    padding:$basic-gap/2 0 0;
-    font-size:14px;
+    padding:$basic-gap/2 0 $basic-gap*2;
+    font-size:15px;
     line-height: 1.6em;
     color:#444;
 
+    .image {
+        margin-bottom: 1.5em;
+        >img {
+            max-width: 100%;
+            border-radius:2px;
+        }
+    }
+
+}
+.articleOrignalLink {
+    display: block;
+    padding:$basic-gap/2;
+    background:$border-color;
+    font-size: 10px;
+    color: darken($border-color,30%);
+    text-decoration: none;
+    margin:2em 0 0;
+    text-align: center;
+    border-radius:5px;
 }
 $profileHeaderHeight:56px;
 .profileHeader {
@@ -941,9 +971,10 @@ $menuItemHeight:48px;
     line-height: 24px;
     height: 48px;
     padding:$basic-gap/2 $basic-gap;
-    text-align: right;
+    text-align: left;
     border-bottom:1px solid $border-color;
-    >.icon,>.icon:after {
+    vertical-align: top;
+    >.icon,>.icon:before {
         line-height: 24px;
     }
 }
@@ -1011,6 +1042,7 @@ $menuItemHeight:48px;
 }
 .tabs {
     @include clearfix;
+    width: 100%;
     .tabItem {
         float: left;
         display: inline-block;
@@ -1078,4 +1110,59 @@ $menuItemHeight:48px;
     .toolBar-item {
         width: 25%;
     }
+}
+.fixedTop {
+    @include position(fixed,0 null null 0);
+    @include reset-transform;
+    z-index: 1;
+}
+
+.notification {
+    padding:$basic-gap/2;
+    font-size: 10px;
+    line-height: 10px;
+    border:1px solid transparent;
+    border-radius:2px;
+    text-align: center;
+}
+.notification-alert {
+    color: darken($red, 20%);
+    background:lighten($red,40%);
+}
+.notification-info {
+    color: darken($blue, 20%);
+    background:lighten($blue,40%);
+}
+@include keyframes(zoomInThenFadeOut) {
+    0% {
+        @include transform(scale3d(0,0,1));
+    }
+    10% {
+        @include transform(scale3d(1,1,1));
+    }
+    90% {
+        @include transform(scale3d(1,1,1));
+    }
+    100% {
+         @include transform(scale3d(1,0,1));
+    }
+}
+.streamWrapper {
+    .notification {
+        @include reset-transform;
+        @include transform-origin(center top);
+        @include animation(zoomInThenFadeOut 2s both);
+    }
+}
+.empty {
+    text-align: center;
+    
+    .icon,.icon:before {
+        font-size: 36px;
+        line-height: 36px;
+        height: 36px;
+        display: inline-block;
+        @include centerAndOffset(36px,36px);
+    }
+    
 }

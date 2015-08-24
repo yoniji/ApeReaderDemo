@@ -49,7 +49,10 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 var mc = $('body').data('hammer');
                 mc.get('tap').set({
                     time: 500,
-                    threshold: 10
+                    threshold: 5
+                });
+                mc.get('pan').set({
+                    threshold: 15
                 });
                 mc.remove('doubletap');
                 mc.remove('rotate');

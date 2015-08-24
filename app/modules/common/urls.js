@@ -3,22 +3,25 @@ define(function(require, exports, module) {
 
     var useTestServer = true;
     var testBaseUrl = 'http://private-7f3f9-apereader.apiary-mock.com/reader/';
-    var releaseBaseUrl = 'https://shiliujishi.com/';
+    var releaseBaseUrl = 'http://mk.apecrafts.com/_/';
 
     var testServiceUrls = {
-        'explore': testBaseUrl + 'posts/',
-        'posts': testBaseUrl + 'posts/',
+        'explore': releaseBaseUrl + 'explore/posts/',
+        'posts': releaseBaseUrl + 'explore/posts/',
+        'post': releaseBaseUrl + 'explore/post',
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
-        'feature': testBaseUrl + 'feature/'
+        'feature': testBaseUrl + 'feature/',
+        'wechat':'http://mk.apecrafts.com/_/api/jsconfig'
     };
 
     var releaseServiceUrls = {
-        'explore': testBaseUrl + 'posts/',
-        'posts': testBaseUrl + 'posts/',
+        'explore': releaseBaseUrl + 'explore/posts/',
+        'posts': releaseBaseUrl + 'explore/posts/',
         'products': testBaseUrl + 'products/',
-        'feature': testBaseUrl + 'feature/'
+        'feature': testBaseUrl + 'feature/',
+        'wechat':'http://mk.apecrafts.com/_/api/jsconfig'
     };
 
 

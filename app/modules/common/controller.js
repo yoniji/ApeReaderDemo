@@ -1,21 +1,33 @@
-﻿define(['backbone', 'marionette','modules/reader/exploreview','modules/reader/featureview','modules/reader/profileview','modules/reader/articleview','modules/reader/productview','modules/reader/productlibraryview','modules/reader/productsearchview'],
-    function (Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ProductView, ProductLibraryView, ProductSearchView) {
+﻿define(['backbone', 'marionette', 'modules/reader/exploreview', 'modules/reader/featureview', 'modules/reader/profileview', 'modules/reader/articleview', 'modules/reader/productview', 'modules/reader/productlibraryview', 'modules/reader/productsearchview'],
+    function(Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ProductView, ProductLibraryView, ProductSearchView) {
 
-    	function setCurrentNavigationById(targetId) {
-    		$('.homeNavigation-item.current').removeClass('current');
-    		$('#navigation-' + targetId).addClass('current');
-    	}
+        function setCurrentNavigationById(targetId) {
+            $('.homeNavigation-item.current').removeClass('current');
+            $('#navigation-' + targetId).addClass('current');
+        }
         return Marionette.Controller.extend({
-            initialize: function (options) {
-            	
+            initialize: function(options) {
+                util.ajax({
+                    url: urls.getServiceUrlByName('wechat'),
+                    data: {
+                        url: util.getUrlWithoutHash()
+                    },
+                    success: function(response) {
+                        util.configWechat(response.data);
+                        util.setWechatShare(window.appConfig.share_info);
+                    },
+                    method: 'GET'
+                });
+
+
             },
             explore: function() {
                 var exploreView = new ExploreView();
                 setCurrentNavigationById('explore');
             },
             feature: function() {
-            	var featureView = new FeatureView();
-            	setCurrentNavigationById('feature');
+                var featureView = new FeatureView();
+                setCurrentNavigationById('feature');
             },
             products: function() {
                 var productLibraryView = new ProductLibraryView();
@@ -27,18 +39,22 @@
                 var productSearchView = new ProductSearchView(filter);
             },
             me: function() {
-            	var profileView = new ProfileView();
-            	setCurrentNavigationById('me');
+                var profileView = new ProfileView();
+                setCurrentNavigationById('me');
             },
             post: function(id) {
-                var articleView = new ArticleView({'id':id});
+                var articleView = new ArticleView({
+                    'id': id
+                });
                 var exploreView = new ExploreView();
                 setCurrentNavigationById('explore');
             },
             productDetail: function(id) {
-                var productView = new ProductView({'id':id});
+                var productView = new ProductView({
+                    'id': id
+                });
                 var exploreView = new ExploreView();
                 setCurrentNavigationById('explore');
             }
         });
-});
+    });

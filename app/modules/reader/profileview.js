@@ -19,11 +19,11 @@
             },
             initialize: function() {
                 this.model = new Profile();
-                //this.model.fetch();
+                this.model.fetch();
                 this.modelSynced();
             },
             modelSynced: function() {
-                this.collection = new PostCollection(this.model.get('feeds'));
+                this.collection = new PostCollection(this.model.get('data'));
                 app.rootView.updatePrimaryRegion(this);
             },
             onShow: function() {

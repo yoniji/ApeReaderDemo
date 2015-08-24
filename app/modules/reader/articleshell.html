@@ -4,7 +4,7 @@
     </div>
     <div class="creditDetial">
         <div class="creditName">{{source.name}}</div>
-        <div class="creditMeta">{{author.name}}</div>
+        <div class="creditMeta">{{#author.name}}{{author.name}} {{/author.name}}{{^author.name}}{{getCreateTimeString}}{{/author.name}}</div>
     </div>
 </div>
 <div class="articleShell article">
@@ -12,8 +12,8 @@
 </div>
 
 <div class="articleToolBar toolBar">
-	<div class="toolBar-item toolBar-back"><i class="icon icon-home"></i></div>
-	<div class="toolBar-item toolBar-like"><i class="icon icon-heart2"></i></div>
-	<div class="toolBar-item toolBar-share"><i class="icon icon-upload2"></i></div>
-	<div class="toolBar-item toolBar-next">下一篇</div>
+    <div class="toolBar-item toolBar-back"><i class="icon icon-cross"></i></div>
+    <div class="toolBar-item toolBar-like"><i class="icon icon-heart2"></i></div>
+    <div class="toolBar-item toolBar-share"><i class="icon icon-share"></i></div>
+    <div class="toolBar-item toolBar-block"><i class="icon icon-block"></i></div>
 </div>

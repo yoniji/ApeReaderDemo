@@ -29,6 +29,9 @@
                 'tap @ui.more': 'onTapMore',
                 'tap': 'onTap'
             },
+            modelEvents: {
+                'change': 'onChange'
+            },
             initialize: function() {
 
 
@@ -105,6 +108,7 @@
                     },
                     'getTagsHtml': function() {
                         var outStr = '';
+
                         if(this.tags && this.tags.length > 0) {
                             outStr += '<i class="icon icon-pricetags"></i> ';
                             for (var i = 0; i < this.tags.length; i++) {
@@ -113,6 +117,11 @@
                         }
                         
                         return outStr;
+                    },
+                    'getCreateTimeString': function() {
+                        if ( this.created_at ) {
+                            return util.getDateString(this.created_at);
+                        }
                     }
                 };
             },
@@ -127,13 +136,16 @@
                     toggleOffset: this.ui.more.offset()
                 });
             },
+            onChange: function() {
+                this.render();
+            },
             onTap: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
                 new ArticleView({
                     model: this.model
                 });
-                this.model.markViewed();
+                
 
             },
             onDestroy: function() {

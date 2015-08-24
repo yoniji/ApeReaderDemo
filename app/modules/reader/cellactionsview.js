@@ -26,8 +26,9 @@
                 } else {
                     this.ui.dialog.addClass('topCaret');
                     this.ui.dialog.css('top', Math.round( this.toggleOffset.top ));
+
                 }
-                
+                 this.ui.dialog.css('right', Math.round( $(window).width() - this.toggleOffset.left - 48 ));
                 $('body').append(this.$el);
 
             },

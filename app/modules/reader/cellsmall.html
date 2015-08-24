@@ -1,23 +1,26 @@
-﻿<div class="inner {{#metadata.content_type}}{{metadata.content_type}}cell{{/metadata.content_type}} {{metadata.language}} smallCell">
+﻿<div class="inner {{#metadata.content_type}}{{metadata.content_type}}cell{{/metadata.content_type}} {{metadata.language}} smallCell  {{#metadata.viewed}}viewed{{/metadata.viewed}}">
     
     <div class="cellDetail">
         <div class="creditItem">
             <span class="creditName">{{source.name}}</span>
-            <span class="creditMeta">{{author.name}} </span>
+            <span class="creditMeta">{{#author.name}}{{author.name}} {{/author.name}}{{^author.name}}{{getCreateTimeString}}{{/author.name}}</span>
         </div>
         <div class="title">
             {{{title}}}
         </div>
-
-    </div>
-    {{{getSmallCellCoverHtml}}}
-    <div class="meta">
+        <div class="meta">
             <div class="tags">
+                {{#metadata.liked}}
+                    <i class="icon icon-heart3 main-color"></i> 
+                {{/metadata.liked}}
                 {{{getTagsHtml}}}
             </div>
             <div class="more">
                 <div class="more-line-1"></div>
                 <div class="more-line-2"></div>
             </div>
+        </div>
     </div>
+    {{{getSmallCellCoverHtml}}}
+    
 </div>

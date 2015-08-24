@@ -11,9 +11,10 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <title>MKReader</title>
     <!-- Application styles. -->
-    <!-- build:[href] styles.min.css -->
+    <!-- build:[href] http://resource.apecrafts.com/styles.min.css -->
     <link rel="stylesheet" href="/app/styles/index.css">
     <!-- /build -->
+
 </head>
 
 <body>
@@ -22,8 +23,30 @@
     </main>
     <script type="text/javascript">
     var appConfig = {
-        wx_config: {
-
+        user_info: {
+            id:'openID / unionID / sessionID',
+            name: '',
+            nick_name:'',
+            bio:'',
+            image: {},//如果没有头像则返回空
+            subscibed: false,
+            counts: {
+                likes:0,
+                views:0,
+                following_tags:0,
+                following_users:0,
+                followers:0
+            }
+        },
+        share_info: {
+            //分享图片
+            image: { url:'http://imgopt.apecrafts.com/apple-touch-icon.png', width:180, height:180, type:'oss' },
+            //分享到朋友圈标题
+            timeline_title: '悟空家装，个性化推荐平台，定制你的家装资讯',
+            //分享给好友标题
+            message_title:'悟空家装，个性化推荐平台，定制你的家装资讯',
+            //分享给好友描述
+            message_description:'手机看家装设计的必备公众号'
         },
         post_menu: [{
             id: "1",
@@ -73,12 +96,16 @@
             ]
 
         }, {
-            id: "2",
-            name: "经验观点"
+            id: "99",
+            name: "建筑设计"
 
         }, {
             id: "3",
             name: "产品设计"
+        }, {
+            id: "2",
+            name: "经验观点"
+
         }, {
             id: "4",
             name: "外文精选"
@@ -133,10 +160,13 @@
 
     }
     </script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="http://sdk.talkingdata.com/app/h5/v1?appid=C099F61BE12ACE9030A678DD2C6DA843&vn=alpha&vc=1.0"></script> 
     <!-- Application source. -->
-    <!-- build:[src] source.min.js -->
+    <!-- build:[src] http://resource.apecrafts.com/source.min.js -->
     <script src="/vendor/bower/requirejs/require.js" data-main="/app/config"></script>
     <!-- /build -->
+
 </body>
 
 </html>

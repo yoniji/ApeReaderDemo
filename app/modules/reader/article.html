@@ -4,7 +4,7 @@
     </div>
     <div class="creditDetial">
         <div class="creditName">{{source.name}}</div>
-        <div class="creditMeta">{{author.name}}</div>
+        <div class="creditMeta">{{#author.name}}{{author.name}} {{/author.name}}{{^author.name}}{{getCreateTimeString}}{{/author.name}}</div>
     </div>
 </div>
 <div class="articleCore article">
@@ -12,13 +12,16 @@
     <div class="articleMeta"><div class="tags">{{{getTagsHtml}}}</div></div>
     <div class="articleBody">
 	   {{{content}}}
+
+       <a class="articleOrignalLink" href="{{link}}">
+            已为您自动优化排版 点此查看原文
+       </a>
     </div>
 </div>
 
 <div class="articleToolBar toolBar">
-	<div class="toolBar-item toolBar-back"><i class="icon icon-home"></i></div>
-	<div class="toolBar-item toolBar-like"><i class="icon icon-heart2"></i></div>
+	<div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
+	<div class="toolBar-item toolBar-like">{{#metadata.liked}}<i class="icon icon-heart3 main-color"></i>{{/metadata.liked}}{{^metadata.liked}}<i class="icon icon-heart2"></i>{{/metadata.liked}}</div>
 	<div class="toolBar-item toolBar-share"><i class="icon icon-share"></i></div>
     <div class="toolBar-item toolBar-block"><i class="icon icon-block"></i></div>
-	<div class="toolBar-item toolBar-next">下一篇</div>
 </div>

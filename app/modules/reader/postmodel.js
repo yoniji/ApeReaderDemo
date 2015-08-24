@@ -3,7 +3,7 @@
 
         return Backbone.Model.extend({
         	url: function() {
-        		return urls.getServiceUrlByName('posts') + this.get('id');
+        		return urls.getServiceUrlByName('post');
         	},
             setMetadata: function(key, value) {
                 var meta = this.get('metadata');
@@ -20,15 +20,15 @@
             },
         	like: function() {
                 this.setMetadata('liked', true);
-
+                this.trigger('change');
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/like',
+        			url: this.url() + '/like/',
         			data: {
-
+                        'id': this.get('id')
         			},
         			success: function(response) {
-                        console.log('here');
+                        self.trigger('toggleLikeSuccess');
         			},
         			method:'POST'
         		});
@@ -36,13 +36,14 @@
         	dislike: function() {
         		var self = this;
                 this.setMetadata('liked', false);
+                this.trigger('change');
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/dislike',
+        			url: this.url() + '/dislike/',
         			data: {
-
-        			},
+                        'id': this.get('id')
+                    },
         			success: function(response) {
-
+                        self.trigger('toggleLikeSuccess');
         			},
         			method:'POST'
         		});
@@ -50,12 +51,12 @@
         	block: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/block',
+        			url: this.url() + '/block/',
         			data: {
-
+                        'id': this.get('id')
         			},
         			success: function(response) {
-                        
+                        self.trigger('blockSuccess');
         			},
         			method:'POST'
         		});
@@ -64,9 +65,9 @@
         	markShared: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('posts') + this.get('id') + '/share',
+        			url: this.url() + '/share/',
         			data: {
-
+                        'id': this.get('id')
         			},
         			success: function(response) {
 
@@ -76,9 +77,13 @@
         	},
             markViewed: function() {
                 this.setMetadata('viewed', true);
+                this.trigger('change');
             },
             hasCoverImage: function() {
                 return ( this.get('images') && this.get('images').length > 0);
+            },
+            parse: function(response) {
+                return response.data;
             }
         });
     });

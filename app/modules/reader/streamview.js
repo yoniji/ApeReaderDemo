@@ -20,7 +20,11 @@
                 'sync': 'modelSynced'
             },
             modelSynced: function() {
-                this.collection = new PostCollection();
+                if(!this.collection) {
+                    this.collection = new PostCollection(this.model.get('data'));
+                } else {
+                    this.collection.reset(this.model.get('data'));
+                }
                 app.rootView.updatePrimaryRegion(this);
 
             },
@@ -32,7 +36,6 @@
                 });
                 this.updateTopPadding();
                 this.menu = new DropDownControl(this.ui.filterSwitch, this.ui.filterMenu);
-                this.collection.reset(this.model.get('posts'));
 
 
                 var self = this;
@@ -53,21 +56,21 @@
                 if (currentScrollTop<this.ui.topBar.height()) {
                     this.onScrollUp();
                     this.lastScrollDirection = -1;
-                } else if (currentScrollDirection!= this.lastScrollDirection) {
+                } else {
                     if (currentScrollDirection === 1) {
-                        this.onScrollDown();
+                        this.onScrollDown(ev);
                     } else {
-                        this.onScrollUp();
+                        this.onScrollUp(ev);
                     }
                     this.lastScrollDirection = currentScrollDirection;
                 }
                 
                 this.lastScrollTop = currentScrollTop;
             },
-            onScrollUp: function() {
+            onScrollUp: function(ev) {
                 this.ui.topBar.removeClass('hide');
             },
-            onScrollDown: function() {
+            onScrollDown: function(ev) {
                 this.ui.topBar.addClass('hide');
             },
             onTapMenuItem: function(ev) {

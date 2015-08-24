@@ -55,9 +55,11 @@
                     'getFullCellCoverHtml': function() {
                         var outStr = '';
                         if (hasCoverImage) {
-                            outStr += '<div class="cellCover">';
-                            outStr += this.getLargeCellCoverHtml();
-                            outStr += '</div>';
+                            if ( this.rank < 10 ) {
+                                outStr += '<div class="cellCover">';
+                                outStr += this.getLargeCellCoverHtml();
+                                outStr += '</div>';
+                            }
 
                             if (this.images.length > 2) {
                                 outStr += '<div class="cellMoreImages">';

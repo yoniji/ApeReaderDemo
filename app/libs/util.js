@@ -31,7 +31,82 @@ define(function(require, exports, module) {
         }
     };
 
+    exports.getUrlWithoutHash = function() {
+        var url = window.location.protocol + '//' + window.location.hostname;
+        if (window.location.port) url += (':' + window.location.port);
+        url = url + window.location.pathname + window.location.search;
+        return url;
+    };
 
+
+    exports.configWechat = function(options) {
+        if (wx) {
+            wx.config({
+                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: options.appId, // 必填，公众号的唯一标识
+                timestamp: options.timestamp, // 必填，生成签名的时间戳
+                nonceStr: options.nonceStr, // 必填，生成签名的随机串
+                signature: options.signature, // 必填，签名，见附录1
+                jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+        }
+    };
+
+    exports.setWechatShare = function(shareInfo) {
+        if (wx) {
+            wx.onMenuShareTimeline({
+                title: shareInfo.timeline_title, // 分享标题
+                link: window.location.href, // 分享链接
+                imgUrl: shareInfo.image.url, // 分享图标
+                success: function() {
+                    util.trackEvent('Share', 'Timeline', 1);
+                },
+                cancel: function() {
+                    util.trackEvent('Share', 'Timeline', 0);
+                }
+            });
+            wx.onMenuShareAppMessage({
+                title: shareInfo.message_title, // 分享标题
+                desc: shareInfo.message_description, // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: shareInfo.image.url, // 分享图标
+                success: function() {
+                    util.trackEvent('Share', 'AppMessage', 1);
+                },
+                cancel: function() {
+                    util.trackEvent('Share', 'AppMessage', 0);
+                }
+            });
+
+            wx.onMenuShareQQ({
+                title: shareInfo.message_title, // 分享标题
+                desc: shareInfo.message_description, // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: shareInfo.image.url, // 分享图标
+                success: function() {
+                    util.trackEvent('Share', 'QQ', 1);
+                },
+                cancel: function() {
+                    util.trackEvent('Share', 'QQ', 0);
+                }
+            });
+
+            wx.onMenuShareQZone({
+                title: shareInfo.message_title, // 分享标题
+                desc: shareInfo.message_description, // 分享描述
+                link: window.location.href, // 分享链接
+                imgUrl: shareInfo.image.url, // 分享图标
+                success: function() {
+                    util.trackEvent('Share', 'QZone', 1);
+                },
+                cancel: function() {
+                    util.trackEvent('Share', 'QZone', 0);
+                }
+            });
+
+
+        }
+    };
 
     exports.setupWechat = function() {
         var onBridgeReady = function() {
@@ -84,6 +159,15 @@ define(function(require, exports, module) {
         }
     };
 
+    exports.previewImages = function(urls, current) {
+        if (wx) {
+            if (!current) current = urls[0];
+            wx.previewImage({
+                current: urls[0], // 当前显示图片的http链接
+                urls: urls // 需要预览的图片http链接列表
+            });
+        }
+    };
 
     exports.ajax = function(options) {
         var STATUS_SUCCESS = 0;
@@ -106,10 +190,10 @@ define(function(require, exports, module) {
                 if (data && data.code === STATUS_SUCCESS) {
                     if (success) success(data);
                 } else {
-                    if (data && data.errorMessage) {
-                        alert('alert: ' + data.message);
+                    if (data && data.message) {
+                        alert('errorMessage: ' + data.message);
                     } else {
-                        alert('alert' + '请稍后再试');
+                        alert('请稍后再试');
                     }
                 }
                 if (complete) {
@@ -121,7 +205,7 @@ define(function(require, exports, module) {
                 if (networkError) {
                     networkError();
                 } else {
-                    alert('alert', '您的网络情况不太好，请稍后再试');
+                    alert('您的网络情况不太好，请稍后再试');
                 }
                 if (complete) {
                     complete();
@@ -135,20 +219,14 @@ define(function(require, exports, module) {
         return "goose";
     };
 
-    exports.trackEvent = function(category, event, p1, p2, p3, p4, p5) {
-        var rec = {
-            "event": event,
-            time: new Date()
-        };
-        if (typeof p1 != "undefined") rec.p1 = p1;
-        if (typeof p2 != "undefined") rec.p2 = p2;
-        if (typeof p3 != "undefined") rec.p3 = p3;
-        if (typeof p4 != "undefined") rec.p4 = p4;
-        if (typeof p5 != "undefined") rec.p5 = p5;
+    exports.trackEvent = function(eventID, label, mapKv) {
 
-        if (window._hmt) {
-            var params = ['_trackEvent', category, event];
-            _hmt.push(params);
+        if (window.TDAPP) {
+            if (mapKv) {
+                TDAPP.onEvent(eventID, label, mapKv);
+            } else {
+               TDAPP.onEvent(eventID, label); 
+            }
         }
     };
 
@@ -209,10 +287,33 @@ define(function(require, exports, module) {
         return time;
     };
 
+    exports.getDateString = function(seconds) {
+
+        var timeStr = "";
+        var now = (new Date()).getTime();
+        var duration = Math.floor(now / 1000 - seconds);
+        if (duration < 60) {
+            timeStr = "刚刚";
+        } else if (duration < 3600) {
+            timeStr = Math.floor(duration / 60) + "分钟前";
+        } else if (duration < 3600 * 24) {
+            timeStr = Math.floor(duration / 3600) + "小时前";
+        } else if (duration < 3600 * 24 * 30) {
+            timeStr = Math.floor(duration / 3600 / 24) + "天前";
+        } else if (duration < 3600 * 24 * 30 * 12) {
+            timeStr = Math.floor(duration / 3600 / 24 / 30) + "个月前";
+        } else {
+            timeStr = "1年前";
+        }
+        return timeStr;
+
+    };
+
     exports.getDeviceRatio = function() {
         var ratio = window.devicePixelRatio;
         if (!ratio) ratio = 1;
         if (ratio > 3) ratio = 3;
+        return ratio;
     };
     exports.calculateSizeWithMinimumEdgeAdaptive = function(containerSize, originalImageSize) {
         var newSize = {
@@ -239,7 +340,7 @@ define(function(require, exports, module) {
         outStr += '<div class="image ' + containerClass + '" style="width:' + containerSize.width + 'px;height:' + containerSize.height + 'px;">';
 
         if (imageObject.type === 'oss') {
-            outStr += '<img src="' + imageObject.url + '@' + containerSize.width*util.getDeviceRatio() + 'w_' + containerSize.height*util.getDeviceRatio() + 'h_1e_1c' + '" >';
+            outStr += '<img src="' + imageObject.url + '@' + containerSize.width * util.getDeviceRatio() + 'w_' + containerSize.height * util.getDeviceRatio() + 'h_1e_1c' + '" style="width:' + containerSize.width + 'px;height:' + containerSize.height + 'px;">';
         } else {
             var newSize = util.calculateSizeWithMinimumEdgeAdaptive(containerSize, imageObject);
             outStr += '<img src="' + imageObject.url + '" style="position:absolute;width:' + newSize.width + 'px;height:' + newSize.height + 'px;left:' + newSize.left + 'px;top:' + newSize.top + 'px;" >';
@@ -260,6 +361,21 @@ define(function(require, exports, module) {
     exports.setIconToLoading = function(iconEl) {
         iconEl.attr('originalClass', iconEl.attr('class'));
         iconEl.attr('class', 'icon icon-refresh2 spin');
+    };
+
+    exports.revertIconFromLoading = function(iconEl, revertClass) {
+        if (!revertClass) {
+            revertClass = iconEl.attr('originalClass');
+        }
+
+        iconEl.attr('class', revertClass);
+    };
+
+    exports.setElementTransform = function(element, transformStr) {
+        if (element && element.size() > 0) {
+            element[0].style.webkitTransform = transformStr;
+            element[0].style.transform = transformStr;
+        }
     };
 
 });

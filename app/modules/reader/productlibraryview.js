@@ -8,6 +8,9 @@
             events: {
                 'tap .tabItem': 'onTapTab'
             },
+            ui: {
+                'tabs': '.tabs'
+            },
             initialize: function() {
                 this.model = new ProductLibraryModel();
                 app.rootView.updatePrimaryRegion(this);
@@ -17,17 +20,27 @@
                 this.carousel.init();
 
                 var productList = this.$el.find('.productItem');
-                var productListWidth = ( productList.width() + 5 ) * productList.size();
+                var productListWidth = (productList.width() + 5) * productList.size();
                 this.$el.find('.horizontalProductListInner').width(productListWidth + 'px');
 
                 this.scroller = new IScroll(this.$el.find('.horizontalProductList')[0], {
-                    'scrollX':true,
-                    'scrollY':false
+                    'scrollX': true,
+                    'scrollY': false
+                });
+
+
+                var self = this;
+                this.lastScrollTop = 0;
+                this.lastScrollDirection = -1; //DOWN
+                this.tabTop = this.ui.tabs.position().top;
+                console.log(this.tabTop);
+                this.$el.on('scroll', function(ev) {
+                    self.onScroll(ev);
                 });
             },
             templateHelpers: function() {
                 var windowWidth = $(window).width();
-                var slideHeight = Math.round(windowWidth  * 0.667);
+                var slideHeight = Math.round(windowWidth * 0.667);
 
                 return {
                     getSlideHeight: function() {
@@ -37,14 +50,14 @@
                         return windowWidth - slideHeight;
                     },
                     getLargeSlideImgStr: function() {
-                        return '@' + 3*slideHeight + 'h_'+ 3*slideHeight + 'w_1e_1c';
+                        return '@' + 3 * slideHeight + 'h_' + 3 * slideHeight + 'w_1e_1c';
                     },
                     getSmallSlideImgStyle: function() {
-                        var imgSize = slideHeight*2;
+                        var imgSize = slideHeight * 2;
                         var containerWidth = windowWidth - slideHeight;
-                        var left = Math.round((containerWidth - imgSize)/2);
-                        var top = Math.round((slideHeight - imgSize)/2);
-                        return 'position:absolute;width:' + imgSize + 'px;height:' + imgSize + 'px;left:' + left + 'px;top:' + top +  'px';
+                        var left = Math.round((containerWidth - imgSize) / 2);
+                        var top = Math.round((slideHeight - imgSize) / 2);
+                        return 'position:absolute;width:' + imgSize + 'px;height:' + imgSize + 'px;left:' + left + 'px;top:' + top + 'px';
                     }
                 };
             },
@@ -54,14 +67,55 @@
 
                 var target = $(ev.currentTarget);
                 rel = target.attr('rel');
-                
 
-                if ( rel ) {
+
+                if (rel) {
                     this.$el.find('.pane.current').removeClass('current');
-                    $('#'+rel).addClass('current');
+                    $('#' + rel).addClass('current');
 
                     this.$el.find('.tabItem.current').removeClass('current');
                     target.addClass('current');
+                }
+            },
+            onScroll: function(ev) {
+                var currentScrollTop = this.$el.scrollTop();
+                var currentScrollDirection = this.lastScrollDirection;
+                currentScrollDirection = this.lastScrollTop < currentScrollTop ? 1 : -1;
+
+                if (currentScrollDirection === 1) {
+                    this.onScrollDown();
+                } else {
+                    this.onScrollUp();
+                }
+                this.lastScrollDirection = currentScrollDirection;
+
+                this.lastScrollTop = currentScrollTop;
+            },
+            onScrollUp: function(ev) {
+                if (this.$el.scrollTop() < this.tabTop) {
+                    this.stopFixedTop();
+                }
+            },
+            onScrollDown: function(ev) {
+                if (this.$el.scrollTop() > this.tabTop) {
+                    this.startFixedTop();
+                }
+            },
+            startFixedTop: function() {
+                if (!this.ui.tabs.hasClass('fixedTop')) {
+                    this.placeHolder = $('<div></div>');
+                    this.placeHolder.css({
+                        'width': this.ui.tabs.width(),
+                        'height': this.ui.tabs.height()
+                    });
+                    this.ui.tabs.addClass('fixedTop');
+                    this.ui.tabs.after(this.placeHolder);
+                }
+            },
+            stopFixedTop: function() {
+                if (this.ui.tabs.hasClass('fixedTop')) {
+                    if (this.placeHolder) this.placeHolder.remove();
+                    this.ui.tabs.removeClass('fixedTop');
                 }
             },
             onDestroy: function() {

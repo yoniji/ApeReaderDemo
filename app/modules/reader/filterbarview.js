@@ -35,17 +35,37 @@
 
                 if (id) {
                     parentFilter.addClass('selected');
+                    parentFilter.attr('data-child-id', id);
                 } else {
                     parentFilter.removeClass('selected');
+                    parentFilter.attr('data-child-id', '');
                 }
+                this.model.setFilters(this.getSelectedFilterIds());
+            },
+            getSelectedFilterIds: function() {
+                var ids = [];
+                this.ui.filter.each(function(index, el){
+                    var id = $(el).attr('data-child-id');
+                    if(id) ids.push(id);
+                });
+                return ids;
             },
             onTapLeafFilter: function(ev) {
                 var item = $(ev.currentTarget);
+                var id = item.attr('data-id');
                 if ( item.hasClass('selected') ) {
                     item.removeClass('selected');
+                    item.attr('data-child-id', '');
                 } else {
                     item.addClass('selected');
+                    if (id) {
+                        item.attr('data-child-id', id);
+                    } else {
+                        item.attr('data-child-id', '');
+                    }
                 }
+
+
             },
             onRender: function() {
                 var filterSize = this.ui.filter.size();
