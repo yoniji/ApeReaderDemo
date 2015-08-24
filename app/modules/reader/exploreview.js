@@ -39,7 +39,6 @@
                     this.ui.streamWrapper.prepend('<div class="notification notification-info">为你准备了' + postsData.length + '篇新文章</div>');
                     var self = this;
                     this.timeout = setTimeout(function() {
-                        clearTimeout(this.timeout);
                         self.clearNotification();
                     }, 2000);
                 }

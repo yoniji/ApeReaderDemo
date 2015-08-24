@@ -169,6 +169,7 @@ define(function(require, exports, module) {
         }
     };
 
+
     exports.ajax = function(options) {
         var STATUS_SUCCESS = 0;
 
@@ -225,7 +226,7 @@ define(function(require, exports, module) {
             if (mapKv) {
                 TDAPP.onEvent(eventID, label, mapKv);
             } else {
-               TDAPP.onEvent(eventID, label); 
+                TDAPP.onEvent(eventID, label);
             }
         }
     };

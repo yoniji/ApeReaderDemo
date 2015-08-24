@@ -563,10 +563,21 @@ $toolBarColor:$black;
     @include position(absolute, null null 0 0);
 }
 
+@include keyframes(slideOut) {
+    100% {
+        @include transform(translate3d(1000%,0,0));
+    }
+}
+
+.slideOut, .articleWrapper.slideOut {
+    @include animation(slideOut 1s $default-timing-function);
+}
 .articleWrapper,.productWrapper {
     @include position(absolute, 0 null null 0);
     @include reset-transform;
     @include size(100%);
+
+    @include animation(zoomInActions .3s  $default-timing-function);
     background: $cellBackground;
     z-index: 2;
     overflow:hidden;
@@ -608,6 +619,14 @@ $toolBarColor:$black;
         padding-top:0;
         padding-bottom:$basic-gap/2;
     }
+    position:relative;
+}
+.thumbSwitch {
+    font-size: .8em;
+    height: 100%;
+    color:$caption-color;
+    @include position(absolute, 0 0 null null);
+    line-height: .8em;
 }
 .articleTitle {
     padding:$basic-gap 0 $basic-gap/2;
@@ -626,6 +645,9 @@ $toolBarColor:$black;
             max-width: 100%;
             border-radius:2px;
         }
+    }
+    .thumb {
+        margin:0 auto 1.5em;
     }
 
 }
@@ -1130,8 +1152,8 @@ $menuItemHeight:48px;
     background:lighten($red,40%);
 }
 .notification-info {
-    color: darken($blue, 20%);
-    background:lighten($blue,40%);
+    color: darken($cyan, 30%);
+    background:lighten($cyan,40%);
 }
 @include keyframes(zoomInThenFadeOut) {
     0% {

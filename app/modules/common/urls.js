@@ -6,22 +6,25 @@ define(function(require, exports, module) {
     var releaseBaseUrl = 'http://mk.apecrafts.com/_/';
 
     var testServiceUrls = {
-        'explore': releaseBaseUrl + 'explore/posts/',
-        'posts': releaseBaseUrl + 'explore/posts/',
+        'explore': releaseBaseUrl + 'explore/posts',
+        'posts': releaseBaseUrl + 'explore/posts',
         'post': releaseBaseUrl + 'explore/post',
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
         'feature': testBaseUrl + 'feature/',
-        'wechat':'http://mk.apecrafts.com/_/api/jsconfig'
+        'wechat': releaseBaseUrl + 'api/jsconfig'
     };
 
     var releaseServiceUrls = {
-        'explore': releaseBaseUrl + 'explore/posts/',
-        'posts': releaseBaseUrl + 'explore/posts/',
-        'products': testBaseUrl + 'products/',
+         'explore': releaseBaseUrl + 'explore/posts',
+        'posts': releaseBaseUrl + 'explore/posts',
+        'post': releaseBaseUrl + 'explore/post',
+        'brands': testBaseUrl + 'brands',
+        'products': testBaseUrl + 'products',
+        'productlib': testBaseUrl + 'productlib',
         'feature': testBaseUrl + 'feature/',
-        'wechat':'http://mk.apecrafts.com/_/api/jsconfig'
+        'wechat': releaseBaseUrl + 'api/jsconfig'
     };
 
 

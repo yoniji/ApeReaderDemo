@@ -23,44 +23,71 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-user:before {
+	content: "\e614";
+}
+.icon-chair:before {
+	content: "\e615";
+}
+.icon-chair2:before {
+	content: "\e616";
+}
+.icon-home:before {
+	content: "\e617";
+}
 .icon-bath:before {
-	content: "\e607";
+	content: "\e602";
 }
 .icon-bed:before {
-	content: "\e608";
-}
-.icon-kitchen:before {
-	content: "\e609";
-}
-.icon-sofa:before {
-	content: "\e60b";
-}
-.icon-share:before {
-	content: "\e60e";
+	content: "\e603";
 }
 .icon-block:before {
-	content: "\e60d";
+	content: "\e604";
 }
-.icon-table:before {
+.icon-category:before {
+	content: "\e605";
+}
+.icon-china:before {
+	content: "\e606";
+}
+.icon-filter:before {
+	content: "\e607";
+}
+.icon-france:before {
+	content: "\e608";
+}
+.icon-italy:before {
+	content: "\e609";
+}
+.icon-japan:before {
 	content: "\e60a";
+}
+.icon-kitchen:before {
+	content: "\e60b";
 }
 .icon-more:before {
 	content: "\e60c";
 }
-.icon-home:before {
-	content: "\e605";
+.icon-netherlands:before {
+	content: "\e60d";
 }
-.icon-user:before {
-	content: "\e606";
+.icon-share:before {
+	content: "\e60e";
 }
-.icon-chair2:before {
-	content: "\e602";
+.icon-sofa:before {
+	content: "\e60f";
 }
-.icon-brand:before {
-	content: "\e603";
+.icon-spain:before {
+	content: "\e610";
 }
-.icon-chair:before {
-	content: "\e604";
+.icon-table:before {
+	content: "\e611";
+}
+.icon-uk:before {
+	content: "\e612";
+}
+.icon-us:before {
+	content: "\e613";
 }
 .icon-heart-o:before {
 	content: "\e600";
@@ -118,6 +145,12 @@
 }
 .icon-ellipsis:before {
 	content: "\e129";
+}
+.icon-picture:before {
+	content: "\e02d";
+}
+.icon-pictures:before {
+	content: "\e02e";
 }
 .icon-ribbon2:before {
 	content: "\e05a";

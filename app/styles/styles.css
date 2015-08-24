@@ -1701,6 +1701,24 @@ body,
   bottom: 0;
   left: 0; }
 
+@-webkit-keyframes slideOut {
+  100% {
+    -webkit-transform: translate3d(1000%, 0, 0); } }
+@-moz-keyframes slideOut {
+  100% {
+    -moz-transform: translate3d(1000%, 0, 0); } }
+@keyframes slideOut {
+  100% {
+    -webkit-transform: translate3d(1000%, 0, 0);
+    -moz-transform: translate3d(1000%, 0, 0);
+    -ms-transform: translate3d(1000%, 0, 0);
+    -o-transform: translate3d(1000%, 0, 0);
+    transform: translate3d(1000%, 0, 0); } }
+.slideOut, .articleWrapper.slideOut {
+  -webkit-animation: slideOut 1s cubic-bezier(0.36, 0, 0.15, 1);
+  -moz-animation: slideOut 1s cubic-bezier(0.36, 0, 0.15, 1);
+  animation: slideOut 1s cubic-bezier(0.36, 0, 0.15, 1); }
+
 .articleWrapper, .productWrapper {
   position: absolute;
   top: 0;
@@ -1717,6 +1735,9 @@ body,
   transform-style: preserve-3d;
   height: 100%;
   width: 100%;
+  -webkit-animation: zoomInActions 0.3s cubic-bezier(0.36, 0, 0.15, 1);
+  -moz-animation: zoomInActions 0.3s cubic-bezier(0.36, 0, 0.15, 1);
+  animation: zoomInActions 0.3s cubic-bezier(0.36, 0, 0.15, 1);
   background: #fafafa;
   z-index: 2;
   overflow: hidden; }
@@ -1758,10 +1779,21 @@ body,
 .articleCore {
   padding: 48px 16px 0; }
 
-.articleMeta .tags {
-  padding-left: 0;
-  padding-top: 0;
-  padding-bottom: 8px; }
+.articleMeta {
+  position: relative; }
+  .articleMeta .tags {
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 8px; }
+
+.thumbSwitch {
+  font-size: .8em;
+  height: 100%;
+  color: #757575;
+  position: absolute;
+  top: 0;
+  right: 0;
+  line-height: .8em; }
 
 .articleTitle {
   padding: 16px 0 8px;
@@ -1778,6 +1810,8 @@ body,
     .articleBody .image > img {
       max-width: 100%;
       border-radius: 2px; }
+  .articleBody .thumb {
+    margin: 0 auto 1.5em; }
 
 .articleOrignalLink {
   display: block;
@@ -2340,8 +2374,8 @@ body,
   background: #fff8f7; }
 
 .notification-info {
-  color: #0960a5;
-  background: #e3f2fd; }
+  color: #00343b;
+  background: #a1f4ff; }
 
 @-webkit-keyframes zoomInThenFadeOut {
   0% {

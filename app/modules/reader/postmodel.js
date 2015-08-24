@@ -23,7 +23,7 @@
                 this.trigger('change');
         		var self = this;
         		util.ajax({
-        			url: this.url() + '/like/',
+        			url: this.url() + '/like',
         			data: {
                         'id': this.get('id')
         			},
@@ -38,7 +38,7 @@
                 this.setMetadata('liked', false);
                 this.trigger('change');
         		util.ajax({
-        			url: this.url() + '/dislike/',
+        			url: this.url() + '/dislike',
         			data: {
                         'id': this.get('id')
                     },
@@ -51,7 +51,7 @@
         	block: function() {
         		var self = this;
         		util.ajax({
-        			url: this.url() + '/block/',
+        			url: this.url() + '/block',
         			data: {
                         'id': this.get('id')
         			},
@@ -65,7 +65,7 @@
         	markShared: function() {
         		var self = this;
         		util.ajax({
-        			url: this.url() + '/share/',
+        			url: this.url() + '/share',
         			data: {
                         'id': this.get('id')
         			},
@@ -78,6 +78,18 @@
             markViewed: function() {
                 this.setMetadata('viewed', true);
                 this.trigger('change');
+                
+                var self = this;
+                util.ajax({
+                    url: this.url() + '/view',
+                    data: {
+                        'id': this.get('id')
+                    },
+                    success: function(response) {
+
+                    },
+                    method:'POST'
+                });
             },
             hasCoverImage: function() {
                 return ( this.get('images') && this.get('images').length > 0);

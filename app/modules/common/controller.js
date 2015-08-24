@@ -7,6 +7,21 @@
         }
         return Marionette.Controller.extend({
             initialize: function(options) {
+                if (wx) {
+                    wx.ready(function() {
+
+                        util.setWechatShare(window.appConfig.share_info);
+                        
+                        wx.getNetworkType({
+                            success: function(res) {
+                                appConfig.networkType = res.networkType; // 返回网络类型2g，3g，4g，wifi
+                                util.trackEvent('NetworkType', res.networkType, 1);
+                            }
+                        });
+
+                    });
+                }
+
                 util.ajax({
                     url: urls.getServiceUrlByName('wechat'),
                     data: {
@@ -14,7 +29,7 @@
                     },
                     success: function(response) {
                         util.configWechat(response.data);
-                        util.setWechatShare(window.appConfig.share_info);
+
                     },
                     method: 'GET'
                 });
@@ -22,8 +37,13 @@
 
             },
             explore: function() {
-                var exploreView = new ExploreView();
-                setCurrentNavigationById('explore');
+                
+                if(this.articleView) {
+                    this.articleView.onTapBack();
+                } else {
+                    var exploreView = new ExploreView();
+                    setCurrentNavigationById('explore');
+                }
             },
             feature: function() {
                 var featureView = new FeatureView();
@@ -43,7 +63,7 @@
                 setCurrentNavigationById('me');
             },
             post: function(id) {
-                var articleView = new ArticleView({
+                this.articleView = new ArticleView({
                     'id': id
                 });
                 var exploreView = new ExploreView();

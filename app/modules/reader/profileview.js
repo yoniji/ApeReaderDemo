@@ -23,8 +23,13 @@
                 this.modelSynced();
             },
             modelSynced: function() {
-                this.collection = new PostCollection(this.model.get('data'));
-                app.rootView.updatePrimaryRegion(this);
+                if(this.collection) {
+                    this.collection.reset(this.model.get('data'));
+                } else {
+                    this.collection = new PostCollection(this.model.get('data'));
+                    app.rootView.updatePrimaryRegion(this);
+                }
+                
             },
             onShow: function() {
                 this.ui.feedsWrapper.height( this.$el.height() - this.ui.profileHeader.height());
