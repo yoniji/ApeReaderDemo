@@ -3,8 +3,7 @@
 
         return Backbone.Model.extend({
             url: function() {
-                return 'http://mk.apecrafts.com/_/explore/posts';
-                //return urls.getServiceUrlByName('explore');
+                return urls.getServiceUrlByName('explore');
             },
             initialize: function() {
                 this.startPage = 0;
@@ -16,7 +15,6 @@
                     this.set(JSON.parse(localStorage.explore));
                     this.isOld = true;
                     this.startPage++;
-                    this.trigger('sync');
                 }
             },
             parse: function(response) {
@@ -85,7 +83,6 @@
                 var data = {
                 };
                 if ( this.hasFilter()) {
-                    console.log(this.filterStr);
                     data.filter = encodeURIComponent(this.filterStr);
                 }
 

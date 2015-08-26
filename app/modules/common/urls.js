@@ -9,6 +9,7 @@ define(function(require, exports, module) {
         'explore': releaseBaseUrl + 'explore/posts',
         'posts': releaseBaseUrl + 'explore/posts',
         'post': releaseBaseUrl + 'explore/post',
+        'mark': releaseBaseUrl + 'explore/mark',
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
@@ -17,9 +18,10 @@ define(function(require, exports, module) {
     };
 
     var releaseServiceUrls = {
-         'explore': releaseBaseUrl + 'explore/posts',
+        'explore': releaseBaseUrl + 'explore/posts',
         'posts': releaseBaseUrl + 'explore/posts',
         'post': releaseBaseUrl + 'explore/post',
+        'mark': releaseBaseUrl + 'explore/mark',
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',

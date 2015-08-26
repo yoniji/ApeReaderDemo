@@ -1,13 +1,20 @@
-﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/card.html'],
-    function(Marionette, Mustache, $,CellView, template) {
+﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/card.html', 'text!modules/reader/cardaction.html'],
+    function(Marionette, Mustache, $, CellView, template, actionTemplate) {
 
         return CellView.extend({
             template: function(serialized_model) {
-                return Mustache.render(template, serialized_model);
+                if (serialized_model.isAction) {
+                    return Mustache.render(actionTemplate, serialized_model);
+                } else {
+                    return Mustache.render(template, serialized_model);
+                }
             },
             initialize: function() {
-
-
+            },
+            onRender: function() {
+                if (this.model.get('isAction')) {
+                    this.$el.addClass('actionCard');
+                }
             },
             templateHelpers: function() {
                 var self = this;
@@ -15,24 +22,24 @@
                 var containerWidth = Math.round(windowWidth * 0.48);
                 var containerHeight = Math.round(windowWidth * 0.382);
                 return {
-                    'getCoverHtml':function() {
+                    'getCoverHtml': function() {
                         var outStr = '';
-                        if(this.images&&this.images.length>0) {
-                            var img = this.images[0];
-
-
-                            var newSize = util.calculateSizeWithMinimumEdgeAdaptive(
-                                {width: containerWidth, height:containerHeight},
-                                {width: img.width, height:img.height}
-                            );
-                            
-
-                            
-
-                            outStr+= '<div class="coverImage" style="width:100%;height:' + containerHeight + 'px"><img style="width:' + newSize.width + 'px;height:' + newSize.height + 'px;left:' + newSize.left + 'px;top:' + newSize.top + 'px" src="' + this.images[0].url + '"></div>';
+                        outStr += '<div class="coverImage" style="width:100%;height:' + containerHeight + 'px">';
+                        if (this.images && this.images.length > 0) {
+                            outStr += util.generateImageHtml(this.images[0], {
+                                width: containerWidth,
+                                height: containerHeight
+                            });
                         }
+                        outStr += '</div>';
+
                         return outStr;
 
+                    },
+                    'getCreateTimeString': function() {
+                        if (this.created_at) {
+                            return util.getDateString(this.created_at);
+                        }
                     }
                 };
             },

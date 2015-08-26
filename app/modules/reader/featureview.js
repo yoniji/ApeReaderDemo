@@ -37,8 +37,14 @@
                 this.isLoadingMore = false;
             },
             afterOnShow: function() {
-                this.$el.find('.empty').height(this.ui.streamWrapper.height());
                 this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
+                this.updateEmptyView();
+            },
+            updateEmptyView: function() {
+                if (this.collection.size()<1) {
+                    this.$el.find('.empty').height(this.ui.streamWrapper.height());
+                    this.$el.find('.pullUp').css('visibility', 'hidden');
+                }
             },
             onScroll: function(ev) {
                 var currentScrollTop = this.ui.streamWrapper.scrollTop();
@@ -73,6 +79,8 @@
                 var item = $(ev.currentTarget);
                 this.model.changeType(item.attr('data-id'));
                 this.model.resetPosts();
+                this.collection.reset([]);
+                this.updateEmptyView();
             },
             onResetPosts: function(posts) {
                 this.collection.reset(posts);

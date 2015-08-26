@@ -9,6 +9,12 @@
 
 
             },
+            onRender: function() {
+
+            },
+            onDestroy: function() {
+                this.$el.parent().siblings('.loading').css('visibility','visible');
+            },
             className: 'empty'
         });
     });

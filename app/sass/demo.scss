@@ -680,6 +680,16 @@ $profileHeaderHeight:56px;
     display: inline-block;
     margin-right: $basic-gap;
     @include position(relative, $basic-gap/2 null null $basic-gap/2);
+    background: #f0f0f0;
+    text-align: center;
+    .icon {
+        font-size: $profileHeaderHeight - $basic-gap*2;
+        line-height: $profileHeaderHeight - $basic-gap;
+        :before{
+            line-height: $profileHeaderHeight - $basic-gap;
+        }
+        color: $caption-color;
+    }
 }
 
 .profileInfo-name {
@@ -720,7 +730,7 @@ $profileHeaderHeight:56px;
 }
 .cardWrapper {
     width: 48%;
-    margin: 1%;
+    margin: 4px 1%;
     float: left;
     display: inline-block;
     border-radius: 2px;
@@ -745,13 +755,23 @@ $profileHeaderHeight:56px;
         height: 4.6em;
         overflow: hidden;
     }
+    .creditItem {
+        padding-left:$basic-gap/4;
+        padding-bottom:$basic-gap/4;
+    }
+    .creditName {
+        font-size: 10px;
+        line-height: 1.2em;
+    }
     .creditMeta {
+        font-size: 8px;
         line-height: 1.2em;
         height: 1.2em;
         overflow: hidden;
     }
     .creditImage {
         @include size(20px);
+        margin-right: $basic-gap/4;
     }
     &:nth-child(1) {
         @include animation( cardFlyIn .5s both cubic-bezier(.36,0,.15,1));
@@ -770,6 +790,21 @@ $profileHeaderHeight:56px;
     }
     &:nth-child(6) {
         @include animation( cardFlyIn .5s .5s both cubic-bezier(.36,0,.15,1));
+    }
+
+    .action-more {
+        @include position(absolute,null 0 0 null);
+        @include size(48px);
+        text-align: center;
+        display: none;
+
+        >.icon {
+            font-size: 24px;
+            color: #e0e0e0;
+            padding-top:20px;
+            display: block;
+            padding-left:24px;
+        }
     }
 }
 
@@ -1187,4 +1222,51 @@ $menuItemHeight:48px;
         @include centerAndOffset(36px,36px);
     }
     
+}
+.errorWrapper {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+
+    .largeIcon {
+        padding-top: $basic-gap*4;
+    }
+    .largeIcon>.icon {
+        display: block;
+        margin:0 auto;
+        font-size: $basic-gap*4;
+        color:$caption-color;
+    }
+    h2 {
+        font-size: 16px;
+        color:#555;
+    }
+
+}
+.actionCard {
+    height: 194px;
+    box-shadow:none;
+    background:none;
+    border:1px dashed #a0a0a0;
+    border-radius:5px;
+    text-align: center;
+    color: #a0a0a0;
+    padding:$basic-gap $basic-gap/2;
+}
+.addButton {
+    @include size($basic-gap*6);
+    font-size: $basic-gap*4;
+    margin:0 auto;
+    border-radius:100%;
+    
+    padding:$basic-gap;
+}
+.addTitle {
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: $basic-gap/4;
+}
+.addText {
+    font-size: 10px;
+    line-height: 12px;
 }

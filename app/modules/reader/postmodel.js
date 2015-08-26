@@ -23,9 +23,10 @@
                 this.trigger('change');
         		var self = this;
         		util.ajax({
-        			url: this.url() + '/like',
+        			url: urls.getServiceUrlByName('mark'),
         			data: {
-                        'id': this.get('id')
+                        'opt': 'like',
+                        'postid': this.get('id')
         			},
         			success: function(response) {
                         self.trigger('toggleLikeSuccess');
@@ -38,9 +39,10 @@
                 this.setMetadata('liked', false);
                 this.trigger('change');
         		util.ajax({
-        			url: this.url() + '/dislike',
+        			url: urls.getServiceUrlByName('mark'),
         			data: {
-                        'id': this.get('id')
+                        'opt': 'dislike',
+                        'postid': this.get('id')
                     },
         			success: function(response) {
                         self.trigger('toggleLikeSuccess');
@@ -51,9 +53,10 @@
         	block: function() {
         		var self = this;
         		util.ajax({
-        			url: this.url() + '/block',
+        			url: urls.getServiceUrlByName('mark'),
         			data: {
-                        'id': this.get('id')
+                        'opt': 'block',
+                        'postid': this.get('id')
         			},
         			success: function(response) {
                         self.trigger('blockSuccess');
@@ -65,9 +68,10 @@
         	markShared: function() {
         		var self = this;
         		util.ajax({
-        			url: this.url() + '/share',
+        			url: urls.getServiceUrlByName('mark'),
         			data: {
-                        'id': this.get('id')
+                        'opt': 'share',
+                        'postid': this.get('id')
         			},
         			success: function(response) {
 
@@ -78,12 +82,13 @@
             markViewed: function() {
                 this.setMetadata('viewed', true);
                 this.trigger('change');
-                
+
                 var self = this;
                 util.ajax({
-                    url: this.url() + '/view',
+                    url: urls.getServiceUrlByName('mark'),
                     data: {
-                        'id': this.get('id')
+                        'opt': 'view',
+                        'postid': this.get('id')
                     },
                     success: function(response) {
 
@@ -95,7 +100,17 @@
                 return ( this.get('images') && this.get('images').length > 0);
             },
             parse: function(response) {
-                return response.data;
+                if (response && response.code === 0) {
+                    return response.data;
+                } else {
+                    if (response.code === 1) {
+                        return {error:true, code:404, message: response.message};
+                    } else {
+                        return {error:true, code:500, message: response.message };
+                    }
+                    
+                }
+                
             }
         });
     });

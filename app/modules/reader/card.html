@@ -4,12 +4,15 @@
 <div class="title">
 	{{title}}
 </div>
-<a class="creditItem" >
+<div class="creditItem" >
     <div class="creditImage">
         <img src="{{source.image.url}}" />
     </div>
     <div class="creditDetial">
         <div class="creditName">{{source.name}}</div>
-        <div class="creditMeta">{{author.name}} 1分钟前</div>
+        <div class="creditMeta">{{#author.name}}{{author.name}} {{/author.name}}{{^author.name}}{{getCreateTimeString}}{{/author.name}}</div>
     </div>
-</a>
+</div>
+<div class="action-more">
+	<i class="icon icon-more-vert"></i>
+</div>

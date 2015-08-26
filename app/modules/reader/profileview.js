@@ -1,45 +1,71 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/profile.html', 'modules/reader/profile','modules/reader/postcollection', 'modules/reader/cardview', 'iscroll-pullupdown','dropdown'],
-    function(Marionette, Mustache, $, template, Profile, PostCollection, CardView, IScrollPullUpDown, DropDown) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/profile.html', 'modules/reader/profile','modules/reader/postcollection', 'modules/reader/cardview', 'dropdown', 'modules/reader/emptyview'],
+    function(Marionette, Mustache, $, template, Profile, PostCollection, CardView, DropDown, EmptyView) {
 
         return Marionette.CompositeView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
             },
             ui: {
-                'feedsWrapper': '.feedsWrapper',
+                'feedsWrapper': '.streamWrapper',
                 'profileHeader': '.profileHeader',
-                'filterSwitch': '.profileFilter',
-                'filterMenu': '#profileFilter-menu'
+                'filterSwitch': '.dropDown-switch',
+                'filterMenu': '.dropDown-menu',
+                'filterMenuItem': '.dropDown-menu-item'
             },
             events: {
-
+                'select @ui.filterMenuItem':'onTapMenuItem'
             },
             modelEvents: {
-                'sync': 'modelSynced'
+                'sync': 'modelSynced',
+                'resetPosts': 'modelSynced'
             },
             initialize: function() {
                 this.model = new Profile();
+                this.collection = new PostCollection();
+                app.rootView.updatePrimaryRegion(this);
                 this.model.fetch();
-                this.modelSynced();
             },
             modelSynced: function() {
-                if(this.collection) {
-                    this.collection.reset(this.model.get('data'));
-                } else {
-                    this.collection = new PostCollection(this.model.get('data'));
-                    app.rootView.updatePrimaryRegion(this);
+                this.collection.reset(this.model.get('data'));
+                this.updateEmptyView();
+            },
+            updateEmptyView: function() {
+                if (this.collection.size()<1) {
+                    this.$el.find('.empty').height(this.ui.feedsWrapper.height());
+                    this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
                 }
-                
+            },
+            onTapMenuItem: function(ev) {
+                var item = $(ev.currentTarget);
+                var id = item.attr('data-id');
+                var filterStr = '';
+                if (id) {
+                    var selectedData = { 'level1': [id] };
+                    filterStr = JSON.stringify( selectedData );
+                }
+                this.model.setFilter(filterStr);
+                this.model.resetPosts();
+                this.collection.reset([]);
+                this.updateEmptyView();
+            },
+            onResetPosts: function(postsData) {
+                this.collection.reset(postsData);
+            },
+            templateHelpers: function() {
+
+                return {
+                    'getRandomName': function() {
+                        return '金角大王';
+                    },
+                    'getRandomIcon': function() {
+                        return 'buddha';
+                    }
+                };
             },
             onShow: function() {
                 this.ui.feedsWrapper.height( this.$el.height() - this.ui.profileHeader.height());
                 this.menu = new DropDown(this.ui.filterSwitch, this.ui.filterMenu);
-            },
-            pullDownActionHandler: function(scroller) {
-
-            },
-            pullUpActionHandler: function(scroller) {
-
+                this.updateEmptyView();
             },
             onDestroy: function() {
                 if(this.scroller) this.scroller.destroy();
@@ -48,6 +74,7 @@
             id: 'profileWrapper',
             className:'rootWrapper',
             childViewContainer: '#cards',
-            childView: CardView
+            childView: CardView,
+            emptyView: EmptyView
         });
     });

@@ -23,6 +23,15 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-buddha:before {
+	content: "\e61a";
+}
+.icon-404:before {
+	content: "\e618";
+}
+.icon-error:before {
+	content: "\e619";
+}
 .icon-user:before {
 	content: "\e614";
 }

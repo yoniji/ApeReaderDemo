@@ -36,7 +36,7 @@
                 this.stopLoadingNew();
                 if ( postsData && postsData.length>0 ) {
                     this.collection.unshift(postsData);
-                    this.ui.streamWrapper.prepend('<div class="notification notification-info">为你准备了' + postsData.length + '篇新文章</div>');
+                    this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + postsData.length + '篇新文章</div>');
                     var self = this;
                     this.timeout = setTimeout(function() {
                         self.clearNotification();
@@ -94,15 +94,17 @@
                 this.ui.streamWrapper.prepend('<div class="pullDown loading"><i class="icon icon-refresh"></i></div>');
                 this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
 
+                this.updateEmptyView();
+                this.startLoadingNew();
+
                 
+            },
+            updateEmptyView: function() {
                 if (this.collection.size()<1) {
                     this.$el.find('.empty').height(this.ui.streamWrapper.height());
+                    this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
                     this.ui.streamWrapper.scrollTop(50);
                 }
-
-                this.startLoadingNew();
-                
-                
             },
             afterOnDestroy: function() {
                 this.filterView.destroy();
@@ -128,18 +130,19 @@
                 this.lastScrollTop = currentScrollTop;
             },
             onScrollUp: function(ev) {
+                //显示fitlerbar
                 this.ui.topBar.removeClass('hide');
                 this.ui.filterBar.removeClass('hide');
-
+                //检查新的新闻
                 if(this.ui.streamWrapper.scrollTop() < 1) {
                     this.startLoadingNew();
                 }
             },
             onScrollDown: function(ev) {
+                //隐藏fitlerbar
                 this.ui.topBar.addClass('hide');
                 this.ui.filterBar.addClass('hide');
-
-
+                //加载更早的记录
                 var maxScrollTop = this.ui.streamWrapper.find('#cells').height() - this.ui.streamWrapper.height();
                 if(this.ui.streamWrapper.scrollTop() > (maxScrollTop-1) ) {
                     this.startLoadingHistory();
@@ -149,13 +152,13 @@
                 var item = $(ev.currentTarget);
                 var id = item.attr('data-id');
                 this.filterModel.updateFilterDataByCategoryId(id);
-
                 this.updateTopPadding();
             },
             onChangeFilter: function() {
                 this.model.setFilter(this.filterModel.getFilterStr());
                 this.model.resetPosts();
                 this.collection.reset([]);
+                this.updateEmptyView();
             },
             onResetPosts: function(postsData) {
                 this.collection.reset(postsData);

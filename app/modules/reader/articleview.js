@@ -1,9 +1,15 @@
-﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel'],
-    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel) {
+﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html'],
+    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
-                if (serialized_model.metadata.formated) {
+                if (serialized_model.error) {
+                    if (serialized_model.code === 404) {
+                        return Mustache.render(notFoundTemplate, serialized_model);
+                    } else {
+                        return Mustache.render(errorTemplate, serialized_model);
+                    }
+                } else if (serialized_model.metadata.formated) {
                     return Mustache.render(coreTemplate, serialized_model);
                 } else {
                     return Mustache.render(shellTemplate, serialized_model);
@@ -26,11 +32,11 @@
                 'tap @ui.block': 'onTapBlock',
                 'tap @ui.next': 'onTapNext',
                 'tap .articleBody .image': 'onTapImage',
-                'panleft @ui.article': 'onPanMove',
-                'panright @ui.article': 'onPanMove',
-                'panend @ui.article': 'onPanEnd',
-                'pancancel @ui.article': 'onPanEnd',
-                'tap .thumbSwitch': 'showLargeImages'
+                'tap .thumbSwitch': 'showLargeImages',
+                'panleft': 'onPanMove',
+                'panright': 'onPanMove',
+                'panend': 'onPanEnd',
+                'pancancel': 'onPanEnd'
             },
             modelEvents: {
                 'sync': 'onModelSync',
@@ -172,7 +178,7 @@
                 util.setWechatShare(share_info);
             },
             isFormated: function() {
-                return !!this.model.get('metadata').formated;
+                return (this.model.has('metadata') && this.model.get('metadata').formated);
             },
             shouldShowThumb: function() {
                 return (appConfig.networkType !== 'wifi') && this.isFormated();
@@ -186,7 +192,7 @@
                 var articleHeight = $(window).height() - this.ui.toolBar.height();
                 this.ui.article.css('height', articleHeight);
 
-                //this.model.markViewed();
+                this.model.markViewed();
                 util.trackEvent('View', 'Post', 1);
 
             },
@@ -230,6 +236,11 @@
                     if(self.outTimer) clearTimeout(self.outTimer);
                     self.destroy();
                 }, 1000);
+
+                app.appRouter.navigate(this.originalRouter, {
+                    trigger: false,
+                    replace: false
+                });
                 
             },
             onToggleLike: function() {
@@ -270,10 +281,7 @@
                 if (this.outTimer) clearTimeout(this.outTimer);
                 if (this.timeout) clearTimeout(this.timeout);
 
-                app.appRouter.navigate(this.originalRouter, {
-                    trigger: false,
-                    replace: false
-                });
+                
 
                 util.setWechatShare(window.appConfig.share_info);
             },
