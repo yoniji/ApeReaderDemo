@@ -9,8 +9,7 @@
 
         return Backbone.Model.extend({
             url: function() {
-                return 'http://mk.apecrafts.com/_/explore/posts';
-                //return urls.getServiceUrlByName('feature') + 'today';
+                return urls.getServiceUrlByName('feature');
             },
             initialize: function() {
                 this.startPage = 0;
@@ -45,7 +44,9 @@
                 if (type) {
                     this.type = type;
                     this.startPage = 0;
+                    this.resetPosts();
                 }
+
             },
             resetPosts: function() {
                 var data = {

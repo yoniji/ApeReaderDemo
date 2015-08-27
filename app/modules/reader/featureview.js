@@ -7,7 +7,8 @@
             },
             modelEvents: {
                 'sync': 'modelSynced',
-                'gotMorePosts': 'onGotMorePosts'
+                'gotMorePosts': 'onGotMorePosts',
+                'resetPosts': 'onResetPosts'
             },
             initialize: function() {
                 this.model = new FeatureModel();
@@ -20,7 +21,7 @@
                     this.collection.add(postsData);
                     this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
                 } else {
-                    this.ui.streamWrapper.append('<div class="pullUp loading">没有更早的文章了</div>');
+                    this.ui.streamWrapper.append('<div class="pullUp loading">没有文章了</div>');
                 }
                 this.ui.streamWrapper.scrollTop( this.ui.streamWrapper.scrollTop() + 50);
 
@@ -77,14 +78,18 @@
             },
             onTapMenuItem: function(ev) {
                 var item = $(ev.currentTarget);
-                this.model.changeType(item.attr('data-id'));
-                this.model.resetPosts();
-                this.collection.reset([]);
-                this.updateEmptyView();
+                var id = item.attr('data-id');
+                if (id) {
+                    this.model.changeType(id);
+                    
+                    this.collection.reset([]);
+                    this.updateEmptyView();
+                }
+
             },
             onResetPosts: function(posts) {
                 this.collection.reset(posts);
-                this.ui.streamWrapper.scrollTop(50);
+                this.ui.streamWrapper.scrollTop(0);
             },
             id: 'feature',
             className: 'rootWrapper',

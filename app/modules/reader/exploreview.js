@@ -15,7 +15,8 @@
             },
             events: {
                 'select @ui.filterMenuItem': 'onTapMenuItem',
-                'scroll @ui.streamWrapper': 'onScroll'
+                'scroll @ui.streamWrapper': 'onScroll',
+                'beforeOpenMenu @ui.filterSwitch': 'beforeOpenMenu'
             },
             modelEvents: {
                 'sync': 'modelSynced',
@@ -147,6 +148,9 @@
                 if(this.ui.streamWrapper.scrollTop() > (maxScrollTop-1) ) {
                     this.startLoadingHistory();
                 }
+            },
+            beforeOpenMenu: function(ev) {
+                this.filterView.closeMenu();
             },
             onTapMenuItem: function(ev) {
                 var item = $(ev.currentTarget);

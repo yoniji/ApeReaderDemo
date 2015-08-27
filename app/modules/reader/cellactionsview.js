@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellactions.html'],
-    function(Marionette, Mustache, $, template) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellactions.html', 'modules/reader/shareview'],
+    function(Marionette, Mustache, $, template, ShareView) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -10,9 +10,10 @@
                 'overlay': '.overlay'
             },
             events: {
-                'tap @ui.overlay': 'destroy',
+                'touchstart @ui.overlay': 'destroy',
                 'tap .action-like': 'onToggleLike',
-                'tap .action-block': 'onBlock'
+                'tap .action-block': 'onBlock',
+                'tap .action-share': 'onShare'
             },
             initialize: function(options) {
                 this.toggleOffset = options.toggleOffset;
@@ -36,12 +37,44 @@
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
                 this.model.toggleLike();
+                if (this.model.get('metadata').liked) {
+                    util.trackEvent('Like', 'Cell', 1);
+                } else {
+                    util.trackEvent('Dislike', 'Cell', 1);
+                }
                 this.destroy();
             },
             onBlock: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
                 this.model.block();
+                util.trackEvent('Block', 'Cell', 1);
+                this.destroy();
+            },
+            onShare: function(ev) {
+                var share_info = _.clone(appConfig.share_info);
+                share_info.timeline_title = this.model.get('title');
+                share_info.message_title = this.model.get('title');
+                share_info.message_description = this.model.get('excerpt');
+
+                var url = window.location.protocol + '//' + window.location.hostname;
+                if (window.location.port) url += (':' + window.location.port);
+                url = url + window.location.pathname + '#posts/' + this.model.get('id');
+
+                share_info.link =url;
+
+                if (this.model.hasCoverImage()) {
+                    var img = _.clone(this.model.get('images')[0]);
+                    img.url = img.url + '@180w_180h_1e_1c';
+                    share_info.image = img;
+                }
+
+                var shareView = new ShareView({ 
+                    shareInfo: share_info,
+                    originalShareInfo: appConfig.share_info
+                });
+                util.trackEvent('Share', 'Cell', 1);
+
                 this.destroy();
             },
             onDestroy: function() {

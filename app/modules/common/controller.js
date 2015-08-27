@@ -67,6 +67,10 @@
                 setCurrentNavigationById('feature');
             },
             post: function(id) {
+                if (this.articleView) {
+                    this.articleView.onTapBack();
+                }
+                
                 this.articleView = new ArticleView({
                     'id': id
                 });

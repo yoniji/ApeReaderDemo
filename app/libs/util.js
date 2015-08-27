@@ -37,12 +37,17 @@ define(function(require, exports, module) {
         url = url + window.location.pathname + window.location.search;
         return url;
     };
-
+    exports.getUrlWithoutSearch = function() {
+        var url = window.location.protocol + '//' + window.location.hostname;
+        if (window.location.port) url += (':' + window.location.port);
+        url = url + window.location.pathname + window.location.hash;
+        return url;
+    };
 
     exports.configWechat = function(options) {
         if (wx) {
             wx.config({
-                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: options.appId, // 必填，公众号的唯一标识
                 timestamp: options.timestamp, // 必填，生成签名的时间戳
                 nonceStr: options.nonceStr, // 必填，生成签名的随机串
@@ -52,55 +57,76 @@ define(function(require, exports, module) {
         }
     };
 
-    exports.setWechatShare = function(shareInfo) {
+    exports.setWechatShare = function(shareInfo, onSuccess, onCancel) {
+        if (!shareInfo.link)  shareInfo.link = util.getUrlWithoutSearch(window.location.href);
         if (wx) {
             wx.onMenuShareTimeline({
                 title: shareInfo.timeline_title, // 分享标题
-                link: window.location.href, // 分享链接
+                link: shareInfo.link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
-                    util.trackEvent('Share', 'Timeline', 1);
+                    util.trackEvent('ShareSuccess', 'Timeline', 1);
+                    if (onSuccess) onSuccess();
                 },
                 cancel: function() {
-                    util.trackEvent('Share', 'Timeline', 0);
+                    util.trackEvent('ShareCancel', 'Timeline', 1);
+                    if (onCancel) onCancel();
+                },
+                complete: function() {
+                    if (onComplete) onComplete();
                 }
             });
             wx.onMenuShareAppMessage({
                 title: shareInfo.message_title, // 分享标题
                 desc: shareInfo.message_description, // 分享描述
-                link: window.location.href, // 分享链接
+                link: shareInfo.link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
-                    util.trackEvent('Share', 'AppMessage', 1);
+                    util.trackEvent('ShareSuccess', 'AppMessage', 1);
+                    if (onSuccess) onSuccess();
                 },
                 cancel: function() {
-                    util.trackEvent('Share', 'AppMessage', 0);
+                    util.trackEvent('ShareCancel', 'AppMessage', 1);
+                    if (onCancel) onCancel();
+                },
+                complete: function() {
+                    if (onComplete) onComplete();
                 }
             });
 
             wx.onMenuShareQQ({
                 title: shareInfo.message_title, // 分享标题
                 desc: shareInfo.message_description, // 分享描述
-                link: window.location.href, // 分享链接
+                link: shareInfo.link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
-                    util.trackEvent('Share', 'QQ', 1);
+                    util.trackEvent('ShareSuccess', 'QQ', 1);
+                    if (onSuccess) onSuccess();
                 },
                 cancel: function() {
-                    util.trackEvent('Share', 'QQ', 0);
+                    util.trackEvent('ShareCancel', 'QQ', 1);
+                    if (onCancel) onCancel();
+                },
+                complete: function() {
+                    if (onComplete) onComplete();
                 }
             });
 
             wx.onMenuShareQZone({
                 title: shareInfo.message_title, // 分享标题
                 desc: shareInfo.message_description, // 分享描述
-                link: window.location.href, // 分享链接
+                link: shareInfo.link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
-                    util.trackEvent('Share', 'QZone', 1);
+                    util.trackEvent('ShareSuccess', 'QZone', 1);
+                    if (onSuccess) onSuccess();
                 },
                 cancel: function() {
-                    util.trackEvent('Share', 'QZone', 0);
+                    util.trackEvent('ShareCancel', 'QZone', 0);
+                    if (onCancel) onCancel();
+                },
+                complete: function() {
+                    if (onComplete) onComplete();
                 }
             });
 
@@ -376,6 +402,13 @@ define(function(require, exports, module) {
         if (element && element.size() > 0) {
             element[0].style.webkitTransform = transformStr;
             element[0].style.transform = transformStr;
+        }
+    };
+
+    exports.getRandomItemInList = function(list) {
+        if ( list && list.length > 0) {
+            var index =Math.floor(Math.random() * list.length);
+            return list[index];
         }
     };
 

@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/filterbar.html', 'dropdown'],
-    function(Marionette, Mustache, $, template, DropDownControl) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/filterbar.html', 'dropdown', 'underscore'],
+    function(Marionette, Mustache, $, template, DropDownControl, _) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -14,7 +14,8 @@
             },
             events: {
                 'select @ui.filterMenuItem': 'onSelectFilterMenu',
-                'tap @ui.leafFilter': 'onTapLeafFilter'
+                'tap @ui.leafFilter': 'onTapLeafFilter',
+                'beforeOpenMenu @ui.filter': 'beforeOpenMenu'
             },
             modelEvents: {
                 'change': 'onModelChange'
@@ -31,7 +32,7 @@
             onSelectFilterMenu: function(ev) {
                 var item = $(ev.currentTarget);
                 var id = item.attr('data-id');
-                var parentFilter = item.parent().prev();
+                var parentFilter = item.parent().prev().prev();
 
                 if (id) {
                     parentFilter.addClass('selected');
@@ -51,6 +52,7 @@
                 return ids;
             },
             onTapLeafFilter: function(ev) {
+
                 var item = $(ev.currentTarget);
                 var id = item.attr('data-id');
                 if ( item.hasClass('selected') ) {
@@ -65,7 +67,14 @@
                     }
                 }
 
+                this.model.setFilters(this.getSelectedFilterIds());
 
+                //关闭其他子菜单
+                this.closeMenu();
+
+            },
+            beforeOpenMenu: function(ev) {
+                this.closeMenu();
             },
             onRender: function() {
                 var filterSize = this.ui.filter.size();
@@ -78,7 +87,7 @@
                         var filter = $(fitlerItem);
                         var id = filter.attr('data-id');
                         filter.css('width', filterWidth + '%');
-                        if (!filter.hasClass('leafFilter')) self.filterMenus[id] = new DropDownControl(filter, filter.next(), 'filterMenu-item', 'fitlerSelection');
+                        if (!filter.hasClass('leafFilter')) self.filterMenus[id] = new DropDownControl(filter, filter.next(), 'filterMenu-item', 'fitlerSelection', true);
                     });
                     this.$el.removeClass('noFilter');
                 } else {
@@ -87,11 +96,22 @@
                 
 
             },
+            closeMenu: function() {
+                $.each(this.filterMenus, function(index, el) {
+                    el.close();
+                });
+            },
+            destroyMenu: function() {
+                $.each(this.filterMenus, function(index, el) {
+                    el.destroy();
+                });
+            },
             onModelChange: function() {
+                this.destroyMenu();
                 this.render();
             },
             onDestroy: function() {
-
+                this.destroyMenu();
             }
         });
     });

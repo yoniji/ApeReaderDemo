@@ -33,6 +33,9 @@
         			},
         			method:'POST'
         		});
+
+                appConfig.user_info.counts.likes ++;
+                
         	},
         	dislike: function() {
         		var self = this;
@@ -49,6 +52,7 @@
         			},
         			method:'POST'
         		});
+                appConfig.user_info.counts.likes --;
         	},
         	block: function() {
         		var self = this;
@@ -64,6 +68,7 @@
         			method:'POST'
         		});
                 if(this.collection) this.collection.remove(this);
+                
         	},
         	markShared: function() {
         		var self = this;
@@ -95,6 +100,7 @@
                     },
                     method:'POST'
                 });
+                util.trackEvent('View', 'Post', 1);
             },
             hasCoverImage: function() {
                 return ( this.get('images') && this.get('images').length > 0);

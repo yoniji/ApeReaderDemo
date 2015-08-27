@@ -21,7 +21,8 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             events: {
                 'tap a': 'onTapLink',
-                'click a': 'onClickLink'
+                'click a': 'onClickLink',
+                'touchmove': 'onTouchMove'
             },
             ui: {
                 'primary': '#primary',
@@ -48,8 +49,8 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 });
                 var mc = $('body').data('hammer');
                 mc.get('tap').set({
-                    time: 500,
-                    threshold: 5
+                    time: 300,
+                    threshold: 10
                 });
                 mc.get('pan').set({
                     threshold: 15
@@ -114,6 +115,9 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             navigateBack: function(ev) {
                 window.history.back();
 
+            },
+            onTouchMove: function(ev) {
+                ev.stopPropagation();
             }
         });
     });

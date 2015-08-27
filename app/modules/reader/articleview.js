@@ -1,5 +1,5 @@
-﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html'],
-    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate) {
+﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html', 'modules/reader/shareview'],
+    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -169,12 +169,14 @@
                 share_info.timeline_title = this.model.get('title');
                 share_info.message_title = this.model.get('title');
                 share_info.message_description = this.model.get('excerpt');
+
                 if (this.model.hasCoverImage()) {
                     var img = _.clone(this.model.get('images')[0]);
                     img.url = img.url + '@180w_180h_1e_1c';
                     share_info.image = img;
                 }
 
+                this.shareInfo = share_info;
                 util.setWechatShare(share_info);
             },
             isFormated: function() {
@@ -193,7 +195,7 @@
                 this.ui.article.css('height', articleHeight);
 
                 this.model.markViewed();
-                util.trackEvent('View', 'Post', 1);
+                
 
             },
             processImage: function() {
@@ -241,6 +243,7 @@
                     trigger: false,
                     replace: false
                 });
+                util.trackEvent('Close', 'Post', 1);
                 
             },
             onToggleLike: function() {
@@ -258,6 +261,8 @@
             },
             onTapShare: function() {
                 this.model.markShared();
+                var shareView = new ShareView({ shareInfo: this.shareInfo });
+                util.trackEvent('Share', 'Post', 1);
             },
             onTapNext: function() {
 
@@ -265,11 +270,10 @@
             onTapBlock: function() {
                 util.setIconToLoading(this.ui.block.find('.icon'));
                 this.model.block();
-                util.trackEvent('Close', 'Post', 1);
+                util.trackEvent('Block', 'Post', 1);
             },
             onBlockSuccess: function() {
                 this.onTapBack();
-                util.trackEvent('Block', 'Post', 1);
             },
             onShow: function() {
 

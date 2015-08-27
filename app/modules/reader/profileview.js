@@ -1,4 +1,4 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/profile.html', 'modules/reader/profile','modules/reader/postcollection', 'modules/reader/cardview', 'dropdown', 'modules/reader/emptyview'],
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/profile.html', 'modules/reader/profile', 'modules/reader/postcollection', 'modules/reader/cardview', 'dropdown', 'modules/reader/emptyview'],
     function(Marionette, Mustache, $, template, Profile, PostCollection, CardView, DropDown, EmptyView) {
 
         return Marionette.CompositeView.extend({
@@ -13,7 +13,7 @@
                 'filterMenuItem': '.dropDown-menu-item'
             },
             events: {
-                'select @ui.filterMenuItem':'onTapMenuItem'
+                'select @ui.filterMenuItem': 'onTapMenuItem'
             },
             modelEvents: {
                 'sync': 'modelSynced',
@@ -23,14 +23,18 @@
                 this.model = new Profile();
                 this.collection = new PostCollection();
                 app.rootView.updatePrimaryRegion(this);
-                this.model.fetch();
+                this.model.fetch({
+                    'data': {
+                        userid: appConfig.user_info.id
+                    }
+                });
             },
             modelSynced: function() {
                 this.collection.reset(this.model.get('data'));
                 this.updateEmptyView();
             },
             updateEmptyView: function() {
-                if (this.collection.size()<1) {
+                if (this.collection.size() < 1) {
                     this.$el.find('.empty').height(this.ui.feedsWrapper.height());
                     this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
                 }
@@ -40,8 +44,10 @@
                 var id = item.attr('data-id');
                 var filterStr = '';
                 if (id) {
-                    var selectedData = { 'level1': [id] };
-                    filterStr = JSON.stringify( selectedData );
+                    var selectedData = {
+                        'level1': [id]
+                    };
+                    filterStr = JSON.stringify(selectedData);
                 }
                 this.model.setFilter(filterStr);
                 this.model.resetPosts();
@@ -52,27 +58,32 @@
                 this.collection.reset(postsData);
             },
             templateHelpers: function() {
-
+                var nameList = [
+                    '金角大王', '银角大王', '空空', '二师兄', '大师兄', '师傅'
+                ];
+                var iconList = [
+                    'buddha', 'pig', 'cat', 'us'
+                ];
                 return {
                     'getRandomName': function() {
-                        return '金角大王';
+                        return util.getRandomItemInList(nameList);
                     },
                     'getRandomIcon': function() {
-                        return 'buddha';
+                        return util.getRandomItemInList(iconList);
                     }
                 };
             },
             onShow: function() {
-                this.ui.feedsWrapper.height( this.$el.height() - this.ui.profileHeader.height());
+                this.ui.feedsWrapper.height(this.$el.height() - this.ui.profileHeader.height());
                 this.menu = new DropDown(this.ui.filterSwitch, this.ui.filterMenu);
                 this.updateEmptyView();
             },
             onDestroy: function() {
-                if(this.scroller) this.scroller.destroy();
+                if (this.scroller) this.scroller.destroy();
                 this.stopListening();
             },
             id: 'profileWrapper',
-            className:'rootWrapper',
+            className: 'rootWrapper',
             childViewContainer: '#cards',
             childView: CardView,
             emptyView: EmptyView

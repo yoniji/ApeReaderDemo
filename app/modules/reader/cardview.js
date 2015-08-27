@@ -11,10 +11,19 @@
             },
             initialize: function() {
             },
+            modelEvents: {
+                'toggleLikeSuccess': 'onToggleLikeSuccess'
+            },
             onRender: function() {
                 if (this.model.get('isAction')) {
                     this.$el.addClass('actionCard');
                 }
+            },
+            onToggleLikeSuccess: function() {
+                if (!this.model.get('metadata').liked) {
+                    if (this.model.collection) this.model.collection.remove(this.model);
+                }
+                appConfig.user_info.likes --;
             },
             templateHelpers: function() {
                 var self = this;

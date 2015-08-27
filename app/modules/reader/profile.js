@@ -6,7 +6,7 @@
         };
         return Backbone.Model.extend({
             url: function() {
-                return urls.getServiceUrlByName('explore');
+                return urls.getServiceUrlByName('user') + '/like';
             },
             initialize: function() {
                 if (appConfig && appConfig.user_info) {

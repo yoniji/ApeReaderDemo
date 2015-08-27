@@ -23,6 +23,15 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cat:before {
+	content: "\e61b";
+}
+.icon-pig:before {
+	content: "\e61c";
+}
+.icon-path:before {
+	content: "\e61d";
+}
 .icon-buddha:before {
 	content: "\e61a";
 }

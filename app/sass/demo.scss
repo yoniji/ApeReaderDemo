@@ -22,7 +22,6 @@ body,
 .rootWrapper {
     @include size(100%);
     @include position(relative);
-    overflow: hidden;
 }
 
 $homeNavigationHeihgt:56px;
@@ -83,6 +82,7 @@ $homeNavigationTextColor:$black;
 .image {
     overflow:hidden;
     position:relative;
+    background: $border-color;
     >img {
         max-width: none;
         max-height: none;
@@ -220,12 +220,33 @@ $topBarColor:$black;
     display: none;
     z-index: 1;
     @include reset-transform();
+    @include clearfix;
+    background: $white;
+    border-bottom:1px solid $border-color;
+
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
 }
 .filterMenu-item {
     height: $topBarHeight;
-    line-height: $topBarHeight;
+    //line-height: $topBarHeight;
     background: $white;
     border-bottom:1px solid $border-color;
+    
+    float:left;
+    display: inline-block;
+    width:50%;
+
+}
+.filterMenu-item:nth-child(2n) {
+    border-left:1px solid $border-color;
+}
+.filterMenu-item:nth-child(2n+1):nth-last-child(2) {
+    border-bottom:none;
+}
+
+.filterMenu-item:last-child {
+    border-bottom:none;
 }
 .menu-open {
     display: block;
@@ -570,7 +591,7 @@ $toolBarColor:$black;
 }
 
 .slideOut, .articleWrapper.slideOut {
-    @include animation(slideOut 1s $default-timing-function);
+    @include animation(slideOut 1s $default-timing-function both);
 }
 .articleWrapper,.productWrapper {
     @include position(absolute, 0 null null 0);
@@ -641,6 +662,10 @@ $toolBarColor:$black;
 
     .image {
         margin-bottom: 1.5em;
+        min-width: $basic-gap*2;
+        min-height: $basic-gap*2;
+        border-radius:2px;
+
         >img {
             max-width: 100%;
             border-radius:2px;
@@ -734,7 +759,7 @@ $profileHeaderHeight:56px;
     float: left;
     display: inline-block;
     border-radius: 2px;
-    font-size: 10px;
+    font-size: 13px;
     padding: 0;
     border: none;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
@@ -820,6 +845,22 @@ $menuItemHeight:48px;
     left:25%;
     top:100%;
     @include reset-transform();
+    border-radius:2px;
+
+
+}
+.menu-overlay {
+    @include position(absolute, 0 null null 0);
+    @include size(100%);
+    background:rgba(0,0,0,.5);
+    content: '';
+    display: block;
+    display: none;
+    @include reset-transform();
+
+    &.transparent {
+        background: rgba(0,0,0,0);
+    }
 }
 
 .dropDown-menu-item {
@@ -1027,12 +1068,13 @@ $menuItemHeight:48px;
 .cellAction {
     line-height: 24px;
     height: 48px;
-    padding:$basic-gap/2 $basic-gap;
-    text-align: left;
+    padding:12px $basic-gap;
+    text-align: right;
     border-bottom:1px solid $border-color;
     vertical-align: top;
     >.icon,>.icon:before {
         line-height: 24px;
+        margin-left: 2px;
     }
 }
 .cellAction:last-child {
@@ -1269,4 +1311,73 @@ $menuItemHeight:48px;
 .addText {
     font-size: 10px;
     line-height: 12px;
+}
+.blur {
+    @include filter(blur(2px));
+}
+.shareOverlay {
+    background:rgba(255,255,255,.8);
+}
+
+.shareArrow {
+    text-align: right;
+    padding:$basic-gap $basic-gap*3 $basic-gap  $basic-gap;
+    >.icon {
+        font-size:100px;
+        @include transform-origin(center bottom);
+    }
+}
+.shareDemo {
+    margin:$basic-gap $basic-gap*1.5;
+    background:$white;
+    border:1px solid $border-color;
+    border-radius:5px;
+    @include clearfix;
+    padding:$basic-gap;
+}
+.shareText {
+    text-align: center;
+    font-size: 12px;
+}
+.shareThumb {
+    float: left;
+    display: inline-block;
+    @include size(64px);
+    margin-right: $basic-gap/2;
+    background: $border-color;
+    >img {
+        @include size(64px);
+        border-radius: 2px;
+    }
+}
+.shareTitle {
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: 4px;
+    max-height: 32px;
+    overflow:hidden;
+}
+.shareDesc {
+    font-size: 12px;
+    color:$caption-color;
+    line-height:14px;
+    max-height: 42px;
+    overflow:hidden;
+}
+@include keyframes(float) {
+    0% {
+        @include transform(translate3d(0, 0, 0));
+    }
+    40% {
+       @include transform(translate3d(0, -5px, 0));
+    }
+    90% {
+       @include transform(translate3d(0, 2px, 0));
+    }
+    100% {
+        @include transform(translate3d(0, 0, 0));
+    }
+}
+.float {
+    @include animation(float 1.5s infinite);
 }

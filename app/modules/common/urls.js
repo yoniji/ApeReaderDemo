@@ -7,25 +7,24 @@ define(function(require, exports, module) {
 
     var testServiceUrls = {
         'explore': releaseBaseUrl + 'explore/posts',
-        'posts': releaseBaseUrl + 'explore/posts',
         'post': releaseBaseUrl + 'explore/post',
         'mark': releaseBaseUrl + 'explore/mark',
+        'feature': releaseBaseUrl + 'feature',
+        'user': releaseBaseUrl + 'user',
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
-        'feature': testBaseUrl + 'feature/',
         'wechat': releaseBaseUrl + 'api/jsconfig'
     };
 
     var releaseServiceUrls = {
         'explore': releaseBaseUrl + 'explore/posts',
-        'posts': releaseBaseUrl + 'explore/posts',
         'post': releaseBaseUrl + 'explore/post',
         'mark': releaseBaseUrl + 'explore/mark',
+        'feature': releaseBaseUrl + 'feature',
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
-        'feature': testBaseUrl + 'feature/',
         'wechat': releaseBaseUrl + 'api/jsconfig'
     };
 
