@@ -119,19 +119,37 @@
 
                 var $el = $(ev.currentTarget);
                 var $img = $el.find('img');
+                var src = $img.attr('src');
+                if ($el.hasClass('thumb')) src = $img.attr('originalSrc');
+                var current = src;
 
+                if ($el.hasClass('gridThumb')) {
 
-                if ($el.hasClass('thumb')) {
+                    //网格模式下，启用微信图片浏览器
+                    var urls = [];
+                    this.$el.find('.articleBody .image img').each(function(index, el) {
+                        var img = $(el);
+                        if (img.parent().hasClass('thumb')) {
+                            urls.push(img.attr('originalSrc'));
+                        } else {
+                            urls.push(img.attr('src'));
+                        }
+                            
+                    });
+                    util.previewImages(urls, current);
+                    util.trackEvent('Image', '浏览相册', 1);
+
+                } else if($el.hasClass('thumb')) {
+
+                    //缩略图模式下，切换为大图
                     $img.attr('src', $img.attr('originalSrc'));
                     $el.removeClass('thumb').attr('style', '');
 
                     util.trackEvent('Image', '放大', 1);
 
                 } else {
-                    var urls = [];
-                    var src = $img.attr('src');
-                    var current = src;
-
+                    
+                    //大图模式下，显示上下文toolbox
                     var pointer = ev.originalEvent.gesture.pointers[0];
                     var imageAction = new ImageActionView({
                         model: this.model,
@@ -143,6 +161,7 @@
                     });
 
                     util.trackEvent('Image', '查看选项', 1);
+
                 }
 
 
@@ -154,8 +173,8 @@
                 this.$el.find('.thumb').each(function(index, el) {
                     var $el = $(el);
                     var $img = $el.find('img');
-                    $img.attr('src', $img.attr('originalSrc'));
-                    $el.removeClass('thumb').attr('style', '');
+                    $img.attr('src', $img.attr('originalSrc')).attr('style', '');
+                    $el.removeClass('thumb gridThumb').attr('style', '');
                 });
 
                 util.trackEvent('Image', '显示全部大图', 1);
@@ -191,7 +210,7 @@
                 share_info.message_description = this.model.get('excerpt');
 
                 var url = util.getUrlWithoutHashAndSearch();
-                url = url + '?hash=' + encodeURIComponent('#posts/' + this.model.get('id'));
+                url = url + '?hash=' + encodeURIComponent('#share/posts/' + this.model.get('id'));
                 share_info.link =url;
 
                 if (this.model.hasCoverImage()) {
@@ -252,7 +271,7 @@
             processImage: function() {
                 var thumbWidth = 180;
 
-                var ratio = Math.min(1.5, util.getDeviceRatio());
+                var ratio = Math.min(2, util.getDeviceRatio());
                 if (appConfig.networkType === '2g') ratio = 1;
 
                 this.$el.find('.articleBody .image').each(function(index, el) {
@@ -262,8 +281,10 @@
 
                     $el.css('width', thumbWidth).addClass('thumb');
                     $img.attr({
-                        'src': src + '@_' + Math.round(thumbWidth * ratio),
+                        'src': src + '@_' + Math.round(thumbWidth * ratio) + 'w',
                         'originalSrc': src
+                    }).css({
+                        'width':thumbWidth
                     });
 
                 });

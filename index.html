@@ -14,39 +14,52 @@
     <!-- build:[href] http://resource.apecrafts.com/styles.min.css -->
     <link rel="stylesheet" href="/app/styles/index.css">
     <!-- /build -->
- 
 </head>
 
 <body>
     <!-- Application container. -->
     <main role="main" id="main">
+        <div class="loadingIcon mainLoading">
+            <div class="loadingIconInner">
+                <i class="icon icon-spain"></i>
+                <i class="icon icon-uk"></i>
+                <i class="icon icon-france"></i>
+                <i class="icon icon-japan"></i>
+                <i class="icon icon-spain"></i>
+            </div>
+        </div>
     </main>
     <script type="text/javascript">
     var appConfig = {
         user_info: {
-            id:'2',
+            id: '2',
             name: '',
-            nick_name:'',
-            bio:'',
-            image: {},//如果没有头像则返回空
+            nick_name: '',
+            bio: '',
+            image: {}, //如果没有头像则返回空
             subscibed: false,
             counts: {
-                likes:1,
-                views:0,
-                following_tags:0,
-                following_users:0,
-                followers:0
+                likes: 1,
+                views: 0,
+                following_tags: 0,
+                following_users: 0,
+                followers: 0
             }
         },
         share_info: {
             //分享图片
-            image: { url:'http://imgopt.apecrafts.com/apple-touch-icon.png', width:180, height:180, type:'oss' },
+            image: {
+                url: 'http://imgopt.apecrafts.com/apple-touch-icon.png',
+                width: 180,
+                height: 180,
+                type: 'oss'
+            },
             //分享到朋友圈标题
             timeline_title: '悟空家装，个性化推荐平台，定制你的家装资讯',
             //分享给好友标题
-            message_title:'悟空家装，个性化推荐平台，定制你的家装资讯',
+            message_title: '悟空家装，个性化推荐平台，定制你的家装资讯',
             //分享给好友描述
-            message_description:'手机看家装设计的必备公众号'
+            message_description: '手机看家装设计的必备公众号'
         },
         post_menu: [{
             id: "1",
@@ -69,13 +82,13 @@
                     }, {
                         id: "10",
                         name: "中式"
-                    },  {
+                    }, {
                         id: "11",
                         name: "日韩/东南亚"
-                    },  {
+                    }, {
                         id: "12",
                         name: "地中海"
-                    },  {
+                    }, {
                         id: "13",
                         name: "混搭"
                     }]
@@ -197,12 +210,11 @@
     }
     </script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="http://sdk.talkingdata.com/app/h5/v1?appid=C099F61BE12ACE9030A678DD2C6DA843&vn=alpha&vc=1.0"></script> 
+    <script src="http://sdk.talkingdata.com/app/h5/v1?appid=C099F61BE12ACE9030A678DD2C6DA843&vn=alpha&vc=1.0"></script>
     <!-- Application source. -->
     <!-- build:[src] http://resource.apecrafts.com/source.min.js -->
     <script src="/vendor/bower/requirejs/require.js" data-main="/app/config"></script>
     <!-- /build -->
-
 </body>
 
 </html>

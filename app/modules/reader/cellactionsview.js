@@ -58,7 +58,7 @@
                 share_info.message_description = this.model.get('excerpt');
 
                 var url = util.getUrlWithoutHashAndSearch();
-                url = url + '?hash=' + encodeURIComponent('#posts/' + this.model.get('id'));
+                url = url + '?hash=' + encodeURIComponent('#share/posts/' + this.model.get('id'));
                 share_info.link =url;
 
                 if (this.model.hasCoverImage()) {

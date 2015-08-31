@@ -31,6 +31,14 @@ define(function(require, exports, module) {
         }
     };
 
+    exports.trim = function(str) {
+        var result = '';
+        if(str) {
+            result = str.replace(/(^\s+)|(\s+$)/g, "");
+        }
+        return result;
+    };
+
     exports.getUrlWithoutHash = function() {
         var url = window.location.protocol + '//' + window.location.hostname;
         if (window.location.port) url += (':' + window.location.port);
@@ -48,7 +56,7 @@ define(function(require, exports, module) {
         if (window.location.port) url += (':' + window.location.port);
         url = url + window.location.pathname;
 
-        if (hash) url+= '?hash=' + encodeURIComponent(hash);
+        if (hash) url += '?hash=' + encodeURIComponent(hash);
         return url;
     };
 
@@ -67,7 +75,7 @@ define(function(require, exports, module) {
 
     exports.setWechatShare = function(shareInfo, onSuccess, onCancel, hash) {
         var link = shareInfo.link;
-        if (!link)  {
+        if (!link) {
             link = util.generateShareUrlWithCurrentLocation(hash);
         }
         if (wx) {
@@ -89,7 +97,7 @@ define(function(require, exports, module) {
             });
             wx.onMenuShareAppMessage({
                 title: shareInfo.message_title, // 分享标题
-                desc: shareInfo.message_description, // 分享描述
+                desc: util.trim(shareInfo.message_description), // 分享描述
                 link: link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
@@ -424,8 +432,8 @@ define(function(require, exports, module) {
     };
 
     exports.getRandomItemInList = function(list) {
-        if ( list && list.length > 0) {
-            var index =Math.floor(Math.random() * list.length);
+        if (list && list.length > 0) {
+            var index = Math.floor(Math.random() * list.length);
             return list[index];
         }
     };

@@ -19,10 +19,24 @@ body,
     overflow: hidden;
 }
 
+#primary {
+    background: #f5f5f5;
+}
 .rootWrapper {
     @include size(100%);
     @include position(relative);
 }
+
+.image {
+    overflow:hidden;
+    position:relative;
+    background: #f0f0f0;
+    >img {
+        max-width: none;
+        max-height: none;
+    }
+}
+
 
 $homeNavigationHeihgt:56px;
 $homeNavigationBackground:$white;
@@ -68,9 +82,6 @@ $homeNavigationTextColor:$black;
     }
 }
 
-#primary {
-    background: #f5f5f5;
-}
 
 @include keyframes(flip) {
     0% {
@@ -78,15 +89,6 @@ $homeNavigationTextColor:$black;
     }
     100% {
         @include transform(rotate(180deg));
-    }
-}
-.image {
-    overflow:hidden;
-    position:relative;
-    background: $border-color;
-    >img {
-        max-width: none;
-        max-height: none;
     }
 }
 
@@ -450,7 +452,7 @@ $smallCellCoverSize:72px;
     .cellDetail {
         padding-right:$smallCellCoverSize + $basic-gap;
     }
-    
+
 }
 .mediumCell,.largeCell,.fullCell {
     padding:$basic-gap 0;
@@ -676,6 +678,7 @@ $toolBarColor:$black;
     font-size:15px;
     line-height: 1.6em;
     color:#444;
+    @include clearfix;
 
     .image {
         margin-bottom: 1.5em;
@@ -691,6 +694,15 @@ $toolBarColor:$black;
     .thumb {
         margin:0 auto 1.5em;
     }
+    .gridThumb {
+        float: left;
+        margin-right: 4px;
+        margin-bottom: 4px;
+    }
+    .gridThumb:nth-child(3n + 1) {
+        margin-right: 0;
+    }
+
 
 }
 .articleOrignalLink {
@@ -703,7 +715,12 @@ $toolBarColor:$black;
     margin:2em 0 0;
     text-align: center;
     border-radius:5px;
+    @include clearfix;
+    float: none;
+    clear: both;
 }
+
+
 $profileHeaderHeight:56px;
 .profileHeader {
     @include size(100% $profileHeaderHeight);
@@ -1350,9 +1367,29 @@ $actionDialogBg:rgba(0,0,0,.8);
         @include transform(rotateY(0deg));
     }
 }
-.empty {
+
+.loadingIcon {
+    @include centerAndOffset(66px,66px);
+    display: block;
+    border-radius:100%;
+    overflow:hidden;
+    border:1px solid $caption-color;
+    text-align: left;
+    overflow:hidden;
+    @include reset-transform;
+    @include animation(loadingIcon 1s .5s ease-in-out infinite);
     text-align: center;
-    
+
+}
+.mainLoading {
+    margin-top: -60px;
+}
+.loadingIconInner {
+    width: 66px*6;
+    height: 100%;
+    @include reset-transform;
+    @include animation(loadingIconInner 4s  infinite steps(4));
+
     .icon {
         font-size: 48px;
         line-height: 48px;  
@@ -1363,26 +1400,9 @@ $actionDialogBg:rgba(0,0,0,.8);
         overflow:hidden;
         padding:8px;   
     }
-    .loadingIcon {
-        @include centerAndOffset(66px,66px);
-        display: block;
-        border-radius:100%;
-        overflow:hidden;
-        border:1px solid $caption-color;
-        text-align: left;
-        overflow:hidden;
-        @include reset-transform;
-        @include animation(loadingIcon 1s .5s ease-in-out infinite);
-
-    }
-    .loadingIconInner {
-        width: 66px*6;
-        height: 100%;
-        @include reset-transform;
-        @include animation(loadingIconInner 4s  infinite steps(4));
-    }
-    
 }
+    
+
 .errorWrapper {
     height: 100%;
     width: 100%;
@@ -1508,3 +1528,93 @@ $actionDialogBg:rgba(0,0,0,.8);
     height: $basic-gap*3;
     text-align: center;
 }
+
+.topActionBtn {
+    @include position(absolute, $basic-gap/4*3 $basic-gap/2 null null);
+    border-radius:15px;
+}
+.shareArticleWrapper .creditMeta {
+    font-size: 10px;
+}
+.expand {
+    border-top:1px solid $border-color;
+    height: $basic-gap*4;
+    position:relative;
+}
+.expandSwitch {
+    @include size(64px);
+    @include position(absolute,0-$basic-gap null null 50%);
+    margin-left: -32px;
+    border-radius:100%;
+    text-align: center;
+    font-size: 10px;
+    line-height: 12px;
+    background:#fff;
+    padding-top:16px;
+    box-shadow:0 1px 2px rgba(0,0,0,.5);
+
+}
+.expandSwitch:active {
+    padding-top:16px;
+    color: darken($main-color, 20%);
+    box-shadow:0 1px 1px rgba(0,0,0,.2);
+}
+.fold .articleBody {
+    height: 600px;
+    overflow:hidden;
+}
+.shareBottom {
+    padding:$basic-gap 0 $basic-gap*2;
+}
+.share-readMore {
+    font-size: 12px;
+    padding-top:14px;
+    padding-bottom:14px;
+}
+.shareBottomActions {
+    @include clearfix;
+}
+.shareBottomAction {
+    float: left;
+    display: inline-block;
+    width: 33.33%;
+    margin-bottom: $basic-gap*2;
+    color: $caption-color;
+    border-right:1px solid #f0f0f0;
+    >.icon,>span {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .icon {
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+    span {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
+.shareBottomAction:last-child {
+    border-right:none;
+}
+.subscribeCard {
+    text-align: center;
+    padding:$basic-gap;
+
+    .creditItem {
+        margin-bottom: $basic-gap;
+    }
+    .creditImage {
+        display: block;
+        float: none;
+        margin:0 auto;
+    }
+    .creditName {
+        font-size: 14px;
+        font-weight:bold;
+        color: #333;
+        padding:4px 0;
+    }
+}
+

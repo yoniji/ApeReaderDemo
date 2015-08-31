@@ -1,5 +1,5 @@
-﻿define(['backbone', 'marionette', 'modules/reader/exploreview', 'modules/reader/featureview', 'modules/reader/profileview', 'modules/reader/articleview', 'modules/reader/productview', 'modules/reader/productlibraryview', 'modules/reader/productsearchview'],
-    function(Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ProductView, ProductLibraryView, ProductSearchView) {
+﻿define(['backbone', 'marionette', 'modules/reader/exploreview', 'modules/reader/featureview', 'modules/reader/profileview', 'modules/reader/articleview', 'modules/reader/sharearticleview', 'modules/reader/productview', 'modules/reader/productlibraryview', 'modules/reader/productsearchview'],
+    function(Backbone, Marionette, ExploreView, FeatureView, ProfileView, ArticleView, ShareArticleView, ProductView, ProductLibraryView, ProductSearchView) {
 
         function setCurrentNavigationById(targetId) {
             $('.homeNavigation-item.current').removeClass('current');
@@ -90,6 +90,17 @@
                     'delay':true
                 });
                 setCurrentNavigationById('explore');
+            },
+            sharePost: function(id) {
+                if (this.articleView) {
+                    this.articleView.destroy();
+                    this.articleView = null;
+                }
+
+                var shareArticleView = new ShareArticleView({
+                     'id': id,
+                    'directShow': true
+                });
             },
             products: function() {
                 var productLibraryView = new ProductLibraryView();

@@ -24,6 +24,7 @@
                 this.model = new Profile();
                 this.collection = new PostCollection();
                 app.rootView.updatePrimaryRegion(this);
+                
                 this.model.fetch({
                     'data': {
                         userid: appConfig.user_info.id

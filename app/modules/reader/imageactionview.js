@@ -54,6 +54,7 @@
                 });
                 util.previewImages(urls, this.current);
                 this.destroy();
+                util.trackEvent('Image', '浏览相册', 1);
             },
             onShare: function(ev) {
                 var share_info = _.clone(appConfig.share_info);
@@ -62,7 +63,7 @@
                 share_info.message_description = this.model.get('excerpt');
 
                 var url = util.getUrlWithoutHashAndSearch();
-                url = url + '?hash=' + encodeURIComponent('#posts/' + this.model.get('id'));
+                url = url + '?hash=' + encodeURIComponent('#share/posts/' + this.model.get('id'));
                 share_info.link =url;
                 share_info.image = { url: this.current, type:'oss' };
 
@@ -72,6 +73,7 @@
                 util.trackEvent('Share', 'Image', 1);
 
                 this.destroy();
+                util.trackEvent('Image', '分享', 1);
             },
             onDestroy: function() {
                 this.stopListening();

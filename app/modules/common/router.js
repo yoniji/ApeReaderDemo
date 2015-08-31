@@ -5,6 +5,7 @@ define(['backbone', 'marionette'], function (Backbone, Marionette) {
         	'feature(/)':'feature',
         	'me(/)':'me',
         	'posts/:id(/)':'post',
+            'share/posts/:id(/)':'sharePost',
         	'products(/)':'products',
         	'products/search(/)':'searchProducts',  
         	'products/:id(/)':'productDetail',
