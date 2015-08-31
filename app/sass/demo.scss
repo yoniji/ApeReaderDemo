@@ -50,7 +50,8 @@ $homeNavigationTextColor:$black;
     }
     >.icon {
         line-height: $homeNavigationHeihgt - 10;
-        height: $homeNavigationHeihgt - 10;
+        height: $homeNavigationHeihgt - 1px;
+        margin-bottom: -9px;
         color: lighten($homeNavigationTextColor, 60%);
         display: block;
     }
@@ -363,19 +364,16 @@ $actionBarWidth:64px;
     background: $cellBackground;
     color: $cellTextColor;
     position:relative;
-    overflow-x: hidden;
+    display: block;
+    @include reset-transform;
 
     .inner {
         background: $cellBackground;
         position:relative;
         border-bottom:1px solid $cellBorderColor;
-        height: 100%;
+        @include reset-transform;
         
     }
-    .inner:active {
-        background:darken($cellBackground, 5%);
-    }
-
     .creditItem {
         padding: 0 $basic-gap 0.2em;
     }
@@ -445,12 +443,14 @@ $smallCellCoverSize:72px;
 .smallCell {
     min-height: $smallCellCoverSize + $basic-gap*2;
     padding:$basic-gap 0;
+    @include clearfix;
     .image {
         @include position(absolute,$basic-gap $basic-gap null null);
     }
     .cellDetail {
         padding-right:$smallCellCoverSize + $basic-gap;
     }
+    
 }
 .mediumCell,.largeCell,.fullCell {
     padding:$basic-gap 0;
@@ -590,7 +590,16 @@ $toolBarColor:$black;
     }
 }
 
-.slideOut, .articleWrapper.slideOut {
+@include keyframes(delayShow) {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        @include transform(scale3d(1,1,1) translate3d(0,0,0));
+    }
+}
+.slideOut {
     @include animation(slideOut 1s $default-timing-function both);
 }
 .articleWrapper,.productWrapper {
@@ -598,7 +607,15 @@ $toolBarColor:$black;
     @include reset-transform;
     @include size(100%);
 
-    @include animation(zoomInActions .3s  $default-timing-function);
+    &.animate {
+    }
+    &.delayShow {
+        @include animation(delayShow .3s .5s $default-timing-function both);
+    }
+    &.slideOut {
+        @include animation(slideOut 1s $default-timing-function both);
+    }
+
     background: $cellBackground;
     z-index: 2;
     overflow:hidden;
@@ -1028,14 +1045,64 @@ $menuItemHeight:48px;
     background: rgba(0,0,0,.3);
     z-index: 10;
 }
+$actionDialogBg:rgba(0,0,0,.8);
 .cellActions {
     @include position(absolute,null $basic-gap null null);
     @include clearfix;
     
     width: auto;
-    background:$white;
-    border-radius:2px;
+    background:$actionDialogBg;
+    color:$white;
+    border-radius:5px;
     z-index: 11;
+}
+.imageActionWrapper .overlay,.cellActionWrapper .overlay {
+    background:transparent;
+}
+.imageActions {
+    @include position(absolute);
+    @include clearfix;
+    width: auto;
+    background: $actionDialogBg;
+    z-index: 11;
+    border-radius: 5px;
+    color: white;
+    font-size: 10px;
+    line-height: 40px;
+}
+.imageActions:after {
+    content: "";
+    display: block;
+    @include size(0);
+    line-height: 0;
+    font-size: 1px;
+    border-width:$basic-gap/4 $basic-gap/4;
+    border-style:solid;
+}
+.imageActions.bottomCaret:after {
+    @include position(absolute, null $basic-gap 0-$basic-gap/2 null);
+    border-color:$actionDialogBg $actionDialogBg transparent transparent;
+}
+.imageActions.topCaret:after {
+    @include position(absolute, 0-$basic-gap/2 $basic-gap null null);
+    border-color:transparent $actionDialogBg $actionDialogBg transparent;
+}
+.imageActions.topCaret.leftCaret:after {
+    @include position(absolute, 0-$basic-gap/2 auto null $basic-gap);
+    border-color:transparent transparent $actionDialogBg $actionDialogBg;
+}
+.imageActions.bottomCaret.leftCaret:after {
+    @include position(absolute, null auto 0-$basic-gap/2 $basic-gap);
+    border-color:$actionDialogBg transparent transparent $actionDialogBg;
+}
+.imageAction {
+    float:left;
+    display: inline-block;
+    padding:0 $basic-gap;
+    border-right:1px solid #333;
+}
+.imageAction:last-child {
+    border-right:none;
 }
 .zoomInActions {
     @include animation(zoomInActions .3s $default-timing-function);
@@ -1059,18 +1126,18 @@ $menuItemHeight:48px;
 }
 .bottomCaret:after {
     @include position(absolute, null $basic-gap 0-$basic-gap/2 null);
-    border-color:$white $white transparent transparent;
+    border-color:$actionDialogBg $actionDialogBg transparent transparent;
 }
 .topCaret:after {
     @include position(absolute, 0-$basic-gap/2 $basic-gap null null);
-    border-color:transparent $white $white transparent;
+    border-color:transparent $actionDialogBg $actionDialogBg transparent;
 }
 .cellAction {
     line-height: 24px;
     height: 48px;
     padding:12px $basic-gap;
     text-align: right;
-    border-bottom:1px solid $border-color;
+    border-bottom:1px solid #555;
     vertical-align: top;
     >.icon,>.icon:before {
         line-height: 24px;
@@ -1232,6 +1299,10 @@ $menuItemHeight:48px;
     color: darken($cyan, 30%);
     background:lighten($cyan,40%);
 }
+.notification-normal {
+    color: darken($gray, 30%);
+    background:lighten($gray,40%);
+}
 @include keyframes(zoomInThenFadeOut) {
     0% {
         @include transform(scale3d(0,0,1));
@@ -1253,15 +1324,62 @@ $menuItemHeight:48px;
         @include animation(zoomInThenFadeOut 2s both);
     }
 }
+
+@include keyframes(loadingIconInner) {
+    0% {
+        @include transform(translate3d(0,0,0));
+    }
+    100% {
+        @include transform(translate3d(-256px, 0, 0));
+    }
+}
+@include keyframes(loadingIcon) {
+    0% {
+        @include transform(rotateY(0));
+    }
+    25% {
+        @include transform(rotateY(45deg));
+    }
+    50% {
+        @include transform(rotateY(90deg));
+    }
+    75% {
+        @include transform(rotateY(45deg));
+    }
+    100% {
+        @include transform(rotateY(0deg));
+    }
+}
 .empty {
     text-align: center;
     
-    .icon,.icon:before {
-        font-size: 36px;
-        line-height: 36px;
-        height: 36px;
-        display: inline-block;
-        @include centerAndOffset(36px,36px);
+    .icon {
+        font-size: 48px;
+        line-height: 48px;  
+        width: 64px;
+        height: 64px;
+        display: block;
+        float: left;
+        overflow:hidden;
+        padding:8px;   
+    }
+    .loadingIcon {
+        @include centerAndOffset(66px,66px);
+        display: block;
+        border-radius:100%;
+        overflow:hidden;
+        border:1px solid $caption-color;
+        text-align: left;
+        overflow:hidden;
+        @include reset-transform;
+        @include animation(loadingIcon 1s .5s ease-in-out infinite);
+
+    }
+    .loadingIconInner {
+        width: 66px*6;
+        height: 100%;
+        @include reset-transform;
+        @include animation(loadingIconInner 4s  infinite steps(4));
     }
     
 }
@@ -1380,4 +1498,13 @@ $menuItemHeight:48px;
 }
 .float {
     @include animation(float 1.5s infinite);
+}
+
+.readCursor {
+    background:#f0f0f0;
+    color: $caption-color;
+    font-size: 12px;
+    line-height: $basic-gap*3;
+    height: $basic-gap*3;
+    text-align: center;
 }

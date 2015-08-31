@@ -16,7 +16,9 @@
             events: {
                 'select @ui.filterMenuItem': 'onTapMenuItem',
                 'scroll @ui.streamWrapper': 'onScroll',
-                'beforeOpenMenu @ui.filterSwitch': 'beforeOpenMenu'
+                'beforeOpenMenu @ui.filterSwitch': 'beforeOpenMenu',
+                'tap .readCursor': 'onTapReadCursor',
+                'touchmove @ui.streamWrapper': 'onTouchMove'
             },
             modelEvents: {
                 'sync': 'modelSynced',
@@ -24,20 +26,34 @@
                 'gotHistoryPosts': 'onGotHistoryPosts',
                 'resetPosts': 'onResetPosts'
             },
-            initialize: function() {
+            initialize: function(options) {
                 this.model = new ExploreModel();
-                this.model.tryFetchFromLocalStorage();
+                if (options && options.delay) {
+                } else {
+                    this.model.tryFetchFromLocalStorage();
+                }
                 this.modelSynced();
             },
             clearNotification: function() {
                 if(this.timeout) clearTimeout(this.timeout);
                 if(this.ui.streamWrapper) this.ui.streamWrapper.find('.notification').remove();
             },
+            onTapReadCursor: function() {
+                this.ui.streamWrapper.scrollTop(0);
+            },
             onGotNewPosts: function(postsData) {
                 this.stopLoadingNew();
                 if ( postsData && postsData.length>0 ) {
+                    this.ui.streamWrapper.find('.readCursor').remove();
+                    this.ui.streamWrapper.find('#cells').prepend('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
+                    var oldLength = this.collection.length;
                     this.collection.unshift(postsData);
-                    this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + postsData.length + '篇新文章</div>');
+
+                    if (this.collection.length > oldLength) {
+                        this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + postsData.length + '篇新文章</div>');
+                    } else {
+                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">很抱歉，小空没有文章了，明天再试试吧</div>');
+                    } 
                     var self = this;
                     this.timeout = setTimeout(function() {
                         self.clearNotification();
@@ -98,7 +114,6 @@
                 this.updateEmptyView();
                 this.startLoadingNew();
 
-                
             },
             updateEmptyView: function() {
                 if (this.collection.size()<1) {
@@ -163,6 +178,7 @@
                 this.model.resetPosts();
                 this.collection.reset([]);
                 this.updateEmptyView();
+                this.ui.streamWrapper.find('.readCursor').remove();
             },
             onResetPosts: function(postsData) {
                 this.collection.reset(postsData);

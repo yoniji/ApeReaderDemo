@@ -14,7 +14,7 @@
             },
             events: {
                 'select @ui.filterMenuItem':'onTapMenuItem',
-                'scroll @ui.streamWrapper': 'onScroll'
+                'touchmove @ui.streamWrapper': 'onTouchMove'
             },
             modelEvents: {
                 'sync': 'modelSynced'
@@ -76,6 +76,8 @@
             onTapMenuItem: function(ev) {
                 var item = $(ev.currentTarget);
                 console.log('tap '+ item.attr('data-id'));
+            },
+            onTouchMove: function(ev) {
             },
             afterOnDestroy: function() {
 

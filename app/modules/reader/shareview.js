@@ -11,7 +11,9 @@
             },
             initialize: function(options) {
                 var shareInfo = appConfig.share_info;
+                var hash = '';
                 if (options&&options.shareInfo) shareInfo = options.shareInfo;
+                if (options&&options.hash) hash = options.hash;
                 if (options&&options.originalShareInfo) this.originalShareInfo = options.originalShareInfo;
 
                 this.model = new Backbone.Model(shareInfo);
@@ -19,7 +21,7 @@
                 var self = this;
                 util.setWechatShare(shareInfo, function() {
                     self.destroy();
-                });
+                }, null, hash);
 
                 this.render();
             },

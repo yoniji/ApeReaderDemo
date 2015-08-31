@@ -13,7 +13,8 @@
                 'filterMenuItem': '.dropDown-menu-item'
             },
             events: {
-                'select @ui.filterMenuItem': 'onTapMenuItem'
+                'select @ui.filterMenuItem': 'onTapMenuItem',
+                'touchmove @ui.feedsWrapper': 'onTouchMove'
             },
             modelEvents: {
                 'sync': 'modelSynced',
@@ -28,6 +29,8 @@
                         userid: appConfig.user_info.id
                     }
                 });
+
+                util.setWechatShare(window.appConfig.share_info);
             },
             modelSynced: function() {
                 this.collection.reset(this.model.get('data'));
@@ -77,6 +80,9 @@
                 this.ui.feedsWrapper.height(this.$el.height() - this.ui.profileHeader.height());
                 this.menu = new DropDown(this.ui.filterSwitch, this.ui.filterMenu);
                 this.updateEmptyView();
+            },
+            onTouchMove: function(ev) {
+                util.stopPropagation(ev);
             },
             onDestroy: function() {
                 if (this.scroller) this.scroller.destroy();

@@ -8,6 +8,13 @@
         return Marionette.Controller.extend({
             initialize: function(options) {
 
+                var urlParams = util.getUrlParamMap();
+
+                if (!window.location.hash && urlParams.state) {
+                    var hash = decodeURIComponent(urlParams.state);
+                    window.location.hash = hash;
+                }
+
                 //全部请求都加上用户id
                 if (appConfig && appConfig.user_info && appConfig.user_info.id) {
                     $.ajaxSetup({
@@ -18,7 +25,6 @@
                     });
                 }
 
-                
                 if (wx) {
                     //微信Config成功后执行
                     wx.ready(function() {
@@ -50,36 +56,45 @@
             },
             explore: function() {
                 if (this.articleView) {
-                    this.articleView.onTapBack();
-                } else {
-                    var exploreView = new ExploreView();
+
+                    this.articleView.destroy();
+                    this.articleView = null;
                 }
+                var exploreView = new ExploreView();
 
                 setCurrentNavigationById('explore');
+                util.setWechatShare(window.appConfig.share_info, null, null, 'explore');
             },
             feature: function() {
                 if (this.articleView) {
-                    this.articleView.onTapBack();
-                } else {
-                    var featureView = new FeatureView();
+                    this.articleView.destroy();
+                    this.articleView = null;
                 }
+                var featureView = new FeatureView();
 
                 setCurrentNavigationById('feature');
+                util.setWechatShare(window.appConfig.share_info, null, null, 'feature');
             },
             post: function(id) {
                 if (this.articleView) {
-                    this.articleView.onTapBack();
+                    this.articleView.destroy();
+                    this.articleView = null;
                 }
                 
                 this.articleView = new ArticleView({
-                    'id': id
+                    'id': id,
+                    'directShow': true
                 });
-                var exploreView = new ExploreView();
+
+                var exploreView = new ExploreView({
+                    'delay':true
+                });
                 setCurrentNavigationById('explore');
             },
             products: function() {
                 var productLibraryView = new ProductLibraryView();
                 setCurrentNavigationById('products');
+                util.setWechatShare(window.appConfig.share_info, null, null, 'products');
             },
             searchProducts: function(filter) {
                 var productLibraryView = new ProductLibraryView();
@@ -96,6 +111,8 @@
             me: function() {
                 var profileView = new ProfileView();
                 setCurrentNavigationById('me');
+                
+                util.setWechatShare(window.appConfig.share_info);
             }
         });
     });

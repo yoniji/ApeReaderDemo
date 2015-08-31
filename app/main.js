@@ -2,7 +2,8 @@ require(['backbone', 'marionette', 'modules/common/router', 'modules/common/cont
 	window.urls = Urls;
     window.util = Util;
 	window.app = new Marionette.Application();
-    app.appRouter = new Router({controller: new Controller()});
+	app.appController = new Controller();
+    app.appRouter = new Router({controller: app.appController });
     app.rootView = new MainView();
     app.start();
     Backbone.history.start({ pushState: false, root: '/' });

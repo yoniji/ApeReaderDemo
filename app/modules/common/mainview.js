@@ -1,5 +1,5 @@
-define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/main.html', 'hammerjs', 'jquery-hammerjs'],
-    function(Backbone, Marionette, Mustache, $, template, Hammer) {
+define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/main.html','waves', 'hammerjs', 'jquery-hammerjs'],
+    function(Backbone, Marionette, Mustache, $, template, Waves, Hammer) {
         return Marionette.LayoutView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -21,8 +21,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             events: {
                 'tap a': 'onTapLink',
-                'click a': 'onClickLink',
-                'touchmove': 'onTouchMove'
+                'click a': 'onClickLink'
             },
             ui: {
                 'primary': '#primary',
@@ -42,6 +41,19 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 this.ui.secondary.height(this.windowHeight);
                 this.ui.tertiary.height(this.windowHeight);
 
+                this.initWaves();
+
+                $('body').on('touchmove', function(ev) {
+                    util.stopPropagation(ev);
+                });
+            },
+            initWaves: function() {
+                Waves.init({
+                    delay: 100
+                });
+                this.$el.find('.homeNavigation-item>.icon').each(function(index,el){
+                    Waves.attach(el);
+                });
             },
             initHammer: function() {
                 $('body').hammer({
@@ -49,11 +61,11 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 });
                 var mc = $('body').data('hammer');
                 mc.get('tap').set({
-                    time: 300,
-                    threshold: 10
+                    time: 200,
+                    threshold: 9
                 });
                 mc.get('pan').set({
-                    threshold: 15
+                    threshold: 10
                 });
                 mc.remove('doubletap');
                 mc.remove('rotate');
@@ -115,9 +127,6 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             navigateBack: function(ev) {
                 window.history.back();
 
-            },
-            onTouchMove: function(ev) {
-                ev.stopPropagation();
             }
         });
     });

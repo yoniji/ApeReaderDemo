@@ -20,6 +20,7 @@ require.config({
         "dropdown": "modules/ctrls/ctrldropdown",
         "iscroll-pullupdown": "modules/ctrls/iscrollpullupdown",
         "carousel":"modules/ctrls/ctrlcarousel",
+        "waves": "../vendor/bower/waves/dist/waves"
     },
 
     deps: ["main"],

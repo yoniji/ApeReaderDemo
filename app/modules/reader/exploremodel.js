@@ -31,7 +31,7 @@
                 this.filterStr = filterStr;
 
             },
-            shouldLoadNew: function() {
+            hasOldData: function() {
                 return !! this.isOld;
             },
             saveNewPostsToLocalStorage: function(jsonData) {

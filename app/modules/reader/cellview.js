@@ -1,5 +1,9 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview'],
-    function(Marionette, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
+    function(Marionette, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView, Waves) {
+        
+        function isTargetAMoreButton($target) {
+            return $target.hasClass('more') || $target.hasClass('more-line-1')  || $target.hasClass('more-line-2');
+        }
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -26,15 +30,15 @@
                 'more': '.more'
             },
             events: {
-                'tap @ui.more': 'onTapMore',
-                'tap': 'onTap'
+                'touchstart': 'onTouchStart',
+                'touchend': 'onTouchEnd',
+                'touchmove': 'onTouchMove'
             },
             modelEvents: {
                 'change': 'onChange'
             },
             initialize: function() {
-
-
+                this.lastPageY = -1;
             },
             templateHelpers: function() {
                 var self = this;
@@ -128,10 +132,13 @@
             onShow: function() {
 
             },
+            onRender: function() {
+                Waves.attach(this.$el[0],['waves-block']);
+            },
             onTapMore: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                this.actionsView = new CellActionsView({
+                var actionsView = new CellActionsView({
                     model:this.model,
                     toggleOffset: this.ui.more.offset()
                 });
@@ -139,14 +146,44 @@
             onChange: function() {
                 this.render();
             },
-            onTap: function(ev) {
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
-                new ArticleView({
-                    model: this.model
-                });
-                
+            cancelTouch: function() {
+                this.$el.removeClass('touched');
+                this.lastPageY = -1;
+            },
+            onTouchStart: function(ev) {
+                var $target = $(ev.target);
+                if (  isTargetAMoreButton($target) ) {
+                    util.stopPropagation(ev);
+                }
 
+                this.$el.siblings('.touched').removeClass('touched');
+                this.$el.addClass('touched');
+                this.startPageY = ev.originalEvent.touches[0].pageY;
+            },
+            onTouchMove: function(ev) {
+                var pageY = ev.originalEvent.touches[0].pageY;
+                if ( this.startPageY > 0 ) {
+                    if ( Math.abs(pageY - this.startPageY) > 5 ) {
+                        this.cancelTouch();
+                    }
+                }
+            },
+            onTouchEnd: function(ev) {
+                if ( this.$el.hasClass('touched') ) {
+                    var $target = $(ev.target);
+                    if (  isTargetAMoreButton($target) ) {
+                        this.onTapMore(ev);
+                    } else {
+                        app.appController.articleView = new ArticleView({
+                            model: this.model,
+                            delay: true,
+                            triggerFrom: this
+                        });
+                    }
+                    this.cancelTouch();
+                } else {
+                    this.$el.siblings('.touched').removeClass('touched');
+                }
             },
             onDestroy: function() {
                 this.stopListening();

@@ -1,5 +1,5 @@
-﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html', 'modules/reader/shareview'],
-    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView) {
+﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview'],
+    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -44,9 +44,23 @@
                 'blockSuccess': 'onBlockSuccess'
             },
             initialize: function(options) {
+                
+                if (options) {
+                    this.directShow = !!options.directShow;
+                    this.delay = !!options.delay;
+                    if (options.triggerFrom) {
+                        this.startBox = {
+                            width: options.triggerFrom.$el.width(),
+                            height: options.triggerFrom.$el.height(),
+                            left: options.triggerFrom.$el.offset().left,
+                            top: options.triggerFrom.$el.offset().top
+                        };
+                    }
+                }
+
                 if (this.model && !this.model.isNew()) {
-                    this.onModelSync();
                     this.originalRouter = window.location.hash;
+                    this.onModelSync();
                 } else {
                     this.model = new PostModel();
                     this.model.set('id', options.id);
@@ -63,23 +77,23 @@
                     replace: false
                 });
 
-
-
+                
 
             },
             onPanStart: function(ev) {
                 if (!this.isPanStarted) {
                     this.isPanStarted = true;
+                    this.$el.removeClass('delayShow');
+                    this.$el.removeClass('animate');
                 }
             },
             onPanMove: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-
                 var gesture = ev.originalEvent.gesture;
 
                 if (this.isPanStarted) {
-                    util.setElementTransform(this.$el, 'translate3d(' + (gesture.deltaX - 50) + 'px,0,0)');
+                    util.setElementTransform(this.$el, 'translate3d(' + (gesture.deltaX - 10) + 'px,0,0)');
                 } else if (gesture.deltaX > 50) {
                     this.onPanStart(ev);
                 }
@@ -91,7 +105,7 @@
                 var gesture = ev.originalEvent.gesture;
 
                 if (gesture && gesture.deltaX && gesture.deltaX > ($(window).width() / 2)) {
-                    this.onTapBack();
+                    this.slideOut();
                 } else {
                     this.slideBack();
                 }
@@ -118,11 +132,15 @@
                     var src = $img.attr('src');
                     var current = src;
 
-                    this.$el.find('.articleBody .image img').each(function(index, el) {
-                        urls.push($(el).attr('src'));
+                    var pointer = ev.originalEvent.gesture.pointers[0];
+                    var imageAction = new ImageActionView({
+                        model: this.model,
+                        toggleOffset: {
+                            left: pointer.pageX,
+                            top: pointer.pageY
+                        },
+                        current: current
                     });
-
-                    util.previewImages(urls, current);
 
                     util.trackEvent('Image', '查看选项', 1);
                 }
@@ -165,10 +183,16 @@
             },
             onModelSync: function() {
                 this.render();
-                var share_info = _.clone(appConfig.share_info);
+
+                this.originalShare = _.clone(appConfig.share_info);
+                var share_info = appConfig.share_info;
                 share_info.timeline_title = this.model.get('title');
                 share_info.message_title = this.model.get('title');
                 share_info.message_description = this.model.get('excerpt');
+
+                var url = util.getUrlWithoutHashAndSearch();
+                url = url + '?hash=' + encodeURIComponent('#posts/' + this.model.get('id'));
+                share_info.link =url;
 
                 if (this.model.hasCoverImage()) {
                     var img = _.clone(this.model.get('images')[0]);
@@ -177,7 +201,8 @@
                 }
 
                 this.shareInfo = share_info;
-                util.setWechatShare(share_info);
+
+                util.setWechatShare(share_info, null ,null);
             },
             isFormated: function() {
                 return (this.model.has('metadata') && this.model.get('metadata').formated);
@@ -188,15 +213,41 @@
             onRender: function() {
 
                 if (this.shouldShowThumb()) this.processImage();
+                if (!this.directShow) this.$el.addClass('animate');
+                if (this.delay) {
+                    this.initTransform();
+                    this.$el.addClass('delayShow');
+                    var self = this;
+                    var to = setTimeout(function() {
+                        util.setElementTransform(self.$el, '');
+                        self.$el.removeClass('delayShow');
+                        clearTimeout(to);
+                    }, 800);
+                }
+
 
                 $('body').append(this.$el);
 
+
+
                 var articleHeight = $(window).height() - this.ui.toolBar.height();
                 this.ui.article.css('height', articleHeight);
-
+                this.$el.focus();
                 this.model.markViewed();
                 
 
+            },
+            initTransform: function() {
+                var width = $(window).width();
+                var height = $(window).height();
+                var scaleX = this.startBox.width / width;
+                var scaleY = this.startBox.height / height;
+                var transformOriginX = Math.round(this.startBox.width / 2) + this.startBox.left;
+                var transformOriginY = Math.round(this.startBox.height / 2) + this.startBox.top;
+
+                var transformStr = 'scale3d(' + scaleX + ',' + scaleY +',' + '1) translate3d(0,0,0)';
+                util.setElementTransform(this.$el, transformStr);
+                util.setElementTransformOrigin( this.$el, transformOriginX + 'px ' + transformOriginY + 'px');
             },
             processImage: function() {
                 var thumbWidth = 180;
@@ -210,7 +261,7 @@
                     var src = $img.attr('src');
 
                     $el.css('width', thumbWidth).addClass('thumb');
-                    $img.find('img').attr({
+                    $img.attr({
                         'src': src + '@_' + Math.round(thumbWidth * ratio),
                         'originalSrc': src
                     });
@@ -232,19 +283,24 @@
                 this.$el.find('.notification').remove();
             },
             onTapBack: function() {
+                util.setElementTransform(this.$el, '');
+                this.slideOut();
+                
+            },
+            slideOut: function() {
                 var self = this;
                 this.$el.addClass('slideOut');
                 this.outTimer = setTimeout(function() {
                     if(self.outTimer) clearTimeout(self.outTimer);
                     self.destroy();
-                }, 1000);
+                }, 500);
 
                 app.appRouter.navigate(this.originalRouter, {
                     trigger: false,
                     replace: false
                 });
+                $('.streamWrapper,.feedsWrapper').focus();
                 util.trackEvent('Close', 'Post', 1);
-                
             },
             onToggleLike: function() {
                 util.setIconToLoading(this.ui.like.find('.icon'));
@@ -261,7 +317,9 @@
             },
             onTapShare: function() {
                 this.model.markShared();
-                var shareView = new ShareView({ shareInfo: this.shareInfo });
+                var shareView = new ShareView({ 
+                    shareInfo: this.shareInfo,
+                 });
                 util.trackEvent('Share', 'Post', 1);
             },
             onTapNext: function() {
@@ -275,18 +333,17 @@
             onBlockSuccess: function() {
                 this.onTapBack();
             },
-            onShow: function() {
-
+            onTouchMove: function(ev) {
+                util.stopPropagation(ev);
             },
             onDestroy: function() {
                 this.stopListening();
                 this.$el.remove();
-
                 if (this.outTimer) clearTimeout(this.outTimer);
                 if (this.timeout) clearTimeout(this.timeout);
 
                 
-
+                window.appConfig.share_info = _.clone(this.originalShare);
                 util.setWechatShare(window.appConfig.share_info);
             },
             className: 'articleWrapper'

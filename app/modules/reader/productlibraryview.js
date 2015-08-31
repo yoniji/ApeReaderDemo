@@ -14,6 +14,7 @@
             initialize: function() {
                 this.model = new ProductLibraryModel();
                 app.rootView.updatePrimaryRegion(this);
+                util.setWechatShare(window.appConfig.share_info, null, null, 'products');
             },
             onShow: function() {
                 this.carousel = new Carousel(this.$el.find('.carousel'));

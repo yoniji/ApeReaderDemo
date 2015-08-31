@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/card.html', 'text!modules/reader/cardaction.html'],
-    function(Marionette, Mustache, $, CellView, template, actionTemplate) {
+﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/card.html', 'text!modules/reader/cardaction.html', 'waves'],
+    function(Marionette, Mustache, $, CellView, template, actionTemplate, Waves) {
 
         return CellView.extend({
             template: function(serialized_model) {
@@ -18,6 +18,7 @@
                 if (this.model.get('isAction')) {
                     this.$el.addClass('actionCard');
                 }
+                Waves.attach(this.$el[0]);
             },
             onToggleLikeSuccess: function() {
                 if (!this.model.get('metadata').liked) {

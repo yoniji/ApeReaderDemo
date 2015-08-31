@@ -1,4 +1,4 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellactions.html', 'modules/reader/shareview'],
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/imageactions.html', 'modules/reader/shareview'],
     function(Marionette, Mustache, $, template, ShareView) {
 
         return Marionette.ItemView.extend({
@@ -6,49 +6,53 @@
                 return Mustache.render(template, serialized_model);
             },
             ui: {
-                'dialog': '.cellActions',
+                'dialog': '.imageActions',
                 'overlay': '.overlay'
             },
             events: {
                 'touchstart @ui.overlay': 'destroy',
-                'tap .action-like': 'onToggleLike',
-                'tap .action-block': 'onBlock',
+                'tap .action-gallary': 'onViewGallary',
                 'tap .action-share': 'onShare'
             },
             initialize: function(options) {
                 this.toggleOffset = options.toggleOffset;
+                this.current = options.current;
                 this.render();
             },
             onRender: function() {
                 var windowHeight = $(window).height();
+                var windowWidth = $(window).width();
                 if ( this.toggleOffset.top > (windowHeight * 0.618) ) {
                     this.ui.dialog.addClass('bottomCaret');
-                    this.ui.dialog.css('bottom', Math.round( windowHeight - this.toggleOffset.top ));
+                    this.ui.dialog.css('bottom', Math.round( windowHeight - this.toggleOffset.top + 16));
                 } else {
                     this.ui.dialog.addClass('topCaret');
-                    this.ui.dialog.css('top', Math.round( this.toggleOffset.top ));
-
+                    this.ui.dialog.css('top', Math.round( this.toggleOffset.top - 16));
                 }
-                 this.ui.dialog.css('right', Math.round( $(window).width() - this.toggleOffset.left - 48 + 8 ));
+                if ( this.toggleOffset.left < windowWidth * 0.5 ) {
+                    this.ui.dialog.addClass('leftCaret');
+                    this.ui.dialog.css('left', Math.round( this.toggleOffset.left - 16));
+                } else {
+                    this.ui.dialog.css('right', Math.round( windowWidth - this.toggleOffset.left - 16 ));
+                }
+                
                 $('body').append(this.$el);
 
             },
-            onToggleLike: function(ev) {
+            onViewGallary: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                this.model.toggleLike();
-                if (this.model.get('metadata').liked) {
-                    util.trackEvent('Like', 'Cell', 1);
-                } else {
-                    util.trackEvent('Dislike', 'Cell', 1);
-                }
-                this.destroy();
-            },
-            onBlock: function(ev) {
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
-                this.model.block();
-                util.trackEvent('Block', 'Cell', 1);
+                var urls = [];
+                $('.articleBody .image img').each(function(index, el) {
+                    var img = $(el);
+                    if (img.parent().hasClass('thumb')) {
+                        urls.push(img.attr('originalSrc'));
+                    } else {
+                        urls.push(img.attr('src'));
+                    }
+                        
+                });
+                util.previewImages(urls, this.current);
                 this.destroy();
             },
             onShare: function(ev) {
@@ -60,18 +64,12 @@
                 var url = util.getUrlWithoutHashAndSearch();
                 url = url + '?hash=' + encodeURIComponent('#posts/' + this.model.get('id'));
                 share_info.link =url;
-
-                if (this.model.hasCoverImage()) {
-                    var img = _.clone(this.model.get('images')[0]);
-                    img.url = img.url + '@180w_180h_1e_1c';
-                    share_info.image = img;
-                }
+                share_info.image = { url: this.current, type:'oss' };
 
                 var shareView = new ShareView({ 
-                    shareInfo: share_info,
-                    originalShareInfo: appConfig.share_info
+                    shareInfo: share_info
                 });
-                util.trackEvent('Share', 'Cell', 1);
+                util.trackEvent('Share', 'Image', 1);
 
                 this.destroy();
             },
@@ -79,6 +77,6 @@
                 this.stopListening();
                 this.$el.remove();
             },
-            className: 'cellActionWrapper'
+            className: 'imageActionWrapper'
         });
     });

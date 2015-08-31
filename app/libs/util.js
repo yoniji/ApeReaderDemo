@@ -37,17 +37,25 @@ define(function(require, exports, module) {
         url = url + window.location.pathname + window.location.search;
         return url;
     };
-    exports.getUrlWithoutSearch = function() {
+    exports.getUrlWithoutHashAndSearch = function() {
         var url = window.location.protocol + '//' + window.location.hostname;
         if (window.location.port) url += (':' + window.location.port);
-        url = url + window.location.pathname + window.location.hash;
+        url = url + window.location.pathname;
+        return url;
+    };
+    exports.generateShareUrlWithCurrentLocation = function(hash) {
+        var url = window.location.protocol + '//' + window.location.hostname;
+        if (window.location.port) url += (':' + window.location.port);
+        url = url + window.location.pathname;
+
+        if (hash) url+= '?hash=' + encodeURIComponent(hash);
         return url;
     };
 
     exports.configWechat = function(options) {
         if (wx) {
             wx.config({
-                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: options.appId, // 必填，公众号的唯一标识
                 timestamp: options.timestamp, // 必填，生成签名的时间戳
                 nonceStr: options.nonceStr, // 必填，生成签名的随机串
@@ -57,12 +65,15 @@ define(function(require, exports, module) {
         }
     };
 
-    exports.setWechatShare = function(shareInfo, onSuccess, onCancel) {
-        if (!shareInfo.link)  shareInfo.link = util.getUrlWithoutSearch(window.location.href);
+    exports.setWechatShare = function(shareInfo, onSuccess, onCancel, hash) {
+        var link = shareInfo.link;
+        if (!link)  {
+            link = util.generateShareUrlWithCurrentLocation(hash);
+        }
         if (wx) {
             wx.onMenuShareTimeline({
                 title: shareInfo.timeline_title, // 分享标题
-                link: shareInfo.link, // 分享链接
+                link: link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
                     util.trackEvent('ShareSuccess', 'Timeline', 1);
@@ -79,7 +90,7 @@ define(function(require, exports, module) {
             wx.onMenuShareAppMessage({
                 title: shareInfo.message_title, // 分享标题
                 desc: shareInfo.message_description, // 分享描述
-                link: shareInfo.link, // 分享链接
+                link: link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
                     util.trackEvent('ShareSuccess', 'AppMessage', 1);
@@ -97,7 +108,7 @@ define(function(require, exports, module) {
             wx.onMenuShareQQ({
                 title: shareInfo.message_title, // 分享标题
                 desc: shareInfo.message_description, // 分享描述
-                link: shareInfo.link, // 分享链接
+                link: link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
                     util.trackEvent('ShareSuccess', 'QQ', 1);
@@ -115,7 +126,7 @@ define(function(require, exports, module) {
             wx.onMenuShareQZone({
                 title: shareInfo.message_title, // 分享标题
                 desc: shareInfo.message_description, // 分享描述
-                link: shareInfo.link, // 分享链接
+                link: link, // 分享链接
                 imgUrl: shareInfo.image.url, // 分享图标
                 success: function() {
                     util.trackEvent('ShareSuccess', 'QZone', 1);
@@ -189,7 +200,7 @@ define(function(require, exports, module) {
         if (wx) {
             if (!current) current = urls[0];
             wx.previewImage({
-                current: urls[0], // 当前显示图片的http链接
+                current: current, // 当前显示图片的http链接
                 urls: urls // 需要预览的图片http链接列表
             });
         }
@@ -402,6 +413,13 @@ define(function(require, exports, module) {
         if (element && element.size() > 0) {
             element[0].style.webkitTransform = transformStr;
             element[0].style.transform = transformStr;
+        }
+    };
+
+    exports.setElementTransformOrigin = function(element, transformOriginStr) {
+        if (element && element.size() > 0) {
+            element[0].style.webkitTransformOrigin = transformOriginStr;
+            element[0].style.transformOrigin = transformOriginStr;
         }
     };
 
