@@ -9,6 +9,7 @@
                 this.startPage = 0;
                 this.limit = 20;
                 this.filterStr = '';
+                this.set('categories', appConfig.post_menu);
             },
             tryFetchFromLocalStorage: function() {
                 if ( util.supportLocalStorage && localStorage.explore) {
@@ -18,7 +19,6 @@
                 }
             },
             parse: function(response) {
-                if(appConfig) response.categories = appConfig.post_menu;
                 this.isOld = false;
                 this.saveNewPostsToLocalStorage(response);
                 this.startPage++;
@@ -92,7 +92,7 @@
                     data: data,
                     success: function(response) {
                         self.parse(response);
-                        self.trigger('gotNewPosts', response.data);
+                        self.trigger('gotNewPosts', response.data.reverse());
                     },
                     method: 'GET'
                 });

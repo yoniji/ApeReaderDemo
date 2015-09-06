@@ -1,9 +1,6 @@
 require.config({
     paths: {
         "underscore": "../vendor/bower/lodash/dist/lodash.underscore",
-        "almond": "../vendor/bower/almond/almond",
-        "lodash": "../vendor/bower/lodash/dist/lodash",
-        "template": "../vendor/bower/lodash-template-loader/loader",
         "jquery": "../vendor/bower/jquery/dist/jquery",
         "backbone": "../vendor/bower/backbone/backbone",
         "marionette": "../vendor/bower/marionette/lib/backbone.marionette",
@@ -11,14 +8,10 @@ require.config({
         "text": "../vendor/bower/text/text",
         "hammerjs":"../vendor/bower/hammerjs/hammer",
         "jquery-hammerjs":"../vendor/bower/jquery-hammerjs/jquery.hammer",
-        "iscroll":"../vendor/bower/iscroll/build/iscroll-lite",
-        "waitforimages":"../vendor/bower/waitForImages/dist/jquery.waitforimages.min",
-        "ajaxpro": "libs/ajaxpro",
+        "iscroll": "../vendor/bower/iscroll/build/iscroll-lite",
         "util": 'libs/util',
-        "flytoeffect": "libs/effectflyto",
         "urls": "modules/common/urls",
         "dropdown": "modules/ctrls/ctrldropdown",
-        "iscroll-pullupdown": "modules/ctrls/iscrollpullupdown",
         "carousel":"modules/ctrls/ctrlcarousel",
         "waves": "../vendor/bower/waves/dist/waves"
     },

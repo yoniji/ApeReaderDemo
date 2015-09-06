@@ -1,4 +1,4 @@
-﻿define(['underscore', 'modules/reader/articleview', 'mustache', 'jquery', 'text!modules/reader/articleshare.html',  'modules/reader/postmodel', 'text!modules/reader/error.html', 'text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview', 'modules/reader/subscribeview'],
+﻿define(['underscore', 'modules/reader/articleview', 'mustache', 'jquery', 'text!modules/reader/articleshare.html', 'modules/reader/postmodel', 'text!modules/reader/error.html', 'text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview', 'modules/reader/subscribeview'],
     function(_, ArticleView, Mustache, $, shareTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView, SubscribeView) {
 
         return ArticleView.extend({
@@ -20,10 +20,11 @@
                 'tap .articleBody .image': 'onTapImage',
                 'tap .thumbSwitch': 'showLargeImages',
                 'tap .creditItem': 'onTapCredit',
-                'tap .share-readMore' : 'onTapMore',
+                'tap .share-readMore': 'onTapMore',
                 'tap .expandSwitch': 'onTapExpand',
                 'tap .action-home': 'onTapMore',
                 'tap .action-share': 'onTapShare',
+                'touchmove @ui.article':'onTouchMove'
             },
             modelEvents: {
                 'sync': 'onModelSync',
@@ -66,8 +67,8 @@
 
                 this.originalShare = _.clone(appConfig.share_info);
                 var share_info = appConfig.share_info;
-                share_info.timeline_title = this.model.get('title');
-                share_info.message_title = this.model.get('title');
+                share_info.timeline_title = this.model.get('title') + '「悟空家装」';
+                share_info.message_title = this.model.get('title') + '「悟空家装」';
                 share_info.message_description = this.model.get('excerpt');
 
                 var url = util.getUrlWithoutHashAndSearch();
@@ -92,38 +93,66 @@
                 });
             },
             onTapCredit: function() {
-                new SubscribeView();
+                var sv = new SubscribeView();
+                var self = this;
+                this.listenToOnce(sv, 'explore', function() {
+                    self.onTapMore();
+                });
             },
             onTapExpand: function() {
                 this.$el.find('.expand').hide();
                 this.$el.find('.fold').removeClass('fold');
             },
             shouldShowGrid: function() {
-                return this.isFormated() && this.$el.find('.articleBody .image').size() > 5;
+                return this.isFormated() && this.$el.find('.articleBody .image').size() > 2;
             },
             processImageToGrid: function() {
-                var width = Math.floor(($(window).width() - 32 - 8 ) / 3);
-                var ratio = Math.min(2, util.getDeviceRatio());
-                if (appConfig.networkType === '2g') ratio = 1;
+                var width_1_3 = Math.floor(($(window).width() - 32 - 8) / 3);
+                var width_1_2 = Math.floor(($(window).width() - 32 - 4) / 2);
 
-                this.$el.find('.articleBody .image').each(function(index, el) {
-                    var $el = $(el);
-                    var $img = $el.find('img');
-                    var src = $img.attr('src');
+                var ratio = util.getDeviceRatio();
 
-                    $el.css({
-                        'width': width,
-                        'height': width
-                    }).addClass('thumb gridThumb');
-                    $img.attr({
-                        'src': src + '@_' + width*ratio + 'w_' + width*ratio + 'h_1e_1c',
-                        'originalSrc': src
-                    }).css({
-                        'width': width,
-                        'height': width
+                var startImg = this.$el.find('.articleBody .image').first();
+
+                function processImageGroup(imgGroup) {
+                    var width = width_1_2;
+                    var gridClass = 'grid1-2';
+                    if (imgGroup.size() > 2) {
+                        width = width_1_3;
+                        gridClass = 'grid1-3';
+                    }
+                    imgGroup.each(function(index, el) {
+                        var $el = $(el);
+                        var $img = $el.find('img');
+                        var src = $img.attr('src');
+
+                        $el.css({
+                            'width': width,
+                            'height': width
+                        }).addClass('thumb gridThumb ' + gridClass);
+                        $img.attr({
+                            'src': src + '@' + width * ratio + 'w_' + width * ratio + 'h_1e_1c',
+                            'originalSrc': src
+                        }).css({
+                            'width': width,
+                            'height': width
+                        });
                     });
+                    var imgGroupContainer = $('<div class="grid"></div>');
+                    
+                    imgGroup.first().before(imgGroupContainer);
+                    imgGroupContainer.append(imgGroup);
+                }
 
-                });
+                while (startImg.size() > 0) {
+                    //将图片拆分成连续的组，分别处理
+                    var imgGroup = startImg.nextUntil('p', '.image').andSelf();
+                    //先找下一组的起点图片，再处理imgGroup
+                    startImg = imgGroup.last().nextAll('.image').first();
+                    //因为处理后imgGroup在DOM中的层级会发生变化，应放在最后执行
+                    if (imgGroup.size() > 1) processImageGroup(imgGroup);
+                }
+
             },
             onRender: function() {
                 if (this.shouldShowGrid()) {

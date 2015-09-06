@@ -8,6 +8,7 @@
             onDestroy: function() {
                 this.stopListening();
             },
-            model:PostModel
+            model:PostModel,
+            comparator:false
         });
     });

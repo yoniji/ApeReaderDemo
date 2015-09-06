@@ -74,6 +74,9 @@ $carousel-caption-background:rgba(0,0,0,0.5);
       @include reset-transform;
       text-align:center;
   }
+  img {
+    max-width: 100%;
+  }
   
   
 }

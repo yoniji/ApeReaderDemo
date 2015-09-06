@@ -244,7 +244,7 @@
     }
     if (pane_count > 1) {
       element.on('panstart', onDragStart);
-      element.on('panleft panright', onDraging);
+      element.on('panmove', onDraging);
       element.on('panend', onDragEnd);
     }
 

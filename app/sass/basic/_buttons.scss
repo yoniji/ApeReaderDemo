@@ -21,25 +21,39 @@ a.btn {
 
 	&:hover {
 		background-color: $main-color;
-
-		color: #fff;
+		color: #fff!important;
+		border-color:transparent;
 	}
 
 	&:active {
 		background-color: darken($main-color, 10%);
+		color: #fff!important;
+		border-color:transparent;
 	}
 
 	&:focus {
 		outline: none;
+		border-color:transparent;
 	}
 }
 
+
+
+
 .btn-primary {
 	@extend .btn;
-
 	background-color: $btn-primary-bg;
-
 	color: $btn-primary-text-color;
+}
+.btn-cyan {
+	@extend .btn;
+	background-color: $cyan;
+	color: #fff;
+}
+.btn-green {
+	@extend .btn;
+	background-color: $green;
+	color: #fff;
 }
 .btn-block {
   width:100%;
@@ -68,5 +82,23 @@ a.btn {
   }
 }
 
+.btn-line,a.btn-line {
+	border-radius:2.5em;
+	border:1px solid $btn-default-bg;
+	background-color: transparent;
+	color:darken($btn-default-bg,20%);
 
+	&.btn-primary {
+		border-color:$btn-primary-bg;
+		color: $btn-primary-bg;
+	}
+	&.btn-cyan {
+		border-color:$cyan;
+		color: $cyan;
+	}
+	&.btn-green {
+		border-color:$green;
+		color: $green;
+	}
+}
  

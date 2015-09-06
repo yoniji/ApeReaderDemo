@@ -11,7 +11,8 @@
             },
             events: {
                 'tap': 'onTap',
-                'touchmove': 'onTouchMove'
+                'touchmove': 'onTouchMove',
+                'tap .share-readMore': 'onTapMore'
             },
             initialize: function(options) {
                 this.render();
@@ -48,7 +49,12 @@
                     }
                 }, 1000);
             },
+            onTapMore: function() {
+                this.trigger('explore');
+                this.destroy();
+            },
             onDestroy: function() {
+                this.trigger('destroy');
                 if(this.timmer) clearInterval(this.timmer);
                 this.timmer = null;
 

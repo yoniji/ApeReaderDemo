@@ -78,6 +78,7 @@
                 console.log('tap '+ item.attr('data-id'));
             },
             onTouchMove: function(ev) {
+                util.stopPropagation(ev);
             },
             afterOnDestroy: function() {
 

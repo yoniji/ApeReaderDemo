@@ -41,19 +41,27 @@
             onTapReadCursor: function() {
                 this.ui.streamWrapper.scrollTop(0);
             },
+            showReadCursor: function(cellEl) {
+                if (this.ui.streamWrapper.find('.readCursor').size()<1 && cellEl.size() === 1) {
+                    cellEl.before('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
+                }
+            },
             onGotNewPosts: function(postsData) {
                 this.stopLoadingNew();
                 if ( postsData && postsData.length>0 ) {
-                    this.ui.streamWrapper.find('.readCursor').remove();
-                    this.ui.streamWrapper.find('#cells').prepend('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
+                    
+                    var firstCell = this.ui.streamWrapper.find('.cell').first();
                     var oldLength = this.collection.length;
-                    this.collection.unshift(postsData);
+                    this.collection.add(postsData,{at:0});
 
                     if (this.collection.length > oldLength) {
                         this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + postsData.length + '篇新文章</div>');
                     } else {
-                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">很抱歉，小空没有文章了，明天再试试吧</div>');
-                    } 
+                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">小空暂时没找到新文章，过一会儿再试试吧</div>');
+                    }
+
+                    this.showReadCursor(firstCell);
+
                     var self = this;
                     this.timeout = setTimeout(function() {
                         self.clearNotification();

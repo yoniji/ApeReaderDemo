@@ -18,19 +18,21 @@
                 var defaultCoverHeight = Math.round(windowWidth * 0.382);
                 var maxHeight = Math.round(windowWidth * 0.618);
 
-                
+
 
                 var hasCoverImage = this.model.hasCoverImage();
 
                 return {
                     'getMediumCellCoverHtml': function() {
 
-                        var outStr = '<div class="cellCover">';
+                        var outStr = '';
 
                         if (hasCoverImage && this.images.length < 3) {
+                            outStr += '<div class="cellCover">';
                             outStr += this.getLargeCellCoverHtml();
-                        } else if (hasCoverImage) {
-
+                            outStr += '</div>';
+                        } else {
+                            outStr += '<div class="cellMoreImages">';
                             var imgWidth = Math.round((windowWidth - 32 - 8) / 3);
                             var imgHeight = Math.round(imgWidth * 0.667);
 
@@ -40,10 +42,10 @@
                                     height: imgHeight
                                 });
                             }
+                            outStr += '</div>';
 
                         }
-
-                        outStr += '</div>';
+                        
                         return outStr;
                     },
                     'getLargeCellCoverHtml': function() {
@@ -55,11 +57,9 @@
                     'getFullCellCoverHtml': function() {
                         var outStr = '';
                         if (hasCoverImage) {
-                            if ( this.rank < 4 ) {
-                                outStr += '<div class="cellCover">';
-                                outStr += this.getLargeCellCoverHtml();
-                                outStr += '</div>';
-                            }
+                            outStr += '<div class="cellCover">';
+                            outStr += this.getLargeCellCoverHtml();
+                            outStr += '</div>';
 
                             if (this.images.length > 2) {
                                 outStr += '<div class="cellMoreImages">';
@@ -78,15 +78,22 @@
 
                         return outStr;
                     },
+                    generateRankCellCoverHtml: function() {
+                        if (this.rank < 4) {
+                            return this.getFullCellCoverHtml();
+                        } else {
+                            return this.getMediumCellCoverHtml();
+                        }
+                    },
                     'getTagsHtml': function() {
                         var outStr = '';
-                        if(this.tags && this.tags.length > 0) {
+                        if (this.tags && this.tags.length > 0) {
                             outStr += '<i class="icon icon-pricetags"></i> ';
                             for (var i = 0; i < this.tags.length; i++) {
                                 outStr += this.tags[i].name + ' ';
                             }
                         }
-                        
+
                         return outStr;
                     }
                 };

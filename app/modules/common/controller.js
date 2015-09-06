@@ -25,7 +25,7 @@
                     });
                 }
 
-                if (wx) {
+                if (window.wx) {
                     //微信Config成功后执行
                     wx.ready(function() {
                         //设置微信分享接口
@@ -61,9 +61,8 @@
                     this.articleView = null;
                 }
                 var exploreView = new ExploreView();
-
+                util.setWechatShare(window.appConfig.share_info);
                 setCurrentNavigationById('explore');
-                util.setWechatShare(window.appConfig.share_info, null, null, 'explore');
             },
             feature: function() {
                 if (this.articleView) {
@@ -71,9 +70,8 @@
                     this.articleView = null;
                 }
                 var featureView = new FeatureView();
-
+                util.setWechatShare(window.appConfig.share_info);
                 setCurrentNavigationById('feature');
-                util.setWechatShare(window.appConfig.share_info, null, null, 'feature');
             },
             post: function(id) {
                 if (this.articleView) {
@@ -108,16 +106,18 @@
                 util.setWechatShare(window.appConfig.share_info, null, null, 'products');
             },
             searchProducts: function(filter) {
+                var productSearchView = new ProductSearchView(filter);
                 var productLibraryView = new ProductLibraryView();
                 setCurrentNavigationById('products');
-                var productSearchView = new ProductSearchView(filter);
             },
             productDetail: function(id) {
                 var productView = new ProductView({
                     'id': id
                 });
-                var exploreView = new ExploreView();
-                setCurrentNavigationById('explore');
+                var productLibraryView = new ProductLibraryView({
+                    'delay':true
+                });
+                setCurrentNavigationById('products');
             },
             me: function() {
                 var profileView = new ProfileView();

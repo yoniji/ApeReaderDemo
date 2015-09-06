@@ -27,6 +27,13 @@
             templateHelpers: {
                 isLeafFilter : function() {
                     return (!this.children || this.children.length < 1);
+                },
+                getFilterMenuClass: function() {
+                    if (this.children && this.children.length > 20) {
+
+                    } else {
+                        
+                    }
                 }
             },
             onSelectFilterMenu: function(ev) {

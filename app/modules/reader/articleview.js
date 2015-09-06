@@ -36,7 +36,8 @@
                 'panleft': 'onPanMove',
                 'panright': 'onPanMove',
                 'panend': 'onPanEnd',
-                'pancancel': 'onPanEnd'
+                'pancancel': 'onPanEnd',
+                'touchmove':'onTouchMove'
             },
             modelEvents: {
                 'sync': 'onModelSync',
@@ -48,14 +49,6 @@
                 if (options) {
                     this.directShow = !!options.directShow;
                     this.delay = !!options.delay;
-                    if (options.triggerFrom) {
-                        this.startBox = {
-                            width: options.triggerFrom.$el.width(),
-                            height: options.triggerFrom.$el.height(),
-                            left: options.triggerFrom.$el.offset().left,
-                            top: options.triggerFrom.$el.offset().top
-                        };
-                    }
                 }
 
                 if (this.model && !this.model.isNew()) {
@@ -142,7 +135,7 @@
                 } else if($el.hasClass('thumb')) {
 
                     //缩略图模式下，切换为大图
-                    $img.attr('src', $img.attr('originalSrc'));
+                    $img.attr('src', $img.attr('originalSrc')).attr('style', '');
                     $el.removeClass('thumb').attr('style', '');
 
                     util.trackEvent('Image', '放大', 1);
@@ -197,7 +190,7 @@
                     }
                 },
                 'isThumbSwitchVisible': function() {
-                    return (appConfig.networkType && appConfig.networkType !== 'wifi');
+                    return util.isNetworkSlow();
                 }
             },
             onModelSync: function() {
@@ -205,8 +198,8 @@
 
                 this.originalShare = _.clone(appConfig.share_info);
                 var share_info = appConfig.share_info;
-                share_info.timeline_title = this.model.get('title');
-                share_info.message_title = this.model.get('title');
+                share_info.timeline_title = this.model.get('title') + '「悟空家装」';
+                share_info.message_title = this.model.get('title') + '「悟空家装」';
                 share_info.message_description = this.model.get('excerpt');
 
                 var url = util.getUrlWithoutHashAndSearch();
@@ -227,23 +220,22 @@
                 return (this.model.has('metadata') && this.model.get('metadata').formated);
             },
             shouldShowThumb: function() {
-                return (appConfig.networkType !== 'wifi') && this.isFormated();
+                return util.isNetworkSlow() && this.isFormated();
             },
             onRender: function() {
-
                 if (this.shouldShowThumb()) this.processImage();
-                if (!this.directShow) this.$el.addClass('animate');
                 if (this.delay) {
-                    this.initTransform();
                     this.$el.addClass('delayShow');
                     var self = this;
                     var to = setTimeout(function() {
-                        util.setElementTransform(self.$el, '');
                         self.$el.removeClass('delayShow');
+                        
                         clearTimeout(to);
+
                     }, 800);
                 }
-
+                $('.streamWrapper,.feedsWrapper').addClass('moveLeftTransition');
+                $('.streamWrapper,.feedsWrapper').addClass('moveLeft');
 
                 $('body').append(this.$el);
 
@@ -256,23 +248,10 @@
                 
 
             },
-            initTransform: function() {
-                var width = $(window).width();
-                var height = $(window).height();
-                var scaleX = this.startBox.width / width;
-                var scaleY = this.startBox.height / height;
-                var transformOriginX = Math.round(this.startBox.width / 2) + this.startBox.left;
-                var transformOriginY = Math.round(this.startBox.height / 2) + this.startBox.top;
-
-                var transformStr = 'scale3d(' + scaleX + ',' + scaleY +',' + '1) translate3d(0,0,0)';
-                util.setElementTransform(this.$el, transformStr);
-                util.setElementTransformOrigin( this.$el, transformOriginX + 'px ' + transformOriginY + 'px');
-            },
             processImage: function() {
                 var thumbWidth = 180;
 
-                var ratio = Math.min(2, util.getDeviceRatio());
-                if (appConfig.networkType === '2g') ratio = 1;
+                var ratio = util.getDeviceRatio();
 
                 this.$el.find('.articleBody .image').each(function(index, el) {
                     var $el = $(el);
@@ -281,7 +260,7 @@
 
                     $el.css('width', thumbWidth).addClass('thumb');
                     $img.attr({
-                        'src': src + '@_' + Math.round(thumbWidth * ratio) + 'w',
+                        'src': src + '@' + Math.round(thumbWidth * ratio) + 'w',
                         'originalSrc': src
                     }).css({
                         'width':thumbWidth
@@ -320,7 +299,9 @@
                     trigger: false,
                     replace: false
                 });
-                $('.streamWrapper,.feedsWrapper').focus();
+                $('.streamWrapper,.feedsWrapper').removeClass('moveLeftTransition').addClass('moveBackTransition');
+                $('.streamWrapper,.feedsWrapper').focus().removeClass('moveLeft');
+
                 util.trackEvent('Close', 'Post', 1);
             },
             onToggleLike: function() {
@@ -362,9 +343,8 @@
                 this.$el.remove();
                 if (this.outTimer) clearTimeout(this.outTimer);
                 if (this.timeout) clearTimeout(this.timeout);
-
-                
                 window.appConfig.share_info = _.clone(this.originalShare);
+                $('.streamWrapper,.feedsWrapper').removeClass('moveBackTransition');
                 util.setWechatShare(window.appConfig.share_info);
             },
             className: 'articleWrapper'

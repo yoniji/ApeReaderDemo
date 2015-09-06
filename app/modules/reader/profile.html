@@ -14,10 +14,9 @@
     <div class="profileFilter  dropDown-switch"><span class="dropDown-text">全部领域</span><i class="icon icon-expand-more"></i>
         <div id="profileFilter-menu" class="dropDown-menu">
             <div class="dropDown-menu-item checked">全部领域</div>
-            <div class="dropDown-menu-item" data-id="1">项目灵感</div>
-            <div class="dropDown-menu-item" data-id="3">观点资讯</div>
-            <div class="dropDown-menu-item" data-id="3">设计师</div>
-            <div class="dropDown-menu-item" data-id="4">新产品</div>
+            {{#categories}}
+            <div class="dropDown-menu-item" data-id="{{id}}">{{name}}</div>
+            {{/categories}}
         </div>
     </div>
 </header>

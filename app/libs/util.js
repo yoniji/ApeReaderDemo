@@ -31,6 +31,23 @@ define(function(require, exports, module) {
         }
     };
 
+    exports.isNetworkSlow = function() {
+        switch (appConfig.networkType) {
+            case 'wifi':
+            return false;
+            case '4g':
+            return false;
+            case '3g+':
+            return true;
+            case '3g':
+            return true;
+            case '2g':
+            return true;
+            default:
+            return true;
+        }
+    };
+
     exports.trim = function(str) {
         var result = '';
         if(str) {
@@ -61,9 +78,9 @@ define(function(require, exports, module) {
     };
 
     exports.configWechat = function(options) {
-        if (wx) {
+        if (window.wx) {
             wx.config({
-                debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                 appId: options.appId, // 必填，公众号的唯一标识
                 timestamp: options.timestamp, // 必填，生成签名的时间戳
                 nonceStr: options.nonceStr, // 必填，生成签名的随机串
@@ -78,7 +95,7 @@ define(function(require, exports, module) {
         if (!link) {
             link = util.generateShareUrlWithCurrentLocation(hash);
         }
-        if (wx) {
+        if (window.wx) {
             wx.onMenuShareTimeline({
                 title: shareInfo.timeline_title, // 分享标题
                 link: link, // 分享链接
@@ -205,7 +222,7 @@ define(function(require, exports, module) {
     };
 
     exports.previewImages = function(urls, current) {
-        if (wx) {
+        if (window.wx) {
             if (!current) current = urls[0];
             wx.previewImage({
                 current: current, // 当前显示图片的http链接
@@ -359,6 +376,9 @@ define(function(require, exports, module) {
         var ratio = window.devicePixelRatio;
         if (!ratio) ratio = 1;
         if (ratio > 3) ratio = 3;
+
+        if (util.isNetworkSlow()) ratio = Math.min(ratio, 2);
+        
         return ratio;
     };
     exports.calculateSizeWithMinimumEdgeAdaptive = function(containerSize, originalImageSize) {

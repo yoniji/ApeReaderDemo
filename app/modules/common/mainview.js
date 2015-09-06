@@ -6,15 +6,9 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             el:'#main',
             initialize: function() {
-                var self = this;
-                var globalVent = Backbone.Wreqr.radio.channel('global').vent;
-
-                globalVent.on('back', function(data) {
-
-                });
-                globalVent.on('alert', function(message) {
-                    //todo alert something
-                    console.log(message);
+                $('body').on('touchmove', function(ev) {
+                    util.preventDefault(ev);
+                    util.stopPropagation(ev);
                 });
 
                 this.render();
@@ -43,9 +37,6 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
 
                 this.initWaves();
 
-                $('body').on('touchmove', function(ev) {
-                    util.stopPropagation(ev);
-                });
             },
             initWaves: function() {
                 Waves.init({
@@ -62,10 +53,10 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 var mc = $('body').data('hammer');
                 mc.get('tap').set({
                     time: 200,
-                    threshold: 9
+                    threshold: 14
                 });
                 mc.get('pan').set({
-                    threshold: 10
+                    threshold: 15
                 });
                 mc.remove('doubletap');
                 mc.remove('rotate');

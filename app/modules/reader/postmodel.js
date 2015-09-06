@@ -107,6 +107,8 @@
             },
             parse: function(response) {
                 if (response && response.code === 0) {
+                    //var before = '<p>这是一段强制加上的文字</p><p>这是一张单独出现的图片，它会很大👇</p><div class="image"><img src="http://imgopt.apecrafts.com/99352b5338d1ee3223201811169ce758"></div><p>W3C标准中对CSS3的transition这是样描述的:“CSS的transition允许CSS的属性值在一定的时间区间内平滑地过渡。这种效果可以在鼠标单击、获得焦点、被点击或对元素任何改变中触发，并圆滑地以动画效果改变CSS的属性值。”</p><p>下面是两张图片，它们应该并排显示</p><div class="image"><img src="http://imgopt.apecrafts.com/99352b5338d1ee3223201811169ce758"></div><div class="image"><img src="http://imgopt.apecrafts.com/99352b5338d1ee3223201811169ce758"></div>';
+                    //response.data.content = before + response.data.content + before;
                     return response.data;
                 } else {
                     if (response.code === 1) {

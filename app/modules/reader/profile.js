@@ -11,6 +11,7 @@
             initialize: function() {
                 if (appConfig && appConfig.user_info) {
                     this.set('user_info', appConfig.user_info);
+                    this.set('categories', appConfig.post_menu);
                 }
                 this.startPage = 0;
                 this.limit = 20;

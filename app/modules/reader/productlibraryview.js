@@ -1,12 +1,15 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel', 'iscroll'],
-    function(Marionette, Mustache, $, template, ProductLibraryModel, Carousel) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel', 'modules/reader/productsearchview', 'iscroll'],
+    function(Marionette, Mustache, $, template, ProductLibraryModel, Carousel, ProductSearchView) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
             },
             events: {
-                'tap .tabItem': 'onTapTab'
+                'tap .tabItem': 'onTapTab',
+                'tap .roomsNav-item': 'onTapRoom',
+                'tap .brandItem': 'onTapBrand',
+                'touchmove':'onTouchMove'
             },
             ui: {
                 'tabs': '.tabs'
@@ -14,27 +17,28 @@
             initialize: function() {
                 this.model = new ProductLibraryModel();
                 app.rootView.updatePrimaryRegion(this);
-                util.setWechatShare(window.appConfig.share_info, null, null, 'products');
+                util.setWechatShare(window.appConfig.share_info);
             },
             onShow: function() {
+                //初始化顶部幻灯片
                 this.carousel = new Carousel(this.$el.find('.carousel'));
                 this.carousel.init();
-
+                //推荐产品
                 var productList = this.$el.find('.productItem');
                 var productListWidth = (productList.width() + 5) * productList.size();
                 this.$el.find('.horizontalProductListInner').width(productListWidth + 'px');
-
+                
                 this.scroller = new IScroll(this.$el.find('.horizontalProductList')[0], {
                     'scrollX': true,
-                    'scrollY': false
+                    'scrollY': false,
+                    'bindToWrapper':true
                 });
-
-
+                
+                //品牌tab固顶
                 var self = this;
                 this.lastScrollTop = 0;
                 this.lastScrollDirection = -1; //DOWN
                 this.tabTop = this.ui.tabs.position().top;
-                console.log(this.tabTop);
                 this.$el.on('scroll', function(ev) {
                     self.onScroll(ev);
                 });
@@ -62,6 +66,9 @@
                     }
                 };
             },
+            onTouchMove:function(ev) {
+                util.stopPropagation(ev);
+            },
             onTapTab: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
@@ -77,6 +84,12 @@
                     this.$el.find('.tabItem.current').removeClass('current');
                     target.addClass('current');
                 }
+            },
+            onTapRoom: function(ev) {
+                var productSearchView = new ProductSearchView();
+            },
+            onTapBrand: function(ev) {
+                var productSearchView = new ProductSearchView();
             },
             onScroll: function(ev) {
                 var currentScrollTop = this.$el.scrollTop();

@@ -3,14 +3,14 @@
 
         return Backbone.Model.extend({
         	url: function() {
-        		return urls.getServiceUrlByName('products') + this.get('id');
+        		return urls.getServiceUrlByName('products');
         	},
         	like: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('products') + this.get('id') + '/like',
+        			url: urls.getServiceUrlByName('products') + '/like',
         			data: {
-
+                        'id': this.model.get('id')
         			},
         			success: function(response) {
 
@@ -21,9 +21,9 @@
         	dislike: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('products') + this.get('id') + '/dislike',
+        			url: urls.getServiceUrlByName('products')  + '/dislike',
         			data: {
-
+                        'id': this.model.get('id')
         			},
         			success: function(response) {
 
@@ -34,9 +34,9 @@
         	markShared: function() {
         		var self = this;
         		util.ajax({
-        			url: urls.getServiceUrlByName('products') + this.get('id') + '/share',
+        			url: urls.getServiceUrlByName('products') + '/share',
         			data: {
-
+                        'id': this.model.get('id')
         			},
         			success: function(response) {
 
