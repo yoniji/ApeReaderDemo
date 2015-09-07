@@ -52,8 +52,8 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 });
                 var mc = $('body').data('hammer');
                 mc.get('tap').set({
-                    time: 200,
-                    threshold: 14
+                    time: 500,
+                    threshold: 10
                 });
                 mc.get('pan').set({
                     threshold: 15
@@ -61,6 +61,8 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 mc.remove('doubletap');
                 mc.remove('rotate');
                 mc.remove('pinch');
+                mc.remove('swipe');
+                mc.remove('press');
             },
             onTapLink: function(event) {
                 event.preventDefault();

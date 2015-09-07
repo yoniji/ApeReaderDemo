@@ -134,6 +134,8 @@
             },
             onDestroy: function() {
                 if (this.scroller) this.scroller.destroy();
+                if (this.carousel) this.carousel.destroy();
+                this.stopListening();
             },
             id: 'productLibrary',
             className: 'rootWrapper'

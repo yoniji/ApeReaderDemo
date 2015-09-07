@@ -177,7 +177,7 @@
                     var outStr = '';
                     if (this.tags && this.tags.length > 0) {
                         outStr += '<i class="icon icon-pricetags"></i> ';
-                        for (var i = 0; i < this.tags.length; i++) {
+                        for (var i = 0; i < this.tags.length && i < 3; i++) {
                             outStr += this.tags[i].name + ' ';
                         }
                     }
@@ -343,7 +343,7 @@
                 this.$el.remove();
                 if (this.outTimer) clearTimeout(this.outTimer);
                 if (this.timeout) clearTimeout(this.timeout);
-                window.appConfig.share_info = _.clone(this.originalShare);
+                if (this.originalShare) window.appConfig.share_info = _.clone(this.originalShare);
                 $('.streamWrapper,.feedsWrapper').removeClass('moveBackTransition');
                 util.setWechatShare(window.appConfig.share_info);
             },

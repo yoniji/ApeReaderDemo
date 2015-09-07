@@ -115,7 +115,7 @@
 
                         if(this.tags && this.tags.length > 0) {
                             outStr += '<i class="icon icon-pricetags"></i> ';
-                            for (var i = 0; i < this.tags.length; i++) {
+                            for (var i = 0; i < this.tags.length && i < 3; i++) {
                                 outStr += this.tags[i].name + ' ';
                             }
                         }

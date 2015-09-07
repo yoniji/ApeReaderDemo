@@ -7,9 +7,12 @@
         	},
             setMetadata: function(key, value) {
                 var meta = this.get('metadata');
-                meta[key] = value;
+                if(meta && meta[key]) {
+                    meta[key] = value;
+                    this.set('metadata', meta);
+                }
 
-                this.set('metadata', meta);
+                
             },
             toggleLike: function() {
                 if ( this.get('metadata').liked ) {
