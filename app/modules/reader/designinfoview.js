@@ -15,6 +15,14 @@
             initialize: function(options) {
                 this.render();
             },
+            templateHelpers: function() {
+                var widthPerYear = 15;
+                return {
+                    getTimelineLength: function() {
+                        
+                    }
+                };
+            },
             onRender: function() {
                 $('body').append(this.$el);
             },

@@ -51,9 +51,16 @@
             onDestroy: function() {
                 this.stopListening();
             },
+            getCategoryStr: function() {
+                if ( selectedData.level1.length > 0 ) {
+                    return selectedData.level1.join(',');
+                } else {
+                    return '';
+                }
+            },
             getFilterStr: function () {
-                if ( selectedData.level1.length > 0 || selectedData.level2.length > 0 ) {
-                    return JSON.stringify( selectedData );
+                if ( selectedData.level2.length > 0 ) {
+                    return selectedData.level2.join(',');
                 } else {
                     return '';
                 }

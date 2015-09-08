@@ -9,6 +9,7 @@
                 this.startPage = 0;
                 this.limit = 20;
                 this.filterStr = '';
+                this.categoryStr = '';
                 this.set('categories', appConfig.post_menu);
             },
             tryFetchFromLocalStorage: function() {
@@ -20,7 +21,7 @@
             },
             parse: function(response) {
                 this.isOld = false;
-                this.saveNewPostsToLocalStorage(response);
+                if(!this.hasCategory()) this.saveNewPostsToLocalStorage(response);
                 this.startPage++;
                 return response;
             },
@@ -29,7 +30,9 @@
             },
             setFilter: function(filterStr) {
                 this.filterStr = filterStr;
-
+            },
+            setCategory: function(categoryStr) {
+                this.categoryStr = categoryStr;
             },
             hasOldData: function() {
                 return !! this.isOld;
@@ -42,11 +45,17 @@
             hasFilter: function() {
                 return (this.filterStr!== '');
             },
+            hasCategory: function() {
+                return (this.categoryStr!== '');
+            },
             resetPosts: function() {
                 var data = {
                 };
+                if ( this.hasCategory() ) {
+                    data.category = this.categoryStr;
+                }
                 if ( this.hasFilter()) {
-                    data.filter = encodeURIComponent(this.filterStr);
+                    data.filter = this.filterStr;
                 }
 
                 var self = this;
@@ -65,8 +74,11 @@
                     page: this.startPage,
                     limit: this.limit
                 };
+                if ( this.hasCategory() ) {
+                    data.category = this.categoryStr;
+                }
                 if ( this.hasFilter()) {
-                    data.filter = encodeURIComponent(this.filterStr);
+                    data.filter = this.filterStr;
                 }
                 var self = this;
 
@@ -82,8 +94,11 @@
             fetchNewPosts: function() {
                 var data = {
                 };
+                 if ( this.hasCategory() ) {
+                    data.category = this.categoryStr;
+                }
                 if ( this.hasFilter()) {
-                    data.filter = encodeURIComponent(this.filterStr);
+                    data.filter = this.filterStr;
                 }
 
                 var self = this;

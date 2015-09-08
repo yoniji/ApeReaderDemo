@@ -11,7 +11,8 @@
                 'filterBar': '.filterBar',
                 'filterSwitch': '#exploreTopBar-category-switch',
                 'filterMenu': '#exploreTopBar-category-menu',
-                'filterMenuItem': '.dropDown-menu-item'
+                'filterMenuItem': '.dropDown-menu-item',
+                'cells':'#cells'
             },
             events: {
                 'select @ui.filterMenuItem': 'onTapMenuItem',
@@ -42,25 +43,25 @@
                 this.ui.streamWrapper.scrollTop(0);
             },
             showReadCursor: function(cellEl) {
-                if (this.ui.streamWrapper.find('.readCursor').size()<1 && cellEl.size() === 1) {
-                    cellEl.before('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
+                if (this.ui.streamWrapper.find('.readCursor').size()<1 && cellEl.size() === 1&& !this.model.hasCategory()) {
+                    cellEl.after('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
                 }
             },
             onGotNewPosts: function(postsData) {
                 this.stopLoadingNew();
                 if ( postsData && postsData.length>0 ) {
                     
-                    var firstCell = this.ui.streamWrapper.find('.cell').first();
+                    if(this.lastCell && this.lastCell.size() > 0) this.showReadCursor(this.lastCell);
+                    
                     var oldLength = this.collection.length;
                     this.collection.add(postsData,{at:0});
 
                     if (this.collection.length > oldLength) {
                         this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + postsData.length + '篇新文章</div>');
                     } else {
-                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">小空暂时没找到新文章，过一会儿再试试吧</div>');
+                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">暂时没有新文章，过一会儿再试试吧</div>');
                     }
 
-                    this.showReadCursor(firstCell);
 
                     var self = this;
                     this.timeout = setTimeout(function() {
@@ -74,6 +75,9 @@
             onGotHistoryPosts: function(postsData) {
                 this.stopLoadingHistory();
                 if( postsData&& postsData.length>0 ) {
+
+                    if(!this.lastCell || this.lastCell.size() < 1) this.lastCell = this.ui.streamWrapper.find('.cell').last();
+                    
                     this.collection.add(postsData);
                     this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
                 } else {
@@ -114,6 +118,9 @@
                 this.ui.streamWrapper.css({
                     'height': this.$el.height(),
                     'top'   : 0 - this.ui.topBar.height() - this.ui.filterBar.height() - 2
+                });
+                this.ui.cells.css({
+                    'min-height': this.$el.height()
                 });
                 this.updateTopPadding();
                 this.ui.streamWrapper.prepend('<div class="pullDown loading"><i class="icon icon-refresh"></i></div>');
@@ -182,6 +189,7 @@
                 this.updateTopPadding();
             },
             onChangeFilter: function() {
+                this.model.setCategory(this.filterModel.getCategoryStr());
                 this.model.setFilter(this.filterModel.getFilterStr());
                 this.model.resetPosts();
                 this.collection.reset([]);

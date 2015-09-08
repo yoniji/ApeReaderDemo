@@ -2013,12 +2013,12 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .net-dot {
-    @include size(52px);
+    @include size(64px);
     border-radius: 100%;
     border: 2px solid transparent;
     @include position(absolute);
-    margin-top: -26px;
-    margin-left: -26px;
+    margin-top: -32px;
+    margin-left: -32px;
     text-align: center;
 
     &:before {
@@ -2027,12 +2027,12 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         @include position(absolute,60px null null 50%);
         @include size(2px 15px);
         border-left:1px solid rgba(255,255,255,.4);
-        transform-origin: center -34px;
+        transform-origin: center -36px;
     }
 }
 
 .net-dot-img {
-    @include size(48px);
+    @include size(60px);
 }
 
 .net-dot-img {
@@ -2145,14 +2145,18 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     float: left;
     width:20%;
     text-align:center;
+    height: 320px;
 }
 .years {
+    display: none;
+}
+.years-style {
     @include size(40px);
     border-radius:100%;
     background:$black;
     color:$white;
     font-size: 10px;
-    line-height: 40px;
+    line-height: 10px;
 }
 .years-description {
     display: none;

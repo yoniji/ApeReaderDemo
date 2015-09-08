@@ -7,7 +7,7 @@
         	},
             setMetadata: function(key, value) {
                 var meta = this.get('metadata');
-                if(meta && meta[key]) {
+                if(meta) {
                     meta[key] = value;
                     this.set('metadata', meta);
                 }
