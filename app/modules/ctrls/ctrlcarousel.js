@@ -208,18 +208,17 @@
 
 
         function onDragStart(ev) {
+            util.preventDefault(ev);
+            util.stopPropagation(ev);
             if (!ev.originalEvent) {
-                // disable browser scrolling
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
                 stopTimer();
             }
         }
 
         function onDragEnd(ev) {
+            util.preventDefault(ev);
+            util.stopPropagation(ev);
             if (!ev.originalEvent) {
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
                 var gesture = ev.gesture;
 
                 if (gesture.direction == Hammer.DIRECTION_RIGHT) {
@@ -232,9 +231,9 @@
         }
 
         function onDraging(ev) {
+            util.preventDefault(ev);
+            util.stopPropagation(ev);
             if (!ev.originalEvent) {
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
 
                 var gesture = ev.gesture;
                 // stick to the finger

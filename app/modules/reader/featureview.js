@@ -43,7 +43,7 @@
             },
             updateEmptyView: function() {
                 if (this.collection.size()<1) {
-                    this.$el.find('.empty').height(this.ui.streamWrapper.height());
+                    this.$el.find('.empty').css('height',this.ui.streamWrapper.css('height'));
                     this.$el.find('.pullUp').css('visibility', 'hidden');
                 }
             },

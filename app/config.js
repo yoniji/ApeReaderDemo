@@ -8,7 +8,7 @@ require.config({
         "text": "../vendor/bower/text/text",
         "hammerjs":"../vendor/bower/hammerjs/hammer",
         "jquery-hammerjs":"../vendor/bower/jquery-hammerjs/jquery.hammer",
-        "iscroll": "../vendor/bower/iscroll/build/iscroll-lite",
+        "iscroll": "../vendor/bower/iscroll/build/iscroll",
         "util": 'libs/util',
         "urls": "modules/common/urls",
         "dropdown": "modules/ctrls/ctrldropdown",

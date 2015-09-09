@@ -31,7 +31,8 @@
                 this.scroller = new IScroll(this.$el.find('.horizontalProductList')[0], {
                     'scrollX': true,
                     'scrollY': false,
-                    'bindToWrapper':true
+                    'bindToWrapper':true,
+                    'eventPassthrough':true
                 });
                 
                 //品牌tab固顶

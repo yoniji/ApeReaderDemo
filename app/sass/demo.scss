@@ -2027,7 +2027,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         @include position(absolute,60px null null 50%);
         @include size(2px 15px);
         border-left:1px solid rgba(255,255,255,.4);
-        transform-origin: center -36px;
+        transform-origin: left -40px;
     }
 }
 
@@ -2109,6 +2109,15 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     }
 }
 
+.net-dot:nth-child(6) {
+    left: 55%;
+    top: 15%;
+    &:before {
+        @include transform(rotate(10deg));
+        height: 5px;
+    }
+}
+
 .designInfo-description {
     @include position(absolute, null $basic-gap 35% null);
     width: 38%;
@@ -2117,25 +2126,37 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 .designInfo-caption {
     @include position(absolute, $basic-gap null null $basic-gap);
     font-size: 12px;
+     color:$caption-color;
 }
 
 .designInfo-style {
     position: relative;
     
 }
-
+.designInfo-block {
+    position:relative;
+}
 .style-modern {
-    background: #333;
-    color:$white;
+    background: #fff;
     .current-dot {
-        background: #555;
+        background: #333;
+        color:$white;
     }
     .net-dot {
         border-color: #ddd;
+        &before {
+            border-left-color: #ddd;
+        }
     }
-    .designInfo-caption {
-        color:$caption-color;
+    .designInfo-description {
+       color: #000;
     }
+}
+.designInfo-years {
+    max-width:100%;
+    width:100%;
+    overflow:hidden;
+    transition: background $default-timing-function .3s;
 }
 .timeline {
     @include clearfix;
@@ -2143,9 +2164,43 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 .timeline-item {
     display: inline-block;
     float: left;
-    width:20%;
+    width:150px;
     text-align:center;
     height: 320px;
+    position:relative;
+
+    &:before,&:after {
+        content: '';
+        display: block;
+        width:30%;
+        border-top:1px dashed rgba(0,0,0,.5);
+        @include position(absolute);
+        height: 1px;
+        top:48px + 20px;
+    }
+    &:before {
+        left:2px;
+    }
+    &:after {
+        right:2px;
+    }
+}
+.current-decade{
+    .years-style {
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+
+    }
+    &:before,&:after {
+    }
+}
+
+.two-decade {
+    width:300px;
+}
+.three-decade {
+    width:450px;
 }
 .years {
     display: none;
@@ -2157,7 +2212,196 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     color:$white;
     font-size: 10px;
     line-height: 10px;
+    padding:10px 0;
+    margin:48px auto 0;
+    transition:background $default-timing-function .3s;
 }
 .years-description {
     display: none;
+}
+.yearOfDesign {
+    @include size(32px);
+    @include position(absolute);
+    background:$main-color;
+    color:$white;
+    text-align: center;
+    border-radius:10px;
+    margin-left: -16px;
+    margin-top:-48px;
+    top:48px + 20px;
+    >span,>small {
+        display: block;
+    }
+    >span {
+        font-size: 12px;
+        line-height: 12px;
+        padding-top:6px;
+    }
+    >small {
+        font-size: 6px;
+        line-height: 6px;
+    }
+    &:after {
+        content: '';
+        display: block;
+        @include position(absolute,32px null null 12px);
+        border-color:$main-color transparent transparent;
+        border-width:8px 4px 0 4px;
+        border-style:solid;
+        width:0;
+        height: 0;
+        line-height: 0;
+        font-size: 1px;
+    }
+}
+.years-detail {
+    @include position(absolute,0);
+    @include size(100%);
+    display: none;
+    .years-description,.years {
+        display: block;
+    }
+    .years {
+        font-size: 96px;
+        color:rgba(255,255,255,.3);
+        @include position(absolute,null 0 100px null);
+        text-align: right;
+        height: 72px;
+        line-height:72px;
+        font-weight: bold;
+        letter-spacing: -1px;
+    }
+    .years-title {
+        text-align: center;
+    }
+    .years-description {
+        font-size: 10px;
+        line-height: 12px;
+        width:100%;
+        padding:0 16% $basic-gap/2;
+    }
+}
+.years-gallary {
+    @include clearfix;
+    width:100%;
+    @include position(absolute,null 0 0 null);
+}
+.years-gallary-thumb {
+    float: left;
+    display: inline-block;
+    width:25%;
+    >img {
+        max-width:100%;
+    }
+}
+.yearsIcon {
+    display: block;
+    text-align: center;
+    font-size: 32px;
+    padding-top:112px;
+}
+@mixin decadeTheme($bgColor,  $timelineDefault, $lineColor, $currentColor, $textColor:$white, $textColor2:$black) {
+    background-color:$bgColor;
+    color:$textColor2;
+    .yearOfDesign {
+        background:$timelineDefault;
+    
+        &:after {
+            border-top-color:$timelineDefault;
+        }
+    }
+    .years-style {
+        background-color:$timelineDefault;
+    }
+    .timeline-item:before,.timeline-item:after {
+        border-top-color:$lineColor;
+    }
+}
+.years-20s {
+    @include decadeTheme(#061119, #c0c5c7, #ABCDDD, #f6931e,#fff,#fff);
+    .years-detail-20s {display:block;}
+    .decade-20s>.years-style {
+        background:#f6931e;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+
+.years-30s40s {
+    @include decadeTheme(#2c2e2d, #000, #444, #c82b11,#fff,#fcfcfc);
+    .years-detail-30s40s {display:block;}
+    .decade-30s40s>.years-style {
+        background:#c82b11;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+
+.years-50s {
+    @include decadeTheme(#EDEC9D, #B0B245, #D5D366, #D05420,#fff,#535f43);
+    .years-detail-50s {display:block;}
+    .decade-50s>.years-style {
+        background:#D05420;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+
+.years-60s {
+    @include decadeTheme(#eed7b3, #000, #000, #36a3d1,#fff,#333);
+    .years-detail-60s {display:block;}
+    .decade-60s>.years-style {
+        background:#36a3d1;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+
+.years-70s {
+    @include decadeTheme(#f47448, #3c4641, #96dbb5, #a6c41e, #fff, #fff);
+    .years-detail-70s {display:block;}
+    .decade-70s>.years-style {
+        background:#a6c41e;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+.years-80s {
+    @include decadeTheme(#352A40, darken(#352A40,10%), #965273, #965273,#fff,#fff);
+    .years-detail-80s {display:block;}
+    .decade-80s>.years-style {
+        background:#965273;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+.years-90s {
+    @include decadeTheme(#A9D5C0, darken(#A9D5C0,30%), #A4B8A8, #A6544D,#fff,darken(#A9D5C0,40%));
+    .years-detail-90s {display:block;}
+
+    .decade-90s>.years-style {
+        background:#A6544D;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
+}
+.designInfo-country {
+    height: 320px;
+}
+.years-00s {
+    @include decadeTheme(#05306d, #2fabfa, #2fabfa,#ffcc2f,#fff,#cedae6);
+    .years-detail-00s {display:block;}
+    .decade-00s>.years-style {
+        background:#ffcc2f;
+        @include size(50px);
+        margin-top:43px;
+        padding-top:15px;
+    }
 }
