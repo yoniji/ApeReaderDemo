@@ -17,7 +17,10 @@
             modelEvents: {
                 'sync': 'modelSynced'
             },
-            initialize: function() {
+            initialize: function(options) {
+                if (options) {
+                    this.delay = !!options.delay;
+                }
                 this.model = new ProductSearchModel();
                 this.modelSynced();
             },
@@ -26,14 +29,29 @@
                 this.render();
             },
             onRender: function() {
+                var self = this;
+
+                if (this.delay) {
+                    this.$el.addClass('delayShow');
+                    
+                    var to = setTimeout(function() {
+                        self.$el.removeClass('delayShow');
+                        clearTimeout(to);
+                    }, 800);
+                }
+
+                $('#productLibrary').addClass('moveLeftTransition');
+                $('#productLibrary').addClass('moveLeft');
+
                 $('body').append(this.$el);
+                this.$el.focus();
+
                 this.ui.streamWrapper.css({
                     'height': this.$el.height(),
                     'top'   : 0 - this.ui.filterBar.height()- 1
                 });
                 this.updateTopPadding();
 
-                var self = this;
                 this.lastScrollTop = 0;
                 this.lastScrollDirection = -1;//DOWN
                 this.ui.streamWrapper.on('scroll', function(ev) {
@@ -68,7 +86,24 @@
                 this.ui.filterBar.addClass('hide');
             },
             onTapBack: function() {
-                this.destroy();
+                this.slideOut();
+            },
+            slideOut: function() {
+                var self = this;
+                this.$el.addClass('slideOut');
+                this.outTimer = setTimeout(function() {
+                    if(self.outTimer) clearTimeout(self.outTimer);
+                    self.destroy();
+                }, 500);
+
+                app.appRouter.navigate(this.originalRouter, {
+                    trigger: false,
+                    replace: false
+                });
+                $('#productLibrary').removeClass('moveLeftTransition').addClass('moveBackTransition');
+                $('#productLibrary').focus().removeClass('moveLeft');
+
+                util.trackEvent('Close', 'Product', 1);
             },
             updateTopPadding: function(ev) {
                 var topPadding = this.ui.filterBar.height() + 1;
@@ -83,8 +118,7 @@
             afterOnDestroy: function() {
 
             },
-            id: 'productSearch',
-            className: 'rootWrapper',
+            className: 'rootWrapper productSearchWrapper',
             childViewContainer: '.products',
             childView: ProductItemView
         });

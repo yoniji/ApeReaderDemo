@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/explore.html','modules/reader/streamview','modules/reader/exploremodel', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview'],
-    function(Marionette, Mustache, $, template, StreamView, ExploreModel, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/explore.html','modules/reader/streamview','modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview'],
+    function(Marionette, Mustache, $, template, StreamView, ExploreModel,PostCollection, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
 
         return StreamView.extend({
             template: function(serialized_model) {
@@ -33,7 +33,14 @@
                 } else {
                     this.model.tryFetchFromLocalStorage();
                 }
-                this.modelSynced();
+                this.collection = new PostCollection(this.model.get('data'));
+                app.rootView.updatePrimaryRegion(this);
+            },
+            modelSynced: function() {
+                if ( this.collection.size() < 1 ) {
+                    this.emptyViewType = 'empty';
+                }
+                this.collection.reset(this.model.get('data'));
             },
             clearNotification: function() {
                 if(this.timeout) clearTimeout(this.timeout);
@@ -67,17 +74,21 @@
                     this.timeout = setTimeout(function() {
                         self.clearNotification();
                     }, 2000);
+                } else if ( this.collection.size() < 1 ) {
+                    this.emptyViewType = 'empty';
+                    this.collection.reset([]);
                 }
                 
                 this.ui.streamWrapper.prepend('<div class="pullDown loading"><i class="icon icon-refresh"></i></div>');
                 this.ui.streamWrapper.scrollTop(50);
+                this.updateEmptyView();
             },
             onGotHistoryPosts: function(postsData) {
                 this.stopLoadingHistory();
                 if( postsData&& postsData.length>0 ) {
 
                     if(!this.lastCell || this.lastCell.size() < 1) this.lastCell = this.ui.streamWrapper.find('.cell').last();
-                    
+
                     this.collection.add(postsData);
                     this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
                 } else {
@@ -133,7 +144,7 @@
             updateEmptyView: function() {
                 if (this.collection.size()<1) {
                     this.$el.find('.empty').height(this.ui.streamWrapper.height());
-                    this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
+                    if ( this.emptyViewType === 'loading') this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
                     this.ui.streamWrapper.scrollTop(50);
                 }
             },
@@ -192,11 +203,15 @@
                 this.model.setCategory(this.filterModel.getCategoryStr());
                 this.model.setFilter(this.filterModel.getFilterStr());
                 this.model.resetPosts();
+                this.emptyViewType = 'loading';
                 this.collection.reset([]);
                 this.updateEmptyView();
                 this.ui.streamWrapper.find('.readCursor').remove();
             },
             onResetPosts: function(postsData) {
+                if ( !postsData || postsData.length < 1 ) {
+                    this.emptyViewType = 'empty';
+                }
                 this.collection.reset(postsData);
                 this.ui.streamWrapper.scrollTop(50);
             },
@@ -207,6 +222,12 @@
                 }
                 this.ui.streamWrapper.css('padding-top', topPadding);
             },
+            emptyViewOptions: function() {
+                return {
+                    type : this.emptyViewType
+                };
+            },
+            emptyViewType: 'loading',
             id: 'explore',
             className: 'rootWrapper',
             childViewContainer: '#cells',

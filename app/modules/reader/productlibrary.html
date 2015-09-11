@@ -2,16 +2,17 @@
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
         <div class="item">
-            <div class="product-slide slide" style="height:{{getSlideHeight}}px">
+            <div class="product-slide slide" style="height:{{getSlideHeight}}px" data-id="1">
                 <div class="product-slide-small" style="width:{{getSlideSmallWidth}}px">
                     <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-1.jpg" style="{{getSmallSlideImgStyle}}">
                     <div class="product-slide-info">
                         <div class="product-slide-info-inner">
                             <div class="category">矮桌和咖啡桌</div>
                             <div class="title">FLYING CARPET COFFEE TABLE</div>
-                            <div class="price">约人民币¥15,456</div>
+                            <div class="price">约¥15万</div>
                         </div>
                     </div>
+                    <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg"></div>
                 </div>
                 <div class="product-slide-large" style="width:{{getSlideHeight}}px">
                     <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-1.jpg">
@@ -19,7 +20,7 @@
             </div>
         </div>
         <div class="item">
-            <div class="brand-slide slide" style="height:{{getSlideHeight}}px">
+            <div class="brand-slide slide" style="height:{{getSlideHeight}}px" data-id="2">
                 <div class="brand-slide-image">
                     <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-brand-1.jpg">
                 </div>
@@ -28,19 +29,21 @@
                     <div class="title">Herman Miller</div>
                     <div class="meta">查看全部 10 件产品</div>
                 </div>
+                <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg"></div>
             </div>
         </div>
         <div class="item">
-            <div class="product-slide slide" style="height:{{getSlideHeight}}px">
+            <div class="product-slide slide" style="height:{{getSlideHeight}}px" data-id="1">
                 <div class="product-slide-small" style="width:{{getSlideSmallWidth}}px">
                     <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-3.jpg" style="{{getSmallSlideImgStyle}}">
                     <div class="product-slide-info">
                         <div class="product-slide-info-inner">
                             <div class="category">沙发</div>
                             <div class="title">675 Maralunga 40s</div>
-                            <div class="price">约人民币¥120,456</div>
+                            <div class="price">约¥12万</div>
                         </div>
                     </div>
+                    <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg"></div>
                 </div>
                 <div class="product-slide-large" style="width:{{getSlideHeight}}px">
                     <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-3.jpg">
@@ -48,7 +51,7 @@
             </div>
         </div>
         <div class="item">
-            <div class="brand-slide slide" style="height:{{getSlideHeight}}px">
+            <div class="brand-slide slide" style="height:{{getSlideHeight}}px" data-id="1">
                 <div class="brand-slide-image">
                     <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-brand-2.jpg">
                 </div>
@@ -57,6 +60,7 @@
                     <div class="title">Bonaldo</div>
                     <div class="meta">查看全部 15 件产品</div>
                 </div>
+                <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg"></div>
             </div>
         </div>
     </div>
@@ -66,29 +70,37 @@
     </div>
 </div>
 <div class="roomsNav">
-    <div class="roomsNav-item">
+    <div class="roomsNav-item" data-id="11">
         <i class="icon icon-sofa"></i>
         <div class="roomsNav-text">客厅书房</div>
     </div>
-    <div class="roomsNav-item">
+    <div class="roomsNav-item" data-id="11">
         <i class="icon icon-table"></i>
         <div class="roomsNav-text">餐厅</div>
     </div>
-    <div class="roomsNav-item">
+    <div class="roomsNav-item"  data-id="13">
         <i class="icon icon-bed"></i>
         <div class="roomsNav-text">卧室</div>
     </div>
-    <div class="roomsNav-item">
+    <div class="roomsNav-item"  data-id="14">
         <i class="icon icon-kitchen"></i>
         <div class="roomsNav-text">厨房</div>
     </div>
-    <div class="roomsNav-item">
+    <div class="roomsNav-item"  data-id="15">
         <i class="icon icon-bath"></i>
         <div class="roomsNav-text">浴室</div>
     </div>
-    <div class="roomsNav-item">
+    <div class="roomsNav-item"  data-id="16">
+        <i class="icon icon-outdoor"></i>
+        <div class="roomsNav-text">户外</div>
+    </div>
+    <div class="roomsNav-item"  data-id="17">
+        <i class="icon icon-gym"></i>
+        <div class="roomsNav-text">健身/SPA</div>
+    </div>
+    <div class="roomsNav-item"  data-id="">
         <i class="icon icon-more"></i>
-        <div class="roomsNav-text">其他</div>
+        <div class="roomsNav-text">全部房间</div>
     </div>
 </div>
 <div id="recommendedProduct">
@@ -102,7 +114,7 @@
                 <div class="productInfo">
                     <div class="category">矮桌和咖啡桌</div>
                     <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约人民币¥15,456</div>
+                    <div class="price">约¥15万</div>
                 </div>
             </div>
             <div class="productItem">
@@ -112,7 +124,7 @@
                 <div class="productInfo">
                     <div class="category">矮桌和咖啡桌</div>
                     <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约人民币¥15,456</div>
+                    <div class="price">约¥15,456</div>
                 </div>
             </div>
             <div class="productItem">
@@ -122,7 +134,7 @@
                 <div class="productInfo">
                     <div class="category">矮桌和咖啡桌</div>
                     <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约人民币¥15,456</div>
+                    <div class="price">约¥15万</div>
                 </div>
             </div>
             <div class="productItem">
@@ -132,7 +144,7 @@
                 <div class="productInfo">
                     <div class="category">矮桌和咖啡桌</div>
                     <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约人民币¥15,456</div>
+                    <div class="price">约¥15万</div>
                 </div>
             </div>
             <div class="productItem">
@@ -142,7 +154,7 @@
                 <div class="productInfo">
                     <div class="category">矮桌和咖啡桌</div>
                     <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约人民币¥15,456</div>
+                    <div class="price">约¥15万</div>
                 </div>
             </div>
         </div>

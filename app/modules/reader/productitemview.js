@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productitem.html', 'modules/reader/productview' ],
-    function(Marionette, Mustache, $, template, ProductView) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productitem.html', 'modules/reader/productview', 'waves' ],
+    function(Marionette, Mustache, $, template, ProductView, Waves) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -12,9 +12,13 @@
 
 
             },
+            onRender: function() {
+                Waves.attach(this.$el[0],['waves-block']);
+            },
             onTap: function(ev) {
                 var productView = new ProductView({
-                    'id': 3
+                    'id': 3,
+                    'delay':true
                 });
             },
             modelEvents: {

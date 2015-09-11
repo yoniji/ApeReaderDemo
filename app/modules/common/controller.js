@@ -111,7 +111,11 @@
                 setCurrentNavigationById('products');
             },
             productDetail: function(id) {
-                var productView = new ProductView({
+                if (this.productView) {
+                    this.productView.destroy();
+                    this.productView = null;
+                }
+                this.productView = new ProductView({
                     'id': id
                 });
                 var productLibraryView = new ProductLibraryView({

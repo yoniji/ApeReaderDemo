@@ -29,7 +29,6 @@
 
             },
             onShow: function() {
-
                 this.ui.streamWrapper.css({
                     'height': this.$el.height(),
                     'top'   : 0 - this.ui.topBar.height()- 1
@@ -50,22 +49,7 @@
 
             },
             onScroll: function(ev) {
-                var currentScrollTop = this.ui.streamWrapper.scrollTop();
-                var currentScrollDirection = this.lastScrollDirection;
-                currentScrollDirection = this.lastScrollTop<currentScrollTop?1:-1;
-                if (currentScrollTop<this.ui.topBar.height()) {
-                    this.onScrollUp();
-                    this.lastScrollDirection = -1;
-                } else {
-                    if (currentScrollDirection === 1) {
-                        this.onScrollDown(ev);
-                    } else {
-                        this.onScrollUp(ev);
-                    }
-                    this.lastScrollDirection = currentScrollDirection;
-                }
-                
-                this.lastScrollTop = currentScrollTop;
+
             },
             onScrollUp: function(ev) {
                 this.ui.topBar.removeClass('hide');
@@ -95,7 +79,6 @@
                 this.afterOnDestroy();
             },
             id: 'explore',
-            className: 'rootWrapper',
             childViewContainer: '#cells',
             childView: CellView
         });

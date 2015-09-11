@@ -12,8 +12,16 @@
             },
             initialize: function() {
                 this.model = new FeatureModel();
-                this.modelSynced();
+                this.collection = new PostCollection();
+                app.rootView.updatePrimaryRegion(this);
                 this.model.fetch();
+            },
+            modelSynced: function() {
+                if ( !this.model.get('data') || this.model.get('data').length < 1 ) {
+                    this.emptyViewType = 'empty';
+                }
+                this.collection.reset(this.model.get('data'));
+                this.updateEmptyView();
             },
             onGotMorePosts: function(postsData) {
                 this.stopLoadingMore();
@@ -43,7 +51,8 @@
             },
             updateEmptyView: function() {
                 if (this.collection.size()<1) {
-                    this.$el.find('.empty').css('height',this.ui.streamWrapper.css('height'));
+                    if ( this.emptyViewType === 'loading') this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
+
                     this.$el.find('.pullUp').css('visibility', 'hidden');
                 }
             },
@@ -81,16 +90,26 @@
                 var id = item.attr('data-id');
                 if (id) {
                     this.model.changeType(id);
-                    
+                    this.emptyViewType = 'loading';
                     this.collection.reset([]);
                     this.updateEmptyView();
                 }
 
             },
             onResetPosts: function(posts) {
+                if ( !posts || posts.length < 1 ) {
+                    this.emptyViewType = 'empty';
+                }
                 this.collection.reset(posts);
                 this.ui.streamWrapper.scrollTop(0);
+                this.updateEmptyView();
             },
+            emptyViewOptions: function() {
+                return {
+                    type : this.emptyViewType
+                };
+            },
+            emptyViewType: 'loading',
             id: 'feature',
             className: 'rootWrapper',
             childViewContainer: '#rankCells',

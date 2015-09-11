@@ -23,6 +23,18 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-gym:before {
+	content: "\e629";
+}
+.icon-outdoor:before {
+	content: "\e62a";
+}
+.icon-empty2:before {
+	content: "\e627";
+}
+.icon-empty:before {
+	content: "\e628";
+}
 .icon-00s:before {
 	content: "\e61e";
 }

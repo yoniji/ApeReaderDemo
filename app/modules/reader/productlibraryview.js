@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel', 'modules/reader/productsearchview', 'iscroll'],
-    function(Marionette, Mustache, $, template, ProductLibraryModel, Carousel, ProductSearchView) {
+﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel', 'modules/reader/productsearchview', 'modules/reader/productview','waves', 'iscroll'],
+    function(Marionette, Mustache, $, template, ProductLibraryModel, Carousel, ProductSearchView, ProductView, Waves) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -9,6 +9,9 @@
                 'tap .tabItem': 'onTapTab',
                 'tap .roomsNav-item': 'onTapRoom',
                 'tap .brandItem': 'onTapBrand',
+                'tap .brand-slide': 'onTapBrand',
+                'tap .product-slide': 'onTapProduct',
+                'tap .productItem': 'onTapProduct',
                 'touchmove':'onTouchMove'
             },
             ui: {
@@ -32,6 +35,7 @@
                     'scrollX': true,
                     'scrollY': false,
                     'bindToWrapper':true,
+                    'snap':true,
                     'eventPassthrough':true
                 });
                 
@@ -43,6 +47,9 @@
                 this.$el.on('scroll', function(ev) {
                     self.onScroll(ev);
                 });
+
+
+                 Waves.attach(this.$el.find('.productItem,.slide'),['waves-block']);
             },
             templateHelpers: function() {
                 var windowWidth = $(window).width();
@@ -87,10 +94,20 @@
                 }
             },
             onTapRoom: function(ev) {
-                var productSearchView = new ProductSearchView();
+                var productSearchView = new ProductSearchView({
+                    'delay':true
+                });
             },
             onTapBrand: function(ev) {
-                var productSearchView = new ProductSearchView();
+                var productSearchView = new ProductSearchView({
+                    'delay':true
+                });
+            },
+            onTapProduct: function(ev) {
+                var productView = new ProductView({
+                    'id': 3,
+                    'delay':true
+                });
             },
             onScroll: function(ev) {
                 var currentScrollTop = this.$el.scrollTop();

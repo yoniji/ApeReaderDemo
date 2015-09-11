@@ -635,6 +635,7 @@ $toolBarColor:$black;
 
 .productWrapper,
 .articleWrapper,
+.productSearchWrapper,
 .designInfoWrapper {
     @include position(absolute, 0 null null 0);
     @include reset-transform;
@@ -1038,7 +1039,19 @@ $menuItemHeight:48px;
         }
     }
 }
-
+.product-slide-brand {
+    @include position(absolute, $basic-gap null null 0);
+    @include size(100% 48px);
+    text-align: center;
+    >img {
+        @include size(48px);
+        border-radius:100%;
+    }
+}
+.brand-slide .product-slide-brand{
+    text-align: right;
+    padding-right:$basic-gap;
+}
 .brand-slide-info {
     @include position(absolute, null null 0 0);
     @include size(100% auto);
@@ -1059,25 +1072,31 @@ $menuItemHeight:48px;
 
 .roomsNav {
     @include clearfix();
+    background: #fff;
+    color:$caption-color;
     .roomsNav-item {
         float: left;
-        width: 33.333%;
-        height: 96px;
+        width: 25%;
+        height: 72px;
         text-align: center;
         >.icon {
-            font-size: 48px;
-            line-height: 72px;
+            font-size: 36px;
+            line-height: 48px;
         }
         border-style:solid;
         border-width:0 1px 1px 0;
         border-color:$border-color;
+
+        &:active {
+            background:#f0f0f0;
+        }
     }
     .roomsNav-text {
-        font-size: 12px;
+        font-size: 10px;
         line-height: 14px;
     }
-    .roomsNav-item:nth-child(3),
-    .roomsNav-item:nth-child(6) {
+    .roomsNav-item:nth-child(4),
+    .roomsNav-item:nth-child(8) {
         border-right-width: 0;
     }
 }
@@ -1357,9 +1376,12 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         height: 20px;
         overflow: hidden;
     }
+    &:active {
+        background: #f0f0f0;
+    }
 }
 
-#productSearch {
+.productSearchWrapper {
     .streamWrapper {
         background: $white;
     }
@@ -1752,7 +1774,8 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .productCategory,
-.productTitle {
+.productTitle,
+.productMeta {
     text-align: center;
 }
 
@@ -1761,10 +1784,15 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     line-height: 14px;
     padding-bottom: 4px;
 }
+.productMeta {
+    font-size: 10px;
+    line-height: 12px;
+}
 
 .productTitle {
     font-size: 20px;
     line-height: 22px;
+    padding-bottom: 4px;
 }
 
 .description {
@@ -2007,8 +2035,10 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     }
 }
 
+$netWidth:260px;
+$netHeight:260px;
 .net {
-    @include size(260px);
+    @include size($netWidth $netHeight);
     @include position(relative);
 }
 
@@ -2016,18 +2046,18 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     @include size(64px);
     border-radius: 100%;
     border: 2px solid transparent;
-    @include position(absolute);
+    @include position(absolute,0 null null 0);
     margin-top: -32px;
     margin-left: -32px;
     text-align: center;
-
+    z-index: 0;
     &:before {
         content: '';
         display: block;
-        @include position(absolute,60px null null 50%);
+        @include position(absolute,68px null null 50%);
         @include size(2px 15px);
         border-left:1px solid rgba(255,255,255,.4);
-        transform-origin: left -40px;
+        transform-origin: 1px -36px;
     }
 }
 
@@ -2047,6 +2077,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     margin-top: -40px;
     margin-left: -40px;
     border-width: 0;
+    z-index: 1;
     &:before {
         display: none;
     }
@@ -2076,42 +2107,53 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     color: rgba(255, 255, 255, .6);
     display: block;
 }
+@include keyframes(dotAnimation){
+    0% {
+        @include transform(translate3d($netWidth*0.5,$netHeight*0.5,0));
+    }
+    100% {
+
+    }
+}
 
 .net-dot:nth-child(2) {
-    left: 16%;
-    top: 34%;
+    @include animation(dotAnimation .5s both);
+    @include transform(translate3d($netWidth*0.16,$netHeight*0.34,0));
     &:before {
         @include transform(rotate(-55deg));
     }
 }
 
 .net-dot:nth-child(3) {
-    right: 0%;
-    top: 30%;
+    @include animation(dotAnimation .5s both);
+    @include transform(translate3d($netWidth,$netHeight*0.3,0));
     &:before {
         @include transform(rotate(60deg));
     }
 }
 
 .net-dot:nth-child(4) {
-    left: 20%;
-    bottom: 15%;
+    @include animation(dotAnimation .5s both);
+    @include transform(translate3d($netWidth*0.2,$netHeight*0.85,0));
+
     &:before {
         @include transform(rotate(-130deg));
     }
 }
 
 .net-dot:nth-child(5) {
-    right: 20%;
-    bottom: 6%;
+    @include animation(dotAnimation .5s both);
+    @include transform(translate3d($netWidth*0.75,$netHeight*0.84,0));
+
     &:before {
         @include transform(rotate(140deg));
     }
 }
 
 .net-dot:nth-child(6) {
-    left: 55%;
-    top: 15%;
+    @include animation(dotAnimation .5s both);
+    @include transform(translate3d($netWidth*0.55,$netHeight*0.15,0));
+
     &:before {
         @include transform(rotate(10deg));
         height: 5px;
@@ -2141,10 +2183,11 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     .current-dot {
         background: #333;
         color:$white;
+
     }
     .net-dot {
         border-color: #ddd;
-        &before {
+        &:before {
             border-left-color: #ddd;
         }
     }
@@ -2157,16 +2200,18 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     width:100%;
     overflow:hidden;
     transition: background $default-timing-function .3s;
+    height: 340px;
 }
 .timeline {
     @include clearfix;
+    height: 100%;
 }
 .timeline-item {
     display: inline-block;
     float: left;
     width:150px;
     text-align:center;
-    height: 320px;
+    height: 100%;
     position:relative;
 
     &:before,&:after {
@@ -2276,14 +2321,15 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     }
     .years-description {
         font-size: 10px;
-        line-height: 12px;
+        line-height: 14px;
         width:100%;
-        padding:0 16% $basic-gap/2;
+        padding:4px 16% $basic-gap/2;
     }
 }
 .years-gallary {
     @include clearfix;
     width:100%;
+    padding:$basic-gap $basic-gap $basic-gap*1.5;
     @include position(absolute,null 0 0 null);
 }
 .years-gallary-thumb {
@@ -2292,6 +2338,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     width:25%;
     >img {
         max-width:100%;
+        display: block;
     }
 }
 .yearsIcon {
@@ -2392,9 +2439,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         padding-top:15px;
     }
 }
-.designInfo-country {
-    height: 320px;
-}
+
 .years-00s {
     @include decadeTheme(#05306d, #2fabfa, #2fabfa,#ffcc2f,#fff,#cedae6);
     .years-detail-00s {display:block;}
@@ -2404,4 +2449,57 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         margin-top:43px;
         padding-top:15px;
     }
+}
+
+@mixin countryTheme($bgColor,$fgColor,$titleColor) {
+    background:$bgColor;
+    color:$fgColor;
+    .country-title {
+        color:$titleColor;
+    }
+    .designInfo-country-avatar {
+        color: darken($bgColor,5%);
+    }
+}
+.country-italy {
+    @include countryTheme(#f0f0f0,#7c7c7c,#2c5032);
+}
+.designInfo-country {
+    padding-left:100px + $basic-gap*2;
+    padding-right:$basic-gap;
+    padding-top:40px;
+    text-align: left;
+    height: 240px;
+}
+.designInfo-country-avatar {
+    @include position(absolute,null 0 0 null);
+    font-size: 128px;
+}
+.designInfo-country-img {
+    @include position(absolute,50% null null $basic-gap);
+    margin-top:-50px;
+    @include size(100px);
+    >img {
+        border-radius:100%;
+    }
+}
+.country-caption {
+    font-size: 10px;
+    line-height: 12px;
+}
+.country-title {
+    padding:4px 0 6px;
+    font-size: 14px;
+    line-height: 15px;
+}
+.country-description {
+    font-size: 12px;
+    line-height: 16px;
+    position:relative;
+
+}
+.designInfo-bottom {
+    height: 128px;
+    background:#e0e0e0;
+    width: 100%;
 }
