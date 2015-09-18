@@ -52,18 +52,10 @@
                 this.stopListening();
             },
             getCategoryStr: function() {
-                if ( selectedData.level1.length > 0 ) {
-                    return selectedData.level1.join(',');
-                } else {
-                    return '';
-                }
+                return '';
             },
             getFilterStr: function () {
-                if ( selectedData.level2.length > 0 ) {
-                    return selectedData.level2.join(',');
-                } else {
-                    return '';
-                }
+                return selectedData.level1.concat(selectedData.level2).join(',');
             }
         });
     });

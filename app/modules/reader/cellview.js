@@ -60,7 +60,7 @@
                     'getMediumCellCoverHtml': function() {
 
                         var outStr = '<div class="cellCover">';
-
+                        
                         if (hasCoverImage && this.images.length < 3) {
                             outStr += this.getLargeCellCoverHtml();
                         } else if (hasCoverImage) {

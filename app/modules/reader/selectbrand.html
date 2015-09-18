@@ -1,0 +1,16 @@
+﻿<div class="brandWrapper">
+   
+    <div class="brands">
+        {{#brands}}
+        <div class="brandItem {{#selected}}selected{{/selected}}" data-id="{{id}}" >
+            <img src="{{logo.url}}">
+            <p>{{original_name}}</p>
+        </div>
+        {{/brands}}
+    </div>
+
+     <div class="toolBar">
+        <div class="toolBar-item brand-close"><i class="icon icon-cross"></i></div>
+        <div class="toolBar-item brand-title">请选择品牌</div>
+    </div>
+</div>

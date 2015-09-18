@@ -31,7 +31,17 @@
                 };
             },
             onRender: function() {
+                var self = this;
+
+                this.$el.addClass('slideInUp');
+                    var to = setTimeout(function() {
+                        self.$el.removeClass('slideInUp');
+                        clearTimeout(to);
+                }, 300);
+
                 $('body').append(this.$el);
+                this.$el.focus();
+
                 this.ui.inner.css('height', $(window).height());
 
                 //如果有设计信息
@@ -42,7 +52,7 @@
                     'snap':'.timeline-item',
                     'eventPassthrough':true
                 });
-                var self = this;
+                
                 this.scroller.on('scrollEnd', function() {
                     var index = this.currentPage.pageX;
                     if (typeof(index)==='number'&&index>-1&&index<styleList.length) {
@@ -53,8 +63,18 @@
                 var scrollToX = (1962 - 1900) *widthPerYear - $(window).width()/2;
                 this.scroller.scrollTo(-scrollToX,0);
             },
+            slideOut: function() {
+                var self = this;
+                this.$el.addClass('slideOutDown');
+                this.outTimer = setTimeout(function() {
+                    if(self.outTimer) clearTimeout(self.outTimer);
+                    self.destroy();
+                }, 300);
+                $('.productWrapper').last().focus();
+
+            },
             onTap: function(ev) {
-                this.onDestroy();
+                this.slideOut();
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
             },

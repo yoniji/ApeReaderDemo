@@ -1,13 +1,14 @@
 ﻿<div class="filterBar">
-
 </div>
 <div class="streamWrapper">
     <div class="products">
     </div>
 </div>
+{{getBrandSizeCss}}
 <div class="productSearchToolBar toolBar">
-	<div class="toolBar-item toolBar-back"><i class="icon icon-cross"></i></div>
-	<div class="toolBar-item toolBar-filter"><i class="icon icon-grid2"></i></div>
-	<div class="toolBar-item toolBar-sort"></div>
+    <div class="toolBar-item toolBar-back"><i class="icon icon-cross"></i></div>
+    <div class="toolBar-item toolBar-filter">选择品牌</div>
+    <div class="toolBar-item toolBar-brand">
+    	{{#selectedBrand}}<img src="{{selectedBrand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}">{{/selectedBrand}}</div>
     <div class="toolBar-item toolBar-clear">清除条件</div>
 </div>

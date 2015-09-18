@@ -137,8 +137,8 @@
                         clearTimeout(to);
                     }, 800);
                 }
-                $('.rootWrapper').addClass('moveLeftTransition');
-                $('.rootWrapper').addClass('moveLeft');
+                $('.rootWrapper').last().removeClass('moveBackTransition').addClass('moveLeftTransition');
+                $('.rootWrapper').last().addClass('moveLeft');
 
                 $('body').append(this.$el);
 
@@ -255,7 +255,7 @@
                     trigger: false,
                     replace: false
                 });
-                $('.rootWrapper').removeClass('moveLeftTransition').addClass('moveBackTransition');
+                $('.rootWrapper').last().removeClass('moveLeftTransition').addClass('moveBackTransition');
                 $('.rootWrapper').last().focus().removeClass('moveLeft');
 
                 util.trackEvent('Close', 'Product', 1);

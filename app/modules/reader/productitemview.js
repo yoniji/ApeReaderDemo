@@ -8,6 +8,29 @@
             events: {
                 'tap': 'onTap'
             },
+            templateHelpers: function() {
+                var windowWidth = $(window).width();
+                var width = windowWidth/2;
+                var ratio = util.getDeviceRatio();
+                var imgWidth = Math.round(width * ratio);
+                return {
+                    getHeightCss: function() {
+                        var outStr = '';
+                        outStr += 'height:' + width + 'px;';
+                        return outStr;
+                    },
+                    getImageSuffix: function() {
+                        var outStr = '';
+                        outStr += '@' + imgWidth + 'w_' + imgWidth + 'h_1e_1c';
+                        return outStr;
+                    },
+                    getImageSizeCss: function() {
+                        var outStr = '';
+                        outStr += 'width:' + width + 'px;height:' + width + 'px;';
+                        return outStr;
+                    }
+                };
+            },
             initialize: function() {
 
 

@@ -325,6 +325,20 @@ define(function(require, exports, module) {
         }
     };
 
+    exports.supportSessionStorage = function() {
+        var mod = 'modernizr';
+        try {
+            sessionStorage.setItem(mod, mod);
+            sessionStorage.removeItem(mod);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+    exports.clearSessionStorage = function() {
+        if (util.supportSessionStorage()) sessionStorage.clear();
+    };
+    
     exports.clearLocalStorage = function() {
         if (util.supportLocalStorage()) localStorage.clear();
     };

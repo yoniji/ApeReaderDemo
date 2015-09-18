@@ -610,6 +610,19 @@ $toolBarColor:$black;
     100% {}
 }
 
+@include keyframes(slideDown) {
+    100% {
+        @include transform(translate3d(0, 1000px, 0));
+    }
+}
+
+@include keyframes(slideUp) {
+    0% {
+        @include transform(translate3d(0, 1000px, 0));
+    }
+    100% {}
+}
+
 .toolBar-brand {
     >img {
         border-radius: 100%;
@@ -649,6 +662,18 @@ $toolBarColor:$black;
     &.slideOut {
         @include animation(slideOut 1s $default-timing-function both);
     }
+}
+
+.moreTextWrapper {
+    @include reset-transform;
+}
+
+.slideInUp {
+    @include animation(slideUp .3s $default-timing-function both);
+}
+
+.slideOutDown {
+    @include animation(slideDown .3s $default-timing-function both);
 }
 
 .articleWrapper {
@@ -1039,19 +1064,22 @@ $menuItemHeight:48px;
         }
     }
 }
+
 .product-slide-brand {
     @include position(absolute, $basic-gap null null 0);
     @include size(100% 48px);
     text-align: center;
     >img {
         @include size(48px);
-        border-radius:100%;
+        border-radius: 100%;
     }
 }
-.brand-slide .product-slide-brand{
+
+.brand-slide .product-slide-brand {
     text-align: right;
-    padding-right:$basic-gap;
+    padding-right: $basic-gap;
 }
+
 .brand-slide-info {
     @include position(absolute, null null 0 0);
     @include size(100% auto);
@@ -1073,7 +1101,7 @@ $menuItemHeight:48px;
 .roomsNav {
     @include clearfix();
     background: #fff;
-    color:$caption-color;
+    color: $caption-color;
     .roomsNav-item {
         float: left;
         width: 25%;
@@ -1086,9 +1114,8 @@ $menuItemHeight:48px;
         border-style:solid;
         border-width:0 1px 1px 0;
         border-color:$border-color;
-
         &:active {
-            background:#f0f0f0;
+            background: #f0f0f0;
         }
     }
     .roomsNav-text {
@@ -1293,10 +1320,10 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     position: relative;
     float: left;
     display: inline-block;
-    height: 140px;
     >.image {
         >img {
             max-width: 100%;
+            display: block;
         }
     }
     >.productInfo {
@@ -1387,6 +1414,9 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     }
     .toolBar-item {
         width: 25%;
+    }
+    .toolBar-brand {
+        text-align: left;
     }
 }
 
@@ -1784,6 +1814,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     line-height: 14px;
     padding-bottom: 4px;
 }
+
 .productMeta {
     font-size: 10px;
     line-height: 12px;
@@ -1985,15 +2016,6 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     }
 }
 
-@include keyframes(slideInUp) {
-    0% {
-        @include transform(translate3d(1000px, 0, 0));
-    }
-    100% {
-        @include transform(translate3d(0, 0, 0));
-    }
-}
-
 .moreTextWrapper {
     background: rgba(0, 0, 0, .9);
     color: $white;
@@ -2004,7 +2026,6 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        @include animation(slideInUp .5s $default-timing-function both once)
     }
     .close {
         text-align: center;
@@ -2015,6 +2036,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .designInfoWrapper {
+    @include reset-transform();
     z-index: 3;
     >.designInfoInner {
         @include size(100%);
@@ -2046,7 +2068,7 @@ $netHeight:260px;
     @include size(64px);
     border-radius: 100%;
     border: 2px solid transparent;
-    @include position(absolute,0 null null 0);
+    @include position(absolute, 0 null null 0);
     margin-top: -32px;
     margin-left: -32px;
     text-align: center;
@@ -2054,9 +2076,9 @@ $netHeight:260px;
     &:before {
         content: '';
         display: block;
-        @include position(absolute,68px null null 50%);
+        @include position(absolute, 68px null null 50%);
         @include size(2px 15px);
-        border-left:1px solid rgba(255,255,255,.4);
+        border-left: 1px solid rgba(255, 255, 255, .4);
         transform-origin: 1px -36px;
     }
 }
@@ -2081,7 +2103,6 @@ $netHeight:260px;
     &:before {
         display: none;
     }
-    
 }
 
 .designInfo-description {
@@ -2107,18 +2128,17 @@ $netHeight:260px;
     color: rgba(255, 255, 255, .6);
     display: block;
 }
-@include keyframes(dotAnimation){
-    0% {
-        @include transform(translate3d($netWidth*0.5,$netHeight*0.5,0));
-    }
-    100% {
 
+@include keyframes(dotAnimation) {
+    0% {
+        @include transform(translate3d($netWidth*0.5, $netHeight*0.5, 0));
     }
+    100% {}
 }
 
 .net-dot:nth-child(2) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth*0.16,$netHeight*0.34,0));
+    @include transform(translate3d($netWidth*0.16, $netHeight*0.34, 0));
     &:before {
         @include transform(rotate(-55deg));
     }
@@ -2126,7 +2146,7 @@ $netHeight:260px;
 
 .net-dot:nth-child(3) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth,$netHeight*0.3,0));
+    @include transform(translate3d($netWidth, $netHeight*0.3, 0));
     &:before {
         @include transform(rotate(60deg));
     }
@@ -2134,8 +2154,7 @@ $netHeight:260px;
 
 .net-dot:nth-child(4) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth*0.2,$netHeight*0.85,0));
-
+    @include transform(translate3d($netWidth*0.2, $netHeight*0.85, 0));
     &:before {
         @include transform(rotate(-130deg));
     }
@@ -2143,8 +2162,7 @@ $netHeight:260px;
 
 .net-dot:nth-child(5) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth*0.75,$netHeight*0.84,0));
-
+    @include transform(translate3d($netWidth*0.75, $netHeight*0.84, 0));
     &:before {
         @include transform(rotate(140deg));
     }
@@ -2152,8 +2170,7 @@ $netHeight:260px;
 
 .net-dot:nth-child(6) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth*0.55,$netHeight*0.15,0));
-
+    @include transform(translate3d($netWidth*0.55, $netHeight*0.15, 0));
     &:before {
         @include transform(rotate(10deg));
         height: 5px;
@@ -2168,22 +2185,22 @@ $netHeight:260px;
 .designInfo-caption {
     @include position(absolute, $basic-gap null null $basic-gap);
     font-size: 12px;
-     color:$caption-color;
+    color: $caption-color;
 }
 
 .designInfo-style {
     position: relative;
-    
 }
+
 .designInfo-block {
-    position:relative;
+    position: relative;
 }
+
 .style-modern {
     background: #fff;
     .current-dot {
         background: #333;
-        color:$white;
-
+        color: $white;
     }
     .net-dot {
         border-color: #ddd;
@@ -2192,95 +2209,104 @@ $netHeight:260px;
         }
     }
     .designInfo-description {
-       color: #000;
+        color: #000;
     }
 }
+
 .designInfo-years {
-    max-width:100%;
-    width:100%;
-    overflow:hidden;
+    max-width: 100%;
+    width: 100%;
+    overflow: hidden;
     transition: background $default-timing-function .3s;
     height: 340px;
 }
+
 .timeline {
     @include clearfix;
     height: 100%;
 }
+
 .timeline-item {
     display: inline-block;
     float: left;
-    width:150px;
-    text-align:center;
+    width: 150px;
+    text-align: center;
     height: 100%;
-    position:relative;
-
-    &:before,&:after {
+    position: relative;
+    &:before,
+    &:after {
         content: '';
         display: block;
-        width:30%;
-        border-top:1px dashed rgba(0,0,0,.5);
+        width: 30%;
+        border-top: 1px dashed rgba(0, 0, 0, .5);
         @include position(absolute);
         height: 1px;
-        top:48px + 20px;
+        top: 48px + 20px;
     }
     &:before {
-        left:2px;
+        left: 2px;
     }
     &:after {
-        right:2px;
+        right: 2px;
     }
 }
-.current-decade{
+
+.current-decade {
     .years-style {
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
-
+        margin-top: 43px;
+        padding-top: 15px;
     }
-    &:before,&:after {
-    }
+    &:before,
+    &:after {}
 }
 
 .two-decade {
-    width:300px;
+    width: 300px;
 }
+
 .three-decade {
-    width:450px;
+    width: 450px;
 }
+
 .years {
     display: none;
 }
+
 .years-style {
     @include size(40px);
-    border-radius:100%;
-    background:$black;
-    color:$white;
+    border-radius: 100%;
+    background: $black;
+    color: $white;
     font-size: 10px;
     line-height: 10px;
-    padding:10px 0;
-    margin:48px auto 0;
-    transition:background $default-timing-function .3s;
+    padding: 10px 0;
+    margin: 48px auto 0;
+    transition: background $default-timing-function .3s;
 }
+
 .years-description {
     display: none;
 }
+
 .yearOfDesign {
     @include size(32px);
     @include position(absolute);
-    background:$main-color;
-    color:$white;
+    background: $main-color;
+    color: $white;
     text-align: center;
-    border-radius:10px;
+    border-radius: 10px;
     margin-left: -16px;
-    margin-top:-48px;
-    top:48px + 20px;
-    >span,>small {
+    margin-top: -48px;
+    top: 48px + 20px;
+    >span,
+    >small {
         display: block;
     }
     >span {
         font-size: 12px;
         line-height: 12px;
-        padding-top:6px;
+        padding-top: 6px;
     }
     >small {
         font-size: 6px;
@@ -2289,30 +2315,32 @@ $netHeight:260px;
     &:after {
         content: '';
         display: block;
-        @include position(absolute,32px null null 12px);
-        border-color:$main-color transparent transparent;
-        border-width:8px 4px 0 4px;
-        border-style:solid;
-        width:0;
+        @include position(absolute, 32px null null 12px);
+        border-color: $main-color transparent transparent;
+        border-width: 8px 4px 0 4px;
+        border-style: solid;
+        width: 0;
         height: 0;
         line-height: 0;
         font-size: 1px;
     }
 }
+
 .years-detail {
-    @include position(absolute,0);
+    @include position(absolute, 0);
     @include size(100%);
     display: none;
-    .years-description,.years {
+    .years-description,
+    .years {
         display: block;
     }
     .years {
         font-size: 96px;
-        color:rgba(255,255,255,.3);
-        @include position(absolute,null 0 100px null);
+        color: rgba(255, 255, 255, .3);
+        @include position(absolute, null 0 100px null);
         text-align: right;
         height: 72px;
-        line-height:72px;
+        line-height: 72px;
         font-weight: bold;
         letter-spacing: -1px;
     }
@@ -2322,184 +2350,250 @@ $netHeight:260px;
     .years-description {
         font-size: 10px;
         line-height: 14px;
-        width:100%;
-        padding:4px 16% $basic-gap/2;
+        width: 100%;
+        padding: 4px 16% $basic-gap/2;
     }
 }
+
 .years-gallary {
     @include clearfix;
-    width:100%;
-    padding:$basic-gap $basic-gap $basic-gap*1.5;
-    @include position(absolute,null 0 0 null);
+    width: 100%;
+    padding: $basic-gap $basic-gap $basic-gap*1.5;
+    @include position(absolute, null 0 0 null);
 }
+
 .years-gallary-thumb {
     float: left;
     display: inline-block;
-    width:25%;
+    width: 25%;
     >img {
-        max-width:100%;
+        max-width: 100%;
         display: block;
     }
 }
+
 .yearsIcon {
     display: block;
     text-align: center;
     font-size: 32px;
-    padding-top:112px;
+    padding-top: 112px;
 }
-@mixin decadeTheme($bgColor,  $timelineDefault, $lineColor, $currentColor, $textColor:$white, $textColor2:$black) {
-    background-color:$bgColor;
-    color:$textColor2;
+
+@mixin decadeTheme($bgColor, $timelineDefault, $lineColor, $currentColor, $textColor:$white, $textColor2:$black) {
+    background-color: $bgColor;
+    color: $textColor2;
     .yearOfDesign {
-        background:$timelineDefault;
-    
+        background: $timelineDefault;
         &:after {
-            border-top-color:$timelineDefault;
+            border-top-color: $timelineDefault;
         }
     }
     .years-style {
-        background-color:$timelineDefault;
+        background-color: $timelineDefault;
     }
-    .timeline-item:before,.timeline-item:after {
-        border-top-color:$lineColor;
+    .timeline-item:before,
+    .timeline-item:after {
+        border-top-color: $lineColor;
     }
 }
+
 .years-20s {
-    @include decadeTheme(#061119, #c0c5c7, #ABCDDD, #f6931e,#fff,#fff);
-    .years-detail-20s {display:block;}
+    @include decadeTheme(#061119, #c0c5c7, #ABCDDD, #f6931e, #fff, #fff);
+    .years-detail-20s {
+        display: block;
+    }
     .decade-20s>.years-style {
-        background:#f6931e;
+        background: #f6931e;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
 
 .years-30s40s {
-    @include decadeTheme(#2c2e2d, #000, #444, #c82b11,#fff,#fcfcfc);
-    .years-detail-30s40s {display:block;}
+    @include decadeTheme(#2c2e2d, #000, #444, #c82b11, #fff, #fcfcfc);
+    .years-detail-30s40s {
+        display: block;
+    }
     .decade-30s40s>.years-style {
-        background:#c82b11;
+        background: #c82b11;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
 
 .years-50s {
-    @include decadeTheme(#EDEC9D, #B0B245, #D5D366, #D05420,#fff,#535f43);
-    .years-detail-50s {display:block;}
+    @include decadeTheme(#EDEC9D, #B0B245, #D5D366, #D05420, #fff, #535f43);
+    .years-detail-50s {
+        display: block;
+    }
     .decade-50s>.years-style {
-        background:#D05420;
+        background: #D05420;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
 
 .years-60s {
-    @include decadeTheme(#eed7b3, #000, #000, #36a3d1,#fff,#333);
-    .years-detail-60s {display:block;}
+    @include decadeTheme(#eed7b3, #000, #000, #36a3d1, #fff, #333);
+    .years-detail-60s {
+        display: block;
+    }
     .decade-60s>.years-style {
-        background:#36a3d1;
+        background: #36a3d1;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
 
 .years-70s {
     @include decadeTheme(#f47448, #3c4641, #96dbb5, #a6c41e, #fff, #fff);
-    .years-detail-70s {display:block;}
+    .years-detail-70s {
+        display: block;
+    }
     .decade-70s>.years-style {
-        background:#a6c41e;
+        background: #a6c41e;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
-.years-80s {
-    @include decadeTheme(#352A40, darken(#352A40,10%), #965273, #965273,#fff,#fff);
-    .years-detail-80s {display:block;}
-    .decade-80s>.years-style {
-        background:#965273;
-        @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
-    }
-}
-.years-90s {
-    @include decadeTheme(#A9D5C0, darken(#A9D5C0,30%), #A4B8A8, #A6544D,#fff,darken(#A9D5C0,40%));
-    .years-detail-90s {display:block;}
 
-    .decade-90s>.years-style {
-        background:#A6544D;
+.years-80s {
+    @include decadeTheme(#352A40, darken(#352A40, 10%), #965273, #965273, #fff, #fff);
+    .years-detail-80s {
+        display: block;
+    }
+    .decade-80s>.years-style {
+        background: #965273;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
+    }
+}
+
+.years-90s {
+    @include decadeTheme(#A9D5C0, darken(#A9D5C0, 30%), #A4B8A8, #A6544D, #fff, darken(#A9D5C0, 40%));
+    .years-detail-90s {
+        display: block;
+    }
+    .decade-90s>.years-style {
+        background: #A6544D;
+        @include size(50px);
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
 
 .years-00s {
-    @include decadeTheme(#05306d, #2fabfa, #2fabfa,#ffcc2f,#fff,#cedae6);
-    .years-detail-00s {display:block;}
+    @include decadeTheme(#05306d, #2fabfa, #2fabfa, #ffcc2f, #fff, #cedae6);
+    .years-detail-00s {
+        display: block;
+    }
     .decade-00s>.years-style {
-        background:#ffcc2f;
+        background: #ffcc2f;
         @include size(50px);
-        margin-top:43px;
-        padding-top:15px;
+        margin-top: 43px;
+        padding-top: 15px;
     }
 }
 
-@mixin countryTheme($bgColor,$fgColor,$titleColor) {
-    background:$bgColor;
-    color:$fgColor;
+@mixin countryTheme($bgColor, $fgColor, $titleColor) {
+    background: $bgColor;
+    color: $fgColor;
     .country-title {
-        color:$titleColor;
+        color: $titleColor;
     }
     .designInfo-country-avatar {
-        color: darken($bgColor,5%);
+        color: darken($bgColor, 5%);
     }
 }
+
 .country-italy {
-    @include countryTheme(#f0f0f0,#7c7c7c,#2c5032);
+    @include countryTheme(#f0f0f0, #7c7c7c, #2c5032);
 }
+
 .designInfo-country {
-    padding-left:100px + $basic-gap*2;
-    padding-right:$basic-gap;
-    padding-top:40px;
+    padding-left: 100px + $basic-gap*2;
+    padding-right: $basic-gap;
+    padding-top: 40px;
     text-align: left;
     height: 240px;
 }
+
 .designInfo-country-avatar {
-    @include position(absolute,null 0 0 null);
+    @include position(absolute, null 0 0 null);
     font-size: 128px;
 }
+
 .designInfo-country-img {
-    @include position(absolute,50% null null $basic-gap);
-    margin-top:-50px;
+    @include position(absolute, 50% null null $basic-gap);
+    margin-top: -50px;
     @include size(100px);
     >img {
-        border-radius:100%;
+        border-radius: 100%;
     }
 }
+
 .country-caption {
     font-size: 10px;
     line-height: 12px;
 }
+
 .country-title {
-    padding:4px 0 6px;
+    padding: 4px 0 6px;
     font-size: 14px;
     line-height: 15px;
 }
+
 .country-description {
     font-size: 12px;
     line-height: 16px;
-    position:relative;
-
+    position: relative;
 }
+
 .designInfo-bottom {
     height: 128px;
-    background:#e0e0e0;
+    background: #e0e0e0;
     width: 100%;
+}
+
+.brandWrapper {
+    @include size(100% 67%);
+    @include position(absolute, null null 0 0);
+    background: #fff;
+    z-index: 1;
+    .brands {
+        @include clearfix;
+        @include size(100%);
+        padding-bottom: $toolBarHeight + $basic-gap;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .brand-title {
+        width: 50%;
+        text-align: center;
+    }
+    .selected,.brandItem:active {
+        position: relative;
+        background:lighten($main-color,40%);
+        >p {
+            color: $main-color;
+        }
+    }
+    .selected:after,.brandItem:active:after {
+        color: $white;
+        border-radius: 100%;
+        background: $main-color;
+        font-size: 24px;
+        @include position(absolute, $basic-gap/2 $basic-gap/2 null null);
+        content: "\e8a6";
+        display: block;
+        font-family: 'icomoon';
+        speak: none;
+        line-height: 1;
+    }
 }

@@ -26,12 +26,11 @@
                     'getMediumCellCoverHtml': function() {
 
                         var outStr = '';
-
                         if (hasCoverImage && this.images.length < 3) {
                             outStr += '<div class="cellCover">';
                             outStr += this.getLargeCellCoverHtml();
                             outStr += '</div>';
-                        } else {
+                        } else if(hasCoverImage){
                             outStr += '<div class="cellMoreImages">';
                             var imgWidth = Math.round((windowWidth - 32 - 8) / 3);
                             var imgHeight = Math.round(imgWidth * 0.667);
@@ -61,7 +60,7 @@
                             outStr += this.getLargeCellCoverHtml();
                             outStr += '</div>';
 
-                            if (this.images.length > 2) {
+                            if (this.images.length > 3) {
                                 outStr += '<div class="cellMoreImages">';
                                 var imgWidth = Math.round((windowWidth - 32 - 8) / 3);
                                 var imgHeight = Math.round(imgWidth * 0.667);
