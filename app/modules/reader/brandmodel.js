@@ -3,7 +3,7 @@
         function markSelected(array, selectedId) {
             if (selectedId) {
                 var selectedBrand = _.findWhere(array,{'id': selectedId});
-                selectedBrand.selected = true;
+                if(selectedBrand) selectedBrand.selected = true;
             }
         }
         return Backbone.Model.extend({

@@ -92,10 +92,10 @@
 .icon-home:before {
 	content: "\e617";
 }
-.icon-bath:before {
+.icon-bathroom:before {
 	content: "\e602";
 }
-.icon-bed:before {
+.icon-bedroom:before {
 	content: "\e603";
 }
 .icon-block:before {
@@ -131,13 +131,13 @@
 .icon-share:before {
 	content: "\e60e";
 }
-.icon-sofa:before {
+.icon-livingroom:before {
 	content: "\e60f";
 }
 .icon-spain:before {
 	content: "\e610";
 }
-.icon-table:before {
+.icon-diningroom:before {
 	content: "\e611";
 }
 .icon-uk:before {

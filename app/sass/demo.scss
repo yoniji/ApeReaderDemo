@@ -50,6 +50,9 @@ $homeNavigationTextColor:$black;
     @include position(absolute, null null 0 0);
     @include size(100% $homeNavigationHeihgt);
     border-top: 1px solid $border-color;
+    .homeNavigation-item {
+        width: 33.333333%;
+    }
 }
 
 .homeNavigation-item {
@@ -110,6 +113,8 @@ $homeNavigationTextColor:$black;
         .icon:before {
             content: "\e0be";
         }
+        clear:both;
+        float:none;
     }
     .flip .icon {
         display: inline-block;
@@ -546,7 +551,7 @@ $smallCellCoverSize:72px;
     .title {
         font-size: 16px;
     }
-    .viewed .rank {
+    &:nth-child(1) .rank,&:nth-child(2) .rank,&:nth-child(3) .rank {
         background: $main-color;
         color: $white;
     }
@@ -591,6 +596,10 @@ $toolBarColor:$black;
         font-size: 18px;
         vertical-align: top;
     }
+
+    &:active {
+        color:$main-color;
+    }
 }
 
 .toolBar {
@@ -629,7 +638,9 @@ $toolBarColor:$black;
         margin: 10px 0;
     }
 }
-
+.toolBar-clear {
+    display: none;
+}
 .slideOut {
     @include animation(slideOut 1s $default-timing-function both);
 }
@@ -1776,6 +1787,17 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     margin-bottom: $basic-gap*2;
 }
 
+.productGallaryPlaceholder {
+    background: #cdcdcd;
+    text-align: center;
+    
+    >.icon {
+        font-size: 96px;
+        color:#777;
+        @include position(relative);
+        top:40%;
+    }
+}
 .productGallaryInfo {
     @include position(absolute, null null 4px 0);
     width: 100%;
@@ -1791,6 +1813,18 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     >.price {
         font-size: 12px;
         line-height: 14px;
+    }
+}
+.productLoadingSign {
+    float:none;
+    clear: both;
+    text-align: center;
+    font-size: 24px;
+    color:#999;
+    margin-top: $basic-gap/2;
+    >.icon {
+            display: inline-block;
+            @include animation(spin 1s linear infinite);
     }
 }
 
@@ -1930,7 +1964,9 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     font-size: .8em;
     margin-top: -1em;
 }
-
+.image-tags-style,.image-tags-location,.image-tags-keywords {
+    display: none;
+}
 .image-caption {
     display: none;
 }
@@ -2596,4 +2632,9 @@ $netHeight:260px;
         speak: none;
         line-height: 1;
     }
+}
+.post-original-tags {
+    font-size: 10px;
+    color:$caption-color;
+    line-height: 12px;
 }

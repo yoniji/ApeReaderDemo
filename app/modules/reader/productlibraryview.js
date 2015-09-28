@@ -94,13 +94,31 @@
                 }
             },
             onTapRoom: function(ev) {
+                var id = '';
+                id = $(ev.currentTarget).attr('data-id');
+
                 var productSearchView = new ProductSearchView({
-                    'delay':true
+                    'delay':true,
+                    'filters': {
+                        'roomId':id
+                    }
                 });
             },
             onTapBrand: function(ev) {
+                var id = '',logo = '';
+                id = $(ev.currentTarget).attr('data-id');
+                logo = $(ev.currentTarget).attr('data-logo');
+
                 var productSearchView = new ProductSearchView({
-                    'delay':true
+                    'delay':true,
+                    'filters': {
+                        'brand': {
+                            id: id,
+                            logo: {
+                                url: logo
+                            }
+                        }
+                    }
                 });
             },
             onTapProduct: function(ev) {

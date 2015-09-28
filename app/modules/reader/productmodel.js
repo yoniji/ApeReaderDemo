@@ -3,7 +3,7 @@
 
         return Backbone.Model.extend({
         	url: function() {
-        		return urls.getServiceUrlByName('products');
+        		return urls.getServiceUrlByName('products') + '/detail';
         	},
         	like: function() {
         		var self = this;

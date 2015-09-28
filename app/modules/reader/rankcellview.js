@@ -1,4 +1,4 @@
-﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/rankcell.html'],
+define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/rankcell.html'],
     function(Marionette, Mustache, $, CellView, template) {
 
         return CellView.extend({
@@ -80,6 +80,8 @@
                     generateRankCellCoverHtml: function() {
                         if (this.rank < 4) {
                             return this.getFullCellCoverHtml();
+                        } else if(this.rank < 10) {
+                            return '<div class="cellCover">' + this.getLargeCellCoverHtml() + '</div>';
                         } else {
                             return this.getMediumCellCoverHtml();
                         }
@@ -88,9 +90,10 @@
                         var outStr = '';
                         if (this.tags && this.tags.length > 0) {
                             outStr += '<i class="icon icon-pricetags"></i> ';
-                            for (var i = 0; i < this.tags.length; i++) {
+                            for (var i = 0; i < this.tags.length && i < 3; i++) {
                                 outStr += this.tags[i].name + ' ';
                             }
+                            if (this.tags.length > 3) outStr += '...';
                         }
 
                         return outStr;

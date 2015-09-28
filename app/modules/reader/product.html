@@ -1,4 +1,41 @@
-﻿<div class="product">
+﻿{{^isSynced}}
+<div class="product">
+    <div class="productGallery carousel">
+        <div class="carousel-inner">
+            <div class="item productGallarySlide productGallaryPlaceholder" style="{{getBannerSizeCss}}">
+                {{#placeholder}}
+                <img src="{{display_image.url}}{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="{{display_image.url}}">
+                {{/placeholder}}
+                {{^placeholder}}
+                    <div class="loadingIcon">
+                    <div class="loadingIconInner">
+                        <i class="icon icon-diningroom"></i>
+                        <i class="icon icon-bathroom"></i>
+                        <i class="icon icon-bedroom"></i>
+                        <i class="icon icon-kitchen"></i>
+                        <i class="icon icon-livingroom"></i>
+                    </div>
+                    </div>
+                {{/placeholder}}
+            </div>
+        </div>
+    </div>
+    {{#placeholder}}
+    <div class="caption productCategory">正在加载</div>
+    <div class="title productTitle">{{name}}</div>
+    <div class="productLoadingSign">
+        <i class="icon icon-refresh2"></i>
+    </div>
+    {{/placeholder}}
+    
+
+    <div class="productToolBar toolBar">
+    <div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
+    </div>
+</div>
+{{/isSynced}}
+{{#isSynced}}
+<div class="product">
     <div class="productGallery carousel">
         <div class="carousel-inner">
             <div class="item productGallarySlide">
@@ -19,15 +56,17 @@
             <div class="indicator"></div>
         </div>
     </div>
-    <div class="title productTitle">204 SCIGHERA</div>
-    <div class="caption productCategory">卡西那 | 大师系列</div>
-    <div class="caption productMeta">客厅和书房 沙发 约¥3.2万 - ¥3.8万</div>
+    <div class="title productTitle">{{name}}</div>
+    <div class="caption productCategory">{{brand.name}} | {{collection.name}}</div>
+    <div class="caption productMeta">{{room.name}} {{product_type.name}} 约¥3.2万 - ¥3.8万</div>
     <div class="description productDescription">
-        座椅系列包括两人位沙发、模块化角落单元、单人位或双人位单元，模块化躺椅和可选的坐垫。 座椅有大尺寸的扶手和可折叠的头枕，座椅的可移动性可用于不同位置，确保了超级舒适度。 折叠起来时，头枕与扶手齐平，从而强调了简约设计的线性性质。 超级品质的罗缎针脚，四色可选：米黄色、烟草色、咖啡色和灰色。 座椅框架采用弹性绷带。 坐垫、头枕和扶手使用不同密度的聚氨酯海绵和羽绒棉填充。 使用布艺面料或皮革进行可拆卸的软包。 金属光泽或哑光金属珐琅底座，两种颜色：煤灰色或栗褐色。 该系列搭配众多大理石或玻璃桌面的方形、椭圆形或长方形靠墙的桌子。
+        {{description}}
     </div>
     <div class="actionLine">
-        <div class="btn btn-line btn-small readMoreDescriptionOriginal">原文</div>
+        {{#original_description}}<div class="btn btn-line btn-small readMoreDescriptionOriginal">原文</div>{{/original_description}}
+        {{#description}}
         <div class="btn btn-line btn-primary btn-small readMoreDescription">阅读全部</div>
+        {{/description}}
     </div>
     <div class="grid productGallary">
         <div class="image thumb gridThumb grid1-3" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-3.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-3.jpg" style="{{getGridSizeCss}}"> </div>
@@ -41,11 +80,13 @@
         </div>
     </div>
     <div class="productDesign">
+        {{#designer}}
         <div class="designer">
-            <img src="http://imgopt.apecrafts.com/products/test-designer-1.jpg{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}" class="designerAvatar">
+            <img src="{{image.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}" class="designerAvatar">
             <div class="caption designerCaption">设计师</div>
-            <div class="designerName">Piero Lissoni</div>
+            <div class="designerName">{{name}}</div>
         </div>
+        {{/designer}}
         <div class="designMeta">
             <div class="designMeta-item">
                 <i class="icon icon-modern designMeta-icon"></i>
@@ -69,116 +110,50 @@
     </div>
     <div class="productBrand">
         <div class="brand">
-            <img class="brandAvatar" src="http://imgopt.apecrafts.com/products/test-logo-2.jpg{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}">
-            <div class="brandName">卡西那(Cassina) | 大师系列</div>
+            <img class="brandAvatar" src="{{brand.logo.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}">
+            <div class="brandName">{{brand.name}}{{#brand.original_name}}({{brand.original_name}}){{/brand.original_name}} | {{collection.name}}</div>
         </div>
         <div class="caption">推荐搭配</div>
         <div class="horizontalProductList">
             <div class="horizontalProductListInner">
+                {{#products_in_same_collection}}
                 <div class="productItem">
                     <div class="image">
-                        <img src="http://imgopt.apecrafts.com/products/test-product-1.jpg">
+                        <img src="{{display_image.url}}">
                     </div>
                     <div class="productInfo">
-                        <div class="category">矮桌和咖啡桌</div>
-                        <div class="title">FLYING CARPET COFFEE TABLE</div>
+                        <div class="category">{{product_type.name}}</div>
+                        <div class="title">{{name}}</div>
                         <div class="price">约¥15万</div>
                     </div>
                 </div>
-                <div class="productItem">
-                    <div class="image">
-                        <img src="http://imgopt.apecrafts.com/products/test-product-2.jpg">
-                    </div>
-                    <div class="productInfo">
-                        <div class="category">矮桌和咖啡桌</div>
-                        <div class="title">FLYING CARPET COFFEE TABLE</div>
-                        <div class="price">约¥15万</div>
-                    </div>
-                </div>
-                <div class="productItem">
-                    <div class="image">
-                        <img src="http://imgopt.apecrafts.com/products/test-product-3.jpg">
-                    </div>
-                    <div class="productInfo">
-                        <div class="category">矮桌和咖啡桌</div>
-                        <div class="title">FLYING CARPET COFFEE TABLE</div>
-                        <div class="price">约¥15万</div>
-                    </div>
-                </div>
-                <div class="productItem">
-                    <div class="image">
-                        <img src="http://imgopt.apecrafts.com/products/test-product-1.jpg">
-                    </div>
-                    <div class="productInfo">
-                        <div class="category">矮桌和咖啡桌</div>
-                        <div class="title">FLYING CARPET COFFEE TABLE</div>
-                        <div class="price">约¥15万</div>
-                    </div>
-                </div>
-                <div class="productItem">
-                    <div class="image">
-                        <img src="http://imgopt.apecrafts.com/products/test-product-2.jpg">
-                    </div>
-                    <div class="productInfo">
-                        <div class="category">矮桌和咖啡桌</div>
-                        <div class="title">FLYING CARPET COFFEE TABLE</div>
-                        <div class="price">约¥15万</div>
-                    </div>
-                </div>
+                {{/products_in_same_collection}}
             </div>
         </div>
         <div class="caption">品牌故事</div>
         <div class="description brandDescription">
-            座椅系列包括两人位沙发、模块化角落单元、单人位或双人位单元，模块化躺椅和可选的坐垫。 座椅有大尺寸的扶手和可折叠的头枕，座椅的可移动性可用于不同位置，确保了超级舒适度。 折叠起来时，头枕与扶手齐平，从而强调了简约设计的线性性质。
+            {{brand.description}}
         </div>
         <div class="actionLine">
-            <div class="btn btn-line btn-small readMoreBrandOriginal">原文</div>
+            {{#original_description}}<div class="btn btn-line btn-small readMoreBrandOriginal">原文</div>{{/original_description}}
             <div class="btn btn-line btn-primary btn-small readMoreBrand">阅读全部</div>
         </div>
     </div>
     <div class="productAlternatives">
         <div class="productCaption caption">相似产品</div>
         <div class="products product-list">
-            <div class="productItem">
+            {{#products_of_same_type}}
+            <div class="productItem" data-id="{{id}}">
                 <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-2.jpg">
+                    <img src="{{display_image.url}}">
                 </div>
                 <div class="productInfo">
-                    <div class="category">品牌名</div>
-                    <div class="title">另一种沙发</div>
+                    <div class="category">{{brand.name}}</div>
+                    <div class="title">{{name}}</div>
                     <div class="price">约¥1万5-¥1万8</div>
                 </div>
             </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-1.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">品牌名</div>
-                    <div class="title">另一种沙发</div>
-                    <div class="price">约¥1万5-¥1万8</div>
-                </div>
-            </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-2.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">品牌名</div>
-                    <div class="title">另一种沙发</div>
-                    <div class="price">约¥1万5-¥1万8</div>
-                </div>
-            </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-1.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">品牌名字</div>
-                    <div class="title">另一种沙发</div>
-                    <div class="price">约¥1万5-¥1万8</div>
-                </div>
-            </div>
+            {{/products_of_same_type}}
         </div>
         <div class="actionLine">
             <div class="btn btn-line btn-small moreAlternatives">查看更多</div>
@@ -189,5 +164,6 @@
     <div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
     <div class="toolBar-item toolBar-like">{{#metadata.liked}}<i class="icon icon-heart3 main-color"></i>{{/metadata.liked}}{{^metadata.liked}}<i class="icon icon-heart2"></i>{{/metadata.liked}} 收藏</div>
     <div class="toolBar-item toolBar-share"><i class="icon icon-share"></i> 分享</div>
-    <div class="toolBar-item toolBar-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
+    <div class="toolBar-item toolBar-brand"><img src="{{brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
 </div>
+{{/isSynced}}

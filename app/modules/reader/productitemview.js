@@ -40,8 +40,12 @@
             },
             onTap: function(ev) {
                 var productView = new ProductView({
-                    'id': 3,
-                    'delay':true
+                    'id': this.model.get('id'),
+                    'delay':true,
+                    'placeholder': {
+                        'display_image': this.model.get('display_image'),
+                        'name': this.model.get('name')
+                    }
                 });
             },
             modelEvents: {

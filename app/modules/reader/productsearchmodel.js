@@ -5,11 +5,26 @@
             url: function() {
                 return urls.getServiceUrlByName('products');
             },
-            initialize: function() {
-
+            search: function(filterJSON) {
+                var self = this;
+                util.ajax({
+                    url: this.url(),
+                    data: filterJSON,
+                    success: function(response) {
+                        self.set(response);
+                        self.trigger('sync');
+                    }
+                });
             },
-            parse: function(response) {
-                return response;
+            loadMore: function(filterJSON) {
+                var self = this;
+                util.ajax({
+                    url: this.url(),
+                    data: filterJSON,
+                    success: function(response) {
+                        self.trigger('gotMore',response.products);
+                    }
+                });
             },
             onDestroy: function() {
                 this.stopListening();

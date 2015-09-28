@@ -21,11 +21,11 @@
     <main role="main" id="main">
         <div class="loadingIcon mainLoading">
             <div class="loadingIconInner">
-                <i class="icon icon-table"></i>
-                <i class="icon icon-bath"></i>
-                <i class="icon icon-bed"></i>
+                <i class="icon icon-diningroom"></i>
+                <i class="icon icon-bathroom"></i>
+                <i class="icon icon-bedroom"></i>
                 <i class="icon icon-kitchen"></i>
-                <i class="icon icon-sofa"></i>
+                <i class="icon icon-livingroom"></i>
             </div>
         </div>
     </main>
@@ -82,13 +82,13 @@
                     }, {
                         id: "1004",
                         name: "中式"
-                    },  {
+                    }, {
                         id: "1005",
                         name: "日韩/东南亚"
-                    },  {
+                    }, {
                         id: "1006",
                         name: "地中海"
-                    },  {
+                    }, {
                         id: "1007",
                         name: "混搭"
                     }]
@@ -160,7 +160,7 @@
             name: "外文精选"
         }],
         product_menu: [{
-                id: "5",
+                id: "type",
                 name: "类型",
                 children: [{
                     id: "6",
@@ -191,28 +191,35 @@
                     name: "电器"
                 }]
             }, {
-                id: "6",
+                id: "room",
                 name: "房间",
                 children: [{
                         id: "11",
+                        code: 'livingroom',
                         name: "客厅和书房"
                     }, {
                         id: "12",
+                        code: 'bedroom',
                         name: "卧室"
                     }, {
                         id: "13",
+                        code: 'kitchen',
                         name: "厨房"
                     }, {
                         id: "14",
+                        code: 'bathroom',
                         name: "浴室"
                     }, {
                         id: "15",
+                        code: 'diningroom',
                         name: "餐厅"
                     }, {
                         id: "16",
+                        code: 'outdoor',
                         name: "户外"
                     }, {
                         id: "17",
+                        code: 'gym',
                         name: "健身SPA"
                     }
 

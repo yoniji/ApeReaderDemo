@@ -118,6 +118,7 @@
                             for (var i = 0; i < this.tags.length && i < 3; i++) {
                                 outStr += this.tags[i].name + ' ';
                             }
+                            if (this.tags.length > 3) outStr += '...';
                         }
                         
                         return outStr;
