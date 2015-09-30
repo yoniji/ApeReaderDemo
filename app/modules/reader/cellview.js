@@ -152,14 +152,16 @@
                 this.lastPageY = -1;
             },
             onTouchStart: function(ev) {
-                var $target = $(ev.target);
-                if (  isTargetAMoreButton($target) ) {
-                    util.stopPropagation(ev);
-                }
+                if ( $('.articleWrapper').size() < 1 ) {
+                    var $target = $(ev.target);
+                    if (  isTargetAMoreButton($target) ) {
+                        util.stopPropagation(ev);
+                    }
 
-                this.$el.siblings('.touched').removeClass('touched');
-                this.$el.addClass('touched');
-                this.startPageY = ev.originalEvent.touches[0].pageY;
+                    this.$el.siblings('.touched').removeClass('touched');
+                    this.$el.addClass('touched');
+                    this.startPageY = ev.originalEvent.touches[0].pageY;
+                }
             },
             onTouchMove: function(ev) {
                 var pageY = ev.originalEvent.touches[0].pageY;

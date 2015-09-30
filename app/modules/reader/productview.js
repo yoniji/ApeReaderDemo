@@ -141,8 +141,15 @@
                         }
                     },
                     'getThumbs': function(argument) {
+                        var thumbs = [];
+                        var length = 0;
                         if ( allImages && allImages > 4) {
-                           return allImages.slice(4);
+                           thumbs = allImages.slice(4);
+                           //缩略图数量必须为3的倍数，不大于9
+                           length = 3 * Math.floor(thumbs.length/3);
+                           length = Math.min(9, length);
+                           thumbs = thumbs.slice(0, length);
+
                         }
                     }
                 };
