@@ -1,8 +1,8 @@
 ﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
     function(Marionette, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView, Waves) {
-        
+
         function isTargetAMoreButton($target) {
-            return $target.hasClass('more') || $target.hasClass('more-line-1')  || $target.hasClass('more-line-2');
+            return $target.hasClass('more') || $target.hasClass('more-line-1') || $target.hasClass('more-line-2');
         }
 
         return Marionette.ItemView.extend({
@@ -32,7 +32,8 @@
             events: {
                 'touchstart': 'onTouchStart',
                 'touchend': 'onTouchEnd',
-                'touchmove': 'onTouchMove'
+                'touchmove': 'onTouchMove',
+                'touchcancel': 'onTouchEnd'
             },
             modelEvents: {
                 'change': 'onChange'
@@ -46,7 +47,7 @@
                 var defaultCoverHeight = Math.round(windowWidth * 0.382);
                 var maxHeight = Math.round(windowWidth * 0.618);
 
-                
+
 
                 var hasCoverImage = this.model.hasCoverImage();
 
@@ -60,7 +61,7 @@
                     'getMediumCellCoverHtml': function() {
 
                         var outStr = '<div class="cellCover">';
-                        
+
                         if (hasCoverImage && this.images.length < 3) {
                             outStr += this.getLargeCellCoverHtml();
                         } else if (hasCoverImage) {
@@ -113,18 +114,18 @@
                     'getTagsHtml': function() {
                         var outStr = '';
 
-                        if(this.tags && this.tags.length > 0) {
+                        if (this.tags && this.tags.length > 0) {
                             outStr += '<i class="icon icon-pricetags"></i> ';
                             for (var i = 0; i < this.tags.length && i < 3; i++) {
                                 outStr += this.tags[i].name + ' ';
                             }
                             if (this.tags.length > 3) outStr += '...';
                         }
-                        
+
                         return outStr;
                     },
                     'getCreateTimeString': function() {
-                        if ( this.created_at ) {
+                        if (this.created_at) {
                             return util.getDateString(this.created_at);
                         }
                     }
@@ -134,13 +135,13 @@
 
             },
             onRender: function() {
-                Waves.attach(this.$el[0],['waves-block']);
+                Waves.attach(this.$el[0], ['waves-block']);
             },
             onTapMore: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
                 var actionsView = new CellActionsView({
-                    model:this.model,
+                    model: this.model,
                     toggleOffset: this.ui.more.offset()
                 });
             },
@@ -152,38 +153,50 @@
                 this.lastPageY = -1;
             },
             onTouchStart: function(ev) {
-                if ( $('.articleWrapper').size() < 1 ) {
+
+                if ($('.articleWrapper').size() < 1) {
                     var $target = $(ev.target);
-                    if (  isTargetAMoreButton($target) ) {
+                    if (isTargetAMoreButton($target)) {
                         util.stopPropagation(ev);
                     }
 
                     this.$el.siblings('.touched').removeClass('touched');
                     this.$el.addClass('touched');
                     this.startPageY = ev.originalEvent.touches[0].pageY;
+                    this.touchStartTime = (new Date()).getTime();
                 }
             },
             onTouchMove: function(ev) {
                 var pageY = ev.originalEvent.touches[0].pageY;
-                if ( this.startPageY > 0 ) {
-                    if ( Math.abs(pageY - this.startPageY) > 5 ) {
+                if (this.startPageY > 0) {
+                    if (Math.abs(pageY - this.startPageY) > 5) {
                         this.cancelTouch();
                     }
                 }
             },
             onTouchEnd: function(ev) {
-                if ( this.$el.hasClass('touched') ) {
+                if (this.$el.hasClass('touched')) {
                     var $target = $(ev.target);
-                    if (  isTargetAMoreButton($target) ) {
-                        this.onTapMore(ev);
-                    } else {
-                        app.appController.articleView = new ArticleView({
-                            model: this.model,
-                            delay: true,
-                            triggerFrom: this
-                        });
-                    }
-                    this.cancelTouch();
+                    
+                    var self = this;
+                    var delayTimer = setTimeout(function(argument) {
+                        if (isTargetAMoreButton($target)) {
+                            self.onTapMore(ev);
+
+                        } else if (self.$el.hasClass('touched')) {
+                            app.appController.articleView = new ArticleView({
+                                model: self.model,
+                                delay: true,
+                                triggerFrom: self
+                            });
+                        } 
+                        clearTimeout(delayTimer);
+                        delayTimer = null;
+                        self.cancelTouch();
+
+                    }, 100);
+
+
                 } else {
                     this.$el.siblings('.touched').removeClass('touched');
                 }

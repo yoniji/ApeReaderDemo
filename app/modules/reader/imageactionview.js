@@ -58,8 +58,8 @@
             },
             onShare: function(ev) {
                 var share_info = _.clone(appConfig.share_info);
-                share_info.timeline_title = this.model.get('title');
-                share_info.message_title = this.model.get('title');
+                share_info.timeline_title = this.model.get('title') + '「悟空家装」';
+                share_info.message_title = this.model.get('title') + '「悟空家装」';
                 share_info.message_description = this.model.get('excerpt');
 
                 var url = util.getUrlWithoutHashAndSearch();

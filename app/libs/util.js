@@ -375,12 +375,12 @@ define(function(require, exports, module) {
             timeStr = Math.floor(duration / 60) + "分钟前";
         } else if (duration < 3600 * 24) {
             timeStr = Math.floor(duration / 3600) + "小时前";
-        } else if (duration < 3600 * 24 * 30) {
+        } else if (duration < 3600 * 24 * 2) {
             timeStr = Math.floor(duration / 3600 / 24) + "天前";
         } else if (duration < 3600 * 24 * 30 * 12) {
-            timeStr = Math.floor(duration / 3600 / 24 / 30) + "个月前";
+            //timeStr = Math.floor(duration / 3600 / 24 / 30) + "个月前";
         } else {
-            timeStr = "1年前";
+            //timeStr = "1年前";
         }
         return timeStr;
 
