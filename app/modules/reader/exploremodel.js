@@ -7,7 +7,7 @@
             },
             initialize: function() {
                 this.startPage = 0;
-                this.limit = 20;
+                this.limit = 10;
                 this.filterStr = '';
                 this.categoryStr = '';
                 this.set('categories', appConfig.post_menu);
@@ -93,8 +93,9 @@
             },
             fetchNewPosts: function() {
                 var data = {
+                    limit: this.limit
                 };
-                 if ( this.hasCategory() ) {
+                if ( this.hasCategory() ) {
                     data.category = this.categoryStr;
                 }
                 if ( this.hasFilter()) {

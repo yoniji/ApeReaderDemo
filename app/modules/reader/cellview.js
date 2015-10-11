@@ -1,5 +1,5 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
-    function(Marionette, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView, Waves) {
+﻿define(['marionette', 'underscore','mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
+    function(Marionette, _, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView, Waves) {
 
         function isTargetAMoreButton($target) {
             return $target.hasClass('more') || $target.hasClass('more-line-1') || $target.hasClass('more-line-2');
@@ -113,13 +113,22 @@
                     },
                     'getTagsHtml': function() {
                         var outStr = '';
+                        var seen = [];
+                        var result = [];
 
-                        if (this.tags && this.tags.length > 0) {
-                            outStr += '<i class="icon icon-pricetags"></i> ';
-                            for (var i = 0; i < this.tags.length && i < 3; i++) {
-                                outStr += this.tags[i].name + ' ';
+                        _.each(this.tags, function(value, i, array) {
+                            if (!_.findWhere(seen, value, { 'id': value.id })) {
+                              seen.push(value);
+                              result.push(value);
                             }
-                            if (this.tags.length > 3) outStr += '...';
+                        });
+
+                        if (result && result.length > 0) {
+                            outStr += '<i class="icon icon-pricetags"></i> ';
+                            for (var i = 0; i < result.length && i < 3; i++) {
+                                outStr += result[i].name + ' ';
+                            }
+                            if (result.length > 3) outStr += '...';
                         }
 
                         return outStr;
@@ -127,6 +136,13 @@
                     'getCreateTimeString': function() {
                         if (this.created_at) {
                             return util.getDateString(this.created_at);
+                        }
+                    },
+                    'isTextCell': function() {
+                        if (!this.images || this.images.length<1) {
+                            return true;
+                        } else {
+                            return false;
                         }
                     }
                 };

@@ -1572,6 +1572,8 @@ body,
     right: 16px; }
   .smallCell .cellDetail {
     padding-right: 88px; }
+  .smallCell.textCell .cellDetail {
+    padding-right: 0; }
 
 .mediumCell,
 .largeCell,

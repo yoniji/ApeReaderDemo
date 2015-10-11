@@ -457,6 +457,9 @@ $smallCellCoverSize:72px;
     .cellDetail {
         padding-right: $smallCellCoverSize + $basic-gap;
     }
+    &.textCell .cellDetail{
+        padding-right:0;
+    }
 }
 
 .mediumCell,

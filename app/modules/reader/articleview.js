@@ -174,15 +174,25 @@
             },
             templateHelpers: {
                 'getTagsHtml': function() {
-                    var outStr = '';
-                    if (this.tags && this.tags.length > 0) {
-                        outStr += '<i class="icon icon-pricetags"></i> ';
-                        for (var i = 0; i < this.tags.length; i++) {
-                            outStr += this.tags[i].name + ' ';
-                        }
-                    }
+                        var outStr = '';
+                        var seen = [];
+                        var result = [];
 
-                    return outStr;
+                        _.each(this.tags, function(value, i, array) {
+                            if (!_.findWhere(seen, value, { 'id': value.id })) {
+                              seen.push(value);
+                              result.push(value);
+                            }
+                        });
+
+                        if (result && result.length > 0) {
+                            outStr += '<i class="icon icon-pricetags"></i> ';
+                            for (var i = 0; i < result.length; i++) {
+                                outStr += result[i].name + ' ';
+                            }
+                        }
+
+                        return outStr;
                 },
                 'getCreateTimeString': function() {
                     if (this.created_at) {

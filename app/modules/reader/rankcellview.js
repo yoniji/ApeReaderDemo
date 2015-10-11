@@ -88,12 +88,22 @@ define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!mod
                     },
                     'getTagsHtml': function() {
                         var outStr = '';
-                        if (this.tags && this.tags.length > 0) {
-                            outStr += '<i class="icon icon-pricetags"></i> ';
-                            for (var i = 0; i < this.tags.length && i < 3; i++) {
-                                outStr += this.tags[i].name + ' ';
+                        var seen = [];
+                        var result = [];
+
+                        _.each(this.tags, function(value, i, array) {
+                            if (!_.findWhere(seen, value, { 'id': value.id })) {
+                              seen.push(value);
+                              result.push(value);
                             }
-                            if (this.tags.length > 3) outStr += '...';
+                        });
+
+                        if (result && result.length > 0) {
+                            outStr += '<i class="icon icon-pricetags"></i> ';
+                            for (var i = 0; i < result.length && i < 3; i++) {
+                                outStr += result[i].name + ' ';
+                            }
+                            if (result.length > 3) outStr += '...';
                         }
 
                         return outStr;
