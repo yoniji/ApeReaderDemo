@@ -64,11 +64,10 @@
                     this.collection.add(postsData,{at:0});
 
                     if (this.collection.length > oldLength) {
-                        this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + postsData.length + '篇新文章</div>');
+                        this.ui.streamWrapper.prepend('<div class="notification notification-info">为你搜到' + (this.collection.length - oldLength) + '篇新文章</div>');
                     } else {
                         this.ui.streamWrapper.prepend('<div class="notification notification-normal">暂时没有新文章，过一会儿再试试吧</div>');
                     }
-
 
                     var self = this;
                     this.timeout = setTimeout(function() {

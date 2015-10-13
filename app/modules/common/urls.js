@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 
     var useTestServer = true;
     var testBaseUrl = 'http://private-7f3f9-apereader.apiary-mock.com/reader/';
-    var releaseBaseUrl = 'http://mk.apecrafts.com/_/';
+    var releaseBaseUrl = 'http://www.mkreader.com/_/';
 
     var testServiceUrls = {
         'explore': releaseBaseUrl + 'explore/posts',
@@ -14,7 +14,8 @@ define(function(require, exports, module) {
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
-        'wechat': releaseBaseUrl + 'api/jsconfig'
+        'wechat': releaseBaseUrl + 'api/jsconfig',
+        'admin':releaseBaseUrl + 'super/post'
     };
 
     var releaseServiceUrls = {
@@ -25,7 +26,8 @@ define(function(require, exports, module) {
         'brands': testBaseUrl + 'brands',
         'products': testBaseUrl + 'products',
         'productlib': testBaseUrl + 'productlib',
-        'wechat': releaseBaseUrl + 'api/jsconfig'
+        'wechat': releaseBaseUrl + 'api/jsconfig',
+        'admin':releaseBaseUrl + 'super/post'
     };
 
 

@@ -451,6 +451,17 @@ define(function(require, exports, module) {
         iconEl.attr('class', revertClass);
     };
 
+    exports.setButtonToLoading = function(btnEl) {
+        btnEl.attr('originalText', btnEl.text());
+        btnEl.addClass('btn-loading');
+        btnEl.html('<i class="icon icon-refresh2 spin"></i>');
+    };
+
+    exports.revertButtonFromLoading = function(btnEl) {
+        btnEl.removeClass('btn-loading');
+        btnEl.html(btnEl.attr('originalText'));
+    };
+
     exports.setElementTransform = function(element, transformStr) {
         if (element && element.size() > 0) {
             element[0].style.webkitTransform = transformStr;

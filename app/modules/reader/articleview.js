@@ -33,16 +33,24 @@
                 'tap @ui.next': 'onTapNext',
                 'tap .articleBody .image': 'onTapImage',
                 'tap .thumbSwitch': 'showLargeImages',
+                'tap .admin-opt-changeTitle': 'onAdminChangeTitle',
+                'tap .admin-opt-like': 'onAdminLike',
+                'tap .admin-opt-dislike': 'onAdminDislike',
+                'tap .admin-opt-delete': 'onAdminDelete',
                 'panleft': 'onPanMove',
                 'panright': 'onPanMove',
                 'panend': 'onPanEnd',
                 'pancancel': 'onPanEnd',
                 'touchmove':'onTouchMove'
+
             },
             modelEvents: {
                 'sync': 'onModelSync',
                 'toggleLikeSuccess': 'onToggleLikeSuccess',
-                'blockSuccess': 'onBlockSuccess'
+                'blockSuccess': 'onBlockSuccess',
+                'adminLikeSuccess': 'onAdminLikeSuccess',
+                'adminDislikeSuccess': 'onAdminDislikeSuccess',
+                'changeTitleSuccess': 'onChangeTitleSuccess'
             },
             initialize: function(options) {
                 
@@ -202,6 +210,9 @@
                 'isThumbSwitchVisible': function() {
                     //return util.isNetworkSlow();
                     return false;
+                },
+                'isAdmin': function() {
+                    return appConfig.user_info.is_admin;
                 }
             },
             onModelSync: function() {
@@ -348,6 +359,51 @@
             },
             onTouchMove: function(ev) {
                 util.stopPropagation(ev);
+            },
+            onAdminChangeTitle:function(ev) {
+                var newTitle = prompt("请输入新标题",this.model.get('title'));
+                if ( newTitle === "" ) {
+                    alert("标题不能为空");
+                } else if ( newTitle && newTitle.length>64 ) {
+                    alert("标题不能长于64个字");
+                } else if ( newTitle ) {
+                    //change title
+                    this.model.adminChangeTitle(newTitle);
+                    util.setButtonToLoading($(ev.currentTarget));
+                    this.$el.find('.articleTitle').text(newTitle);
+                }
+            },
+            onAdminLike: function(ev) {
+                if ($(ev.currentTarget).hasClass('btn-loading')) {
+                    return;
+                }
+                this.model.adminLike();
+                util.setButtonToLoading($(ev.currentTarget));
+            },
+            onAdminDislike: function(ev) {
+                if ($(ev.currentTarget).hasClass('btn-loading')) {
+                    return;
+                }
+                this.model.adminDislike();
+                util.setButtonToLoading($(ev.currentTarget));
+            },
+            onAdminDelete: function(ev) {
+                if ($(ev.currentTarget).hasClass('btn-loading')) {
+                    return;
+                }
+                if (confirm("确定删除么？本操作不可恢复")){
+                    this.model.adminDelete();
+                    util.setButtonToLoading($(ev.currentTarget));
+                }
+            },
+            onAdminLikeSuccess: function() {
+                util.revertButtonFromLoading(this.$el.find('.admin-opt-like'));
+            },
+            onAdminDislikeSuccess: function() {
+                util.revertButtonFromLoading(this.$el.find('.admin-opt-dislike'));
+            },
+            onChangeTitleSuccess: function() {
+                util.revertButtonFromLoading(this.$el.find('.admin-opt-changeTitle'));
             },
             onDestroy: function() {
                 this.stopListening();

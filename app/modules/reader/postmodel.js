@@ -73,6 +73,70 @@
                 if(this.collection) this.collection.remove(this);
                 
         	},
+            adminDelete: function() {
+                var self = this;
+                //todo ajax call
+                util.ajax({
+                    url: urls.getServiceUrlByName('admin') + '/remove',
+                    data: {
+                        'postid': this.get('id')
+                    },
+                    success: function(response) {
+                        self.trigger('blockSuccess');
+                    },
+                    method:'POST'
+                });
+
+                if(this.collection) this.collection.remove(this);
+                
+            },
+            adminChangeTitle: function(title) {
+                var self = this;
+                //todo ajax call
+                util.ajax({
+                    url: urls.getServiceUrlByName('admin') + '/changetitle',
+                    data: {
+                        'postid': this.get('id'),
+                        'title': title
+                    },
+                    success: function(response) {
+                        self.trigger('changeTitleSuccess');
+                        self.set('title',title);
+                    },
+                    method:'POST'
+                });
+                
+            },
+            adminLike: function() {
+                var self = this;
+                //todo ajax call
+                util.ajax({
+                    url: urls.getServiceUrlByName('admin') + '/up',
+                    data: {
+                        'postid': this.get('id')
+                    },
+                    success: function(response) {
+                        self.trigger('adminLikeSuccess');
+                    },
+                    method:'POST'
+                }); 
+                
+            },
+            adminDislike: function() {
+                var self = this;
+                //todo ajax call
+                util.ajax({
+                    url: urls.getServiceUrlByName('admin') + '/down',
+                    data: {
+                        'postid': this.get('id')
+                    },
+                    success: function(response) {
+                        self.trigger('adminDislikeSuccess');
+                    },
+                    method:'POST'
+                }); 
+                
+            },
         	markShared: function() {
         		var self = this;
         		util.ajax({

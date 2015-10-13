@@ -622,6 +622,9 @@ a.btn-large {
     border-color: #4CAF50;
     color: #4CAF50; }
 
+.btn-loading {
+  background: #777; }
+
 /* Forms */
 label {
   display: block;
@@ -3746,5 +3749,8 @@ body,
   font-size: 10px;
   color: #757575;
   line-height: 12px; }
+
+.admin-info {
+  font-size: 10px; }
 
 /*# sourceMappingURL=styles.css.map */
