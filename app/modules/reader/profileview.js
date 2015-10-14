@@ -18,13 +18,13 @@
             },
             modelEvents: {
                 'sync': 'modelSynced',
-                'resetPosts': 'modelSynced'
+                'resetPosts': 'onResetPosts'
             },
             initialize: function() {
                 this.model = new Profile();
                 this.collection = new PostCollection();
                 app.rootView.updatePrimaryRegion(this);
-                
+
                 this.model.fetch({
                     'data': {
                         userid: appConfig.user_info.id
@@ -48,10 +48,7 @@
                 var id = item.attr('data-id');
                 var filterStr = '';
                 if (id) {
-                    var selectedData = {
-                        'level1': [id]
-                    };
-                    filterStr = JSON.stringify(selectedData);
+                    filterStr = '' + id;
                 }
                 this.model.setFilter(filterStr);
                 this.model.resetPosts();
@@ -60,6 +57,7 @@
             },
             onResetPosts: function(postsData) {
                 this.collection.reset(postsData);
+                this.updateEmptyView();
             },
             templateHelpers: function() {
                 var nameList = [

@@ -69,11 +69,12 @@ $homeNavigationTextColor:$black;
         @include position(relative, -6px null nulll null);
     }
     >.icon {
-        line-height: $homeNavigationHeihgt - 10;
+        line-height: $homeNavigationHeihgt - 16;
         height: $homeNavigationHeihgt - 1px;
         margin-bottom: -9px;
         color: lighten($homeNavigationTextColor, 60%);
         display: block;
+        font-size: 32px;
     }
     &.current {
         border-bottom: 2px solid $main-color;
@@ -86,6 +87,15 @@ $homeNavigationTextColor:$black;
             color: $main-color;
         }
     }
+}
+#navigation-explore.current>.icon:before {
+    content: "\e804";
+}
+#navigation-feature.current>.icon:before {
+    content: "\e802";
+}
+#navigation-me.current>.icon:before {
+    content: "\e801";
 }
 
 @include keyframes(flip) {

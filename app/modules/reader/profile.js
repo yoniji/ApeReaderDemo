@@ -13,7 +13,6 @@
                     this.set('user_info', appConfig.user_info);
                     this.set('categories', appConfig.post_menu);
                 }
-                this.startPage = 0;
                 this.limit = 20;
                 this.filterStr = '';
             },
@@ -43,7 +42,6 @@
                     url: this.url(),
                     data: data,
                     success: function(response) {
-                        self.startPage = 2;
                         if (response.data && response.data.length > 0) {
                             self.trigger('resetPosts', response.data);
                         } else {

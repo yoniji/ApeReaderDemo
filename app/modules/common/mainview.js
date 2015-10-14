@@ -15,7 +15,8 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             events: {
                 'tap a': 'onTapLink',
-                'click a': 'onClickLink'
+                'click a': 'onClickLink',
+                'touchmove': 'onTouchMove'
             },
             ui: {
                 'primary': '#primary',

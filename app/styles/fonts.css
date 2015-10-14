@@ -23,6 +23,24 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-fav:before {
+	content: "\e800";
+}
+.icon-favon:before {
+	content: "\e801";
+}
+.icon-beston:before {
+	content: "\e802";
+}
+.icon-idea:before {
+	content: "\e803";
+}
+.icon-ideaon:before {
+	content: "\e804";
+}
+.icon-best:before {
+	content: "\e805";
+}
 .icon-gym:before {
 	content: "\e629";
 }
@@ -155,8 +173,17 @@
 .icon-search:before {
 	content: "\e660";
 }
+.icon-thumb-down:before {
+	content: "\e684";
+}
+.icon-thumb-up:before {
+	content: "\e685";
+}
 .icon-translate:before {
 	content: "\e68a";
+}
+.icon-create:before {
+	content: "\e708";
 }
 .icon-check:before {
 	content: "\e8a6";
@@ -254,3 +281,4 @@
 .icon-happy:before {
 	content: "\e0bf";
 }
+

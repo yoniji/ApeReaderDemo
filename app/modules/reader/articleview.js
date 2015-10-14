@@ -397,9 +397,11 @@
                 }
             },
             onAdminLikeSuccess: function() {
+                this.$el.find('.admin-recommend').text( this.model.get('recommend'));
                 util.revertButtonFromLoading(this.$el.find('.admin-opt-like'));
             },
             onAdminDislikeSuccess: function() {
+                this.$el.find('.admin-recommend').text( this.model.get('recommend'));
                 util.revertButtonFromLoading(this.$el.find('.admin-opt-dislike'));
             },
             onChangeTitleSuccess: function() {

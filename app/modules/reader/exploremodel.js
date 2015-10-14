@@ -6,23 +6,20 @@
                 return urls.getServiceUrlByName('explore');
             },
             initialize: function() {
-                this.startPage = 0;
                 this.limit = 10;
                 this.filterStr = '';
                 this.categoryStr = '';
                 this.set('categories', appConfig.post_menu);
             },
             tryFetchFromLocalStorage: function() {
-                if ( util.supportLocalStorage && localStorage.explore) {
+                if ( util.supportLocalStorage() && localStorage.explore) {
                     this.set(JSON.parse(localStorage.explore));
                     this.isOld = true;
-                    this.startPage++;
                 }
             },
             parse: function(response) {
                 this.isOld = false;
                 if(!this.hasCategory()) this.saveNewPostsToLocalStorage(response);
-                this.startPage++;
                 return response;
             },
             onDestroy: function() {
@@ -38,8 +35,9 @@
                 return !! this.isOld;
             },
             saveNewPostsToLocalStorage: function(jsonData) {
-                if ( util.supportLocalStorage ) {
+                if ( util.supportLocalStorage() ) {
                     localStorage.setItem('explore', JSON.stringify(jsonData));
+                    localStorage.setItem('exploreTime', (new Date()).getTime());
                 }
             },
             hasFilter: function() {
@@ -63,15 +61,15 @@
                     url: this.url(),
                     data: data,
                     success: function(response) {
-                        self.startPage = 2;
                         self.trigger('resetPosts', response.data);
                     },
                     method: 'GET'
                 });
             },
-            fetchHistoryPosts: function() {
+            fetchHistoryPosts: function(currentArticleCount) {
+                var startPage = Math.floor(currentArticleCount / this.limit) + 1;
                 var data = {
-                    page: this.startPage,
+                    page: startPage,
                     limit: this.limit
                 };
                 if ( this.hasCategory() ) {
@@ -86,7 +84,6 @@
                     url: this.url(),
                     data: data,
                     success: function(response) {
-                        self.startPage++;
                         self.trigger('gotHistoryPosts', response.data);
                     }
                 });

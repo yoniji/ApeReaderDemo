@@ -116,6 +116,7 @@
                         'postid': this.get('id')
                     },
                     success: function(response) {
+                        self.set('recommend', self.get('recommend') + 1 );
                         self.trigger('adminLikeSuccess');
                     },
                     method:'POST'
@@ -131,6 +132,7 @@
                         'postid': this.get('id')
                     },
                     success: function(response) {
+                        self.set('recommend', self.get('recommend') - 1 );
                         self.trigger('adminDislikeSuccess');
                     },
                     method:'POST'

@@ -1197,11 +1197,12 @@ body,
     position: relative;
     top: -6px; }
   .homeNavigation-item > .icon {
-    line-height: 46px;
+    line-height: 40px;
     height: 55px;
     margin-bottom: -9px;
     color: #999999;
-    display: block; }
+    display: block;
+    font-size: 32px; }
   .homeNavigation-item.current {
     border-bottom: 2px solid #dd4b39; }
     .homeNavigation-item.current > .icon {
@@ -1210,6 +1211,15 @@ body,
       font-size: 8px;
       line-height: 8px;
       color: #dd4b39; }
+
+#navigation-explore.current > .icon:before {
+  content: "\e804"; }
+
+#navigation-feature.current > .icon:before {
+  content: "\e802"; }
+
+#navigation-me.current > .icon:before {
+  content: "\e801"; }
 
 @-webkit-keyframes flip {
   0% {

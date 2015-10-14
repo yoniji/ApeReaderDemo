@@ -48,10 +48,14 @@ define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!mod
                         return outStr;
                     },
                     'getLargeCellCoverHtml': function() {
-                        if (hasCoverImage) return util.generateImageHtml(this.images[0], {
+                        if (hasCoverImage) {
+                            return util.generateImageHtml(this.images[0], {
                             width: (windowWidth - 32),
                             height: Math.round(windowWidth * 0.382)
-                        });
+                            });
+                        } else {
+                            return '';
+                        }
                     },
                     'getFullCellCoverHtml': function() {
                         var outStr = '';

@@ -11,7 +11,7 @@
     <div class="articleTitle">{{title}}</div>
     <div class="articleMeta"><div class="tags">{{{getTagsHtml}}}</div> {{#isThumbSwitchVisible}}<div class="thumbSwitch"><i class="icon icon-picture"></i> 显示大图</div>{{/isThumbSwitchVisible}}</div>
     {{#isAdmin}}
-    <div class="admin-info">当前推荐指数：{{recommend}} </div>
+    <div class="admin-info">当前推荐指数：<span class="admin-recommend">{{recommend}}</span> </div>
     <div class="admin-opts">
         <span class="admin-opt-changeTitle btn btn-small  btn-cyan">改标题</span>
         <span class="admin-opt-like btn btn-small btn-cyan"> 顶 </span>
