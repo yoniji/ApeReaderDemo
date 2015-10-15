@@ -64,15 +64,19 @@
                     cellEl.after('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
                 }
             },
+            removeReadCursor: function() {
+                this.ui.streamWrapper.find('.readCursor').remove();
+            },
             onGotNewPosts: function(postsData) {
                 this.stopLoadingNew();
                 if (postsData && postsData.length > 0) {
 
                     //var oldLength = this.collection.length;
                     this.collection.reset(postsData);
-                    if (!this.lastCell || this.lastCell.size() < 1) this.lastCell = this.ui.streamWrapper.find('.cell').last();
+                    this.removeReadCursor();
+                    this.lastCell = this.ui.streamWrapper.find('.cell').last();
 
-                    this.ui.streamWrapper.prepend('<div class="notification notification-info">为你推荐' + (this.collection.length - oldLength) + '篇新文章</div>');
+                    this.ui.streamWrapper.prepend('<div class="notification notification-info">为你推荐' + this.collection.length + '篇新文章</div>');
 
                     var self = this;
                     this.timeout = setTimeout(function() {
@@ -84,8 +88,12 @@
                 }
 
                 this.ui.streamWrapper.prepend('<div class="pullDown loading"><i class="icon icon-refresh"></i></div>');
+                this.ui.streamWrapper.find('.pullUp').html('<i class="icon icon-refresh"></i>');
+
                 this.ui.streamWrapper.scrollTop(50);
                 this.updateEmptyView();
+
+                this.preventHistory = false;
             },
             onGotHistoryPosts: function(postsData) {
                 this.stopLoadingHistory();
@@ -103,16 +111,18 @@
                         this.ui.streamWrapper.append('<div class="pullUp loading">没有更早的文章了</div>');
                     }
 
-                    
                 } else {
                     this.ui.streamWrapper.append('<div class="pullUp loading">没有更早的文章了</div>');
                 }
                 this.ui.streamWrapper.scrollTop(this.ui.streamWrapper.scrollTop() + 50);
 
+                
+
             },
             startLoadingNew: function() {
                 if (!this.isLoadingNew) {
                     this.isLoadingNew = true;
+                    this.preventHistory = true;
 
                     this.model.fetchNewPosts();
                     this.clearNotification();
@@ -122,15 +132,15 @@
                 this.ui.streamWrapper.find('.pullDown').remove();
                 this.isLoadingNew = false;
                 var self = this;
-                self.isCooling = true;
+                self.preventRefresh = true;
                 var coolTimeout = setTimeout(function() {
-                    if(self.isCooling) self.isCooling = false;
+                    if(self.preventRefresh) self.preventRefresh = false;
                     clearTimeout(coolTimeout);
                 }, 2500);
 
             },
             startLoadingHistory: function() {
-                if (!this.isLoadingHistory) {
+                if (!this.isLoadingHistory && !this.preventHistory) {
                     this.isLoadingHistory = true;
                     this.model.fetchHistoryPosts(this.collection.length);
                 }
@@ -207,7 +217,7 @@
                 this.ui.topBar.removeClass('hide');
                 this.ui.filterBar.removeClass('hide');
                 //检查新的新闻
-                if ( this.isCooling && this.ui.streamWrapper.scrollTop() < 50 ) {
+                if ( this.preventRefresh && this.ui.streamWrapper.scrollTop() < 50 ) {
                     ev.preventDefault();
                     ev.stopPropagation();
                     this.ui.streamWrapper.scrollTop(50);

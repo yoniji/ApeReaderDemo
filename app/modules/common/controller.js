@@ -19,7 +19,7 @@
                 if (appConfig && appConfig.user_info && appConfig.user_info.id) {
                     $.ajaxSetup({
                         headers: {
-                            "X-SESSION-ID": appConfig.user_info.id
+                            //"X-SESSION-ID": appConfig.user_info.id
                         },
                         cache: false
                     });
