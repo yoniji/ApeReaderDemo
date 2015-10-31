@@ -47,6 +47,9 @@
             },
             afterOnShow: function() {
                 this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
+                this.$el.find('#rankCells').css({
+                    'min-height': this.$el.height() - this.ui.topBar.height() - 1
+                });
                 this.updateEmptyView();
             },
             updateEmptyView: function() {

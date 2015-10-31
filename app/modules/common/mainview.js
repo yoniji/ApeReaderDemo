@@ -6,6 +6,10 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
             },
             el:'#main',
             initialize: function() {
+                $('html').on('touchmove', function(ev) {
+                    util.preventDefault(ev);
+                    util.stopPropagation(ev);
+                });
                 $('body').on('touchmove', function(ev) {
                     util.preventDefault(ev);
                     util.stopPropagation(ev);
@@ -36,6 +40,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 this.ui.secondary.height(this.windowHeight);
                 this.ui.tertiary.height(this.windowHeight);
 
+                $('html').css('width', $(window).width());
                 this.initWaves();
 
             },

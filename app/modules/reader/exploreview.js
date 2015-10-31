@@ -12,6 +12,8 @@
             return true;
         }
 
+        var pullUpHtml = '<div class="pullUp loading"><i class="icon icon-refresh"></i></div>';
+        var pullDownHtml = '<div class="pullDown loading"><i class="icon icon-refresh"></i></div>';
         return StreamView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -23,13 +25,15 @@
                 'filterSwitch': '#exploreTopBar-category-switch',
                 'filterMenu': '#exploreTopBar-category-menu',
                 'filterMenuItem': '.dropDown-menu-item',
-                'cells': '#cells'
+                'cells': '#cells',
+                'scrollTop':'.scrollTopBtn'
             },
             events: {
                 'select @ui.filterMenuItem': 'onTapMenuItem',
                 'scroll @ui.streamWrapper': 'onScroll',
                 'beforeOpenMenu @ui.filterSwitch': 'beforeOpenMenu',
                 'tap .readCursor': 'onTapReadCursor',
+                'tap @ui.scrollTop': 'onTapReadCursor',
                 'touchmove @ui.streamWrapper': 'onTouchMove'
             },
             modelEvents: {
@@ -61,7 +65,7 @@
             },
             showReadCursor: function(cellEl) {
                 if (this.ui.streamWrapper.find('.readCursor').size() < 1 && cellEl.size() === 1 && !this.model.hasCategory()) {
-                    cellEl.after('<div class="readCursor">上次你看到这里， 点此<span class="main-color">刷新</span></div>');
+                    cellEl.after('<div class="readCursor">以下是过往的推荐， 点此<span class="main-color">看新文章</span></div>');
                 }
             },
             removeReadCursor: function() {
@@ -87,7 +91,8 @@
                     this.collection.reset([]);
                 }
 
-                this.ui.streamWrapper.prepend('<div class="pullDown loading"><i class="icon icon-refresh"></i></div>');
+                this.ui.streamWrapper.prepend(pullDownHtml);
+                
                 this.ui.streamWrapper.find('.pullUp').html('<i class="icon icon-refresh"></i>');
 
                 this.ui.streamWrapper.scrollTop(50);
@@ -105,11 +110,7 @@
 
                     this.collection.add(postsData);
 
-                    if (this.collection.length > oldLength) {
-                        this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
-                    } else {
-                        this.ui.streamWrapper.append('<div class="pullUp loading">没有更早的文章了</div>');
-                    }
+                    this.ui.streamWrapper.append(pullUpHtml);
 
                 } else {
                     this.ui.streamWrapper.append('<div class="pullUp loading">没有更早的文章了</div>');
@@ -167,8 +168,8 @@
                     'min-height': this.$el.height()
                 });
                 this.updateTopPadding();
-                this.ui.streamWrapper.prepend('<div class="pullDown loading"><i class="icon icon-refresh"></i></div>');
-                this.ui.streamWrapper.append('<div class="pullUp loading"><i class="icon icon-refresh"></i></div>');
+                this.ui.streamWrapper.prepend(pullDownHtml);
+                this.ui.streamWrapper.append(pullUpHtml);
 
                 this.updateEmptyView();
                 if (shouldStartLoadingNew(this.collection)) {
@@ -216,6 +217,7 @@
                 //显示fitlerbar
                 this.ui.topBar.removeClass('hide');
                 this.ui.filterBar.removeClass('hide');
+                this.ui.scrollTop.addClass('hide');
                 //检查新的新闻
                 if ( this.preventRefresh && this.ui.streamWrapper.scrollTop() < 50 ) {
                     ev.preventDefault();
@@ -229,6 +231,7 @@
                 //隐藏fitlerbar
                 this.ui.topBar.addClass('hide');
                 this.ui.filterBar.addClass('hide');
+                this.ui.scrollTop.removeClass('hide');
                 //加载更早的记录
                 var maxScrollTop = this.ui.streamWrapper.find('#cells').height() - this.ui.streamWrapper.height();
                 if (this.ui.streamWrapper.scrollTop() > (maxScrollTop - 1)) {

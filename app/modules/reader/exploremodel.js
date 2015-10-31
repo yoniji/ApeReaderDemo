@@ -105,7 +105,7 @@
                     data: data,
                     success: function(response) {
                         self.parse(response);
-                        self.trigger('gotNewPosts', response.data.reverse());
+                        self.trigger('gotNewPosts', response.data);
                     },
                     method: 'GET'
                 });
