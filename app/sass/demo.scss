@@ -136,7 +136,9 @@ $homeNavigationTextColor:$black;
     overflow-y: auto;
     -webkit-overflow-scrolling:touch;
 }
-
+.stopScroll {
+    overflow:visible;
+}
 
 $topBarHeight:48px;
 $topBarBackground:$white;

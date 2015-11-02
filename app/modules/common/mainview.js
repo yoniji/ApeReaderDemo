@@ -45,9 +45,11 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
 
             },
             initWaves: function() {
+                /*
                 Waves.init({
                     delay: 100
                 });
+                */
                 this.$el.find('.homeNavigation-item>.icon').each(function(index,el){
                     Waves.attach(el);
                 });

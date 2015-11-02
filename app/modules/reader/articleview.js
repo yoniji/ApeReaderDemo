@@ -414,7 +414,10 @@
                 if (this.timeout) clearTimeout(this.timeout);
                 if (this.originalShare) window.appConfig.share_info = _.clone(this.originalShare);
                 $('.streamWrapper,.feedsWrapper').removeClass('moveBackTransition');
+                if (this.model.collection) this.model.collection.hasOpenedArticle = false;
+                
                 util.setWechatShare(window.appConfig.share_info);
+
             },
             className: 'articleWrapper'
         });

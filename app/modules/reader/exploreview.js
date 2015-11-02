@@ -1,8 +1,8 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/streamview', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview'],
-    function(Marionette, Mustache, $, template, StreamView, ExploreModel, PostCollection, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
+﻿define(['marionette', 'mustache', 'underscore', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/streamview', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview'],
+    function(Marionette, Mustache, _,  $, template, StreamView, ExploreModel, PostCollection, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
 
         function shouldStartLoadingNew(posts) {
-            if ( posts.length < 1 ) return true;
+            if (posts.length < 1) return true;
             var now = new Date();
             if (util.supportLocalStorage() && localStorage.exploreTime) {
                 var exploreTime = parseInt(localStorage.exploreTime);
@@ -26,7 +26,7 @@
                 'filterMenu': '#exploreTopBar-category-menu',
                 'filterMenuItem': '.dropDown-menu-item',
                 'cells': '#cells',
-                'scrollTop':'.scrollTopBtn'
+                'scrollTop': '.scrollTopBtn'
             },
             events: {
                 'select @ui.filterMenuItem': 'onTapMenuItem',
@@ -74,13 +74,18 @@
             onGotNewPosts: function(postsData) {
                 this.stopLoadingNew();
                 if (postsData && postsData.length > 0) {
+                    
+                    var newDataLength = _.difference(_.pluck(this.collection.models, 'id'), _.pluck(postsData, 'id')).length;
 
-                    //var oldLength = this.collection.length;
                     this.collection.reset(postsData);
                     this.removeReadCursor();
                     this.lastCell = this.ui.streamWrapper.find('.cell').last();
 
-                    this.ui.streamWrapper.prepend('<div class="notification notification-info">为你推荐' + this.collection.length + '篇新文章</div>');
+                    if ( newDataLength > 0 ) {
+                        this.ui.streamWrapper.prepend('<div class="notification notification-info">为你推荐' + newDataLength + '篇新文章</div>');
+                    } else {
+                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">暂时没有新推荐，一会儿再试试吧</div>');
+                    }
 
                     var self = this;
                     this.timeout = setTimeout(function() {
@@ -92,7 +97,7 @@
                 }
 
                 this.ui.streamWrapper.prepend(pullDownHtml);
-                
+
                 this.ui.streamWrapper.find('.pullUp').html('<i class="icon icon-refresh"></i>');
 
                 this.ui.streamWrapper.scrollTop(50);
@@ -103,9 +108,9 @@
             onGotHistoryPosts: function(postsData) {
                 this.stopLoadingHistory();
                 if (postsData && postsData.length > 0) {
-                    
+
                     if (this.lastCell && this.lastCell.size() > 0) this.showReadCursor(this.lastCell);
-                    
+
                     var oldLength = this.collection.length;
 
                     this.collection.add(postsData);
@@ -117,7 +122,7 @@
                 }
                 this.ui.streamWrapper.scrollTop(this.ui.streamWrapper.scrollTop() + 50);
 
-                
+
 
             },
             startLoadingNew: function() {
@@ -135,7 +140,7 @@
                 var self = this;
                 self.preventRefresh = true;
                 var coolTimeout = setTimeout(function() {
-                    if(self.preventRefresh) self.preventRefresh = false;
+                    if (self.preventRefresh) self.preventRefresh = false;
                     clearTimeout(coolTimeout);
                 }, 2500);
 
@@ -197,21 +202,19 @@
                 currentScrollDirection = this.lastScrollTop < currentScrollTop ? 1 : -1;
 
 
-                    if (currentScrollTop - 50 < this.ui.topBar.height()) {
-                        this.onScrollUp(ev);
-                        this.lastScrollDirection = -1;
+                if (currentScrollTop - 50 < this.ui.topBar.height()) {
+                    this.onScrollUp(ev);
+                    this.lastScrollDirection = -1;
+                } else {
+                    if (currentScrollDirection === 1) {
+                        this.onScrollDown(ev);
                     } else {
-                        if (currentScrollDirection === 1) {
-                            this.onScrollDown(ev);
-                        } else {
-                            this.onScrollUp(ev);
-                        }
-                        this.lastScrollDirection = currentScrollDirection;
+                        this.onScrollUp(ev);
                     }
-                    this.lastScrollTop = currentScrollTop;
+                    this.lastScrollDirection = currentScrollDirection;
+                }
+                this.lastScrollTop = currentScrollTop;
                 
-
-
             },
             onScrollUp: function(ev) {
                 //显示fitlerbar
@@ -219,13 +222,14 @@
                 this.ui.filterBar.removeClass('hide');
                 this.ui.scrollTop.addClass('hide');
                 //检查新的新闻
-                if ( this.preventRefresh && this.ui.streamWrapper.scrollTop() < 50 ) {
+                if (this.preventRefresh && this.ui.streamWrapper.scrollTop() < 50) {
                     ev.preventDefault();
                     ev.stopPropagation();
                     this.ui.streamWrapper.scrollTop(50);
-                }  else if (this.ui.streamWrapper.scrollTop() < 1) {
+                } else if (this.ui.streamWrapper.scrollTop() < 1) {
                     this.startLoadingNew();
                 }
+
             },
             onScrollDown: function(ev) {
                 //隐藏fitlerbar
@@ -260,8 +264,10 @@
                 if (!postsData || postsData.length < 1) {
                     this.emptyViewType = 'empty';
                 }
+                this.ui.streamWrapper.addClass('stopScroll');
                 this.collection.reset(postsData);
                 this.ui.streamWrapper.scrollTop(50);
+                this.ui.streamWrapper.removeClass('stopScroll');
             },
             updateTopPadding: function(ev) {
                 var topPadding = this.ui.topBar.height() + 1;

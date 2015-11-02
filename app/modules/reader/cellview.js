@@ -31,9 +31,8 @@
             },
             events: {
                 'touchstart': 'onTouchStart',
-                'touchend': 'onTouchEnd',
-                'touchmove': 'onTouchMove',
-                'touchcancel': 'onTouchEnd'
+                'tap @ui.more': 'onTapMore',
+                'tap':'onTap'
             },
             modelEvents: {
                 'change': 'onChange'
@@ -151,7 +150,8 @@
 
             },
             onRender: function() {
-                Waves.attach(this.$el[0], ['waves-block']);
+                //Waves.attach(this.$el[0], ['waves-block']);
+
             },
             onTapMore: function(ev) {
                 util.preventDefault(ev);
@@ -162,64 +162,51 @@
                 });
             },
             onChange: function() {
-                this.render();
-            },
-            cancelTouch: function() {
-                this.$el.removeClass('touched');
-                this.lastPageY = -1;
+                var self = this;
+                //等待article动画播放完毕再进行刷新
+                if ( this.model.collection.hasOpenedArticle ) {
+                    var timeout = setTimeout(function() {
+                        if (self) {
+                            self.render();
+                            clearTimeout(timeout);
+                            self = null;
+                            timeout =null;
+                        }
+                    }, 800);
+                } else {
+                    this.render();
+                }
+                
             },
             onTouchStart: function(ev) {
-
-                if ($('.articleWrapper').size() < 1) {
-                    var $target = $(ev.target);
-                    if (isTargetAMoreButton($target)) {
-                        util.stopPropagation(ev);
-                    }
-
-                    this.$el.siblings('.touched').removeClass('touched');
-                    this.$el.addClass('touched');
-                    this.startPageY = ev.originalEvent.touches[0].pageY;
-                    this.touchStartTime = (new Date()).getTime();
-                }
+               var streamWrapperEl = this.$el.parent().parent().parent();
+               this.lastPageY = streamWrapperEl.scrollTop();                
             },
-            onTouchMove: function(ev) {
-                var pageY = ev.originalEvent.touches[0].pageY;
-                if (this.startPageY > 0) {
-                    if (Math.abs(pageY - this.startPageY) > 5) {
-                        this.cancelTouch();
-                    }
+            onTap: function(ev) {
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
+
+                var isScrolling = false;
+                var streamWrapperEl = this.$el.parent().parent().parent();
+                var currentPageY = streamWrapperEl.scrollTop();
+                if ( Math.abs(currentPageY - this.lastPageY) > 50 ) {
+                    isScrolling = true;
                 }
-            },
-            onTouchEnd: function(ev) {
-                if (this.$el.hasClass('touched')) {
-                    var $target = $(ev.target);
+
+                if ( !isScrolling && !this.model.collection.hasOpenedArticle ) {
+                    Waves.ripple(this.$el[0]);
                     
-                    var self = this;
-                    var delayTimer = setTimeout(function(argument) {
-                        if (isTargetAMoreButton($target)) {
-                            self.onTapMore(ev);
-
-                        } else if (self.$el.hasClass('touched')) {
-                            app.appController.articleView = new ArticleView({
-                                model: self.model,
-                                delay: true,
-                                triggerFrom: self
-                            });
-                        } 
-                        clearTimeout(delayTimer);
-                        delayTimer = null;
-                        self.cancelTouch();
-
-                    }, 100);
-
-
-                } else {
-                    this.$el.siblings('.touched').removeClass('touched');
+                    this.model.collection.hasOpenedArticle = true;
+                    app.appController.articleView = new ArticleView({
+                        model: this.model,
+                        delay: true,
+                        triggerFrom: this
+                    });
                 }
             },
             onDestroy: function() {
                 this.stopListening();
             },
-            className: 'cell'
+            className: 'cell waves-effect'
         });
     });

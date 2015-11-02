@@ -10,7 +10,7 @@ define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!mod
 
             },
             modelEvents: {
-                'change': 'render'
+                'change': 'onChange'
             },
             templateHelpers: function() {
                 var self = this;
@@ -114,6 +114,6 @@ define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!mod
                     }
                 };
             },
-            className: 'cell rankCell'
+            className: 'cell rankCell waves-effect'
         });
     });
