@@ -1468,21 +1468,25 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     border-radius: 2px;
     text-align: center;
     @include reset-transform;
+    position:absolute;
+    left:0;
+    top:0;
+    width: 100%;
 }
 
 .notification-alert {
     color: darken($red, 20%);
-    background: lighten($red, 40%);
+    background: rgba(lighten($red, 40%),.8);
 }
 
 .notification-info {
     color: darken($cyan, 30%);
-    background: lighten($cyan, 40%);
+    background: rgba(lighten($cyan, 40%),.8);
 }
 
 .notification-normal {
     color: darken($gray, 30%);
-    background: lighten($gray, 40%);
+    background: rgba(lighten($gray, 40%),.6);
 }
 
 @include keyframes(zoomInThenFadeOut) {
@@ -1505,6 +1509,8 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         @include reset-transform;
         @include transform-origin(center top);
         @include animation(zoomInThenFadeOut 2s both);
+        top:$topBarHeight + 50;
+        z-index: 2;
     }
 }
 

@@ -58,7 +58,7 @@
             },
             clearNotification: function() {
                 if (this.timeout) clearTimeout(this.timeout);
-                if (this.ui.streamWrapper) this.ui.streamWrapper.find('.notification').remove();
+                //if (this.ui.streamWrapper) this.ui.streamWrapper.find('.notification').remove();
             },
             onTapReadCursor: function() {
                 this.ui.streamWrapper.scrollTop(0);
