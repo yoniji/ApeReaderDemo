@@ -180,7 +180,7 @@
             },
             onTouchStart: function(ev) {
                var streamWrapperEl = this.$el.parent().parent().parent();
-               this.lastPageY = streamWrapperEl.scrollTop();                
+               this.lastPageY = streamWrapperEl.scrollTop();
             },
             onTap: function(ev) {
                 util.preventDefault(ev);
@@ -192,7 +192,7 @@
                 if ( Math.abs(currentPageY - this.lastPageY) > 50 ) {
                     isScrolling = true;
                 }
-
+                
                 if ( !isScrolling && !this.model.collection.hasOpenedArticle ) {
                     Waves.ripple(this.$el[0]);
                     

@@ -75,7 +75,8 @@
                 this.stopLoadingNew();
                 if (postsData && postsData.length > 0) {
                     
-                    var newDataLength = _.difference(_.pluck(this.collection.models, 'id'), _.pluck(postsData, 'id')).length;
+                    var oldLength = this.collection.models.length;
+                    var newDataLength = _.uniq(_.union(_.pluck(postsData, 'id'), _.pluck(this.collection.models, 'id'))).length - oldLength;
 
                     this.collection.reset(postsData);
                     this.removeReadCursor();

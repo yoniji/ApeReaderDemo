@@ -621,6 +621,7 @@ $toolBarColor:$black;
 
     &:active {
         color:$main-color;
+        background: darken($toolBarBackground,10%);
     }
 }
 

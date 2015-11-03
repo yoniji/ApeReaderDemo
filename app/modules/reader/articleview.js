@@ -351,6 +351,7 @@
             },
             onTapBlock: function() {
                 util.setIconToLoading(this.ui.block.find('.icon'));
+                if (this.model.collection) this.model.collection.hasOpenedArticle = false;
                 this.model.block();
                 util.trackEvent('Block', 'Post', 1);
             },
@@ -392,6 +393,7 @@
                     return;
                 }
                 if (confirm("确定删除么？本操作不可恢复")){
+                    if (this.model.collection) this.model.collection.hasOpenedArticle = false;
                     this.model.adminDelete();
                     util.setButtonToLoading($(ev.currentTarget));
                 }
@@ -415,7 +417,7 @@
                 if (this.originalShare) window.appConfig.share_info = _.clone(this.originalShare);
                 $('.streamWrapper,.feedsWrapper').removeClass('moveBackTransition');
                 if (this.model.collection) this.model.collection.hasOpenedArticle = false;
-                
+
                 util.setWechatShare(window.appConfig.share_info);
 
             },
