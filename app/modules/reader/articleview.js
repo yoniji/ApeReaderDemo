@@ -458,9 +458,12 @@
                 });
                 this.relatedRegion.show(relatedArtilceView);
 
+                var tagId = this.model.getBestMatchTagId();
+
                 postModel.fetch({
                     data: {
-                        limit:5
+                        limit:5,
+                        fitler: tagId
                     }
 
                 });

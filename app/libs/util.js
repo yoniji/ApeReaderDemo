@@ -31,7 +31,7 @@ define(function(require, exports, module) {
         }
     };
     exports.isMKApp = function() {
-        if ( window.appConfig && window.appConfig.user_info && window.appConfig.user_info.id === 'mkapp') {
+        if (window.appConfig && window.appConfig.user_info && window.appConfig.user_info.id === 'mkapp') {
             return true;
         } else {
             return false;
@@ -40,23 +40,23 @@ define(function(require, exports, module) {
     exports.isNetworkSlow = function() {
         switch (appConfig.networkType) {
             case 'wifi':
-            return false;
+                return false;
             case '4g':
-            return false;
+                return false;
             case '3g+':
-            return true;
+                return true;
             case '3g':
-            return true;
+                return true;
             case '2g':
-            return true;
+                return true;
             default:
-            return true;
+                return true;
         }
     };
 
     exports.trim = function(str) {
         var result = '';
-        if(str) {
+        if (str) {
             result = str.replace(/(^\s+)|(\s+$)/g, "");
         }
         return result;
@@ -101,8 +101,9 @@ define(function(require, exports, module) {
         if (!link) {
             link = util.generateShareUrlWithCurrentLocation(hash);
         }
-        var shareURL = "appruler://share/" + encodeURIComponent(link) + '/' + encodeURIComponent(shareInfo.image.url) + '/' + encodeURIComponent(shareInfo.message_title) + '/' + encodeURIComponent(shareInfo.message_description);
+        var shareURL = "appruler://share/" + util.base64_encode(link) + '/' + util.base64_encode(shareInfo.image.url) + '/' + util.base64_encode(shareInfo.message_title) + '/' + util.base64_encode(shareInfo.message_description);
         if (onSuccess) onSuccess();
+        console.log(shareURL);
         window.open(shareURL);
     };
 
@@ -354,7 +355,7 @@ define(function(require, exports, module) {
     exports.clearSessionStorage = function() {
         if (util.supportSessionStorage()) sessionStorage.clear();
     };
-    
+
     exports.clearLocalStorage = function() {
         if (util.supportLocalStorage()) localStorage.clear();
     };
@@ -408,7 +409,7 @@ define(function(require, exports, module) {
         if (ratio > 3) ratio = 3;
 
         if (util.isNetworkSlow()) ratio = Math.min(ratio, 2);
-        
+
         return ratio;
     };
     exports.calculateSizeWithMinimumEdgeAdaptive = function(containerSize, originalImageSize) {
@@ -447,12 +448,12 @@ define(function(require, exports, module) {
 
     exports.preventDefault = function(event) {
         event.preventDefault();
-        if(event.originalEvent) event.originalEvent.preventDefault();
+        if (event.originalEvent) event.originalEvent.preventDefault();
 
     };
     exports.stopPropagation = function(event) {
         event.stopPropagation();
-        if(event.originalEvent) event.originalEvent.stopPropagation();
+        if (event.originalEvent) event.originalEvent.stopPropagation();
     };
     exports.setIconToLoading = function(iconEl) {
         iconEl.attr('originalClass', iconEl.attr('class'));
@@ -497,6 +498,39 @@ define(function(require, exports, module) {
             var index = Math.floor(Math.random() * list.length);
             return list[index];
         }
+    };
+
+
+    exports.base64_encode = function(str) {
+        var c1, c2, c3;
+        var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        var i = 0,
+            len = str.length,
+            string = '';
+
+        while (i < len) {
+            c1 = str.charCodeAt(i++) & 0xff;
+            if (i == len) {
+                string += base64EncodeChars.charAt(c1 >> 2);
+                string += base64EncodeChars.charAt((c1 & 0x3) << 4);
+                string += "==";
+                break;
+            }
+            c2 = str.charCodeAt(i++);
+            if (i == len) {
+                string += base64EncodeChars.charAt(c1 >> 2);
+                string += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+                string += base64EncodeChars.charAt((c2 & 0xF) << 2);
+                string += "=";
+                break;
+            }
+            c3 = str.charCodeAt(i++);
+            string += base64EncodeChars.charAt(c1 >> 2);
+            string += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));
+            string += base64EncodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));
+            string += base64EncodeChars.charAt(c3 & 0x3F);
+        }
+        return string;
     };
 
 });

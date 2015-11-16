@@ -23,7 +23,7 @@
                     };
 
                     if ( util.isMKApp() ) {
-                        //headerData['X-APERLUERAPP-ID'] = appConfig.user_info.app_code;
+                        headerData['X-APERLUERAPP-ID'] = appConfig.user_info.app_code;
                     }
                     $.ajaxSetup({
                         headers: headerData,

@@ -188,6 +188,13 @@
                     
                 }
                 
+            },
+            getBestMatchTagId: function() {
+                if (this.has('tags') && this.get('tags').length > 0 && this.get('tags')[0].id ) {
+                    return this.get('tags')[0].id;
+                } else {
+                    return '';
+                }
             }
         });
     });
