@@ -1,5 +1,6 @@
-﻿define(['marionette', 'mustache', 'underscore', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/streamview', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview'],
-    function(Marionette, Mustache, _,  $, template, StreamView, ExploreModel, PostCollection, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
+﻿define(['marionette', 'mustache', 'underscore', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/streamview', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview', 'refresh'],
+    function(Marionette, Mustache, _, $, template, StreamView, ExploreModel, PostCollection, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
+
 
         function shouldStartLoadingNew(posts) {
             if (posts.length < 1) return true;
@@ -58,10 +59,13 @@
             },
             clearNotification: function() {
                 if (this.timeout) clearTimeout(this.timeout);
-                //if (this.ui.streamWrapper) this.ui.streamWrapper.find('.notification').remove();
+                if (this.ui.streamWrapper) this.ui.streamWrapper.find('.notification').remove();
             },
             onTapReadCursor: function() {
                 this.ui.streamWrapper.scrollTop(0);
+                this.ui.scrollTop.addClass('hide');
+                this.startLoadingNew();
+                mRefresh.refresh();
             },
             showReadCursor: function(cellEl) {
                 if (this.ui.streamWrapper.find('.readCursor').size() < 1 && cellEl.size() === 1 && !this.model.hasCategory()) {
@@ -74,7 +78,7 @@
             onGotNewPosts: function(postsData) {
                 this.stopLoadingNew();
                 if (postsData && postsData.length > 0) {
-                    
+
                     var oldLength = this.collection.models.length;
                     var newDataLength = _.uniq(_.union(_.pluck(postsData, 'id'), _.pluck(this.collection.models, 'id'))).length - oldLength;
 
@@ -82,10 +86,10 @@
                     this.removeReadCursor();
                     this.lastCell = this.ui.streamWrapper.find('.cell').last();
 
-                    if ( newDataLength > 0 ) {
-                        this.ui.streamWrapper.prepend('<div class="notification notification-info">为你推荐' + newDataLength + '篇新文章</div>');
+                    if (newDataLength > 0) {
+                        this.ui.streamWrapper.append('<div class="notification notification-info">为你推荐' + newDataLength + '篇新文章</div>');
                     } else {
-                        this.ui.streamWrapper.prepend('<div class="notification notification-normal">暂时没有新推荐，一会儿再试试吧</div>');
+                        this.ui.streamWrapper.append('<div class="notification notification-normal">暂时没有新推荐，一会儿再试试吧</div>');
                     }
 
                     var self = this;
@@ -97,11 +101,11 @@
                     this.collection.reset([]);
                 }
 
-                this.ui.streamWrapper.prepend(pullDownHtml);
+                //this.ui.streamWrapper.prepend(pullDownHtml);
 
                 this.ui.streamWrapper.find('.pullUp').html('<i class="icon icon-refresh"></i>');
 
-                this.ui.streamWrapper.scrollTop(50);
+                this.ui.streamWrapper.scrollTop(0);
                 this.updateEmptyView();
 
                 this.preventHistory = false;
@@ -136,7 +140,8 @@
                 }
             },
             stopLoadingNew: function() {
-                this.ui.streamWrapper.find('.pullDown').remove();
+                //this.ui.streamWrapper.find('.pullDown').remove();
+                mRefresh.resolve();
                 this.isLoadingNew = false;
                 var self = this;
                 self.preventRefresh = true;
@@ -174,27 +179,51 @@
                     'min-height': this.$el.height()
                 });
                 this.updateTopPadding();
-                this.ui.streamWrapper.prepend(pullDownHtml);
+                //this.ui.streamWrapper.prepend(pullDownHtml);
                 this.ui.streamWrapper.append(pullUpHtml);
 
                 this.updateEmptyView();
+                this.initRefresh();
+
                 if (shouldStartLoadingNew(this.collection)) {
                     this.startLoadingNew();
+                    if ( this.collection && this.collection.size() > 0) {
+                        mRefresh.refresh();
+                    }
                 } else {
-                    this.ui.streamWrapper.scrollTop(50);
+                    this.ui.streamWrapper.scrollTop(0);
                 }
+                
 
+            },
+            initRefresh: function() {
+                var self = this;
+                var opts = {
+                    nav: '#exploreTopBar', //String, using for Type2 
+                    scrollEl: '.streamWrapper', //String  
+                    onBegin: function(){
+                        self.startLoadingNew();
+                    }, //Function 
+                    onEnd: null, //Function 
+                    top: '80px', //String 
+                    theme: 'red-theme', //String 
+                    index: 99, //Number
+                    maxTime: 20000, //Number 
+                    freeze: false //Boolen 
+                };
+                mRefresh(opts);
             },
             updateEmptyView: function() {
                 if (this.collection.size() < 1) {
                     this.$el.find('.empty').height(this.ui.streamWrapper.height());
-                    if (this.emptyViewType === 'loading') this.$el.find('.pullDown,.pullUp').css('visibility', 'hidden');
-                    this.ui.streamWrapper.scrollTop(50);
+                    if (this.emptyViewType === 'loading') this.$el.find('.pullUp').css('visibility', 'hidden');
+                    this.ui.streamWrapper.scrollTop(0);
                 }
             },
             afterOnDestroy: function() {
                 this.filterView.destroy();
                 this.filterModel.destroy();
+                mRefresh.destroy();
                 if (this.timeout) clearTimeout(this.timeout);
             },
             onScroll: function(ev) {
@@ -203,7 +232,7 @@
                 currentScrollDirection = this.lastScrollTop < currentScrollTop ? 1 : -1;
 
 
-                if (currentScrollTop - 50 < this.ui.topBar.height()) {
+                if (currentScrollTop < this.ui.topBar.height()) {
                     this.onScrollUp(ev);
                     this.lastScrollDirection = -1;
                 } else {
@@ -215,14 +244,19 @@
                     this.lastScrollDirection = currentScrollDirection;
                 }
                 this.lastScrollTop = currentScrollTop;
-                
+
             },
             onScrollUp: function(ev) {
                 //显示fitlerbar
                 this.ui.topBar.removeClass('hide');
                 this.ui.filterBar.removeClass('hide');
                 this.ui.scrollTop.addClass('hide');
+
+                if (this.ui.streamWrapper.scrollTop() < 1) {
+                    this.ui.streamWrapper.scrollTop(0);
+                }
                 //检查新的新闻
+                /*
                 if (this.preventRefresh && this.ui.streamWrapper.scrollTop() < 50) {
                     ev.preventDefault();
                     ev.stopPropagation();
@@ -230,6 +264,7 @@
                 } else if (this.ui.streamWrapper.scrollTop() < 1) {
                     this.startLoadingNew();
                 }
+                */
 
             },
             onScrollDown: function(ev) {
@@ -265,10 +300,8 @@
                 if (!postsData || postsData.length < 1) {
                     this.emptyViewType = 'empty';
                 }
-                this.ui.streamWrapper.addClass('stopScroll');
                 this.collection.reset(postsData);
-                this.ui.streamWrapper.scrollTop(50);
-                this.ui.streamWrapper.removeClass('stopScroll');
+                this.ui.streamWrapper.scrollTop(0);
             },
             updateTopPadding: function(ev) {
                 var topPadding = this.ui.topBar.height() + 1;

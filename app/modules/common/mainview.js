@@ -15,6 +15,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                     util.stopPropagation(ev);
                 });
 
+
                 this.render();
             },
             events: {
@@ -40,7 +41,12 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 this.ui.secondary.height(this.windowHeight);
                 this.ui.tertiary.height(this.windowHeight);
 
-                $('html').css('width', $(window).width());
+                var windowWidth = $(window).width();
+                $('#main,html,body').css({
+                    'width':windowWidth,
+                    'min-width': windowWidth,
+                    'max-width':windowWidth
+                });
                 this.initWaves();
 
             },

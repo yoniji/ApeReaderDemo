@@ -183,8 +183,8 @@
                this.lastPageY = streamWrapperEl.scrollTop();
             },
             onTap: function(ev) {
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
+                //util.preventDefault(ev);
+                //util.stopPropagation(ev);
 
                 var isScrolling = false;
                 var streamWrapperEl = this.$el.parent().parent().parent();

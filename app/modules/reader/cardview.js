@@ -18,7 +18,6 @@
                 if (this.model.get('isAction')) {
                     this.$el.addClass('actionCard');
                 }
-                Waves.attach(this.$el[0]);
             },
             onToggleLikeSuccess: function() {
                 if (!this.model.get('metadata').liked) {
@@ -53,6 +52,6 @@
                     }
                 };
             },
-            className: 'cellWrapper cardWrapper'
+            className: 'cellWrapper cardWrapper waves-effect'
         });
     });

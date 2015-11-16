@@ -251,10 +251,9 @@
                     var self = this;
                     var to = setTimeout(function() {
                         self.$el.removeClass('delayShow');
-                        
                         clearTimeout(to);
 
-                    }, 800);
+                    }, 500);
                 }
                 $('.streamWrapper,.feedsWrapper').addClass('moveLeftTransition');
                 $('.streamWrapper,.feedsWrapper').addClass('moveLeft');

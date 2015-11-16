@@ -13,13 +13,17 @@ require.config({
         "urls": "modules/common/urls",
         "dropdown": "modules/ctrls/ctrldropdown",
         "carousel":"modules/ctrls/ctrlcarousel",
-        "waves": "../vendor/bower/waves/dist/waves"
+        "waves": "../vendor/bower/waves/dist/waves",
+        "refresh": "../vendor/bower/material-refresh/material-refresh"
     },
 
     deps: ["main"],
     shim: {
         "jquery-hammerjs":{
             deps:["hammerjs","jquery"]
+        },
+        "refresh":{
+            deps:["jquery"]
         }
     }
 });

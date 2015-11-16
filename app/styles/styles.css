@@ -2617,8 +2617,8 @@ html {
   transform-origin: center top;
   -webkit-animation: zoomInThenFadeOut 2s both;
   animation: zoomInThenFadeOut 2s both;
-  top: 98px;
-  z-index: 2; }
+  top: 50px;
+  z-index: 3; }
 
 @-webkit-keyframes loadingIconInner {
   0% {
@@ -3784,9 +3784,9 @@ html {
 
 .scrollTopBtn {
   position: absolute;
-  right: 16px;
-  bottom: 16px;
-  left: 16px;
+  top: 32px;
+  left: 50%;
+  margin-left: -28px;
   height: 56px;
   width: 56px;
   background: #dd4b39;
@@ -3797,15 +3797,23 @@ html {
   -webkit-transition: 0.3s cubic-bezier(0, 0.99, 0.85, 1.26);
   transition: 0.3s cubic-bezier(0, 0.99, 0.85, 1.26); }
   .scrollTopBtn > .icon {
-    font-size: 40px;
-    line-height: 52px;
-    height: 56px;
+    font-size: 24px;
+    line-height: 40px;
+    height: 40px;
     display: block;
     text-align: center; }
+  .scrollTopBtn > span {
+    font-size: 8px;
+    line-height: 12px;
+    height: 12px;
+    display: block;
+    text-align: center;
+    position: relative;
+    top: -6px; }
 
 .scrollTopBtn.hide {
-  -webkit-transform: translate3d(0, 200%, 0);
-  transform: translate3d(0, 200%, 0); }
+  -webkit-transform: translate3d(0, -200%, 0);
+  transform: translate3d(0, -200%, 0); }
 
 .streanWrapperInner {
   width: auto;
