@@ -1,0 +1,16 @@
+﻿<div class="inner  {{#metadata.content_type}}{{metadata.content_type}}cell{{/metadata.content_type}}  {{metadata.language}} fullCell">
+    <div class="title">
+        {{{title}}}
+    </div>
+    {{{generateRankCellCoverHtml}}}
+    <div class="meta">
+        <div class="tags">
+            {{#metadata.liked}}
+                <i class="icon icon-heart3 main-color"></i> 
+            {{/metadata.liked}}
+            {{{getTagsHtml}}}
+        </div>
+    </div>
+
+    
+</div>

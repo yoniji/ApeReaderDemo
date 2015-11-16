@@ -30,7 +30,13 @@ define(function(require, exports, module) {
             return null;
         }
     };
-
+    exports.isMKApp = function() {
+        if ( window.appConfig && window.appConfig.user_info && window.appConfig.user_info.id === 'mkapp') {
+            return true;
+        } else {
+            return false;
+        }
+    };
     exports.isNetworkSlow = function() {
         switch (appConfig.networkType) {
             case 'wifi':
@@ -88,6 +94,16 @@ define(function(require, exports, module) {
                 jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareQZone'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
             });
         }
+    };
+
+    exports.mkAppShare = function(shareInfo, onSuccess, onCancel, hash) {
+        var link = shareInfo.link;
+        if (!link) {
+            link = util.generateShareUrlWithCurrentLocation(hash);
+        }
+        var shareURL = "appruler://share/" + encodeURIComponent(link) + '/' + encodeURIComponent(shareInfo.image.url) + '/' + encodeURIComponent(shareInfo.message_title) + '/' + encodeURIComponent(shareInfo.message_description);
+        if (onSuccess) onSuccess();
+        window.open(shareURL);
     };
 
     exports.setWechatShare = function(shareInfo, onSuccess, onCancel, hash) {

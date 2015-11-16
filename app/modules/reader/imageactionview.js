@@ -67,9 +67,18 @@
                 share_info.link =url;
                 share_info.image = { url: this.current, type:'oss' };
 
-                var shareView = new ShareView({ 
-                    shareInfo: share_info
-                });
+
+
+                if ( util.isMKApp() ) {
+
+                    util.mkAppShare(share_info);
+
+                } else {
+                    var shareView = new ShareView({ 
+                        shareInfo: share_info
+                    });
+                }
+                
                 util.trackEvent('Share', 'Image', 1);
 
                 this.destroy();

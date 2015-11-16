@@ -1,5 +1,5 @@
-﻿define(['underscore', 'modules/reader/articleview', 'mustache', 'jquery', 'text!modules/reader/articleshare.html', 'modules/reader/postmodel', 'text!modules/reader/error.html', 'text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview', 'modules/reader/subscribeview'],
-    function(_, ArticleView, Mustache, $, shareTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView, SubscribeView) {
+﻿define(['marionette', 'underscore', 'modules/reader/articleview', 'mustache', 'jquery', 'text!modules/reader/articleshare.html', 'modules/reader/postmodel', 'text!modules/reader/error.html', 'text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview', 'modules/reader/subscribeview', 'modules/reader/relatedcellview', 'modules/reader/featuremodel',  'modules/reader/postcollection'],
+    function(Marionette, _, ArticleView, Mustache, $, shareTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView, SubscribeView, CellView, FeatureModel, PostCollection) {
 
         return ArticleView.extend({
             template: function(serialized_model) {
@@ -60,6 +60,11 @@
                 },
                 'isThumbSwitchVisible': function() {
                     return true;
+                },
+                getFirstTag: function() {
+                    if (this.tags && this.tags.length > 1) {
+                        return this.tags[0].name;
+                    }
                 }
             },
             onModelSync: function() {
@@ -181,6 +186,8 @@
                 this.ui.article.css('height', articleHeight);
                 this.$el.focus();
                 this.model.markViewed();
+
+                this.initRelatedArticleRegion();
 
 
             },

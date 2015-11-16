@@ -2870,7 +2870,7 @@ html {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); }
 
 .fold .articleBody {
-  max-height: 600px;
+  max-height: 480px;
   overflow: hidden; }
 
 .shareBottom {
@@ -3818,5 +3818,20 @@ html {
 .streanWrapperInner {
   width: auto;
   -webkit-transform: translate(0, 0); }
+
+.related-cells {
+  margin: -16px; }
+
+.shareBottom .streamWrapper {
+  overflow-y: visible;
+  overflow: visible;
+  -webkit-overflow-scrolling: auto;
+  margin-bottom: 40px; }
+
+.relatedTitle {
+  font-size: 10px;
+  color: #757575;
+  border-top: 1px solid #EEE;
+  padding-top: 16px; }
 
 /*# sourceMappingURL=styles.css.map */

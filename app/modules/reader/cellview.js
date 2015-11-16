@@ -1,6 +1,5 @@
-﻿define(['marionette', 'underscore','mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
+﻿define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
     function(Marionette, _, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView, Waves) {
-
         function isTargetAMoreButton($target) {
             return $target.hasClass('more') || $target.hasClass('more-line-1') || $target.hasClass('more-line-2');
         }
@@ -9,6 +8,7 @@
             template: function(serialized_model) {
                 var targetTemplate = smallCellTemplate;
                 switch (serialized_model.metadata.display_type) {
+
                     case 'medium':
                         targetTemplate = mediumCellTemplate;
                         break;
@@ -32,7 +32,7 @@
             events: {
                 'touchstart': 'onTouchStart',
                 'tap @ui.more': 'onTapMore',
-                'tap':'onTap'
+                'tap': 'onTap'
             },
             modelEvents: {
                 'change': 'onChange'
@@ -116,9 +116,11 @@
                         var result = [];
 
                         _.each(this.tags, function(value, i, array) {
-                            if (!_.findWhere(seen, value, { 'id': value.id })) {
-                              seen.push(value);
-                              result.push(value);
+                            if (!_.findWhere(seen, value, {
+                                    'id': value.id
+                                })) {
+                                seen.push(value);
+                                result.push(value);
                             }
                         });
 
@@ -138,20 +140,13 @@
                         }
                     },
                     'isTextCell': function() {
-                        if (!this.images || this.images.length<1) {
+                        if (!this.images || this.images.length < 1) {
                             return true;
                         } else {
                             return false;
                         }
                     }
                 };
-            },
-            onShow: function() {
-
-            },
-            onRender: function() {
-                //Waves.attach(this.$el[0], ['waves-block']);
-
             },
             onTapMore: function(ev) {
                 util.preventDefault(ev);
@@ -164,23 +159,23 @@
             onChange: function() {
                 var self = this;
                 //等待article动画播放完毕再进行刷新
-                if ( this.model.collection.hasOpenedArticle ) {
+                if (this.model.collection.hasOpenedArticle) {
                     var timeout = setTimeout(function() {
                         if (self) {
                             self.render();
                             clearTimeout(timeout);
                             self = null;
-                            timeout =null;
+                            timeout = null;
                         }
                     }, 800);
                 } else {
                     this.render();
                 }
-                
+
             },
             onTouchStart: function(ev) {
-               var streamWrapperEl = this.$el.parent().parent().parent();
-               this.lastPageY = streamWrapperEl.scrollTop();
+                var streamWrapperEl = this.$el.parent().parent().parent();
+                this.lastPageY = streamWrapperEl.scrollTop();
             },
             onTap: function(ev) {
                 //util.preventDefault(ev);
@@ -189,13 +184,13 @@
                 var isScrolling = false;
                 var streamWrapperEl = this.$el.parent().parent().parent();
                 var currentPageY = streamWrapperEl.scrollTop();
-                if ( Math.abs(currentPageY - this.lastPageY) > 50 ) {
+                if (Math.abs(currentPageY - this.lastPageY) > 50) {
                     isScrolling = true;
                 }
-                
-                if ( !isScrolling && !this.model.collection.hasOpenedArticle ) {
+
+                if (!isScrolling && !this.model.collection.hasOpenedArticle) {
                     Waves.ripple(this.$el[0]);
-                    
+
                     this.model.collection.hasOpenedArticle = true;
                     app.appController.articleView = new ArticleView({
                         model: this.model,

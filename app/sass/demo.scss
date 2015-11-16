@@ -1746,7 +1746,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .fold .articleBody {
-    max-height: 600px;
+    max-height: 480px;
     overflow: hidden;
 }
 
@@ -2704,4 +2704,22 @@ $netHeight:260px;
 .streanWrapperInner {
     width: auto;
     -webkit-transform: translate(0, 0);
+}
+
+.related-cells {
+    margin:0 -$basic-gap;
+}
+
+.shareBottom .streamWrapper {
+    overflow-y:visible;
+    overflow:visible;
+    -webkit-overflow-scrolling: auto;
+    margin-bottom:$basic-gap*2.5;
+}
+
+.relatedTitle {
+    font-size:10px;
+    color:$caption-color;
+    border-top:1px solid $border-color;
+    padding-top:$basic-gap;
 }

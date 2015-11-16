@@ -1,6 +1,5 @@
-﻿define(['underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview'],
-    function(_, Marionette, Mustache, $, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView) {
-
+﻿define(['underscore', 'marionette', 'mustache', 'jquery','modules/reader/relatedcellview', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview',  'modules/reader/featuremodel',  'modules/reader/postcollection'],
+    function(_, Marionette, Mustache, $, CellView, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView, FeatureModel, PostCollection) {
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 if (serialized_model.error) {
@@ -37,6 +36,7 @@
                 'tap .admin-opt-like': 'onAdminLike',
                 'tap .admin-opt-dislike': 'onAdminDislike',
                 'tap .admin-opt-delete': 'onAdminDelete',
+                'tap .share-readMore': 'onTapBack',
                 'panleft': 'onPanMove',
                 'panright': 'onPanMove',
                 'panend': 'onPanEnd',
@@ -213,6 +213,11 @@
                 },
                 'isAdmin': function() {
                     return appConfig.user_info.is_admin;
+                },
+                'getFirstTag': function() {
+                    if (this.tags && this.tags.length > 1) {
+                        return this.tags[0].name;
+                    }
                 }
             },
             onModelSync: function() {
@@ -266,7 +271,9 @@
                 this.ui.article.css('height', articleHeight);
                 this.$el.focus();
                 this.model.markViewed();
-                
+
+                this.initRelatedArticleRegion();
+
 
             },
             processImage: function() {
@@ -340,9 +347,19 @@
             },
             onTapShare: function() {
                 this.model.markShared();
-                var shareView = new ShareView({ 
-                    shareInfo: this.shareInfo,
-                 });
+
+                if ( util.isMKApp() ) {
+
+                    util.mkAppShare(this.shareInfo);
+
+                } else {
+
+                    var shareView = new ShareView({ 
+                        shareInfo: this.shareInfo,
+                     });
+
+                }
+                
                 util.trackEvent('Share', 'Post', 1);
             },
             onTapNext: function() {
@@ -419,6 +436,34 @@
 
                 util.setWechatShare(window.appConfig.share_info);
 
+            },
+            initRelatedArticleRegion: function() {
+                this.relatedRegion = new Marionette.Region({
+                    el: this.$el.find('.related-cells')[0]
+                });
+
+                var posts = new PostCollection();
+
+                //todo 改成explore的model
+                var postModel = new FeatureModel();
+
+                postModel.on('sync', function(model) {
+                    posts.reset(model.get('data'));
+
+                });
+
+                var relatedArtilceView = new Marionette.CollectionView({
+                    childView: CellView,
+                    collection: posts
+                });
+                this.relatedRegion.show(relatedArtilceView);
+
+                postModel.fetch({
+                    data: {
+                        limit:5
+                    }
+
+                });
             },
             className: 'articleWrapper'
         });

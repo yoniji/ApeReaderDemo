@@ -67,10 +67,18 @@
                     share_info.image = img;
                 }
 
-                var shareView = new ShareView({ 
-                    shareInfo: share_info,
-                    originalShareInfo: appConfig.share_info
-                });
+                if ( util.isMKApp() ) {
+
+                    util.mkAppShare(share_info);
+
+                } else {
+                    var shareView = new ShareView({ 
+                        shareInfo: share_info,
+                        originalShareInfo: appConfig.share_info
+                    });
+                }
+
+                
                 util.trackEvent('Share', 'Cell', 1);
 
                 this.destroy();

@@ -17,10 +17,16 @@
 
                 //全部请求都加上用户id
                 if (appConfig && appConfig.user_info && appConfig.user_info.id) {
+
+                    var headerData = {
+                        "X-SESSION-ID": appConfig.user_info.id
+                    };
+
+                    if ( util.isMKApp() ) {
+                        //headerData['X-APERLUERAPP-ID'] = appConfig.user_info.app_code;
+                    }
                     $.ajaxSetup({
-                        headers: {
-                            "X-SESSION-ID": appConfig.user_info.id
-                        },
+                        headers: headerData,
                         cache: false
                     });
                 }
@@ -83,10 +89,11 @@
                     'id': id,
                     'directShow': true
                 });
-
+                
                 var exploreView = new ExploreView({
                     'delay':true
                 });
+                
                 setCurrentNavigationById('explore');
             },
             sharePost: function(id) {
