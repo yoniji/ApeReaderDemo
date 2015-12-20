@@ -1,0 +1,6 @@
+﻿{{#brands}}
+<div class="brandItem" data-id="{{id}}" data-logo="{{logo.url}}">
+    <img src="{{#logo.url}}{{.}}{{/logo.url}}{{^logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/logo.url}}{{getImageSuffix}}">
+    <p>{{original_name}}</p>
+</div>
+{{/brands}}

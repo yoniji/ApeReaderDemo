@@ -1,5 +1,5 @@
-﻿define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/product.html', 'modules/reader/productmodel', 'modules/reader/moretextview', 'modules/reader/designinfoview','modules/reader/shareview', 'carousel', 'iscroll'],
-    function(Marionette, _,  Mustache, $, template, ProductModel, MoreTextView, DesignInfoView,ShareView, Carousel) {
+﻿define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/product.html', 'modules/reader/productmodel', 'modules/reader/moretextview', 'modules/reader/designinfoview', 'modules/reader/shareview', 'modules/reader/ctrlproductlistview', 'carousel', 'iscroll'],
+    function(Marionette, _, Mustache, $, template, ProductModel, MoreTextView, DesignInfoView, ShareView, CtrlProductListView, Carousel) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -27,7 +27,7 @@
                 'tap .productGallarySlide': 'onTapGallary',
                 'tap .productGallary .gridThumb': 'onTapGallary',
                 'tap .moreAlternatives': 'onTapMoreAlternatives',
-                'touchmove':'onTouchMove'
+                'touchmove': 'onTouchMove'
             },
             modelEvents: {
                 'sync': 'onModelSync'
@@ -69,20 +69,20 @@
 
                 $('body').append(this.$el);
                 this.$el.focus();
-                
+
 
                 this.originalRouter = window.location.hash;
-                
+
                 app.appRouter.navigate('products/' + this.model.get('id'), {
                     trigger: false
                 });
-                
+
                 this.model.fetch({
                     data: {
                         'id': this.model.get('id')
                     }
                 });
-                
+
 
             },
             templateHelpers: function() {
@@ -91,8 +91,9 @@
                 var brandIconSize = 36;
                 var gridSize = Math.floor(($(window).width() - 32 - 8) / 3);
                 var avatarSize = 64;
+                var listThumbSize = 72;
+                var horizontalProductListThumbSize = 140;
 
-                var allImages = this.model.getAllImagesArray();
 
                 return {
                     'getBannerSuffix': function() {
@@ -120,6 +121,16 @@
                         outStr += '@' + Math.round(gridSize * ratio) + 'w_' + Math.round(gridSize * ratio) + 'h_1e_1c';
                         return outStr;
                     },
+                    'getListThumbSuffix': function() {
+                        var outStr = '';
+                        outStr += '@' + Math.round(listThumbSize * ratio) + 'w_' + Math.round(listThumbSize * ratio) + 'h_1e_1c';
+                        return outStr;
+                    },
+                    'getHorizontalThumbSuffix': function() {
+                        var outStr = '';
+                        outStr += '@' + Math.round(horizontalProductListThumbSize * ratio) + 'w_' + Math.round(horizontalProductListThumbSize * ratio) + 'h_1e_1c';
+                        return outStr;
+                    },
                     'getGridSizeCss': function() {
                         var outStr = '';
                         outStr += 'width:' + gridSize + 'px;height:' + gridSize + 'px;';
@@ -136,113 +147,220 @@
                         return outStr;
                     },
                     'getSlidesImages': function() {
-                        if ( allImages && allImages > 0) {
-                           return allImages.slice(0, 4);
+                        if (this.allImages && this.allImages.length > 0) {
+                            return this.allImages.slice(0, 4);
                         }
                     },
-                    'getThumbs': function(argument) {
+                    'getThumbs': function() {
                         var thumbs = [];
                         var length = 0;
-                        if ( allImages && allImages > 4) {
-                           thumbs = allImages.slice(4);
-                           //缩略图数量必须为3的倍数，不大于9
-                           length = 3 * Math.floor(thumbs.length/3);
-                           length = Math.min(9, length);
-                           thumbs = thumbs.slice(0, length);
+                        if (this.allImages && this.allImages.length > 4) {
+                            thumbs = this.allImages.slice(4);
+                            //缩略图数量必须为3的倍数，不大于9
+                            length = 3 * Math.floor(thumbs.length / 3);
+                            length = Math.min(9, length);
+                            thumbs = thumbs.slice(0, length);
 
+                            thumbs[length - 1].isLast = true;
+                            thumbs[length - 1].imagesCount = this.allImages.length;
+
+                        }
+                        return thumbs;
+                    },
+                    'isThumbsVisible': function() {
+                        return this.allImages && this.allImages.length > 4;
+                    },
+                    'getProductDivImageHtml': function() {
+
+                        var result = '';
+
+                        if (this.allImages.length > 0) {
+                            var image = this.allImages[0].url;
+                            var imageWidth = windowWidth * ratio;
+                            var imageHeight = 120 * ratio;
+                            var suffix = '@' + imageWidth + 'w_' + imageHeight + 'h_1e_1c';
+                            result = '<img src="' + image + suffix + '">';
+                        }
+
+                        return result;
+                    },
+                    'isDesignerVisible': function() {
+                        if ( !this.designer || this.designer.length < 1) {
+                            return false;
+                        }
+                        if (this.designer[0].id === 0) {
+                            return false;
+                        }
+                        return true;
+                    },
+                    'getFirstDesigner': function() {
+                        return this.designer[0];
+                    },
+                    'getYearOfDesignCode': function() {
+                        if (this.year_of_design < 1) {
+                            return '00s';
+                        }
+
+                        if (this.year_of_design < 1930) {
+                            return '20s';
+                        }
+
+                        if (this.year_of_design < 1950) {
+                            return '30s40s';
+                        }
+
+                        if (this.year_of_design < 1960) {
+                            return '50s';
+                        }
+
+                        if (this.year_of_design < 1970) {
+                            return '60s';
+                        }
+
+                        if (this.year_of_design < 1980) {
+                            return '70s';
+                        }
+
+                        if (this.year_of_design < 1990) {
+                            return '80s';
+                        }
+
+                        return '00s';
+
+                    },
+                    'getBrandOriginalName': function() {
+                        if (this.brand && (this.brand.name != this.brand.original_name) ) {
+                            return '(' + this.brand.original_name + ')';
                         }
                     }
                 };
             },
             onModelSync: function() {
-                this.model.set('isSynced',true);
+                this.model.set('isSynced', true);
                 //render again
                 this.render();
 
                 this.carousel = new Carousel(this.$el.find('.carousel'));
                 this.carousel.init();
 
-
-                var productList = this.$el.find('.horizontalProductListInner .productItem');
-                var productListWidth = (productList.width() + 5) * productList.size();
-                this.$el.find('.horizontalProductListInner').width(productListWidth + 'px');
-                
-                 var productHeight = $(window).height() - this.ui.toolBar.height();
+                var productHeight = $(window).height() - this.ui.toolBar.height();
                 this.ui.product.css('height', productHeight);
 
 
-                this.scroller = new IScroll(this.$el.find('.horizontalProductList')[0], {
-                    'scrollX': true,
-                    'scrollY': false,
-                    'bindToWrapper':true,
-                    'snap':true,
-                    'eventPassthrough':true
+                this.productsInSameCollection = new CtrlProductListView({
+                    filterJSON: {
+                        collection: this.model.get('collection').id,
+                        limit: 10,
+                        sample: 4
+                    },
+                    container: this.$el.find('.horizontalProductListInner'),
+                    withoutId: this.model.get('id')
                 });
+
+                this.productOfSameType = new CtrlProductListView({
+                    filterJSON: {
+                        type: this.model.get('product_type').id,
+                        limit: 10,
+                        sample: 4
+                    },
+                    container: this.$el.find('.productAlternatives .product-list'),
+                    type: 'vertical',
+                    withoutId: this.model.get('id')
+                });
+
 
                 //init share info
                 this.originalShare = _.clone(appConfig.share_info);
                 var share_info = appConfig.share_info;
-                share_info.timeline_title =  this.model.get('title') + ', ' + this.model.get('brand').name +' | ' + this.model.get('collection').name + ' ' + this.model.get('room').name + ' ' + this.model.get('type').name + '「悟空家装」';
-                share_info.message_title = this.model.get('title') + ', ' + this.model.get('brand').name +' | ' + this.model.get('collection').name + '「悟空家装」';
-                share_info.message_description = this.model.get('room').name + ' ' + this.model.get('type').name;
+
+                var metaString = "";
+                if (this.model.has('brand') && this.model.get('brand').name) {
+                    metaString += this.model.get('brand').name;
+                }
+
+                if (this.model.has('collection') && this.model.get('collection').name) {
+                    metaString += ' | ' + this.model.get('collection').name;
+                }
+
+                if (this.model.has('product_type') && this.model.get('product_type').name) {
+                    metaString += ' ' + this.model.get('product_type').name;
+                }
+
+                if (this.model.has('room') && this.model.get('room').name) {
+                    metaString += ' ' + this.model.get('room').name;
+                }
+
+                share_info.timeline_title = this.model.get('name') + ', ' + metaString + '「悟空家装」';
+                share_info.message_title = this.model.get('name') + ' 「悟空家装」';
+                share_info.message_description = metaString;
 
                 var url = util.getUrlWithoutHashAndSearch();
                 url = url + '?hash=' + encodeURIComponent('#products/' + this.model.get('id'));
-                share_info.link =url;
+                share_info.link = url;
 
                 share_info.image = {
                     url: this.model.get('display_image').url + '@180w_180h_1e_1c',
-                    type:'oss'
+                    type: 'oss'
                 };
 
                 this.shareInfo = share_info;
 
-                util.setWechatShare(share_info, null ,null);
-                 
+                util.setWechatShare(share_info, null, null);
+
 
 
             },
             onTapReadMoreDesc: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                new MoreTextView({ content: this.model.get('description')});
+                new MoreTextView({
+                    content: this.model.get('description')
+                });
             },
             onTapReadMoreDescOriginal: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                new MoreTextView({ content: this.model.get('original_description')});
+                new MoreTextView({
+                    content: this.model.get('original_description')
+                });
             },
             onTapReadMoreBrand: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                new MoreTextView({ content: this.model.get('brand').description });
+                new MoreTextView({
+                    content: this.model.get('brand').description
+                });
             },
             onTapReadMoreBrandOriginal: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                new MoreTextView({ content: this.model.get('brand').original_description });
+                new MoreTextView({
+                    content: this.model.get('brand').original_description
+                });
             },
             onTapDesignInfo: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                new DesignInfoView({ model:this.model });
+                new DesignInfoView({
+                    model: this.model
+                });
             },
             onTapBack: function() {
                 this.slideOut();
             },
             onTapShare: function() {
                 //this.model.markShare();
-                var shareView = new ShareView({ 
+                var shareView = new ShareView({
                     shareInfo: this.shareInfo,
-                 });
+                });
                 util.trackEvent('Share', 'Product', 1);
             },
             onTouchMove: function(ev) {
                 util.stopPropagation(ev);
             },
             onTapProduct: function(ev) {
-                var randomId = Math.round(Math.random() * 100);
-                Backbone.history.navigate('#products/'+randomId, {
+                var id = $(ev.currentTarget).attr('data-id');
+                Backbone.history.navigate('#products/' + id, {
                     trigger: true
                 });
             },
@@ -265,13 +383,8 @@
                 var current = $(ev.currentTarget).find('img').attr('originalsrc');
                 if (!current) current = '';
 
-                util.previewImages([
-                    'http://imgopt.apecrafts.com/products/test-product-3.jpg',
-                    'http://imgopt.apecrafts.com/products/test-product-5.jpg',
-                    'http://imgopt.apecrafts.com/products/test-product-6.jpg',
-                    'http://imgopt.apecrafts.com/products/test-product-7.jpg',
-                    'http://imgopt.apecrafts.com/products/test-product-8.jpg'
-                ], current);
+                var images = _.pluck(this.model.get('allImages'), 'url');
+                util.previewImages(images, '');
             },
             onTapMoreAlternatives: function(ev) {
                 this.slideOut();
@@ -283,7 +396,7 @@
                 var self = this;
                 this.$el.addClass('slideOut');
                 this.outTimer = setTimeout(function() {
-                    if(self.outTimer) clearTimeout(self.outTimer);
+                    if (self.outTimer) clearTimeout(self.outTimer);
                     self.destroy();
                 }, 500);
 

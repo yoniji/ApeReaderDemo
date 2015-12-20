@@ -135,6 +135,10 @@ $homeNavigationTextColor:$black;
     }
     overflow-y: auto;
     -webkit-overflow-scrolling:touch;
+
+    >.products {
+        @include clearfix;
+    }
 }
 .stopScroll {
     overflow:visible;
@@ -1746,7 +1750,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .fold .articleBody {
-    max-height: 480px;
+    max-height: 600px;
     overflow: hidden;
 }
 
@@ -1872,6 +1876,28 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 .productMeta {
     text-align: center;
 }
+.description.loadingDescription {
+    max-height:90px;
+}
+.loadingTitle,.loadingCaption {
+    background:$border-color;
+    margin-left: auto;
+    margin-right: auto;
+}
+.loadingTitle {
+    height: 24px;
+    margin-bottom: $basic-gap/2;
+    width: 60%;
+}
+.loadingCaption {
+    height: 16px;
+    margin-bottom:$basic-gap/2;
+    width: 100%; 
+}
+.productMeta.loadingCaption {
+    width: 60%;
+    margin-bottom: $basic-gap;
+}
 
 .productCategory {
     font-size: 12px;
@@ -1900,7 +1926,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .brandDescription {
-    height: 3em;
+    max-height: 4.5em;
     margin-top: 0;
 }
 
@@ -1941,9 +1967,8 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 .designMeta-item {
-    width: 33.333%;
+    width: 32%;
     display: inline-block;
-    float: left;
     margin: 0;
     padding: 0;
     >.caption {
@@ -1974,6 +1999,10 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     font-size: 13px;
 }
 
+.designerDesc {
+    padding:$basic-gap;
+    line-height:1.5em;
+}
 .designMeta {
     @include clearfix;
 }
@@ -2000,7 +2029,13 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 .image-caption {
     display: none;
 }
-
+.productDivImage {
+    height: 120px;
+    >img {
+        height: 120px;
+        width: 100%;
+    }
+}
 .productBrand {
     text-align: center;
     padding: $basic-gap*1.5 0 $basic-gap;
@@ -2086,7 +2121,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     background: rgba(0, 0, 0, .9);
     color: $white;
     font-size: 13px;
-    line-height: 20px;
+    line-height: 2em;
     .moreText {
         padding: $basic-gap*1.5;
         overflow-x: hidden;
@@ -2114,6 +2149,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
         @include size(64px);
         border-radius: 100%;
         @include position(absolute, null null $basic-gap*2 50%);
+        @include reset-transform;
         margin-left: -32px;
         background: rgba(0, 0, 0, .8);
         color: $white;
@@ -2124,7 +2160,7 @@ $actionDialogBg:rgba(0, 0, 0, .8);
 }
 
 $netWidth:260px;
-$netHeight:260px;
+$netHeight:260px + $basic-gap;
 .net {
     @include size($netWidth $netHeight);
     @include position(relative);
@@ -2145,7 +2181,7 @@ $netHeight:260px;
         @include position(absolute, 68px null null 50%);
         @include size(2px 15px);
         border-left: 1px solid rgba(255, 255, 255, .4);
-        transform-origin: 1px -36px;
+        @include transform-origin(1px -36px);
     }
 }
 
@@ -2170,10 +2206,33 @@ $netHeight:260px;
         display: none;
     }
 }
-
+.designInfo-title {
+    text-align: center;
+    padding:$basic-gap*1.5 $basic-gap $basic-gap/2;
+}
 .designInfo-description {
-    line-height: 1.2em;
-    font-size: 12px;
+    line-height: 1.5em;
+    font-size: 16px;
+    position:relative;
+
+    &:before,&:after {
+        display: block;
+        position:absolute;
+        font-size: $basic-gap*2;
+        color:rgba(0,0,0,.2);
+    }
+
+    &:before {
+        content: "“";
+        left: -$basic-gap;
+        top:-$basic-gap/4;
+    }
+
+    &:after {
+        content: "”";
+        right:-$basic-gap;
+        bottom:-$basic-gap;
+    }
 }
 
 .style-icon {
@@ -2212,17 +2271,17 @@ $netHeight:260px;
 
 .net-dot:nth-child(3) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth, $netHeight*0.3, 0));
+    @include transform(translate3d($netWidth*0.9, $netHeight*0.25, 0));
     &:before {
-        @include transform(rotate(60deg));
+        @include transform(rotate(45deg));
     }
 }
 
 .net-dot:nth-child(4) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth*0.2, $netHeight*0.85, 0));
+    @include transform(translate3d($netWidth*0.25, $netHeight*0.8, 0));
     &:before {
-        @include transform(rotate(-130deg));
+        @include transform(rotate(-135deg));
     }
 }
 
@@ -2236,7 +2295,7 @@ $netHeight:260px;
 
 .net-dot:nth-child(6) {
     @include animation(dotAnimation .5s both);
-    @include transform(translate3d($netWidth*0.55, $netHeight*0.15, 0));
+    @include transform(translate3d($netWidth*0.5, $netHeight*0.15, 0));
     &:before {
         @include transform(rotate(10deg));
         height: 5px;
@@ -2244,8 +2303,8 @@ $netHeight:260px;
 }
 
 .designInfo-description {
-    @include position(absolute, null $basic-gap 35% null);
-    width: 38%;
+    @include position(absolute, null null 35% 54%);
+    width: auto;
 }
 
 .designInfo-caption {
@@ -2256,35 +2315,64 @@ $netHeight:260px;
 
 .designInfo-style {
     position: relative;
+    padding-bottom:16px;
 }
 
 .designInfo-block {
     position: relative;
 }
 
-.style-modern {
-    background: #fff;
+@mixin styleTheme($bgColor, $currentDotBg, $dotBorderColor, $textColor) {
+    background-color: $bgColor;
     .current-dot {
-        background: #333;
+        background: $currentDotBg;
         color: $white;
     }
     .net-dot {
-        border-color: #ddd;
+        border-color: $dotBorderColor;
         &:before {
-            border-left-color: #ddd;
+            border-left-color: $dotBorderColor;
         }
     }
     .designInfo-description {
-        color: #000;
+        color: $textColor;
     }
 }
 
+.style-modern {
+    @include styleTheme(#f0f0f0, #333, #dddddd, #666);
+}
+
+.style-classical {
+    @include styleTheme(#0e0c0d, #8c5617, #595651, #fff);
+}
+
+.style-neoclassical {
+    @include styleTheme(#efeff5, #203342, lighten(#203342,60%), #203342);
+}
+
+.style-postmodern {
+    @include styleTheme(#f1f1f2, #f4176d, lighten(#f4176d,40%), #222);
+}
 .designInfo-years {
     max-width: 100%;
     width: 100%;
     overflow: hidden;
     transition: background $default-timing-function .3s;
-    height: 340px;
+    height: 416px;
+    padding-top:46px;
+
+    .designInfo-title {
+        color:$white;
+        position:absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        text-align: center;
+        padding:$basic-gap*2 0 0;
+        font-size: 12px;
+        line-height:14px;
+    }
 }
 
 .timeline {
@@ -2292,28 +2380,30 @@ $netHeight:260px;
     height: 100%;
 }
 
+$widthPerYear:20px;
 .timeline-item {
     display: inline-block;
     float: left;
-    width: 150px;
+    width: $widthPerYear*10;
     text-align: center;
     height: 100%;
     position: relative;
-    &:before,
-    &:after {
+    &:before,&:after {
         content: '';
         display: block;
-        width: 30%;
+        width: 60%;
         border-top: 1px dashed rgba(0, 0, 0, .5);
         @include position(absolute);
         height: 1px;
         top: 48px + 20px;
     }
     &:before {
-        left: 2px;
+        width: $basic-gap;
+        left: 1px;
     }
     &:after {
-        right: 2px;
+        width: $widthPerYear*10 - 124;
+        right: 1px;
     }
 }
 
@@ -2328,11 +2418,19 @@ $netHeight:260px;
 }
 
 .two-decade {
-    width: 300px;
+    width: $widthPerYear*20;
+    &:after {
+        width: $widthPerYear*20 - 124;
+        right: 1px;
+    }
 }
 
 .three-decade {
-    width: 450px;
+    width: $widthPerYear*30;
+    &:after {
+        width: $widthPerYear*30 - 124;
+        right: 1px;
+    }
 }
 
 .years {
@@ -2345,9 +2443,9 @@ $netHeight:260px;
     background: $black;
     color: $white;
     font-size: 10px;
-    line-height: 10px;
+    line-height: 20px;
     padding: 10px 0;
-    margin: 48px auto 0;
+    margin: 48px auto 0 48px;
     transition: background $default-timing-function .3s;
 }
 
@@ -2393,8 +2491,8 @@ $netHeight:260px;
 }
 
 .years-detail {
-    @include position(absolute, 0);
-    @include size(100%);
+    @include position(absolute, 46px null null 0);
+    @include size(100% 370px);
     display: none;
     .years-description,
     .years {
@@ -2410,8 +2508,18 @@ $netHeight:260px;
         font-weight: bold;
         letter-spacing: -1px;
     }
+    .years-caption {
+        text-align: center;
+        font-size: 10px;
+        line-height:14px;
+        padding-top:4px;
+        opacity: .6;
+    }
     .years-title {
         text-align: center;
+        line-height:16px;
+        padding-top:2px;
+        padding-bottom:$basic-gap/2;
     }
     .years-description {
         font-size: 10px;
@@ -2570,6 +2678,9 @@ $netHeight:260px;
 @mixin countryTheme($bgColor, $fgColor, $titleColor) {
     background: $bgColor;
     color: $fgColor;
+    .caption {
+        color:$fgColor;
+    }
     .country-title {
         color: $titleColor;
     }
@@ -2578,16 +2689,95 @@ $netHeight:260px;
     }
 }
 
+@mixin countryPaletteTheme($color1, $color2, $color3, $color4, $color5) {
+    >span:nth-child(1) {
+        background:$color1;
+        border-radius:2px 0 0 2px;
+    }
+    >span:nth-child(2) {
+        background:$color2;
+    }
+    >span:nth-child(3) {
+        background:$color3;
+    }
+    >span:nth-child(4) {
+        background:$color4;
+    }
+    >span:nth-child(5) {
+        background:$color5;
+        border-radius:0 2px 2px 0;
+    }
+}
 .country-italy {
-    @include countryTheme(#f0f0f0, #7c7c7c, #2c5032);
+    @include countryTheme(#f5f5f5, #7c7c7c, #2c5032);
+
+    .palette {
+        @include countryPaletteTheme(#dadfe2, #d3ccbc, #bb4b49, #2a5134, #000000);
+    }
 }
 
+.country-france {
+    @include countryTheme(#b7cbd4, #646569, #7a6255);
+
+    .palette {
+        @include countryPaletteTheme(#adc6ca, #6ba1b9, #646569, #f9dadf, #f1b3ca);
+    }
+}
+
+.country-japan {
+    @include countryTheme(#ffffff, #595049, #7ba79a);
+
+    .palette {
+        @include countryPaletteTheme(#ffffff, #94dacf, #789e91, #d0a175, #7a303d);
+    }
+}
+
+.country-sweden {
+    @include countryTheme(#f5f5f5, #aaaaaa, #97a284);
+
+    .palette {
+        @include countryPaletteTheme(#ffffff, #dadfe2, #d3d1aa, #ab6389, #000000);
+    }
+}
+
+.country-china {
+    @include countryTheme(#96433d, #dad9d5, #f19f53);
+
+    .palette {
+        @include countryPaletteTheme(#923234, #584646, #f19f53, #dad9d5, #b9a999);
+    }
+}
+
+.country-us {
+    @include countryTheme(#f9f6f1, #c7c3b8, #54372f);
+
+    .palette {
+        @include countryPaletteTheme(#eddf98, #f5d19f, #c8920e, #52312c, #40211f);
+    }
+}
+
+.palette {
+    width: 50%;
+    height: $basic-gap + 2;
+    border-radius:2px;
+    border:1px solid #dedede;
+    margin-top:$basic-gap/2;
+}
+.palette>span {
+    display: inline-block;
+    width:20%;
+    height: $basic-gap;
+    float: left;
+    margin:0;
+    padding:0;
+}
 .designInfo-country {
-    padding-left: 100px + $basic-gap*2;
+    padding-left: 100px + $basic-gap;
     padding-right: $basic-gap;
     padding-top: 40px;
+    padding-bottom:40px;
     text-align: left;
-    height: 240px;
+    min-height: 240px;
 }
 
 .designInfo-country-avatar {
@@ -2596,14 +2786,16 @@ $netHeight:260px;
 }
 
 .designInfo-country-img {
-    @include position(absolute, 50% null null $basic-gap);
+    @include position(absolute, 50% null null $basic-gap/2);
     margin-top: -50px;
     @include size(100px);
     >img {
         border-radius: 100%;
     }
 }
-
+.country-colors {
+    margin-top: $basic-gap;
+}
 .country-caption {
     font-size: 10px;
     line-height: 12px;

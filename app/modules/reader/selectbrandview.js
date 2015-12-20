@@ -19,12 +19,24 @@
                 } else {
                     this.model = new Brand();
                 }
+                this.model.search();
                 
                 this.render();
                 $('body').append(this.$el);
             },
             onRender: function() {
                 
+            },
+            templateHelpers: function() {
+                var ratio = util.getDeviceRatio();
+                var imgWidth = 40 * ratio;
+                return {
+                    getImageSuffix: function() {
+                        var outStr = '';
+                        outStr += '@' + imgWidth + 'w_' + imgWidth + 'h_1e_1c';
+                        return outStr;
+                    }
+                };
             },
             onTapBrand: function(ev) {
                 var id = $(ev.currentTarget).attr('data-id');

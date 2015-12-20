@@ -1,66 +1,15 @@
 ﻿<div class="carousel" data-ride="carousel">
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
-        <div class="item">
-            <div class="product-slide slide" style="height:{{getSlideHeight}}px" data-id="1">
-                <div class="product-slide-small" style="width:{{getSlideSmallWidth}}px">
-                    <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-1.jpg" style="{{getSmallSlideImgStyle}}">
-                    <div class="product-slide-info">
-                        <div class="product-slide-info-inner">
-                            <div class="category">矮桌和咖啡桌</div>
-                            <div class="title">FLYING CARPET COFFEE TABLE</div>
-                            <div class="price">约¥15万</div>
-                        </div>
-                    </div>
-                    <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg"></div>
+        <div class="item productGallarySlide loading" style="height:210px;width:100%;background:#f0f0f0">
+            <div class="loadingIcon">
+                <div class="loadingIconInner">
+                    <i class="icon icon-diningroom"></i>
+                    <i class="icon icon-bathroom"></i>
+                    <i class="icon icon-bedroom"></i>
+                    <i class="icon icon-kitchen"></i>
+                    <i class="icon icon-livingroom"></i>
                 </div>
-                <div class="product-slide-large" style="width:{{getSlideHeight}}px">
-                    <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-1.jpg">
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="brand-slide slide" style="height:{{getSlideHeight}}px" data-id="2">
-                <div class="brand-slide-image">
-                    <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-brand-1.jpg">
-                </div>
-                <div class="brand-slide-info">
-                    <div class="category">美国, 现代</div>
-                    <div class="title">Herman Miller</div>
-                    <div class="meta">查看全部 10 件产品</div>
-                </div>
-                <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg"></div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="product-slide slide" style="height:{{getSlideHeight}}px" data-id="1">
-                <div class="product-slide-small" style="width:{{getSlideSmallWidth}}px">
-                    <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-3.jpg" style="{{getSmallSlideImgStyle}}">
-                    <div class="product-slide-info">
-                        <div class="product-slide-info-inner">
-                            <div class="category">沙发</div>
-                            <div class="title">675 Maralunga 40s</div>
-                            <div class="price">约¥12万</div>
-                        </div>
-                    </div>
-                    <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg"></div>
-                </div>
-                <div class="product-slide-large" style="width:{{getSlideHeight}}px">
-                    <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-product-3.jpg">
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <div class="brand-slide slide" style="height:{{getSlideHeight}}px" data-id="1">
-                <div class="brand-slide-image">
-                    <img src="http://mk-images.oss-cn-beijing.aliyuncs.com/products/test-brand-2.jpg">
-                </div>
-                <div class="brand-slide-info">
-                    <div class="category">意大利, 现代</div>
-                    <div class="title">Bonaldo</div>
-                    <div class="meta">查看全部 15 件产品</div>
-                </div>
-                <div class="product-slide-brand"><img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg"></div>
             </div>
         </div>
     </div>
@@ -76,7 +25,7 @@
         <div class="roomsNav-text">{{name}}</div>
     </div>
     {{/rooms}}
-    <div class="roomsNav-item"  data-id="">
+    <div class="roomsNav-item" data-id="">
         <i class="icon icon-more"></i>
         <div class="roomsNav-text">全部房间</div>
     </div>
@@ -85,172 +34,24 @@
     <div class="title">为你推荐</div>
     <div class="horizontalProductList">
         <div class="horizontalProductListInner">
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-1.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">矮桌和咖啡桌</div>
-                    <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约¥15万</div>
-                </div>
-            </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-2.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">矮桌和咖啡桌</div>
-                    <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约¥15,456</div>
-                </div>
-            </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-3.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">矮桌和咖啡桌</div>
-                    <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约¥15万</div>
-                </div>
-            </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-1.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">矮桌和咖啡桌</div>
-                    <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约¥15万</div>
-                </div>
-            </div>
-            <div class="productItem">
-                <div class="image">
-                    <img src="http://imgopt.apecrafts.com/products/test-product-2.jpg">
-                </div>
-                <div class="productInfo">
-                    <div class="category">矮桌和咖啡桌</div>
-                    <div class="title">FLYING CARPET COFFEE TABLE</div>
-                    <div class="price">约¥15万</div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-
 <section id="brandLibrary">
     <div class="tabs">
         <div class="tabItem current" rel="paneA">A-G</div>
         <div class="tabItem" rel="paneH">H-N</div>
         <div class="tabItem" rel="paneO">O-T</div>
-        <div class="tabItem"  rel="paneT">U-Z</div>
+        <div class="tabItem" rel="paneT">U-Z</div>
     </div>
     <div class="panes">
         <div class="pane current" id="paneA">
-            <div class="brandItem" data-id="453532" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <p>B&amp;B Italia</p>
-            </div>
-            <div class="brandItem" data-id="453533" data-logo="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <p>Cassina</p>
-            </div>
-            <div class="brandItem" data-id="453534" data-logo="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <p>Moooi</p>
-            </div>
-            <div class="brandItem" data-id="453535" data-logo="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <p>Boffi</p>
-            </div>
-            <div class="brandItem" data-id="453532" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <p>B&amp;B Italia</p>
-            </div>
-            <div class="brandItem" data-id="453533" data-logo="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <p>Cassina</p>
-            </div>
-            <div class="brandItem" data-id="453534" data-logo="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <p>Moooi</p>
-            </div>
-            <div class="brandItem" data-id="453535" data-logo="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <p>Boffi</p>
-            </div>
-            <div class="brandItem" data-id="453532" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <p>B&amp;B Italia</p>
-            </div>
-            <div class="brandItem" data-id="453533" data-logo="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <p>Cassina</p>
-            </div>
-            <div class="brandItem" data-id="453534" data-logo="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <p>Moooi</p>
-            </div>
-            <div class="brandItem" data-id="453535" data-logo="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <p>Boffi</p>
-            </div>
-            
         </div>
         <div class="pane" id="paneH">
-           <div class="brandItem" data-id="453532" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <p>B&amp;B Italia</p>
-            </div>
-            <div class="brandItem" data-id="453533" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <p>Cassina</p>
-            </div>
-            <div class="brandItem" data-id="453534" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <p>Moooi</p>
-            </div>
-            <div class="brandItem" data-id="453535" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <p>Boffi</p>
-            </div>
         </div>
         <div class="pane" id="paneO">
-            <div class="brandItem" data-id="453532" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <p>B&amp;B Italia</p>
-            </div>
-            <div class="brandItem" data-id="453533" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <p>Cassina</p>
-            </div>
-            <div class="brandItem" data-id="453534" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <p>Moooi</p>
-            </div>
-            <div class="brandItem" data-id="453535" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <p>Boffi</p>
-            </div>
         </div>
         <div class="pane" id="paneT">
-            <div class="brandItem" data-id="453532" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <p>B&amp;B Italia</p>
-            </div>
-            <div class="brandItem" data-id="453533" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-2.jpg">
-                <p>Cassina</p>
-            </div>
-            <div class="brandItem" data-id="453534" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-3.jpg">
-                <p>Moooi</p>
-            </div>
-            <div class="brandItem" data-id="453535" data-logo="http://imgopt.apecrafts.com/products/test-logo-1.jpg">
-                <img src="http://imgopt.apecrafts.com/products/test-logo-4.jpg">
-                <p>Boffi</p>
-            </div>
         </div>
     </div>
 </section>

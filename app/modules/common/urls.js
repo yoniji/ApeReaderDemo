@@ -11,8 +11,9 @@ define(function(require, exports, module) {
         'mark': releaseBaseUrl + 'explore/mark',
         'feature': releaseBaseUrl + 'feature',
         'user': releaseBaseUrl + 'user',
-        'brands': testBaseUrl + 'brands',
-        'products': testBaseUrl + 'products',
+        'brands': releaseBaseUrl + 'btq/brands',
+        'products': releaseBaseUrl + 'btq/products',
+        'productdetail': releaseBaseUrl + 'btq/product',
         'productlib': testBaseUrl + 'productlib',
         'wechat': releaseBaseUrl + 'api/jsconfig',
         'admin':releaseBaseUrl + 'super/post'
@@ -23,8 +24,9 @@ define(function(require, exports, module) {
         'post': releaseBaseUrl + 'explore/post',
         'mark': releaseBaseUrl + 'explore/mark',
         'feature': releaseBaseUrl + 'feature',
-        'brands': testBaseUrl + 'brands',
-        'products': testBaseUrl + 'products',
+        'brands': releaseBaseUrl + 'btq/brands',
+        'products': releaseBaseUrl + 'btq/products',
+        'productdetail': releaseBaseUrl + 'btq/product',
         'productlib': testBaseUrl + 'productlib',
         'wechat': releaseBaseUrl + 'api/jsconfig',
         'admin':releaseBaseUrl + 'super/post'

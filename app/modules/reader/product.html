@@ -21,14 +21,22 @@
         </div>
     </div>
     {{#placeholder}}
-    <div class="caption productCategory">正在加载</div>
     <div class="title productTitle">{{name}}</div>
+    <div class="caption productCategory">正在加载</div>
     <div class="productLoadingSign">
         <i class="icon icon-refresh2"></i>
     </div>
     {{/placeholder}}
-    
+    {{^placeholder}}
+        <div class="title productTitle loadingTitle"></div>
+        <div class="caption productMeta  loadingCaption"></div>
 
+        <div class="description loadingDescription">
+            <div class="loadingCaption"></div>
+            <div class="loadingCaption"></div>
+            <div class="loadingCaption"></div>
+        </div>
+    {{/placeholder}}
     <div class="productToolBar toolBar">
     <div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
     </div>
@@ -38,18 +46,11 @@
 <div class="product">
     <div class="productGallery carousel">
         <div class="carousel-inner">
+            {{#getSlidesImages}}
             <div class="item productGallarySlide">
-                <img src="http://imgopt.apecrafts.com/products/test-product-3.jpg{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-3.jpg">
+                <img src="{{url}}{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="{{url}}">
             </div>
-            <div class="item productGallarySlide">
-                <img src="http://imgopt.apecrafts.com/products/test-product-5.jpg{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-5.jpg">
-            </div>
-            <div class="item productGallarySlide">
-                <img src="http://imgopt.apecrafts.com/products/test-product-6.jpg{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-6.jpg">
-            </div>
-            <div class="item productGallarySlide">
-                <img src="http://imgopt.apecrafts.com/products/test-product-7.jpg{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-7.jpg">
-            </div>
+            {{/getSlidesImages}}
         </div>
         <!-- Indicators -->
         <div class="carousel-indicator">
@@ -58,7 +59,7 @@
     </div>
     <div class="title productTitle">{{name}}</div>
     <div class="caption productCategory">{{brand.name}} | {{collection.name}}</div>
-    <div class="caption productMeta">{{room.name}} {{product_type.name}} 约¥3.2万 - ¥3.8万</div>
+    <div class="caption productMeta">{{room.name}} {{product_type.name}}</div>
     <div class="description productDescription">
         {{description}}
     </div>
@@ -68,41 +69,60 @@
         <div class="btn btn-line btn-primary btn-small readMoreDescription">阅读全部</div>
         {{/description}}
     </div>
+    {{#isThumbsVisible}}
     <div class="grid productGallary">
-        <div class="image thumb gridThumb grid1-3" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-3.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-3.jpg" style="{{getGridSizeCss}}"> </div>
-        <div class="image thumb gridThumb grid1-3" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-5.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-5.jpg" style="{{getGridSizeCss}}"> </div>
-        <div class="image thumb gridThumb grid1-3" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-6.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-6jpg" style="{{getGridSizeCss}}"> </div>
-        <div class="image thumb gridThumb grid1-3" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-7.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-7.jpg" style="{{getGridSizeCss}}"> </div>
-        <div class="image thumb gridThumb grid1-3" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-8.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-8.jpg" style="{{getGridSizeCss}}"> </div>
-        <div class="image thumb gridThumb grid1-3 lastThumb" style="{{getGridSizeCss}}"><img src="http://imgopt.apecrafts.com/products/test-product-4.jpg{{getGridSuffix}}" originalsrc="http://imgopt.apecrafts.com/products/test-product-4.jpg" style="{{getGridSizeCss}}">
+        {{#getThumbs}}
+        <div class="image thumb gridThumb grid1-3 {{#isLast}}lastThumb{{/isLast}}" style="{{getGridSizeCss}}"><img src="{{url}}{{getGridSuffix}}" originalsrc="{{url}}" style="{{getGridSizeCss}}"> 
+            {{#isLast}}
             <div class="gridThumbOverlay"><i class="icon icon-pictures"></i>
-                <br>浏览全部<br>20张图片</div>
+                <br>浏览全部<br>{{imagesCount}}张图片</div>
+            {{/isLast}}
         </div>
+        {{/getThumbs}}
     </div>
+    {{/isThumbsVisible}}
+    {{^isThumbsVisible}}
+    <div class="productDivImage">
+        {{{getProductDivImageHtml}}}
+    </div>
+    {{/isThumbsVisible}}
     <div class="productDesign">
-        {{#designer}}
+        {{#isDesignerVisible}}
         <div class="designer">
+            {{#getFirstDesigner}}
             <img src="{{image.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}" class="designerAvatar">
             <div class="caption designerCaption">设计师</div>
             <div class="designerName">{{name}}</div>
+            {{/getFirstDesigner}}
         </div>
-        {{/designer}}
+        {{/isDesignerVisible}}
+        {{^isDesignerVisible}}
+        <div class="designer">
+            <div class="caption designerName">设计信息</div>
+        </div>
+        {{/isDesignerVisible}}
         <div class="designMeta">
+            {{#style}}
             <div class="designMeta-item">
-                <i class="icon icon-modern designMeta-icon"></i>
-                <div class="title">现代</div>
+                <i class="icon icon-{{code}} designMeta-icon"></i>
+                <div class="title">{{name}}</div>
                 <div class="caption">风格</div>
             </div>
+            {{/style}}
+            {{#year_of_design}}
             <div class="designMeta-item">
-                <i class="icon icon-60s designMeta-icon"></i>
-                <div class="title">1964</div>
+                <i class="icon icon-{{getYearOfDesignCode}} designMeta-icon"></i>
+                <div class="title">{{year_of_design}}</div>
                 <div class="caption">设计年份</div>
             </div>
+            {{/year_of_design}}
+            {{#country}}
             <div class="designMeta-item">
-                <i class="icon icon-italy designMeta-icon"></i>
-                <div class="title">意大利</div>
+                <i class="icon icon-{{code}} designMeta-icon"></i>
+                <div class="title">{{name}}</div>
                 <div class="caption">产地</div>
             </div>
+            {{/country}}
         </div>
         <div class="actionLine">
             <div class="btn btn-line btn-small readMoreDesignInfo">查看完整设计解读</div>
@@ -110,50 +130,26 @@
     </div>
     <div class="productBrand">
         <div class="brand">
-            <img class="brandAvatar" src="{{brand.logo.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}">
-            <div class="brandName">{{brand.name}}{{#brand.original_name}}({{brand.original_name}}){{/brand.original_name}} | {{collection.name}}</div>
+            <img class="brandAvatar" src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}">
+            <div class="brandName">{{brand.name}}{{getBrandOriginalName}} | {{collection.name}}</div>
         </div>
         <div class="caption">推荐搭配</div>
         <div class="horizontalProductList">
-            <div class="horizontalProductListInner">
-                {{#products_in_same_collection}}
-                <div class="productItem">
-                    <div class="image">
-                        <img src="{{display_image.url}}">
-                    </div>
-                    <div class="productInfo">
-                        <div class="category">{{product_type.name}}</div>
-                        <div class="title">{{name}}</div>
-                        <div class="price">约¥15万</div>
-                    </div>
-                </div>
-                {{/products_in_same_collection}}
-            </div>
+            <div class="horizontalProductListInner"></div>
         </div>
         <div class="caption">品牌故事</div>
         <div class="description brandDescription">
             {{brand.description}}
         </div>
         <div class="actionLine">
-            {{#original_description}}<div class="btn btn-line btn-small readMoreBrandOriginal">原文</div>{{/original_description}}
+            {{#brand.original_description}}<div class="btn btn-line btn-small readMoreBrandOriginal">原文</div>{{/brand.original_description}}
             <div class="btn btn-line btn-primary btn-small readMoreBrand">阅读全部</div>
         </div>
     </div>
     <div class="productAlternatives">
         <div class="productCaption caption">相似产品</div>
         <div class="products product-list">
-            {{#products_of_same_type}}
-            <div class="productItem" data-id="{{id}}">
-                <div class="image">
-                    <img src="{{display_image.url}}">
-                </div>
-                <div class="productInfo">
-                    <div class="category">{{brand.name}}</div>
-                    <div class="title">{{name}}</div>
-                    <div class="price">约¥1万5-¥1万8</div>
-                </div>
-            </div>
-            {{/products_of_same_type}}
+
         </div>
         <div class="actionLine">
             <div class="btn btn-line btn-small moreAlternatives">查看更多</div>
@@ -164,6 +160,6 @@
     <div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
     <div class="toolBar-item toolBar-like">{{#metadata.liked}}<i class="icon icon-heart3 main-color"></i>{{/metadata.liked}}{{^metadata.liked}}<i class="icon icon-heart2"></i>{{/metadata.liked}} 收藏</div>
     <div class="toolBar-item toolBar-share"><i class="icon icon-share"></i> 分享</div>
-    <div class="toolBar-item toolBar-brand"><img src="{{brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
+    <div class="toolBar-item toolBar-brand"><img src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
 </div>
 {{/isSynced}}

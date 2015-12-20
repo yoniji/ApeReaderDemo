@@ -11,7 +11,11 @@
                     url: this.url(),
                     data: filterJSON,
                     success: function(response) {
-                        self.set(response);
+
+                        var data = {};
+                        data.products = response.data;
+
+                        self.set(data);
                         self.trigger('sync');
                     }
                 });
@@ -22,7 +26,7 @@
                     url: this.url(),
                     data: filterJSON,
                     success: function(response) {
-                        self.trigger('gotMore',response.products);
+                        self.trigger('gotMore',response.data);
                     }
                 });
             },

@@ -101,9 +101,8 @@ define(function(require, exports, module) {
         if (!link) {
             link = util.generateShareUrlWithCurrentLocation(hash);
         }
-        var shareURL = "appruler://share/" + util.base64_encode(link) + '/' + util.base64_encode(shareInfo.image.url) + '/' + util.base64_encode(shareInfo.message_title) + '/' + util.base64_encode(shareInfo.message_description);
+        var shareURL = "appruler://share/" + encodeURIComponent(link) + '/' + encodeURIComponent(shareInfo.image.url) + '/' + encodeURIComponent(shareInfo.message_title) + '/' + encodeURIComponent(shareInfo.message_description);
         if (onSuccess) onSuccess();
-        console.log(shareURL);
         window.open(shareURL);
     };
 

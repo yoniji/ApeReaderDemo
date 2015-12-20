@@ -23,6 +23,48 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cn:before {
+	content: "\e900";
+}
+.icon-classical:before {
+	content: "\e901";
+}
+.icon-hk:before {
+	content: "\e902";
+}
+.icon-belgium:before {
+	content: "\e903";
+}
+.icon-canada:before {
+	content: "\e904";
+}
+.icon-danmark:before {
+	content: "\e905";
+}
+.icon-germany:before {
+	content: "\e906";
+}
+.icon-neoclassical:before {
+	content: "\e907";
+}
+.icon-postmodern:before {
+	content: "\e908";
+}
+.icon-russia:before {
+	content: "\e909";
+}
+.icon-sweden:before {
+	content: "\e90a";
+}
+.icon-switzerland:before {
+	content: "\e90b";
+}
+.icon-tw:before {
+	content: "\e90c";
+}
+.icon-us:before {
+	content: "\e90d";
+}
 .icon-fav:before {
 	content: "\e800";
 }
@@ -122,9 +164,6 @@
 .icon-category:before {
 	content: "\e605";
 }
-.icon-china:before {
-	content: "\e606";
-}
 .icon-filter:before {
 	content: "\e607";
 }
@@ -160,9 +199,6 @@
 }
 .icon-uk:before {
 	content: "\e612";
-}
-.icon-us:before {
-	content: "\e613";
 }
 .icon-heart-o:before {
 	content: "\e600";

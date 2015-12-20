@@ -1,7 +1,7 @@
 ﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productsearch.html', 'modules/reader/productsearchmodel', 'modules/reader/productcollection', 'modules/reader/productitemview', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview','modules/reader/selectbrandview'],
     function(Marionette, Mustache, $, template, ProductSearchModel, ProductCollection, ProductItemView, FilterBarView, FilterBarModel, EmptyView, SelectBrandView) {
 
-        var limit = 20,startPage = 0;
+        var limit = 20,startPage = 1;
         var filters = {};
         return Marionette.CompositeView.extend({
             template: function(serialized_model) {
@@ -34,9 +34,22 @@
                 }
 
                 this.render();
-                this.model.fetch({
-                    data: this.getSearchFilter()
-                });
+                this.model.search(this.getSearchFilter());
+
+                //init share info
+                this.originalShare = _.clone(appConfig.share_info);
+                var share_info = appConfig.share_info;
+
+                share_info.timeline_title =  '产品搜索「悟空家装」';
+                share_info.message_title = share_info.timeline_title;
+
+                var url = util.getUrlWithoutHashAndSearch();
+                url = url + '?hash=' + encodeURIComponent('#products/search');
+                share_info.link =url;
+
+                this.shareInfo = share_info;
+
+                util.setWechatShare(share_info, null ,null);
             },
             templateHelpers: function() {
                 var ratio = util.getDeviceRatio();
@@ -57,9 +70,11 @@
             },
             modelSynced: function() {
                 this.stopLoadingMore();
-                stratPage = 0;
-                if ( !this.model.get('products') && this.model.get('products').length < 1 ) {
+                stratPage = 1;
+
+                if ( (!this.model.has('products')) || this.model.get('products').length < 1 ) {
                     this.emptyViewType = 'empty';
+
                 }
 
                 this.collection.reset(this.model.get('products'));
@@ -113,11 +128,11 @@
                 this.listenTo(this.filterModel, 'changeFilter', this.onChangeFilter);
 
                 if(filters.roomId) {
-                    this.ui.filterBar.find('#filterMenu-item-' + filters.roomId).trigger('tap');
+                    this.ui.filterBar.find('#filterMenu-room #filterMenu-item-' + filters.roomId).trigger('tap');
                 }
 
                 if(filters.typeId) {
-                    this.ui.filterBar.find('#filterMenu-item-' + filters.typeId).trigger('tap');
+                    this.ui.filterBar.find('#filterMenu-type #filterMenu-item-' + filters.typeId).trigger('tap');
                 } 
 
                 //根据传入参数，更新品牌栏
@@ -135,7 +150,7 @@
                 if (currentScrollTop < this.ui.filterBar.height()) {
                     this.onScrollUp();
                     this.lastScrollDirection = -1;
-                } else if (currentScrollDirection != this.lastScrollDirection) {
+                } else {
                     if (currentScrollDirection === 1) {
                         this.onScrollDown();
                     } else {
@@ -153,6 +168,7 @@
                 this.ui.filterBar.addClass('hide');
 
                 var maxScrollTop = this.ui.streamWrapper.find('.products').height() - this.ui.streamWrapper.height();
+
                 if(this.ui.streamWrapper.scrollTop() > (maxScrollTop-1) ) {
                     this.startLoadingMore();
                 }
@@ -167,6 +183,7 @@
                     this.emptyViewType = 'loading';
                     this.collection.reset([]);
 
+                    this.ui.streamWrapper.scrollTop(0);
                     this.model.search(this.getSearchFilter());
                 }
             },
@@ -212,6 +229,7 @@
                         stratPage = 0;
                         this.emptyViewType = 'loading';
                         self.collection.reset([]);
+                        this.ui.streamWrapper.scrollTop(0);
                         self.model.search(self.getSearchFilter());
                     });
                     this.listenToOnce( this.brandView, 'destroy', function() {
@@ -227,6 +245,7 @@
                     this.clearToolBarBrand();
                     stratPage = 0;
                     this.collection.reset([]);
+                    this.ui.streamWrapper.scrollTop(0);
                     this.model.set('selectedBrand','');
                     this.model.search(this.getSearchFilter());
                 }
@@ -235,13 +254,15 @@
                 if(brand) {
                     this.$el.find('.toolBar-filter').text('已选');
                     this.$el.find('.toolBar-clear').show();
-                    this.$el.find('.toolBar-brand').html('<img src="' + brand.logo.url + '" style="width:36px;height:36px;">');
+
+                    if (!brand.logo.url) brand.logo.url = "http://imgopt.apecrafts.com/design/placeholder.jpg";
+                    this.$el.find('.toolBar-brand').html('<img src="' + brand.logo.url + '@72w_72h_1e_1c" style="width:36px;height:36px;">');
                 }
             },
             clearToolBarBrand: function() {
                 this.$el.find('.toolBar-clear').hide();
-                this.$el.find('.toolBar-filter').text('');
-                this.$el.find('.toolBar-brand').html('全部品牌');
+                this.$el.find('.toolBar-filter').text('品牌');
+                this.$el.find('.toolBar-brand').html('全部');
             },
             onGotMore: function(data) {
                 this.stopLoadingMore();

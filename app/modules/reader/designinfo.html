@@ -1,250 +1,94 @@
 ﻿<div class="designInfoInner">
-    <div class="designInfo-style designInfo-block style-modern">
-    	
+    <div class="designInfo-product designInfo-block product-list">
+        <div class="productItem" data-id="{{id}}">
+                <div class="image">
+                    <img src="{{display_image.url}}{{getListThumbSuffix}}">
+                </div>
+                <div class="productInfo">
+                    <div class="category">{{brand.name}} {{collection.name}}</div>
+                    <div class="title">{{name}}</div>
+                    <div class="price">{{room.name}}  {{product_type.name}}</div>
+                </div>
+        </div>
+    </div>
+    {{#isDesignerVisible}}
+    <div class="designInfo-designer designInfo-block designer">
+            {{#getFirstDesigner}}
+            <img src="{{image.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}" class="designerAvatar">
+            <div class="caption designerCaption">{{country.name}}设计师</div>
+            <div class="designerName">{{name}}</div>
+            <div class="designerDesc caption">
+                {{description}}
+            </div>
+            {{/getFirstDesigner}}
+    </div>
+    {{/isDesignerVisible}}
+    <div class="designInfo-style designInfo-block style-{{style.code}}">
+    	<div class="caption designInfo-title">{{name}} 的风格解读</div>
         <div class="net">
             <div class="net-dot current-dot">
             	<i class="icon icon-modern style-icon"></i>
-                <span class="style-title">现代</span>
-                <small class="style-slogan">风格解读</small>
+                <span class="style-title">{{style.name}}</span>
+                <small class="style-slogan">风格</small>
             </div>
-            <div class="net-dot">
-            	<img class="net-dot-img" src="http://imgopt.apecrafts.com/design/style-modern-1.jpg@112w_112h_1e_1c">
-            </div>
-            <div class="net-dot">
-            	<img class="net-dot-img" src="http://imgopt.apecrafts.com/design/style-modern-2.jpg@112w_112h_1e_1c">
-            </div>
-            <div class="net-dot">
-            	<img class="net-dot-img" src="http://imgopt.apecrafts.com/design/style-modern-3.jpg@112w_112h_1e_1c">
-            </div>
-            <div class="net-dot">
-            	<img class="net-dot-img" src="http://imgopt.apecrafts.com/design/style-modern-4.jpg@112w_112h_1e_1c">
-            </div>
-            <div class="net-dot">
-            	<img class="net-dot-img" src="http://imgopt.apecrafts.com/design/style-modern-5.jpg@128w_128h_1e_1c">
-            </div>
+            {{{getDotsHtml}}}
         </div>
         <div class="designInfo-description">
-            功能决定形式<br>无用的装饰就是犯罪<br>少就是多
+            {{{style.desc}}}
         </div>
     </div>
-    <div class="designInfo-years designInfo-block years-60s">
+    {{#isYearsBlockVisible}}
+    <div class="designInfo-years designInfo-block years-{{getYearOfDesignCode}}">
         <div class="timeline" style="{{getTimelineStyle}}">
-            <div class="timeline-item  three-decade decade-20s">
-                <div class="years-style">装饰<br>艺术</div>
-                
+            {{#getDecadesData}}
+            <div class="timeline-item  {{duration}} decade-{{code}}">
+                <div class="years-style">{{startYear}}</div>
             </div>
-            <div class="timeline-item two-decade decade-30s40s">
-                <div class="years-style">现代<br>主义</div>
-            </div>
-            <div class="timeline-item  decade-50s">
-                <div class="years-style">中世纪<br>现代</div>
-            </div>
-            <div class="timeline-item decade-60s">
-                <div class="years-style">极简<br>主义</div>
-                
-            </div>
-            <div class="timeline-item  decade-70s">
-                <div class="years-style">自我<br>表现</div>
-            </div>
-            <div class="timeline-item  decade-80s">
-                <div class="years-style">新<br>现代</div>
-            </div>
-            <div class="timeline-item decade-90s">
-                <div class="years-style">个人<br>主义</div>
-            </div>
-             <div class="timeline-item two-decade decade-00s">
-                <div class="years-style">折衷<br>主义</div>
-                <div class="years-description">
-                    
-                </div>
-            </div>
+            {{/getDecadesData}}
             <div class="yearOfDesign" style="{{getYearOfDesignStyle}}">
-            	<span>1962</span>
+            	<span>{{year_of_design}}</span>
             	<small>设计年份</small>
             </div>
         </div>
-        <div class="years-detail years-detail-20s">
+        <div class="designInfo-title">{{name}} 的设计时间轴</div>
+
+        {{#getDecadesData}}
+        <div class="years-detail years-detail-{{code}}">
         	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-20s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-20s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-20s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-20s-4.jpg@128w_128h_1e_1c">
-        		</div>
+        		{{{getYearsGallaryHtml}}}
         	</div>
-    		<i class="icon icon-20s yearsIcon"></i>
-    		<div class="years-title">1920<small>s</small></div>
+    		<i class="icon icon-{{code}} yearsIcon"></i>
+            <div class="years-caption">{{title}}的家具设计</div>
+    		<div class="years-title">{{styleName}} | {{styleNameEn}}</div>
     		<div class="years-description">
-                 20年代的风格是装饰艺术(Art Deco)。大胆的色彩和图案。清晰的折角。深红，亮蓝，黑色，青色和橙色。
+                 {{{description}}}
             </div>
         </div>
-        <div class="years-detail years-detail-30s40s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-30s40s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-30s40s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-30s40s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-30s40s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-30s40s yearsIcon"></i>
-    		<div class="years-title">1930<small>s</small> - 1940<small>s</small></div>
-    		<div class="years-description">
-                 30至40年代出现了现代主义(Modernist)。简单干净。对比强烈的颜色和材质。灰色，红色，黑色，白色，橙色。
-            </div>
-    	</div>
-    	<div class="years-detail years-detail-50s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-50s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-50s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-50s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-50s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-50s yearsIcon"></i>
-    		<div class="years-title">1950<small>s</small></div>
-    		<div class="years-description">
-                 50年代的风格是中世纪现代(Mid-century Modern)。干净，极简的线条。预料不到的色彩。蓝色、绿色、赭色、粉色。
-            </div>
-    	</div>
-    	
-    	
-        <div class="years-detail years-detail-60s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-60s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-60s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-60s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-60s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-60s yearsIcon"></i>
-    		<div class="years-title">1960<small>s</small></div>
-    		<div class="years-description">
-                 60年代的极简主义(Minimalist)很大程度上受到日本设计的影响，强调负空间。红色、黄色、蓝色、黑色、白色。
-            </div>
-    	</div>
-    	<div class="years-detail years-detail-70s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-70s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-70s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-70s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-70s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-70s yearsIcon"></i>
-    		<div class="years-title">1970<small>s</small></div>
-    		<div class="years-description">
-                 70年代的风格是自我表现（Self Expression），高科技和自然元素的结合。大胆的图案。砖红，金色，绿色，粉红和赭色。
-            </div>
-    	</div>
-    	<div class="years-detail years-detail-80s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-80s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-80s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-80s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-80s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-80s yearsIcon"></i>
-    		<div class="years-title">1980<small>s</small></div>
-    		<div class="years-description">
-                 80年代的风格是新现代(The New Modern)——印花图案，垫得又软又厚的家具。酒红色，金色，粉色，米黄色和淡紫色
-            </div>
-    	</div>
-    	<div class="years-detail years-detail-90s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-90s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-90s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-90s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-90s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-90s yearsIcon"></i>
-    		<div class="years-title">1990<small>s</small></div>
-    		<div class="years-description">
-                 90年代受装饰艺术，极简和现代主义的影响。金属和玻璃的装饰。灰色，米黄色，狩猎绿，桃红，薄荷绿。
-            </div>
-    	</div>
-    	<div class="years-detail years-detail-00s">
-        	<div class="years-gallary">
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-00s-1.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-00s-2.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-00s-3.jpg@128w_128h_1e_1c">
-        		</div>
-        		<div class="years-gallary-thumb">
-        			<img src="http://imgopt.apecrafts.com/design/years-00s-4.jpg@128w_128h_1e_1c">
-        		</div>
-        	</div>
-    		<i class="icon icon-00s yearsIcon"></i>
-    		<div class="years-title">21<small>st century</small></div>
-    		<div class="years-description">
-                 21世纪的折衷主义兼具功能性和纯熟的舒适感。既结合了不同风格的元素，又有统一的主题。海军蓝，亮蓝，棕色，橙色，琥珀黄，紫色和橄榄绿。
-            </div>
-    	</div>
+        {{/getDecadesData}}
+    
     </div>
-    <div class="designInfo-country designInfo-block country-italy">
-        <i class="designInfo-country-avatar icon icon-italy"></i>
-        <div class="country-caption">产地解读</div>
-        <div class="country-title">意大利</div>
+    {{/isYearsBlockVisible}}
+    {{#isCountryBlockVisible}}
+    <div class="designInfo-country designInfo-block country-{{country.code}}">
+        <i class="designInfo-country-avatar icon icon-{{country.code}}"></i>
+        <div class="country-caption">{{name}} 的产地解读</div>
+        <div class="country-title">如何搭配{{country.name}}风的家</div>
         <div class="country-description">
-        	极具设计感的家具在房间中占有中心地位，开放的空间，所有的配饰都兼具好的外观和功能性。用艺术品画龙点睛的提升房间的格调。
+        	{{{getCountryDescription}}}
         </div>
-  		<div class="designInfo-country-img" style="width:100px;height:100px"><img src="http://imgopt.apecrafts.com/design/country-italy-1.jpg@200w_200h_1e_1c" style="width:100px;height:100px"></div>
+        <div class="country-colors">
+            <div class="caption">{{country.name}}风情的配色</div>
+            <div class="palette">
+                <span class="palette-item"></span>
+                <span class="palette-item"></span>
+                <span class="palette-item"></span>
+                <span class="palette-item"></span>
+                <span class="palette-item"></span>
+            </div>
+        </div>
+  		<div class="designInfo-country-img" style="width:100px;height:100px"><img src="http://imgopt.apecrafts.com/design/country-{{country.code}}-1.jpg@200w_200h_1e_1c" style="width:100px;height:100px"></div>
     </div>
-    <div class="designInfo-designer designInfo-block" style="background-color:#FFC107">
-    </div>
+    {{/isCountryBlockVisible}}
     <div class="designInfo-bottom"></div>
 </div>
 

@@ -1,5 +1,22 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productlibrary.html', 'modules/reader/productlibrarymodel', 'carousel', 'modules/reader/productsearchview', 'modules/reader/productview','waves', 'iscroll'],
-    function(Marionette, Mustache, $, template, ProductLibraryModel, Carousel, ProductSearchView, ProductView, Waves) {
+﻿define(['marionette', 'mustache', 'jquery', 
+    'text!modules/reader/productlibrary.html', 
+    'modules/reader/productlibrarymodel', 
+    'modules/reader/productsearchview', 
+    'modules/reader/productview',
+    'waves',
+    'modules/reader/ctrlproductlistview', 
+    'modules/reader/ctrlbrandlistview', 
+    'modules/reader/ctrlfeatureslideview', 
+    'iscroll'],
+    function(Marionette, Mustache, $, 
+        template, 
+        ProductLibraryModel, 
+        ProductSearchView, 
+        ProductView, 
+        Waves, 
+        CtrlProductListView, 
+        CtrlBrandListView, 
+        CtrlFeatureSlideView) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -20,23 +37,63 @@
             initialize: function() {
                 this.model = new ProductLibraryModel();
                 app.rootView.updatePrimaryRegion(this);
-                util.setWechatShare(window.appConfig.share_info);
+                //init share info
+                this.originalShare = _.clone(appConfig.share_info);
+                var share_info = appConfig.share_info;
+
+                share_info.timeline_title =  '产品首页「悟空家装」';
+                share_info.message_title = share_info.timeline_title;
+
+                var url = util.getUrlWithoutHashAndSearch();
+                url = url + '?hash=' + encodeURIComponent('#products');
+                share_info.link =url;
+
+                this.shareInfo = share_info;
+
+                util.setWechatShare(share_info, null ,null);
             },
             onShow: function() {
-                //初始化顶部幻灯片
-                this.carousel = new Carousel(this.$el.find('.carousel'));
-                this.carousel.init();
+               
+               this.slides = new CtrlFeatureSlideView({
+                container: this.$el.find('.carousel-inner')
+               });
+
                 //推荐产品
-                var productList = this.$el.find('.productItem');
-                var productListWidth = (productList.width() + 5) * productList.size();
-                this.$el.find('.horizontalProductListInner').width(productListWidth + 'px');
-                
-                this.scroller = new IScroll(this.$el.find('.horizontalProductList')[0], {
-                    'scrollX': true,
-                    'scrollY': false,
-                    'bindToWrapper':true,
-                    'snap':true,
-                    'eventPassthrough':true
+                this.featureProducts = new CtrlProductListView({
+                    container: this.$el.find('.horizontalProductListInner'),
+                    filterJSON: {
+                        'limit':20,
+                        'sample':4
+                    }
+                });
+
+
+                this.brandsA = new CtrlBrandListView({
+                    filterJSON: {
+                        'initial':'a,b,c,d,e,f,g'
+                    },
+                    container: this.$el.find('#paneA')
+                });
+
+                this.brandsH = new CtrlBrandListView({
+                    filterJSON: {
+                        'initial':'h,i,j,k,l,m,n'
+                    },
+                    container: this.$el.find('#paneH')
+                });
+
+                this.brandsO = new CtrlBrandListView({
+                    filterJSON: {
+                        'initial':'o,p,q,r,s'
+                    },
+                    container: this.$el.find('#paneO')
+                });
+
+                this.brandsT = new CtrlBrandListView({
+                    filterJSON: {
+                        'initial':'t,u,v,w,x,y,z,0,#'
+                    },
+                    container: this.$el.find('#paneT')
                 });
                 
                 //品牌tab固顶
@@ -51,29 +108,6 @@
 
                  Waves.attach(this.$el.find('.productItem,.slide'),['waves-block']);
             },
-            templateHelpers: function() {
-                var windowWidth = $(window).width();
-                var slideHeight = Math.round(windowWidth * 0.667);
-
-                return {
-                    getSlideHeight: function() {
-                        return slideHeight;
-                    },
-                    getSlideSmallWidth: function() {
-                        return windowWidth - slideHeight;
-                    },
-                    getLargeSlideImgStr: function() {
-                        return '@' + 3 * slideHeight + 'h_' + 3 * slideHeight + 'w_1e_1c';
-                    },
-                    getSmallSlideImgStyle: function() {
-                        var imgSize = slideHeight * 2;
-                        var containerWidth = windowWidth - slideHeight;
-                        var left = Math.round((containerWidth - imgSize) / 2);
-                        var top = Math.round((slideHeight - imgSize) / 2);
-                        return 'position:absolute;width:' + imgSize + 'px;height:' + imgSize + 'px;left:' + left + 'px;top:' + top + 'px';
-                    }
-                };
-            },
             onTouchMove:function(ev) {
                 util.stopPropagation(ev);
             },
@@ -83,7 +117,6 @@
 
                 var target = $(ev.currentTarget);
                 rel = target.attr('rel');
-
 
                 if (rel) {
                     this.$el.find('.pane.current').removeClass('current');
@@ -122,8 +155,9 @@
                 });
             },
             onTapProduct: function(ev) {
+                var id = $(ev.currentTarget).attr('data-id');
                 var productView = new ProductView({
-                    'id': 3,
+                    'id': id,
                     'delay':true
                 });
             },
@@ -169,8 +203,7 @@
                 }
             },
             onDestroy: function() {
-                if (this.scroller) this.scroller.destroy();
-                if (this.carousel) this.carousel.destroy();
+                
                 this.stopListening();
             },
             id: 'productLibrary',

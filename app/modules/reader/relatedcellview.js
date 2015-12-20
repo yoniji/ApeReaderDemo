@@ -118,6 +118,11 @@
                     Waves.ripple(this.$el[0]);
 
                     var url = util.generateShareUrlWithCurrentLocation('#posts/' + this.model.get('id'));
+
+                    if ( util.isMKApp() ) {
+                       url = util.getUrlWithoutHash() + '#posts/' + this.model.get('id');
+                    } 
+
                     util.navigationTo(url);
                 }
             },
