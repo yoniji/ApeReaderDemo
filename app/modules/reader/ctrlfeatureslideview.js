@@ -1,20 +1,34 @@
-define(['marionette','backbone', 'underscore', 'mustache', 'jquery', 'text!modules/reader/ctrlfeatureslides.html', 
-    'carousel', 'modules/reader/brandmodel', 'modules/reader/productsearchmodel'],
-    function(Marionette, Backbone,  _, Mustache, $, template, 
-        Carousel, BrandSearchModel, ProductSearchModel) {
+define(['marionette',
+    'backbone', 
+    'underscore', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/ctrlfeatureslides.html', 
+    'carousel', 'modules/reader/brandmodel', 
+    'modules/reader/productsearchmodel'],
+    function(Marionette, 
+        Backbone,  
+        _, 
+        Mustache, 
+        $, 
+        template, 
+        Carousel, 
+        BrandSearchModel, 
+        ProductSearchModel) {
 
-
-        var data = { 'slides': []};
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
-
                 return Mustache.render(template, serialized_model);
+            },
+            events: {
+                'tap .product-slide': 'onTapProduct'
             },
             initialize: function(options) {
                 if (options && options.container) {
                     this.$el = options.container;
                 }
+                this.data = {'slides': []};
                 this.brands = new BrandSearchModel();
                 this.products = new ProductSearchModel();
 
@@ -60,10 +74,10 @@ define(['marionette','backbone', 'underscore', 'mustache', 'jquery', 'text!modul
                 };
             },
             onBrandsSync: function() {
-                data.slides = data.slides.concat( _.sample(this.brands.toJSON().brands, 2) );
+                this.data.slides = this.data.slides.concat( _.sample(this.brands.toJSON().brands, 2) );
 
                 if ( this.isSynced) {
-                    this.model = new Backbone.Model(data);
+                    this.model = new Backbone.Model(this.data);
                     this.render();
                 } else {
                     this.isSynced = true;
@@ -72,14 +86,20 @@ define(['marionette','backbone', 'underscore', 'mustache', 'jquery', 'text!modul
                 
             },
             onProductsSync: function() {
-                data.slides = data.slides.concat( _.sample(this.products.toJSON().products, 2) );
+                this.data.slides = this.data.slides.concat( _.sample(this.products.toJSON().products, 2) );
                 
                 if ( this.isSynced) {
-                    this.model = new Backbone.Model(data);
+                    this.model = new Backbone.Model(this.data);
                     this.render();
                 } else {
                     this.isSynced = true;
                 }
+            },
+            onTapProduct: function(ev) {
+                var id = $(ev.currentTarget).attr('data-id');
+                Backbone.history.navigate('#products/' + id, {
+                    trigger: true
+                });
             },
             onRender: function() {
                  //初始化顶部幻灯片

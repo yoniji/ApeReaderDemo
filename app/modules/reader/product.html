@@ -58,16 +58,16 @@
         </div>
     </div>
     <div class="title productTitle">{{name}}</div>
-    <div class="caption productCategory">{{brand.name}} | {{collection.name}}</div>
+    <div class="caption productCategory">{{brand.name}}{{#collection}} | {{name}}{{/collection}}</div>
     <div class="caption productMeta">{{room.name}} {{product_type.name}}</div>
     <div class="description productDescription">
-        {{description}}
+        {{getShortDescription}}
     </div>
     <div class="actionLine">
         {{#original_description}}<div class="btn btn-line btn-small readMoreDescriptionOriginal">原文</div>{{/original_description}}
-        {{#description}}
+        {{#isMoreDescriptionVisible}}
         <div class="btn btn-line btn-primary btn-small readMoreDescription">阅读全部</div>
-        {{/description}}
+        {{/isMoreDescriptionVisible}}
     </div>
     {{#isThumbsVisible}}
     <div class="grid productGallary">
@@ -131,19 +131,24 @@
     <div class="productBrand">
         <div class="brand">
             <img class="brandAvatar" src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getAvatarSuffix}}" style="{{getAvatarSizeCss}}">
-            <div class="brandName">{{brand.name}}{{getBrandOriginalName}} | {{collection.name}}</div>
+            <div class="brandName">{{brand.name}}{{getBrandOriginalName}}{{#collection}} | {{name}}{{/collection}}</div>
         </div>
         <div class="caption">推荐搭配</div>
         <div class="horizontalProductList">
             <div class="horizontalProductListInner"></div>
         </div>
+
         <div class="caption">品牌故事</div>
         <div class="description brandDescription">
-            {{brand.description}}
+            {{#brand}}
+            {{getShortDescription}}
+            {{/brand}}
         </div>
         <div class="actionLine">
             {{#brand.original_description}}<div class="btn btn-line btn-small readMoreBrandOriginal">原文</div>{{/brand.original_description}}
+            {{#brand}}{{#isMoreDescriptionVisible}}
             <div class="btn btn-line btn-primary btn-small readMoreBrand">阅读全部</div>
+            {{/isMoreDescriptionVisible}}{{/brand}}
         </div>
     </div>
     <div class="productAlternatives">

@@ -1,8 +1,8 @@
 ﻿    <div class="image">
-        <img src="{{#display_image.url}}{{.}}{{/display_image.url}}{{^display_image.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/display_image.url}}{{getImageSuffix}}" style="{{getImageSizeCss}}">
+        <img src="{{#display_image.url}}{{.}}{{/display_image.url}}{{^display_image.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/display_image.url}}{{getImageSuffix}}">
     </div>
     <div class="productInfo">
-        <div class="category">{{brand.name}} | {{collection.name}}</div>
+        <div class="category">{{brand.name}}{{#collection}} | {{name}}{{/collection}}</div>
         <div class="title">{{name}}</div>
         <div class="price">{{room.name}} {{product_type.name}}</div>
     </div>

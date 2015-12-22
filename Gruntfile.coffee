@@ -18,5 +18,6 @@ module.exports = ->
     "requirejs"
     "sass"
     "styles"
+    "replace"
     "cssmin"
   ]

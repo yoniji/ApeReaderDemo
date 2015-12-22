@@ -1,14 +1,34 @@
-define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/verticalproductlist.html', 'modules/reader/productsearchmodel', 'iscroll'],
-    function(Marionette, _, Mustache, $, template, SearchModel) {
+define([
+    'marionette', 
+    'underscore', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/productlist.html', 
+    'text!modules/reader/productitem.html', 
+    'modules/reader/productsearchmodel', 
+    'iscroll'
+    ],
+    function(
+        Marionette, 
+        _, 
+        Mustache, 
+        $, 
+        template, 
+        itemTemplate,
+        SearchModel
+    ) {
 
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
-                return Mustache.render(template, serialized_model);
+                return Mustache.render(template, serialized_model, { 'item': itemTemplate });
             },
             type: 'horizontal',
             modelEvents: {
                 'sync': 'onModelSync'
+            },
+            events: {
+                'tap .productItem': 'onTapProduct'
             },
             initialize: function(options) {
 
@@ -38,23 +58,17 @@ define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/v
 
                 this.filterJSON.page = 1;
                 
-
                 this.model = new SearchModel();
                 this.model.search(this.filterJSON);
+
 
             },
             templateHelpers: function() {
                 var ratio = util.getDeviceRatio();
-                var listThumbSize = 72;
-                var horizontalProductListThumbSize = 140;
+                var listThumbSize = 128;
 
                 return {
-                    'getHorizontalThumbSuffix': function() {
-                        var outStr = '';
-                        outStr += '@' + Math.round(horizontalProductListThumbSize * ratio) + 'w_' + Math.round(horizontalProductListThumbSize * ratio) + 'h_1e_1c';
-                        return outStr;
-                    },
-                    'getListThumbSuffix': function() {
+                    'getImageSuffix': function() {
                         var outStr = '';
                         outStr += '@' + Math.round(listThumbSize * ratio) + 'w_' + Math.round(listThumbSize * ratio) + 'h_1e_1c';
                         return outStr;
@@ -98,6 +112,12 @@ define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/v
                     });
                 }
 
+            },
+            onTapProduct: function(ev) {
+                var id = $(ev.currentTarget).attr('data-id');
+                Backbone.history.navigate('#products/' + id, {
+                    trigger: true
+                });
             },
             onDestroy: function() {
                 if (this.scroller) this.scroller.destroy();

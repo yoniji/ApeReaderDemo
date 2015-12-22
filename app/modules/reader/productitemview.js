@@ -1,4 +1,10 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productitem.html', 'modules/reader/productview', 'waves' ],
+﻿define([
+    'marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/productitem.html', 
+    'modules/reader/productview', 
+    'waves' ],
     function(Marionette, Mustache, $, template, ProductView, Waves) {
 
         return Marionette.ItemView.extend({
@@ -35,10 +41,8 @@
 
 
             },
-            onRender: function() {
-                Waves.attach(this.$el[0],['waves-block']);
-            },
             onTap: function(ev) {
+                Waves.ripple(this.$el[0]);
                 var productView = new ProductView({
                     'id': this.model.get('id'),
                     'delay':true,
@@ -51,6 +55,6 @@
             modelEvents: {
                 'change': 'render'
             },
-            className: 'productItem'
+            className: 'productItem  waves-effect'
         });
     });

@@ -27,6 +27,7 @@
                 'gotMore': 'onGotMore'
             },
             initialize: function(options) {
+                startPage = 1;
                 this.model = new ProductSearchModel();
                 this.collection = new ProductCollection();
                 if (options) {
@@ -70,7 +71,7 @@
             },
             modelSynced: function() {
                 this.stopLoadingMore();
-                stratPage = 1;
+                startPage = 1;
 
                 if ( (!this.model.has('products')) || this.model.get('products').length < 1 ) {
                     this.emptyViewType = 'empty';
@@ -179,11 +180,11 @@
             onChangeFilter: function() {
                 if (this.enalbeFilters) {
                     this.stopLoadingMore();
-                    stratPage = 0;
+                    this.ui.streamWrapper.scrollTop(0);
+                    startPage = 1;
                     this.emptyViewType = 'loading';
                     this.collection.reset([]);
 
-                    this.ui.streamWrapper.scrollTop(0);
                     this.model.search(this.getSearchFilter());
                 }
             },
@@ -226,7 +227,7 @@
                         self.updateToolBarBrand(data);
                         self.model.set('selectedBrand',data.id);
                         self.stopLoadingMore();
-                        stratPage = 0;
+                        startPage = 1;
                         this.emptyViewType = 'loading';
                         self.collection.reset([]);
                         this.ui.streamWrapper.scrollTop(0);
@@ -243,7 +244,7 @@
                 if (this.enalbeFilters) {
                     this.stopLoadingMore();
                     this.clearToolBarBrand();
-                    stratPage = 0;
+                    startPage = 1;
                     this.collection.reset([]);
                     this.ui.streamWrapper.scrollTop(0);
                     this.model.set('selectedBrand','');

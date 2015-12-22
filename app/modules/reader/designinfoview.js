@@ -1,5 +1,18 @@
-﻿define(['backbone', 'underscore', 'marionette', 'mustache', 'jquery', 'text!modules/reader/designinfo.html', 'iscroll'],
-    function(Backbone,_ , Marionette, Mustache, $, template) {
+﻿define(['backbone', 
+    'underscore', 
+    'marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/designinfo.html', 
+    'iscroll'],
+    function(
+        Backbone,
+        _ , 
+        Marionette, 
+        Mustache, 
+        $, 
+        template) {
+
         var styleList = ['20s','30s40s', '50s', '60s', '70s', '80s', '90s', '00s'];
         var countryData = [
             {
@@ -16,7 +29,11 @@
             },
             {
                 "code": "sweden",
-                "description": "保持简单：为墙壁和家具选择基本的图案和自然的颜色。<br>自然光：用木制百叶窗替代厚重的窗帘。<br>不要混乱：保持表面干净整洁，强调极简。<br>环保生活：践行地道的瑞典文化。"
+                "description": "保持简单：为墙壁和家具选择基本的图案和自然的颜色。<br>自然光：用木制百叶窗替代厚重的窗帘。<br>不要混乱：保持表面干净整洁，强调极简。<br>环保生活：践行地道的北欧文化。"
+            },
+            {
+                "code": "denmark",
+                "description": "保持简单：为墙壁和家具选择基本的图案和自然的颜色。<br>自然光：用木制百叶窗替代厚重的窗帘。<br>不要混乱：保持表面干净整洁，强调极简。<br>环保生活：践行地道的北欧文化。"
             },
             {
                 "code": "china",
@@ -25,6 +42,10 @@
             {
                 "code": "us",
                 "description": "设计巧妙的隐藏储物空间，把乱糟糟的东西收起来。<br>选择深色木制家具，为房间创造更丰富的观感。<br>乡村风&淡色的织物可以让空间看起来更宽敞。<br>固定的照明：增加高贵的感觉。"
+            },
+            {
+                "code": "spain",
+                "description": "很容易掌握的一种热情洋溢的地中海风格。<br>墙面：用海绵和刷子，把灰泥刷出笔触的感觉。很多传统的西班牙家中还会有木制窗户、带浮雕的天花板、瓷砖装饰的横梁。<br>地面：最传统的地面会用硬木，也可以用石板、陶瓷砖或者深色的灌浆，再铺上一大块编织地毯。<br>家具：直背的皮革扶手椅，深色的木质长椅。木头椅子上搭配棉织的软垫。"
             }
         ];
 
@@ -41,7 +62,7 @@
             "styleNameEn": "Art Deco",
             "code":"20s",
             "title":"20年代",
-            "startYear":1920,
+            "startYear":"00s",
             "description":"大胆的色彩和图案。清晰的折角。深红，亮蓝，黑色，青色和橙色。",
             "duration":"three-decade"
         },
@@ -50,7 +71,7 @@
             "styleNameEn": "Modernist",
             "code":"30s40s",
             "title":"30-40年代",
-            "startYear":1930,
+            "startYear":"30s",
             "description":"简单干净。对比强烈的颜色和材质。灰色，红色，黑色，白色，橙色。",
             "duration":"two-decade"
         },
@@ -59,7 +80,7 @@
             "styleNameEn": "Mid-century Modern",
             "code":"50s",
             "title":"50年代",
-            "startYear":1950,
+            "startYear":"50s",
             "description":"干净，极简的线条。预料不到的色彩。蓝色、绿色、赭色、粉色。",
             "duration":""
         },
@@ -68,7 +89,7 @@
             "styleNameEn": "Minimalist",
             "code":"60s",
             "title":"60年代",
-            "startYear":1960,
+            "startYear":"60s",
             "description":"深受日本设计的影响，强调负空间。红色、黄色、蓝色、黑色、白色。",
             "duration":""
         },
@@ -77,7 +98,7 @@
             "styleNameEn": "Self Expression",
             "code":"70s",
             "title":"70年代",
-            "startYear":1970,
+            "startYear":"70s",
             "description":"高科技和自然元素有机结合结合。大胆的图案。砖红，金色，绿色，粉红和赭色。",
             "duration":""
         },
@@ -86,7 +107,7 @@
             "styleNameEn": "The New Modern",
             "code":"80s",
             "title":"80年代",
-            "startYear":1980,
+            "startYear":"80s",
             "description":"印花图案，垫得又软又厚的家具。酒红色，金色，粉色，米黄色和淡紫色。",
             "duration":""
         },
@@ -95,7 +116,7 @@
             "styleNameEn": "Individualist",
             "code":"90s",
             "title":"90年代",
-            "startYear":1990,
+            "startYear":"90s",
             "description":"受装饰艺术，极简和现代主义的影响。金属和玻璃的装饰。灰色，米黄色，狩猎绿，桃红，薄荷绿。",
             "duration":""
         },
@@ -104,7 +125,7 @@
             "styleNameEn": "Eclecticism",
             "code":"00s",
             "title":"2000年之后",
-            "startYear":2000,
+            "startYear":"00s",
             "description":"兼具功能性和纯熟的舒适感。既结合了不同风格的元素，又有统一的主题。海军蓝，亮蓝，棕色，橙色，琥珀黄，紫色和橄榄绿。",
             "duration":"two-decade"
         }];
@@ -255,13 +276,19 @@
                     
                     this.scroller.on('scrollEnd', function() {
                         var index = this.currentPage.pageX;
-                        if (typeof(index)==='number'&&index>-1&&index<styleList.length) {
+
+                        if (index===0 && this.x === this.maxScrollX ) return;
+
+                        if (index < styleList.length) {
                             self.$el.find('.designInfo-years').attr('class', 'designInfo-years designInfo-block years-' + styleList[index]);
                         }
                     });
 
                     var scrollToX = (designYear - 1900) *widthPerYear - $(window).width()/2;
-                    this.scroller.scrollTo(-scrollToX,0);
+
+                    scrollToX = Math.max( this.scroller.maxScrollX - 1 , -scrollToX );
+
+                    this.scroller.scrollTo(scrollToX,0);
                 }
             },
             slideOut: function() {

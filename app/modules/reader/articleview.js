@@ -1,5 +1,31 @@
-﻿define(['underscore', 'marionette', 'mustache', 'jquery','modules/reader/relatedcellview', 'text!modules/reader/article.html', 'text!modules/reader/articleshell.html', 'modules/reader/postmodel','text!modules/reader/error.html','text!modules/reader/notfound.html', 'modules/reader/shareview', 'modules/reader/imageactionview',  'modules/reader/featuremodel',  'modules/reader/postcollection'],
-    function(_, Marionette, Mustache, $, CellView, coreTemplate, shellTemplate, PostModel, errorTemplate, notFoundTemplate, ShareView, ImageActionView, FeatureModel, PostCollection) {
+﻿define(['underscore', 
+    'marionette', 
+    'mustache', 
+    'jquery',
+    'modules/reader/relatedcellview', 
+    'text!modules/reader/article.html', 
+    'text!modules/reader/articleshell.html', 
+    'modules/reader/postmodel',
+    'text!modules/reader/error.html',
+    'text!modules/reader/notfound.html', 
+    'modules/reader/shareview', 
+    'modules/reader/imageactionview',  
+    'modules/reader/featuremodel',  
+    'modules/reader/postcollection'],
+    function(_, 
+        Marionette, 
+        Mustache, 
+        $, 
+        CellView, 
+        coreTemplate, 
+        shellTemplate, 
+        PostModel, 
+        errorTemplate, 
+        notFoundTemplate, 
+        ShareView, 
+        ImageActionView, 
+        FeatureModel, 
+        PostCollection) {
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 if (serialized_model.error) {

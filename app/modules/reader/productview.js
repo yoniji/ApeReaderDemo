@@ -1,5 +1,28 @@
-﻿define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/product.html', 'modules/reader/productmodel', 'modules/reader/moretextview', 'modules/reader/designinfoview', 'modules/reader/shareview', 'modules/reader/ctrlproductlistview', 'carousel', 'iscroll'],
-    function(Marionette, _, Mustache, $, template, ProductModel, MoreTextView, DesignInfoView, ShareView, CtrlProductListView, Carousel) {
+﻿define(['marionette', 
+    'underscore', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/product.html', 
+    'modules/reader/productmodel', 
+    'modules/reader/moretextview', 
+    'modules/reader/designinfoview', 
+    'modules/reader/shareview', 
+    'modules/reader/ctrlproductlistview', 
+    'carousel', 
+    'iscroll'],
+    function(
+        Marionette, 
+        _, 
+        Mustache, 
+        $, 
+        template, 
+        ProductModel, 
+        MoreTextView, 
+        DesignInfoView, 
+        ShareView, 
+        CtrlProductListView, 
+        Carousel
+    ) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -23,7 +46,6 @@
                 'tap .readMoreBrand': 'onTapReadMoreBrand',
                 'tap .readMoreBrandOriginal': 'onTapReadMoreBrandOriginal',
                 'tap .readMoreDesignInfo': 'onTapDesignInfo',
-                'tap .productItem': 'onTapProduct',
                 'tap .productGallarySlide': 'onTapGallary',
                 'tap .productGallary .gridThumb': 'onTapGallary',
                 'tap .moreAlternatives': 'onTapMoreAlternatives',
@@ -94,6 +116,14 @@
                 var listThumbSize = 72;
                 var horizontalProductListThumbSize = 140;
 
+                var images = this.model.get('images');
+                var slideImages = [];
+                if (images) {
+                    slideImages = images.design_images
+                    .concat( images.basic_images )
+                    .concat( images.detail_images )
+                    .slice(0, 4);
+                }
 
                 return {
                     'getBannerSuffix': function() {
@@ -147,20 +177,19 @@
                         return outStr;
                     },
                     'getSlidesImages': function() {
-                        if (this.allImages && this.allImages.length > 0) {
-                            return this.allImages.slice(0, 4);
-                        }
+                        return slideImages;
                     },
                     'getThumbs': function() {
                         var thumbs = [];
                         var length = 0;
-                        if (this.allImages && this.allImages.length > 4) {
-                            thumbs = this.allImages.slice(4);
+                        if (this.allImages && this.allImages.length > slideImages.length) {
+                            thumbs = this.allImages.slice(slideImages.length);
                             //缩略图数量必须为3的倍数，不大于9
                             length = 3 * Math.floor(thumbs.length / 3);
                             length = Math.min(9, length);
-                            thumbs = thumbs.slice(0, length);
+                            if ( length === 0 ) length  = thumbs.length;
 
+                            thumbs = thumbs.slice(0, length);
                             thumbs[length - 1].isLast = true;
                             thumbs[length - 1].imagesCount = this.allImages.length;
 
@@ -232,6 +261,16 @@
                         if (this.brand && (this.brand.name != this.brand.original_name) ) {
                             return '(' + this.brand.original_name + ')';
                         }
+                    },
+                    'getShortDescription': function() {
+                        if (this.description && this.description.length > 64) {
+                            return this.description.substr(0,64) + '...';
+                        } else {
+                            return this.description;
+                        }
+                    },
+                    'isMoreDescriptionVisible': function() {
+                        return this.description && this.description.length > 64;
                     }
                 };
             },
@@ -247,12 +286,18 @@
                 this.ui.product.css('height', productHeight);
 
 
+                var collectionFilter = {
+                    limit:10,
+                    sample:4
+                };
+                if ( this.model.has('collection') && this.model.get('collection').id ) {
+                    collectionFilter.collection = this.model.get('collection').id;
+                } else {
+                    collectionFilter.brand = this.model.get('brand').id;
+                }
+
                 this.productsInSameCollection = new CtrlProductListView({
-                    filterJSON: {
-                        collection: this.model.get('collection').id,
-                        limit: 10,
-                        sample: 4
-                    },
+                    filterJSON: collectionFilter,
                     container: this.$el.find('.horizontalProductListInner'),
                     withoutId: this.model.get('id')
                 });
@@ -357,12 +402,6 @@
             },
             onTouchMove: function(ev) {
                 util.stopPropagation(ev);
-            },
-            onTapProduct: function(ev) {
-                var id = $(ev.currentTarget).attr('data-id');
-                Backbone.history.navigate('#products/' + id, {
-                    trigger: true
-                });
             },
             onToggleLike: function() {
                 //util.setIconToLoading(this.ui.like.find('.icon'));

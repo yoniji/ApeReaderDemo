@@ -1,5 +1,15 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/cellactions.html', 'modules/reader/shareview'],
-    function(Marionette, Mustache, $, template, ShareView) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/cellactions.html', 
+    'modules/reader/shareview'],
+    function(
+        Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        ShareView
+    ) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {

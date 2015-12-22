@@ -921,6 +921,12 @@ $profileHeaderHeight:56px;
             max-width: none;
         }
     }
+    .creditMeta {
+        font-size: 8px;
+        line-height: 1.2em;
+        height: 1.2em;
+        overflow: hidden;
+    }
     .title {
         margin: 0.5em;
         line-height: 1.2em;
@@ -935,12 +941,7 @@ $profileHeaderHeight:56px;
         font-size: 10px;
         line-height: 1.2em;
     }
-    .creditMeta {
-        font-size: 8px;
-        line-height: 1.2em;
-        height: 1.2em;
-        overflow: hidden;
-    }
+    
     .creditImage {
         @include size(20px);
         margin-right: $basic-gap/4;
@@ -1720,8 +1721,11 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     border-radius: 15px;
 }
 
-.shareArticleWrapper .creditMeta {
+.articleWrapper .creditMeta {
     font-size: 10px;
+    line-height: 1.2em;
+    height: 1.2em;
+    overflow:hidden;
 }
 
 .expand {
@@ -2755,6 +2759,23 @@ $widthPerYear:20px;
         @include countryPaletteTheme(#eddf98, #f5d19f, #c8920e, #52312c, #40211f);
     }
 }
+
+.country-spain {
+    @include countryTheme(#f5f3f1, #333333, #5d2b15);
+
+    .palette {
+        @include countryPaletteTheme(#939d44, #dbac87, #f5f3f1, #5d2b15, #98e8f1);
+    }
+}
+
+.country-uk {
+    @include countryTheme(#f9f6f1, #c7c3b8, #54372f);
+
+    .palette {
+        @include countryPaletteTheme(#eddf98, #f5d19f, #c8920e, #52312c, #40211f);
+    }
+}
+
 
 .palette {
     width: 50%;

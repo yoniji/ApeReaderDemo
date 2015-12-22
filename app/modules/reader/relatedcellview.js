@@ -1,7 +1,15 @@
-﻿define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/recommendcell.html','waves'],
-    function(Marionette, _, Mustache, $, template, Waves) {
-
-
+﻿define(['marionette', 
+    'underscore', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/recommendcell.html',
+    'waves'],
+    function(Marionette,
+     _, 
+     Mustache, 
+     $, 
+     template, 
+     Waves) {
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);

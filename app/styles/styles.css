@@ -2028,6 +2028,11 @@ html {
     .cardWrapper .coverImage > img {
       position: absolute;
       max-width: none; }
+  .cardWrapper .creditMeta {
+    font-size: 8px;
+    line-height: 1.2em;
+    height: 1.2em;
+    overflow: hidden; }
   .cardWrapper .title {
     margin: 0.5em;
     line-height: 1.2em;
@@ -2039,11 +2044,6 @@ html {
   .cardWrapper .creditName {
     font-size: 10px;
     line-height: 1.2em; }
-  .cardWrapper .creditMeta {
-    font-size: 8px;
-    line-height: 1.2em;
-    height: 1.2em;
-    overflow: hidden; }
   .cardWrapper .creditImage {
     height: 20px;
     width: 20px;
@@ -2846,8 +2846,11 @@ html {
   right: 8px;
   border-radius: 15px; }
 
-.shareArticleWrapper .creditMeta {
-  font-size: 10px; }
+.articleWrapper .creditMeta {
+  font-size: 10px;
+  line-height: 1.2em;
+  height: 1.2em;
+  overflow: hidden; }
 
 .expand {
   border-top: 1px solid #EEE;
@@ -3935,6 +3938,50 @@ html {
   .country-us .palette > span:nth-child(4) {
     background: #52312c; }
   .country-us .palette > span:nth-child(5) {
+    background: #40211f;
+    border-radius: 0 2px 2px 0; }
+
+.country-spain {
+  background: #f5f3f1;
+  color: #333333; }
+  .country-spain .caption {
+    color: #333333; }
+  .country-spain .country-title {
+    color: #5d2b15; }
+  .country-spain .designInfo-country-avatar {
+    color: #eae6e2; }
+  .country-spain .palette > span:nth-child(1) {
+    background: #939d44;
+    border-radius: 2px 0 0 2px; }
+  .country-spain .palette > span:nth-child(2) {
+    background: #dbac87; }
+  .country-spain .palette > span:nth-child(3) {
+    background: #f5f3f1; }
+  .country-spain .palette > span:nth-child(4) {
+    background: #5d2b15; }
+  .country-spain .palette > span:nth-child(5) {
+    background: #98e8f1;
+    border-radius: 0 2px 2px 0; }
+
+.country-uk {
+  background: #f9f6f1;
+  color: #c7c3b8; }
+  .country-uk .caption {
+    color: #c7c3b8; }
+  .country-uk .country-title {
+    color: #54372f; }
+  .country-uk .designInfo-country-avatar {
+    color: #f1ebdf; }
+  .country-uk .palette > span:nth-child(1) {
+    background: #eddf98;
+    border-radius: 2px 0 0 2px; }
+  .country-uk .palette > span:nth-child(2) {
+    background: #f5d19f; }
+  .country-uk .palette > span:nth-child(3) {
+    background: #c8920e; }
+  .country-uk .palette > span:nth-child(4) {
+    background: #52312c; }
+  .country-uk .palette > span:nth-child(5) {
     background: #40211f;
     border-radius: 0 2px 2px 0; }
 

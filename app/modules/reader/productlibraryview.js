@@ -27,8 +27,6 @@
                 'tap .roomsNav-item': 'onTapRoom',
                 'tap .brandItem': 'onTapBrand',
                 'tap .brand-slide': 'onTapBrand',
-                'tap .product-slide': 'onTapProduct',
-                'tap .productItem': 'onTapProduct',
                 'touchmove':'onTouchMove'
             },
             ui: {
@@ -152,13 +150,6 @@
                             }
                         }
                     }
-                });
-            },
-            onTapProduct: function(ev) {
-                var id = $(ev.currentTarget).attr('data-id');
-                var productView = new ProductView({
-                    'id': id,
-                    'delay':true
                 });
             },
             onScroll: function(ev) {

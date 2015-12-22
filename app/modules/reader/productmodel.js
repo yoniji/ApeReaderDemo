@@ -72,11 +72,16 @@
                     }
                 }
 
-                var allImages = [];
-                data.allImages = data.images.design_images
+                
+
+                data.allImages = [];
+                data.allImages = data.allImages
+                .concat(data.images.design_images)
                 .concat( data.images.basic_images )
                 .concat( data.images.detail_images )
                 .concat( data.images.bim_images );
+
+
                 return data;
             }
         });
