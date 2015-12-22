@@ -1,5 +1,30 @@
-﻿define(['marionette', 'mustache', 'underscore', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/streamview', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview', 'refresh'],
-    function(Marionette, Mustache, _, $, template, StreamView, ExploreModel, PostCollection, CellView, DropDownControl, FilterBarView, FilterBarModel, EmptyView) {
+﻿define(['marionette', 
+    'mustache', 
+    'underscore', 
+    'jquery', 
+    'text!modules/reader/explore.html', 
+    'modules/reader/streamview', 
+    'modules/reader/exploremodel', 
+    'modules/reader/postcollection', 
+    'modules/reader/cellview', 
+    'dropdown', 
+    'modules/reader/filterbarview', 
+    'modules/reader/filterbarmodel', 
+    'modules/reader/emptyview', 
+    'refresh'],
+    function(Marionette, 
+        Mustache, 
+        _, 
+        $, 
+        template, 
+        StreamView, 
+        ExploreModel, 
+        PostCollection, 
+        CellView, 
+        DropDownControl, 
+        FilterBarView, 
+        FilterBarModel, 
+        EmptyView) {
 
 
         function shouldStartLoadingNew(posts) {
@@ -8,13 +33,14 @@
             if (util.supportLocalStorage() && localStorage.exploreTime) {
                 var exploreTime = parseInt(localStorage.exploreTime);
                 var hours = Math.floor((now.getTime() - exploreTime) / 1000 / 60);
-                if (hours < 5) return false;
+                if (hours < 10) return false;
             }
             return true;
         }
 
         var pullUpHtml = '<div class="pullUp loading"><i class="icon icon-refresh"></i></div>';
         var pullDownHtml = '<div class="pullDown loading"><i class="icon icon-refresh"></i></div>';
+
         return StreamView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -222,9 +248,15 @@
             },
             afterOnDestroy: function() {
                 this.filterView.destroy();
+                this.filterView = null;
                 this.filterModel.destroy();
+                this.filterModel = null;
                 mRefresh.destroy();
-                if (this.timeout) clearTimeout(this.timeout);
+                mRefresh = null;
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                    this.timeout = null;
+                }
             },
             onScroll: function(ev) {
                 var currentScrollTop = this.ui.streamWrapper.scrollTop();

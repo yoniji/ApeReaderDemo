@@ -1,5 +1,20 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/explore.html', 'modules/reader/exploremodel', 'modules/reader/postcollection', 'modules/reader/cellview', 'dropdown'],
-    function(Marionette, Mustache, $, template, ExploreModel, PostCollection, CellView, DropDownControl) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/explore.html', 
+    'modules/reader/exploremodel', 
+    'modules/reader/postcollection', 
+    'modules/reader/cellview', 
+    'dropdown'],
+    function(
+        Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        ExploreModel, 
+        PostCollection, 
+        CellView, 
+        DropDownControl) {
 
         return Marionette.CompositeView.extend({
             template: function(serialized_model) {
@@ -74,8 +89,11 @@
             onDestroy: function() {
                 this.stopListening();
                 this.ui.streamWrapper.off('scroll');
-                if (this.menu) this.menu.destroy();
-                if (this.model) this.model.destroy();
+                if (this.menu) { 
+                    this.menu.destroy(); 
+                    this.menu = null;
+                }
+                this.model = null;
                 this.afterOnDestroy();
             },
             id: 'explore',
