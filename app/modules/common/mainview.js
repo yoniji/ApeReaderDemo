@@ -61,6 +61,8 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 });
             },
             initHammer: function() {
+
+                /*
                 $('body').hammer({
                     domEvents: true
                 });
@@ -77,6 +79,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 mc.remove('pinch');
                 mc.remove('swipe');
                 mc.remove('press');
+                */
             },
             onTapLink: function(event) {
                 event.preventDefault();

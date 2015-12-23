@@ -252,7 +252,6 @@
                 this.filterModel.destroy();
                 this.filterModel = null;
                 mRefresh.destroy();
-                mRefresh = null;
                 if (this.timeout) {
                     clearTimeout(this.timeout);
                     this.timeout = null;

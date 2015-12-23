@@ -1,7 +1,30 @@
-﻿define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/cellsmall.html', 'text!modules/reader/cellmedium.html', 'text!modules/reader/celllarge.html', 'text!modules/reader/cellfull.html', 'modules/reader/articleview', 'modules/reader/cellactionsview', 'waves'],
-    function(Marionette, _, Mustache, $, smallCellTemplate, mediumCellTemplate, largeCellTemplate, fullCellTemplate, ArticleView, CellActionsView, Waves) {
-        function isTargetAMoreButton($target) {
-            return $target.hasClass('more') || $target.hasClass('more-line-1') || $target.hasClass('more-line-2');
+﻿define(['marionette', 
+    'underscore', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/cellsmall.html', 
+    'text!modules/reader/cellmedium.html', 
+    'text!modules/reader/celllarge.html', 
+    'text!modules/reader/cellfull.html', 
+    'modules/reader/articleview', 
+    'modules/reader/cellactionsview', 
+    'waves',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Marionette, 
+        _, 
+        Mustache, 
+        $, 
+        smallCellTemplate, 
+        mediumCellTemplate, 
+        largeCellTemplate, 
+        fullCellTemplate, 
+        ArticleView, 
+        CellActionsView, 
+        Waves,
+        Hammer) {
+        function isTargetAMoreButton(target) {
+            return target.className === 'more' || target.className === 'more-line-1' || target.className === 'more-line-2';
         }
 
         return Marionette.ItemView.extend({
@@ -31,7 +54,6 @@
             },
             events: {
                 'touchstart': 'onTouchStart',
-                'tap @ui.more': 'onTapMore',
                 'tap': 'onTap'
             },
             modelEvents: {
@@ -39,6 +61,11 @@
             },
             initialize: function() {
                 this.lastPageY = -1;
+            },
+            onRender: function() {
+                this.$el.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
             },
             templateHelpers: function() {
                 var self = this;
@@ -148,9 +175,7 @@
                     }
                 };
             },
-            onTapMore: function(ev) {
-                util.preventDefault(ev);
-                util.stopPropagation(ev);
+            onTapMore: function() {
                 var actionsView = new CellActionsView({
                     model: this.model,
                     toggleOffset: this.ui.more.offset()
@@ -174,13 +199,15 @@
 
             },
             onTouchStart: function(ev) {
+                //记录按下时滚动的偏移
                 var streamWrapperEl = this.$el.parent().parent().parent();
                 this.lastPageY = streamWrapperEl.scrollTop();
             },
             onTap: function(ev) {
-                //util.preventDefault(ev);
-                //util.stopPropagation(ev);
+                util.preventDefault(ev);
+                util.stopPropagation(ev);
 
+                //记录此时的滚动位移
                 var isScrolling = false;
                 var streamWrapperEl = this.$el.parent().parent().parent();
                 var currentPageY = streamWrapperEl.scrollTop();
@@ -189,14 +216,20 @@
                 }
 
                 if (!isScrolling && !this.model.collection.hasOpenedArticle) {
-                    Waves.ripple(this.$el[0]);
 
+                    if ( isTargetAMoreButton(ev.gesture.target) ) {
+                        this.onTapMore();
+                        return;
+                    }
+
+                    Waves.ripple(this.$el[0]);
                     this.model.collection.hasOpenedArticle = true;
                     app.appController.articleView = new ArticleView({
                         model: this.model,
                         delay: true,
                         triggerFrom: this
                     });
+
                 }
             },
             onDestroy: function() {

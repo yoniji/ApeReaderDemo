@@ -7,6 +7,6 @@ module.exports = ->
   		src: ["dist/styles.css"]
   		overwrite: true
   		replacements:[
-  			from: "/app/fonts/"
-  			to: "app/fonts/"
+  			{from: "/app/fonts/", to: "app/fonts/"}
+  			{from: "display: flex;",to:"display:-webkit-box;display: -moz-box;display: box;display: -webkit-flex;display: -moz-flex;display: -ms-flexbox;display: flex;"}
   		]

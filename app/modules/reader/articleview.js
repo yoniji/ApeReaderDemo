@@ -11,7 +11,9 @@
     'modules/reader/shareview', 
     'modules/reader/imageactionview',  
     'modules/reader/featuremodel',  
-    'modules/reader/postcollection'],
+    'modules/reader/postcollection',
+    'hammerjs',
+    'jquery-hammerjs'],
     function(_, 
         Marionette, 
         Mustache, 
@@ -25,7 +27,8 @@
         ShareView, 
         ImageActionView, 
         FeatureModel, 
-        PostCollection) {
+        PostCollection,
+        Hammer) {
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 if (serialized_model.error) {
@@ -117,7 +120,7 @@
             onPanMove: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
-                var gesture = ev.originalEvent.gesture;
+                var gesture = ev.gesture;
 
                 if (this.isPanStarted) {
                     util.setElementTransform(this.$el, 'translate3d(' + (gesture.deltaX - 10) + 'px,0,0)');
@@ -129,7 +132,7 @@
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
                 this.isPanStarted = false;
-                var gesture = ev.originalEvent.gesture;
+                var gesture = ev.gesture;
 
                 if (gesture && gesture.deltaX && gesture.deltaX > ($(window).width() / 2)) {
                     this.slideOut();
@@ -177,7 +180,7 @@
                 } else {
                     
                     //大图模式下，显示上下文toolbox
-                    var pointer = ev.originalEvent.gesture.pointers[0];
+                    var pointer = ev.gesture.pointers[0];
                     var imageAction = new ImageActionView({
                         model: this.model,
                         toggleOffset: {
@@ -300,6 +303,74 @@
 
                 this.initRelatedArticleRegion();
 
+                /*
+                'tap @ui.back': 'onTapBack',
+                'tap @ui.like': 'onToggleLike',
+                'tap @ui.share': 'onTapShare',
+                'tap @ui.block': 'onTapBlock',
+                'tap @ui.next': 'onTapNext',
+                'tap .articleBody .image': 'onTapImage',
+                'tap .thumbSwitch': 'showLargeImages',
+                'tap .admin-opt-changeTitle': 'onAdminChangeTitle',
+                'tap .admin-opt-like': 'onAdminLike',
+                'tap .admin-opt-dislike': 'onAdminDislike',
+                'tap .admin-opt-delete': 'onAdminDelete',
+                'tap .share-readMore': 'onTapBack',
+                'panleft': 'onPanMove',
+                'panright': 'onPanMove',
+                'panend': 'onPanEnd',
+                'pancancel': 'onPanEnd',
+                */
+
+                this.ui.back.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.ui.share.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.ui.like.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.ui.block.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.ui.next.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.articleBody .image').each(function(index, el) {
+                    var $el = $(el);
+                    $el.hammer({recognizers:[[Hammer.Tap]]});
+
+                });
+
+                this.$el.find('.thumbSwitch').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.admin-opt-changeTitle').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.admin-opt-like').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.admin-opt-dislike').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.admin-opt-delete').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.share-readMore').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.hammer({
+                    recognizers:[[Hammer.Pan]]
+                });
 
             },
             processImage: function() {
@@ -404,6 +475,7 @@
                 util.stopPropagation(ev);
             },
             onAdminChangeTitle:function(ev) {
+                console.log('here');
                 var newTitle = prompt("请输入新标题",this.model.get('title'));
                 if ( newTitle === "" ) {
                     alert("标题不能为空");

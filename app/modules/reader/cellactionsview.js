@@ -2,13 +2,16 @@
     'mustache', 
     'jquery', 
     'text!modules/reader/cellactions.html', 
-    'modules/reader/shareview'],
+    'modules/reader/shareview',
+    'hammerjs',
+    'jquery-hammerjs'],
     function(
         Marionette, 
         Mustache, 
         $, 
         template, 
-        ShareView
+        ShareView,
+        Hammer
     ) {
 
         return Marionette.ItemView.extend({
@@ -41,6 +44,17 @@
                 }
                  this.ui.dialog.css('right', Math.round( $(window).width() - this.toggleOffset.left - 48 + 8 ));
                 $('body').append(this.$el);
+
+
+                this.$el.find('.action-like').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.$el.find('.action-block').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.$el.find('.action-share').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
 
             },
             onToggleLike: function(ev) {
@@ -78,7 +92,6 @@
                 }
 
                 if ( util.isMKApp() ) {
-
                     util.mkAppShare(share_info);
 
                 } else {

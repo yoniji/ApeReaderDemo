@@ -35,7 +35,6 @@ html {
 
 .image {
     overflow: hidden;
-    position: relative;
     background: #f0f0f0;
     text-align: center;
     >img {
@@ -495,14 +494,13 @@ $smallCellCoverSize:72px;
 }
 
 .mediumCell {
-    .image {
-        float: left;
-        display: inline-block;
-        margin-right: 4px;
-    }
-    .cellCover {
-        margin-left: $basic-gap;
-        @include clearfix;
+
+    >.cellCover {
+        margin:0 $basic-gap;
+        @include align-items(flex-start);
+        @include display(flex);
+        @include flex-direction(row nowrap);
+        @include justify-content(space-between);
     }
 }
 

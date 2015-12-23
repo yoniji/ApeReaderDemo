@@ -1,5 +1,17 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/imageactions.html', 'modules/reader/shareview'],
-    function(Marionette, Mustache, $, template, ShareView) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/imageactions.html', 
+    'modules/reader/shareview',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        ShareView,
+        Hammer
+        ) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -38,11 +50,19 @@
                 
                 $('body').append(this.$el);
 
+                this.$el.find('.action-gallary').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.$el.find('.action-share').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
             },
             onViewGallary: function(ev) {
                 util.preventDefault(ev);
                 util.stopPropagation(ev);
                 var urls = [];
+
                 $('.articleBody .image img').each(function(index, el) {
                     var img = $(el);
                     if (img.parent().hasClass('thumb')) {
@@ -55,6 +75,7 @@
                 util.previewImages(urls, this.current);
                 this.destroy();
                 util.trackEvent('Image', '浏览相册', 1);
+
             },
             onShare: function(ev) {
                 var share_info = _.clone(appConfig.share_info);
@@ -68,11 +89,8 @@
                 share_info.image = { url: this.current, type:'oss' };
 
 
-
                 if ( util.isMKApp() ) {
-
                     util.mkAppShare(share_info);
-
                 } else {
                     var shareView = new ShareView({ 
                         shareInfo: share_info

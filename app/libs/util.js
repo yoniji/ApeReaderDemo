@@ -447,12 +447,12 @@ define(function(require, exports, module) {
 
     exports.preventDefault = function(event) {
         event.preventDefault();
-        if (event.originalEvent) event.originalEvent.preventDefault();
+        //if (event.gesture) event.gesture.preventDefault();
 
     };
     exports.stopPropagation = function(event) {
         event.stopPropagation();
-        if (event.originalEvent) event.originalEvent.stopPropagation();
+        //if (event.gesture) event.gesture.stopPropagation();
     };
     exports.setIconToLoading = function(iconEl) {
         iconEl.attr('originalClass', iconEl.attr('class'));
