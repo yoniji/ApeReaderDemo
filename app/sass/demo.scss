@@ -493,21 +493,19 @@ $smallCellCoverSize:72px;
     }
 }
 
-.mediumCell {
 
-    >.cellCover {
-        margin:0 $basic-gap;
-        @include align-items(flex-start);
-        @include display(flex);
-        @include flex-direction(row nowrap);
-        @include justify-content(space-between);
-    }
-}
 
 .largeCell {
     .image {
         margin-left: $basic-gap;
     }
+}
+.cellMoreImages {
+    margin:0 $basic-gap;
+    @include align-items(flex-start);
+    @include display(flex);
+    @include flex-direction(row nowrap);
+    @include justify-content(space-between);
 }
 
 .fullCell {
@@ -515,52 +513,11 @@ $smallCellCoverSize:72px;
         margin-left: $basic-gap;
     }
     .cellMoreImages {
-        margin-left: $basic-gap;
-        margin-top: $basic-gap/4;
-        @include clearfix;
-        >.image {
-            float: left;
-            display: inline-block;
-            margin-right: 4px;
-        }
+        margin-top:$basic-gap/4;
     }
+
 }
 
-.productcell,
-.brandcell {
-    .title {
-        position: relative;
-    }
-    .title,
-    .creditItem {
-        padding-left: $basic-gap*3.5;
-    }
-    .title:before {
-        display: block;
-        font-family: 'icomoon';
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        /* Better Font Rendering =========== */
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        @include size($basic-gap*2);
-        font-size: $basic-gap*2;
-        @include position(absolute, 0-$basic-gap null null $basic-gap);
-        color: $caption-color;
-    }
-}
-
-.productcell .title:before {
-    content: "\e602";
-}
-
-.brandcell .title:before {
-    content: "\e603";
-}
 
 .en .translatedTitle {
     display: block;
@@ -1957,8 +1914,13 @@ $actionDialogBg:rgba(0, 0, 0, .8);
     @include position(absolute, 0 null null 0);
     font-size: 12px;
     line-height: 14px;
-    padding: $basic-gap;
-    >.icon {
+    @include display(flex);
+    @include align-items(center);
+    >.gridThumbOverlayInner {
+        text-align: center;
+        width: 100%;
+    }
+    >.gridThumbOverlayInner>.icon {
         font-size: 16px;
         line-height: 24px;
     }

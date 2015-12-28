@@ -1609,7 +1609,10 @@ html {
   .fullCell .title {
     padding-bottom: 8px; }
 
-.mediumCell > .cellCover {
+.largeCell .image {
+  margin-left: 16px; }
+
+.cellMoreImages {
   margin: 0 16px;
   -webkit-box-align: start;
   box-align: start;
@@ -1634,57 +1637,10 @@ html {
   justify-content: space-between;
   -ms-flex-pack: justify; }
 
-.largeCell .image {
-  margin-left: 16px; }
-
 .fullCell .cellCover {
   margin-left: 16px; }
 .fullCell .cellMoreImages {
-  margin-left: 16px;
   margin-top: 4px; }
-  .fullCell .cellMoreImages:after {
-    content: "";
-    display: table;
-    clear: both; }
-  .fullCell .cellMoreImages > .image {
-    float: left;
-    display: inline-block;
-    margin-right: 4px; }
-
-.productcell .title,
-.brandcell .title {
-  position: relative; }
-.productcell .title,
-.productcell .creditItem,
-.brandcell .title,
-.brandcell .creditItem {
-  padding-left: 56px; }
-.productcell .title:before,
-.brandcell .title:before {
-  display: block;
-  font-family: 'icomoon';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  height: 32px;
-  width: 32px;
-  font-size: 32px;
-  position: absolute;
-  top: -16px;
-  left: 16px;
-  color: #757575; }
-
-.productcell .title:before {
-  content: "\e602"; }
-
-.brandcell .title:before {
-  content: "\e603"; }
 
 .en .translatedTitle {
   display: block; }
@@ -3074,8 +3030,22 @@ html {
   left: 0;
   font-size: 12px;
   line-height: 14px;
-  padding: 16px; }
-  .gridThumbOverlay > .icon {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  -ms-flex-align: center; }
+  .gridThumbOverlay > .gridThumbOverlayInner {
+    text-align: center;
+    width: 100%; }
+  .gridThumbOverlay > .gridThumbOverlayInner > .icon {
     font-size: 16px;
     line-height: 24px; }
 

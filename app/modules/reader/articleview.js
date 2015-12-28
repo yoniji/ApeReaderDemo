@@ -1,32 +1,33 @@
-﻿define(['underscore', 
-    'marionette', 
-    'mustache', 
-    'jquery',
-    'modules/reader/relatedcellview', 
-    'text!modules/reader/article.html', 
-    'text!modules/reader/articleshell.html', 
-    'modules/reader/postmodel',
-    'text!modules/reader/error.html',
-    'text!modules/reader/notfound.html', 
-    'modules/reader/shareview', 
-    'modules/reader/imageactionview',  
-    'modules/reader/featuremodel',  
-    'modules/reader/postcollection',
-    'hammerjs',
-    'jquery-hammerjs'],
-    function(_, 
-        Marionette, 
-        Mustache, 
-        $, 
-        CellView, 
-        coreTemplate, 
-        shellTemplate, 
-        PostModel, 
-        errorTemplate, 
-        notFoundTemplate, 
-        ShareView, 
-        ImageActionView, 
-        FeatureModel, 
+﻿define(['underscore',
+        'marionette',
+        'mustache',
+        'jquery',
+        'modules/reader/relatedcellview',
+        'text!modules/reader/article.html',
+        'text!modules/reader/articleshell.html',
+        'modules/reader/postmodel',
+        'text!modules/reader/error.html',
+        'text!modules/reader/notfound.html',
+        'modules/reader/shareview',
+        'modules/reader/imageactionview',
+        'modules/reader/featuremodel',
+        'modules/reader/postcollection',
+        'hammerjs',
+        'jquery-hammerjs'
+    ],
+    function(_,
+        Marionette,
+        Mustache,
+        $,
+        CellView,
+        coreTemplate,
+        shellTemplate,
+        PostModel,
+        errorTemplate,
+        notFoundTemplate,
+        ShareView,
+        ImageActionView,
+        FeatureModel,
         PostCollection,
         Hammer) {
         return Marionette.ItemView.extend({
@@ -82,7 +83,7 @@
                 'changeTitleSuccess': 'onChangeTitleSuccess'
             },
             initialize: function(options) {
-                
+
                 if (options) {
                     this.directShow = !!options.directShow;
                     this.delay = !!options.delay;
@@ -107,7 +108,7 @@
                     replace: false
                 });
 
-                
+
 
             },
             onPanStart: function(ev) {
@@ -164,12 +165,12 @@
                         } else {
                             urls.push(img.attr('src'));
                         }
-                            
+
                     });
                     util.previewImages(urls, current);
                     util.trackEvent('Image', '浏览相册', 1);
 
-                } else if($el.hasClass('thumb')) {
+                } else if ($el.hasClass('thumb')) {
 
                     //缩略图模式下，切换为大图
                     $img.attr('src', $img.attr('originalSrc')).attr('style', '');
@@ -178,7 +179,7 @@
                     util.trackEvent('Image', '放大', 1);
 
                 } else {
-                    
+
                     //大图模式下，显示上下文toolbox
                     var pointer = ev.gesture.pointers[0];
                     var imageAction = new ImageActionView({
@@ -211,25 +212,27 @@
             },
             templateHelpers: {
                 'getTagsHtml': function() {
-                        var outStr = '';
-                        var seen = [];
-                        var result = [];
+                    var outStr = '';
+                    var seen = [];
+                    var result = [];
 
-                        _.each(this.tags, function(value, i, array) {
-                            if (!_.findWhere(seen, value, { 'id': value.id })) {
-                              seen.push(value);
-                              result.push(value);
-                            }
-                        });
-
-                        if (result && result.length > 0) {
-                            outStr += '<i class="icon icon-pricetags"></i> ';
-                            for (var i = 0; i < result.length; i++) {
-                                outStr += result[i].name + ' ';
-                            }
+                    _.each(this.tags, function(value, i, array) {
+                        if (!_.findWhere(seen, value, {
+                                'id': value.id
+                            })) {
+                            seen.push(value);
+                            result.push(value);
                         }
+                    });
 
-                        return outStr;
+                    if (result && result.length > 0) {
+                        outStr += '<i class="icon icon-pricetags"></i> ';
+                        for (var i = 0; i < result.length; i++) {
+                            outStr += result[i].name + ' ';
+                        }
+                    }
+
+                    return outStr;
                 },
                 'getCreateTimeString': function() {
                     if (this.created_at) {
@@ -260,7 +263,7 @@
 
                 var url = util.getUrlWithoutHashAndSearch();
                 url = url + '?hash=' + encodeURIComponent('#share/posts/' + this.model.get('id'));
-                share_info.link =url;
+                share_info.link = url;
 
                 if (this.model.hasCoverImage()) {
                     var img = _.clone(this.model.get('images')[0]);
@@ -270,7 +273,7 @@
 
                 this.shareInfo = share_info;
 
-                util.setWechatShare(share_info, null ,null);
+                util.setWechatShare(share_info, null, null);
             },
             isFormated: function() {
                 return (this.model.has('metadata') && this.model.get('metadata').formated);
@@ -292,6 +295,10 @@
                 $('.streamWrapper,.feedsWrapper').addClass('moveLeftTransition');
                 $('.streamWrapper,.feedsWrapper').addClass('moveLeft');
 
+
+                //在显示之前处理图片
+                this.processImage();
+
                 $('body').append(this.$el);
 
 
@@ -303,98 +310,105 @@
 
                 this.initRelatedArticleRegion();
 
-                /*
-                'tap @ui.back': 'onTapBack',
-                'tap @ui.like': 'onToggleLike',
-                'tap @ui.share': 'onTapShare',
-                'tap @ui.block': 'onTapBlock',
-                'tap @ui.next': 'onTapNext',
-                'tap .articleBody .image': 'onTapImage',
-                'tap .thumbSwitch': 'showLargeImages',
-                'tap .admin-opt-changeTitle': 'onAdminChangeTitle',
-                'tap .admin-opt-like': 'onAdminLike',
-                'tap .admin-opt-dislike': 'onAdminDislike',
-                'tap .admin-opt-delete': 'onAdminDelete',
-                'tap .share-readMore': 'onTapBack',
-                'panleft': 'onPanMove',
-                'panright': 'onPanMove',
-                'panend': 'onPanEnd',
-                'pancancel': 'onPanEnd',
-                */
 
                 this.ui.back.hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
                 this.ui.share.hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
                 this.ui.like.hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
                 this.ui.block.hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
                 this.ui.next.hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
 
                 this.$el.find('.articleBody .image').each(function(index, el) {
                     var $el = $(el);
-                    $el.hammer({recognizers:[[Hammer.Tap]]});
-
+                    $el.hammer({
+                        recognizers: [
+                            [Hammer.Tap]
+                        ]
+                    });
                 });
 
                 this.$el.find('.thumbSwitch').hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
 
                 this.$el.find('.admin-opt-changeTitle').hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
 
                 this.$el.find('.admin-opt-like').hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
 
                 this.$el.find('.admin-opt-dislike').hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [
+                        [Hammer.Tap]
+                    ]
                 });
 
                 this.$el.find('.admin-opt-delete').hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [[Hammer.Tap]]
                 });
 
                 this.$el.find('.share-readMore').hammer({
-                    recognizers:[[Hammer.Tap]]
+                    recognizers: [[Hammer.Tap]]
                 });
 
-                this.$el.hammer({
-                    recognizers:[[Hammer.Pan]]
-                });
+                this.$el.hammer({recognizers:[[Hammer.Pan]]});
+                this.$el.data('hammer').get('pan').set({direction: Hammer.DIRECTION_HORIZONTAL});
 
             },
             processImage: function() {
-                var thumbWidth = 180;
-
-                var ratio = util.getDeviceRatio();
+                //图片最大宽度
+                var maxWidth = $(window).width() -32;
 
                 this.$el.find('.articleBody .image').each(function(index, el) {
                     var $el = $(el);
                     var $img = $el.find('img');
-                    var src = $img.attr('src');
+                    var width = parseInt($img.attr('data-width'));
+                    var height = parseInt($img.attr('data-height'));
 
-                    $el.css('width', thumbWidth).addClass('thumb');
-                    $img.attr({
-                        'src': src + '@' + Math.round(thumbWidth * ratio) + 'w',
-                        'originalSrc': src
-                    }).css({
-                        'width':thumbWidth
-                    });
+                    if (width && height && !isNaN(width) && !isNaN(height)) {
+                        
+                        if ( width > maxWidth ) {
+                            //提前设置图片的高度，避免加载图片造成页面重绘
+                            height = Math.round( maxWidth / width * height );
+                            $el.css({width:maxWidth,height:height});
+                            $img.css({width:maxWidth,height:height});
+                        } else {
+                            $el.css({width:width,height:height});
+                            $img.css({width:width,height:height});
+                        }
+                    }
 
                 });
 
                 if (!appConfig.networkNotificationShown) {
- 
+
                     this.ui.article.prepend('<div class="notification notification-info" style="margin-left:-16px;margin-right:-16px;">检测到您在' + appConfig.networkType + '网络下，已优化图片尺寸，节省流量</div>');
                     var self = this;
                     this.timeout = setTimeout(function() {
@@ -410,13 +424,13 @@
             onTapBack: function() {
                 util.setElementTransform(this.$el, '');
                 this.slideOut();
-                
+
             },
             slideOut: function() {
                 var self = this;
                 this.$el.addClass('slideOut');
                 this.outTimer = setTimeout(function() {
-                    if(self.outTimer) clearTimeout(self.outTimer);
+                    if (self.outTimer) clearTimeout(self.outTimer);
                     self.destroy();
                 }, 500);
 
@@ -445,18 +459,18 @@
             onTapShare: function() {
                 this.model.markShared();
 
-                if ( util.isMKApp() ) {
+                if (util.isMKApp()) {
 
                     util.mkAppShare(this.shareInfo);
 
                 } else {
 
-                    var shareView = new ShareView({ 
+                    var shareView = new ShareView({
                         shareInfo: this.shareInfo,
-                     });
+                    });
 
                 }
-                
+
                 util.trackEvent('Share', 'Post', 1);
             },
             onTapNext: function() {
@@ -471,17 +485,13 @@
             onBlockSuccess: function() {
                 this.onTapBack();
             },
-            onTouchMove: function(ev) {
-                util.stopPropagation(ev);
-            },
-            onAdminChangeTitle:function(ev) {
-                console.log('here');
-                var newTitle = prompt("请输入新标题",this.model.get('title'));
-                if ( newTitle === "" ) {
+            onAdminChangeTitle: function(ev) {
+                var newTitle = prompt("请输入新标题", this.model.get('title'));
+                if (newTitle === "") {
                     alert("标题不能为空");
-                } else if ( newTitle && newTitle.length>64 ) {
+                } else if (newTitle && newTitle.length > 64) {
                     alert("标题不能长于64个字");
-                } else if ( newTitle ) {
+                } else if (newTitle) {
                     //change title
                     this.model.adminChangeTitle(newTitle);
                     util.setButtonToLoading($(ev.currentTarget));
@@ -506,18 +516,18 @@
                 if ($(ev.currentTarget).hasClass('btn-loading')) {
                     return;
                 }
-                if (confirm("确定删除么？本操作不可恢复")){
+                if (confirm("确定删除么？本操作不可恢复")) {
                     if (this.model.collection) this.model.collection.hasOpenedArticle = false;
                     this.model.adminDelete();
                     util.setButtonToLoading($(ev.currentTarget));
                 }
             },
             onAdminLikeSuccess: function() {
-                this.$el.find('.admin-recommend').text( this.model.get('recommend'));
+                this.$el.find('.admin-recommend').text(this.model.get('recommend'));
                 util.revertButtonFromLoading(this.$el.find('.admin-opt-like'));
             },
             onAdminDislikeSuccess: function() {
-                this.$el.find('.admin-recommend').text( this.model.get('recommend'));
+                this.$el.find('.admin-recommend').text(this.model.get('recommend'));
                 util.revertButtonFromLoading(this.$el.find('.admin-opt-dislike'));
             },
             onChangeTitleSuccess: function() {
@@ -560,11 +570,14 @@
 
                 postModel.fetch({
                     data: {
-                        limit:5,
+                        limit: 5,
                         fitler: tagId
                     }
 
                 });
+            },
+            onTouchMove: function(ev) {
+                util.stopPropagation(ev);
             },
             className: 'articleWrapper'
         });

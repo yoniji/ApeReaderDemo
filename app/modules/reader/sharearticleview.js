@@ -12,7 +12,9 @@
     'modules/reader/subscribeview', 
     'modules/reader/relatedcellview', 
     'modules/reader/featuremodel',  
-    'modules/reader/postcollection'],
+    'modules/reader/postcollection',
+    'hammerjs',
+    'jquery-hammerjs'],
     function(Marionette, 
         _, 
         ArticleView, 
@@ -27,7 +29,8 @@
         SubscribeView, 
         CellView, 
         FeatureModel, 
-        PostCollection) {
+        PostCollection,
+        Hammer) {
 
         return ArticleView.extend({
             template: function(serialized_model) {
@@ -94,29 +97,6 @@
                         return this.tags[0].name;
                     }
                 }
-            },
-            onModelSync: function() {
-                this.render();
-
-                this.originalShare = _.clone(appConfig.share_info);
-                var share_info = appConfig.share_info;
-                share_info.timeline_title = this.model.get('title') + '「悟空家装」';
-                share_info.message_title = this.model.get('title') + '「悟空家装」';
-                share_info.message_description = this.model.get('excerpt');
-
-                var url = util.getUrlWithoutHashAndSearch();
-                url = url + '?hash=' + encodeURIComponent('#share/posts/' + this.model.get('id'));
-                share_info.link = url;
-
-                if (this.model.hasCoverImage()) {
-                    var img = _.clone(this.model.get('images')[0]);
-                    img.url = img.url + '@180w_180h_1e_1c';
-                    share_info.image = img;
-                }
-
-                this.shareInfo = share_info;
-
-                util.setWechatShare(share_info, null, null);
             },
             onTapMore: function() {
                 this.destroy();
@@ -194,16 +174,7 @@
                     this.processImage();
                 }
                 if (!this.directShow) this.$el.addClass('animate');
-                if (this.delay) {
-                    this.initTransform();
-                    this.$el.addClass('delayShow');
-                    var self = this;
-                    var to = setTimeout(function() {
-                        util.setElementTransform(self.$el, '');
-                        self.$el.removeClass('delayShow');
-                        clearTimeout(to);
-                    }, 800);
-                }
+
 
 
                 $('body').append(this.$el);
@@ -216,6 +187,62 @@
                 this.model.markViewed();
 
                 this.initRelatedArticleRegion();
+
+                /*
+                'tap @ui.like': 'onToggleLike',
+                'tap @ui.share': 'onTapShare',
+                'tap @ui.block': 'onTapBlock',
+                'tap .articleBody .image': 'onTapImage',
+                'tap .thumbSwitch': 'showLargeImages',
+                'tap .creditItem': 'onTapCredit',
+                'tap .share-readMore': 'onTapMore',
+                'tap .expandSwitch': 'onTapExpand',
+                'tap .action-home': 'onTapMore',
+                'tap .action-share': 'onTapShare',
+                'touchmove @ui.article':'onTouchMove'
+                */
+
+
+                this.ui.share.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.ui.like.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+                this.ui.block.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.articleBody .image').each(function(index, el) {
+                    var $el = $(el);
+                    $el.hammer({recognizers:[[Hammer.Tap]]});
+
+                });
+
+                this.$el.find('.thumbSwitch').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.creditItem').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.share-readMore').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.expandSwitch').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.action-home').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
+                this.$el.find('.action-share').hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
+
 
 
             },

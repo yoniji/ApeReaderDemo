@@ -29,23 +29,17 @@
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
-                var targetTemplate = smallCellTemplate;
+
                 switch (serialized_model.metadata.display_type) {
-
                     case 'medium':
-                        targetTemplate = mediumCellTemplate;
-                        break;
+                        return Mustache.render(mediumCellTemplate, serialized_model);
                     case 'large':
-                        targetTemplate = largeCellTemplate;
-                        break;
+                        return Mustache.render(largeCellTemplate, serialized_model);
                     case 'full':
-                        targetTemplate = fullCellTemplate;
-                        break;
+                        return Mustache.render(fullCellTemplate, serialized_model);
                     default:
-                        targetTemplate = smallCellTemplate;
+                        return Mustache.render(smallCellTemplate, serialized_model);
                 }
-
-                return Mustache.render(targetTemplate, serialized_model);
 
             },
             ui: {
@@ -63,9 +57,7 @@
                 this.lastPageY = -1;
             },
             onRender: function() {
-                this.$el.hammer({
-                    recognizers:[[Hammer.Tap]]
-                });
+                this.$el.hammer({recognizers:[[Hammer.Tap]]});
             },
             templateHelpers: function() {
                 var self = this;
@@ -73,20 +65,18 @@
                 var defaultCoverHeight = Math.round(windowWidth * 0.382);
                 var maxHeight = Math.round(windowWidth * 0.618);
 
-
-
                 var hasCoverImage = this.model.hasCoverImage();
 
                 return {
-                    'getSmallCellCoverHtml': function() {
+                    getSmallCellCoverHtml: function() {
                         if (hasCoverImage) return util.generateImageHtml(this.images[0], {
                             width: 72,
                             height: 72
                         });
                     },
-                    'getMediumCellCoverHtml': function() {
+                    getMediumCellCoverHtml: function() {
 
-                        var outStr = '<div class="cellCover">';
+                        var outStr = '<div class="cellMoreImages">';
 
                         if (hasCoverImage && this.images.length < 3) {
                             outStr += this.getLargeCellCoverHtml();
@@ -107,13 +97,13 @@
                         outStr += '</div>';
                         return outStr;
                     },
-                    'getLargeCellCoverHtml': function() {
+                    getLargeCellCoverHtml: function() {
                         if (hasCoverImage) return util.generateImageHtml(this.images[0], {
                             width: (windowWidth - 32),
                             height: Math.round(windowWidth * 0.382)
                         });
                     },
-                    'getFullCellCoverHtml': function() {
+                    getFullCellCoverHtml: function() {
                         var outStr = '';
                         if (hasCoverImage) {
                             outStr += '<div class="cellCover">';
@@ -137,7 +127,7 @@
 
                         return outStr;
                     },
-                    'getTagsHtml': function() {
+                    getTagsHtml: function() {
                         var outStr = '';
                         var seen = [];
                         var result = [];
@@ -161,16 +151,21 @@
 
                         return outStr;
                     },
-                    'getCreateTimeString': function() {
+                    getCreateTimeString: function() {
                         if (this.created_at) {
                             return util.getDateString(this.created_at);
                         }
                     },
-                    'isTextCell': function() {
-                        if (!this.images || this.images.length < 1) {
-                            return true;
+                    isTextCell: function() {
+                        return (!this.images || this.images.length < 1);
+                    },
+                    generateRankCellCoverHtml: function() {
+                        if (this.rank < 4) {
+                            return this.getFullCellCoverHtml();
+                        } else if(this.rank < 10) {
+                            return '<div class="cellCover">' + this.getLargeCellCoverHtml() + '</div>';
                         } else {
-                            return false;
+                            return this.getMediumCellCoverHtml();
                         }
                     }
                 };
@@ -233,6 +228,7 @@
                 }
             },
             onDestroy: function() {
+                this.$el.destroyHammer();
                 this.stopListening();
             },
             className: 'cell waves-effect'

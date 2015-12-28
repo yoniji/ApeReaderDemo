@@ -19,6 +19,10 @@ var Tab = function(tabsContainer, panesContainer)
    */
   this.init = function() {
     if ( !this.isInitialized ) {
+        tabs.each( function(index, el) {
+          $(el).hammer({ recognizers:[[Hammer.Tap]]});
+          console.log($(el).data('hammer'));
+        });
         this.isInitialized = true;
         setPaneDimensions();
         $(window).on("load resize orientationchange", setPaneDimensions);

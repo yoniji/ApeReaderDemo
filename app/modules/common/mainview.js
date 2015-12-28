@@ -1,5 +1,18 @@
-define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/main.html','waves', 'hammerjs', 'jquery-hammerjs'],
-    function(Backbone, Marionette, Mustache, $, template, Waves, Hammer) {
+define(['backbone', 
+    'marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/common/main.html',
+    'waves', 
+    'hammerjs', 
+    'jquery-hammerjs'],
+    function(Backbone, 
+        Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        Waves, 
+        Hammer) {
         return Marionette.LayoutView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -19,9 +32,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                 this.render();
             },
             events: {
-                'tap a': 'onTapLink',
-                'click a': 'onClickLink',
-                'touchmove': 'onTouchMove'
+                'tap .homeNavigation-item': 'onTapNav'
             },
             ui: {
                 'primary': '#primary',
@@ -35,7 +46,6 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
 
             },
             onRender: function() {
-                this.initHammer();
                 this.windowHeight = $(window).height() - 56;
                 this.ui.primary.height(this.windowHeight);
                 this.ui.secondary.height(this.windowHeight);
@@ -47,44 +57,16 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                     'min-width': windowWidth,
                     'max-width':windowWidth
                 });
-                this.initWaves();
+
+                this.$el.find('.homeNavigation-item').each(function(index, el) {
+                    $(el).hammer({
+                        recognizers:[[Hammer.Tap]]
+                    });
+                });
 
             },
-            initWaves: function() {
-                /*
-                Waves.init({
-                    delay: 100
-                });
-                */
-                this.$el.find('.homeNavigation-item>.icon').each(function(index,el){
-                    Waves.attach(el);
-                });
-            },
-            initHammer: function() {
-
-                /*
-                $('body').hammer({
-                    domEvents: true
-                });
-                var mc = $('body').data('hammer');
-                mc.get('tap').set({
-                    time: 500,
-                    threshold: 10
-                });
-                mc.get('pan').set({
-                    threshold: 15
-                });
-                mc.remove('doubletap');
-                mc.remove('rotate');
-                mc.remove('pinch');
-                mc.remove('swipe');
-                mc.remove('press');
-                */
-            },
-            onTapLink: function(event) {
-                event.preventDefault();
-                event.stopPropagation();
-
+            onTapNav: function(event) {
+                Waves.ripple(event.currentTarget);
                 var $link = $(event.currentTarget);
                 var href = $link.attr("href");
 
@@ -108,11 +90,7 @@ define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/common/mai
                     });
                 }
 
-            },
-            onClickLink: function(event) {
-                //prevent ghost click
-                event.preventDefault();
-                event.stopPropagation();
+
             },
             updatePrimaryRegion: function(view) {
                 if (this.secondaryRegion.$el) this.secondaryRegion.reset();

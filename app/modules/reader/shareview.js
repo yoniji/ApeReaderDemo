@@ -6,7 +6,7 @@
                 return Mustache.render(template, serialized_model);
             },
             events: {
-                'tap': 'onTap',
+                'touchend': 'onTap',
                 'touchmove': 'onTouchMove'
             },
             initialize: function(options) {

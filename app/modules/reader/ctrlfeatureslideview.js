@@ -5,7 +5,9 @@ define(['marionette',
     'jquery', 
     'text!modules/reader/ctrlfeatureslides.html', 
     'carousel', 'modules/reader/brandmodel', 
-    'modules/reader/productsearchmodel'],
+    'modules/reader/productsearchmodel',
+    'hammerjs',
+    'jquery-hammerjs'],
     function(Marionette, 
         Backbone,  
         _, 
@@ -14,7 +16,8 @@ define(['marionette',
         template, 
         Carousel, 
         BrandSearchModel, 
-        ProductSearchModel) {
+        ProductSearchModel,
+        Hammer) {
 
 
         return Marionette.ItemView.extend({
@@ -105,8 +108,15 @@ define(['marionette',
                  //初始化顶部幻灯片
                 this.carousel = new Carousel(this.$el.parent());
                 this.carousel.init();
+
+                this.$el.find('.slide').each(function(index,el) {
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
             },
             onDestroy: function() {
+                this.$el.find('.slide').each(function(index, el){
+                    $(el).destroyHammer();
+                });
                 if (this.carousel) this.carousel.destroy();
             }
         });

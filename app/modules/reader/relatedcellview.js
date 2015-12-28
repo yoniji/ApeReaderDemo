@@ -3,13 +3,16 @@
     'mustache', 
     'jquery', 
     'text!modules/reader/recommendcell.html',
-    'waves'],
+    'waves',
+    'hammerjs',
+    'jquery-hammerjs'],
     function(Marionette,
      _, 
      Mustache, 
      $, 
      template, 
-     Waves) {
+     Waves,
+     Hammer) {
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -99,6 +102,11 @@
                         return outStr;
                     }
                 };
+            },
+            onRender: function() {
+                this.$el.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
             },
             onChange: function() {
                 var self = this;

@@ -8,7 +8,9 @@
     'modules/reader/designinfoview', 
     'modules/reader/shareview', 
     'modules/reader/ctrlproductlistview', 
-    'carousel', 
+    'carousel',
+    'hammerjs',
+    'jquery-hammerjs',
     'iscroll'],
     function(
         Marionette, 
@@ -21,7 +23,8 @@
         DesignInfoView, 
         ShareView, 
         CtrlProductListView, 
-        Carousel
+        Carousel,
+        Hammer
     ) {
 
         return Marionette.ItemView.extend({
@@ -353,6 +356,9 @@
                 util.setWechatShare(share_info, null, null);
 
 
+                this.$el.find('.tapEnable').each(function(index, el) {
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
 
             },
             onTapReadMoreDesc: function(ev) {
@@ -419,6 +425,7 @@
                 }
             },
             onTapGallary: function(ev) {
+
                 var current = $(ev.currentTarget).find('img').attr('originalsrc');
                 if (!current) current = '';
 
@@ -451,6 +458,11 @@
             onDestroy: function() {
                 if (this.scroller) this.scroller.destroy();
                 if (this.carousel) this.carousel.destroy();
+
+                this.$el.find('.tapEnable').each(function(index, el){
+                    $(el).destroyHammer();
+                });
+
                 this.stopListening();
                 this.$el.remove();
 

@@ -1,5 +1,28 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/productsearch.html', 'modules/reader/productsearchmodel', 'modules/reader/productcollection', 'modules/reader/productitemview', 'modules/reader/filterbarview', 'modules/reader/filterbarmodel', 'modules/reader/emptyview','modules/reader/selectbrandview'],
-    function(Marionette, Mustache, $, template, ProductSearchModel, ProductCollection, ProductItemView, FilterBarView, FilterBarModel, EmptyView, SelectBrandView) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/productsearch.html', 
+    'modules/reader/productsearchmodel', 
+    'modules/reader/productcollection', 
+    'modules/reader/productitemview', 
+    'modules/reader/filterbarview', 
+    'modules/reader/filterbarmodel', 
+    'modules/reader/emptyview',
+    'modules/reader/selectbrandview',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        ProductSearchModel, 
+        ProductCollection, 
+        ProductItemView, 
+        FilterBarView, 
+        FilterBarModel, 
+        EmptyView, 
+        SelectBrandView,
+        Hammer) {
 
         var limit = 20,startPage = 1;
         var filters = {};
@@ -142,6 +165,10 @@
                     this.updateToolBarBrand(filters.brand);
                 }
                 this.enalbeFilters = true;
+
+                this.$el.find('.tapEnable').each(function(index, el) {
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
 
             },
             onScroll: function(ev) {
@@ -303,6 +330,9 @@
                 this.ui.streamWrapper.css('padding-top', topPadding);
             },
             onDestroy: function() {
+                this.$el.find('.tapEnable').each(function(index, el){
+                    $(el).destroyHammer();
+                });
                 this.stopListening();
                 this.ui.streamWrapper.off('scroll');
                 if (this.model) this.model.destroy();

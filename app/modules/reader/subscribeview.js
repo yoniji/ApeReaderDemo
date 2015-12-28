@@ -10,9 +10,9 @@
                 'count': '.countDown'
             },
             events: {
-                'tap': 'onTap',
+                'touchend': 'onTap',
                 'touchmove': 'onTouchMove',
-                'tap .share-readMore': 'onTapMore'
+                'touchend .share-readMore': 'onTapMore'
             },
             initialize: function(options) {
                 this.render();

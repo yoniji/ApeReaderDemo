@@ -1,5 +1,16 @@
-﻿define(['backbone', 'marionette', 'mustache', 'jquery', 'text!modules/reader/moretext.html'],
-    function(Backbone, Marionette, Mustache, $, template) {
+﻿define(['backbone', 
+    'marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/moretext.html',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Backbone, 
+        Marionette, 
+        Mustache, 
+        $, 
+        template,
+        Hammer) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -27,6 +38,9 @@
                 }, 300);
 
                 $('body').append(this.$el);
+                 //hammer
+                this.ui.close.hammer({ recognizers:[[Hammer.Tap]]});
+
                 this.$el.focus();
 
                 this.ui.content.css('height', this.$el.height() - this.ui.close.height() );
@@ -52,6 +66,7 @@
             },
             onDestroy: function() {
                 this.stopListening();
+                this.ui.close.destroyHammer();
                 this.$el.remove();
             },
             className: 'moreTextWrapper overlay'

@@ -6,6 +6,8 @@ define([
     'text!modules/reader/productlist.html', 
     'text!modules/reader/productitem.html', 
     'modules/reader/productsearchmodel', 
+    'hammerjs',
+    'jquery-hammerjs',
     'iscroll'
     ],
     function(
@@ -15,7 +17,8 @@ define([
         $, 
         template, 
         itemTemplate,
-        SearchModel
+        SearchModel,
+        Hammer
     ) {
 
 
@@ -94,6 +97,7 @@ define([
 
                 this.render();
 
+                //如果没有产品移除整个element
                 if ( this.model.get('products').length === 0 ) {
                     //todo 这里如何确保parent是可以安全移除的
                     this.$el.parent().prev('.caption').remove();
@@ -112,6 +116,12 @@ define([
                     });
                 }
 
+                //hammer
+                this.$el.find('.productItem').each(function(index, el){
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
+                
+
             },
             onTapProduct: function(ev) {
                 var id = $(ev.currentTarget).attr('data-id');
@@ -121,6 +131,9 @@ define([
             },
             onDestroy: function() {
                 if (this.scroller) this.scroller.destroy();
+                this.$el.find('.productItem').each(function(index, el){
+                    $(el).destroyHammer();
+                });
             }
         });
     });

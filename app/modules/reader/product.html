@@ -2,7 +2,7 @@
 <div class="product">
     <div class="productGallery carousel">
         <div class="carousel-inner">
-            <div class="item productGallarySlide productGallaryPlaceholder" style="{{getBannerSizeCss}}">
+            <div class="tapEnable item productGallarySlide productGallaryPlaceholder" style="{{getBannerSizeCss}}">
                 {{#placeholder}}
                 <img src="{{display_image.url}}{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="{{display_image.url}}">
                 {{/placeholder}}
@@ -47,7 +47,7 @@
     <div class="productGallery carousel">
         <div class="carousel-inner">
             {{#getSlidesImages}}
-            <div class="item productGallarySlide">
+            <div class="tapEnable item productGallarySlide">
                 <img src="{{url}}{{getBannerSuffix}}" style="{{getBannerSizeCss}}" originalsrc="{{url}}">
             </div>
             {{/getSlidesImages}}
@@ -64,18 +64,22 @@
         {{getShortDescription}}
     </div>
     <div class="actionLine">
-        {{#original_description}}<div class="btn btn-line btn-small readMoreDescriptionOriginal">原文</div>{{/original_description}}
+        {{#original_description}}<div class="tapEnable btn btn-line btn-small readMoreDescriptionOriginal">原文</div>{{/original_description}}
         {{#isMoreDescriptionVisible}}
-        <div class="btn btn-line btn-primary btn-small readMoreDescription">阅读全部</div>
+        <div class="tapEnable btn btn-line btn-primary btn-small readMoreDescription">阅读全部</div>
         {{/isMoreDescriptionVisible}}
     </div>
     {{#isThumbsVisible}}
     <div class="grid productGallary">
         {{#getThumbs}}
-        <div class="image thumb gridThumb grid1-3 {{#isLast}}lastThumb{{/isLast}}" style="{{getGridSizeCss}}"><img src="{{url}}{{getGridSuffix}}" originalsrc="{{url}}" style="{{getGridSizeCss}}"> 
+        <div class="tapEnable image thumb gridThumb grid1-3 {{#isLast}}lastThumb{{/isLast}}" style="{{getGridSizeCss}}"><img src="{{url}}{{getGridSuffix}}" originalsrc="{{url}}" style="{{getGridSizeCss}}"> 
             {{#isLast}}
-            <div class="gridThumbOverlay"><i class="icon icon-pictures"></i>
-                <br>浏览全部<br>{{imagesCount}}张图片</div>
+            <div class="gridThumbOverlay">
+                    <div class="gridThumbOverlayInner">
+                        <i class="icon icon-pictures"></i>
+                        <br>浏览全部<br>{{imagesCount}}张图片
+                    </div>
+            </div>
             {{/isLast}}
         </div>
         {{/getThumbs}}
@@ -125,7 +129,7 @@
             {{/country}}
         </div>
         <div class="actionLine">
-            <div class="btn btn-line btn-small readMoreDesignInfo">查看完整设计解读</div>
+            <div class="tapEnable btn btn-line btn-small readMoreDesignInfo">查看完整设计解读</div>
         </div>
     </div>
     <div class="productBrand">
@@ -145,9 +149,9 @@
             {{/brand}}
         </div>
         <div class="actionLine">
-            {{#brand.original_description}}<div class="btn btn-line btn-small readMoreBrandOriginal">原文</div>{{/brand.original_description}}
+            {{#brand.original_description}}<div class="tapEnable btn btn-line btn-small readMoreBrandOriginal">原文</div>{{/brand.original_description}}
             {{#brand}}{{#isMoreDescriptionVisible}}
-            <div class="btn btn-line btn-primary btn-small readMoreBrand">阅读全部</div>
+            <div class="tapEnable btn btn-line btn-primary btn-small readMoreBrand">阅读全部</div>
             {{/isMoreDescriptionVisible}}{{/brand}}
         </div>
     </div>
@@ -157,14 +161,14 @@
 
         </div>
         <div class="actionLine">
-            <div class="btn btn-line btn-small moreAlternatives">查看更多</div>
+            <div class="tapEnable btn btn-line btn-small moreAlternatives">查看更多</div>
         </div>
     </div>
 </div>
 <div class="productToolBar toolBar">
-    <div class="toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
-    <div class="toolBar-item toolBar-like">{{#metadata.liked}}<i class="icon icon-heart3 main-color"></i>{{/metadata.liked}}{{^metadata.liked}}<i class="icon icon-heart2"></i>{{/metadata.liked}} 收藏</div>
-    <div class="toolBar-item toolBar-share"><i class="icon icon-share"></i> 分享</div>
-    <div class="toolBar-item toolBar-brand"><img src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
+    <div class="tapEnable toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
+    <div class="tapEnable toolBar-item toolBar-like">{{#metadata.liked}}<i class="icon icon-heart3 main-color"></i>{{/metadata.liked}}{{^metadata.liked}}<i class="icon icon-heart2"></i>{{/metadata.liked}} 收藏</div>
+    <div class="tapEnable toolBar-item toolBar-share"><i class="icon icon-share"></i> 分享</div>
+    <div class="tapEnable toolBar-item toolBar-brand"><img src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
 </div>
 {{/isSynced}}

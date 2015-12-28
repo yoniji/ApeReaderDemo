@@ -4,6 +4,8 @@
     'mustache', 
     'jquery', 
     'text!modules/reader/designinfo.html', 
+    'hammerjs',
+    'jquery-hammerjs',
     'iscroll'],
     function(
         Backbone,
@@ -11,7 +13,8 @@
         Marionette, 
         Mustache, 
         $, 
-        template) {
+        template,
+        Hammer) {
 
         var styleList = ['20s','30s40s', '50s', '60s', '70s', '80s', '90s', '00s'];
         var countryData = [
@@ -290,6 +293,8 @@
 
                     this.scroller.scrollTo(scrollToX,0);
                 }
+                //hammer
+                this.ui.close.hammer({ recognizers:[[Hammer.Tap]]});
             },
             slideOut: function() {
                 var self = this;
@@ -311,6 +316,7 @@
             },
             onDestroy: function() {
                 if (this.scroller) this.scroller.destroy();
+                this.ui.close.destroyHammer();
                 this.stopListening();
                 this.$el.remove();
             },

@@ -1,5 +1,16 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/selectbrand.html', 'modules/reader/brandmodel'],
-    function(Marionette, Mustache, $, template, Brand) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/selectbrand.html', 
+    'modules/reader/brandmodel',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        Brand,
+        Hammer) {
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -25,7 +36,11 @@
                 $('body').append(this.$el);
             },
             onRender: function() {
-                
+                this.$el.find('.brandItem').each(function(index, el) {
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
+                this.$el.find('.close').hammer({ recognizers:[[Hammer.Tap]]});
+                this.$el.find('.brand-close').hammer({ recognizers:[[Hammer.Tap]]});
             },
             templateHelpers: function() {
                 var ratio = util.getDeviceRatio();
@@ -57,6 +72,11 @@
                 util.stopPropagation(ev);
             },
             onDestroy: function() {
+                this.$el.find('.brandItem').each(function(index, el){
+                    $(el).destroyHammer();
+                });
+                this.$el.find('.close').destroyHammer();
+                this.$el.find('.brand-close').destroyHammer();
                 this.$el.remove();
                 this.model.destroy();
             },

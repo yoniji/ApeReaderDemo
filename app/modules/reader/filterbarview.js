@@ -1,5 +1,18 @@
-﻿define(['marionette', 'mustache', 'jquery', 'text!modules/reader/filterbar.html', 'dropdown', 'underscore'],
-    function(Marionette, Mustache, $, template, DropDownControl, _) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'text!modules/reader/filterbar.html', 
+    'dropdown', 
+    'underscore',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        DropDownControl, 
+        _,
+        Hammer) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -94,7 +107,16 @@
                         var filter = $(fitlerItem);
                         var id = filter.attr('data-id');
                         filter.css('width', filterWidth + '%');
-                        if (!filter.hasClass('leafFilter')) self.filterMenus[id] = new DropDownControl(filter, filter.next(), 'filterMenu-item', 'fitlerSelection', true);
+                        if (filter.hasClass('leafFilter')) {
+                            //todo 销毁
+                            fitler.hammer({
+                                recognizers:[[Hammer.Tap]]
+                            });
+                        } else {
+                            self.filterMenus[id] = new DropDownControl(
+                                filter, filter.next(), 'filterMenu-item', 'fitlerSelection', true
+                            );
+                        }
                     });
                     this.$el.removeClass('noFilter');
                 } else {
@@ -118,6 +140,7 @@
                 this.render();
             },
             onDestroy: function() {
+                this.$el.find('.leafFilter').destroyHammer();
                 this.destroyMenu();
             }
         });

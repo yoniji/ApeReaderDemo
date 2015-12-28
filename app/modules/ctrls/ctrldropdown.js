@@ -1,4 +1,7 @@
-﻿define(['jquery', 'hammerjs', 'jquery-hammerjs'], function($, Hammer) {
+﻿define(['jquery', 
+    'hammerjs', 
+    'jquery-hammerjs'], 
+    function($, Hammer) {
 
     var DropDown = function($toggle, $menu, menuItemClass, switchTextClass, transparentOverlay) {
         var self = this;
@@ -21,6 +24,12 @@
             if (!this.isInitialized) {
                 $toggle.after($overlay);
                 this.isInitialized = true;
+
+                $toggle.hammer({recognizers:[[Hammer.Tap]]});
+                $menuItems.each(function(index, el) {
+                    $(el).hammer({recognizers:[[Hammer.Tap]]});
+                });
+
                 $toggle.on("tap", onTapToggle);
                 $menuItems.on("tap", onTapMenuItem);
                 $overlay.on("touchstart", onTapToggle);
@@ -31,6 +40,12 @@
             $toggle.off("tap", onTapToggle);
             $menuItems.off("tap", onTapMenuItem);
             $overlay.off("touchstart", onTapToggle);
+
+            $toggle.destroyHammer();
+            $menuItems.each(function(index, el) {
+                $(el).destroyHammer();
+            });
+
             $overlay.remove();
 
         };

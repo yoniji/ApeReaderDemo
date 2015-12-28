@@ -7,6 +7,8 @@
     'modules/reader/ctrlproductlistview', 
     'modules/reader/ctrlbrandlistview', 
     'modules/reader/ctrlfeatureslideview', 
+    'hammerjs',
+    'jquery-hammerjs',
     'iscroll'],
     function(Marionette, Mustache, $, 
         template, 
@@ -16,7 +18,8 @@
         Waves, 
         CtrlProductListView, 
         CtrlBrandListView, 
-        CtrlFeatureSlideView) {
+        CtrlFeatureSlideView,
+        Hammer) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -104,7 +107,9 @@
                 });
 
 
-                 Waves.attach(this.$el.find('.productItem,.slide'),['waves-block']);
+                this.$el.find('.tapEnable').each(function(index, el) {
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
             },
             onTouchMove:function(ev) {
                 util.stopPropagation(ev);
@@ -194,7 +199,9 @@
                 }
             },
             onDestroy: function() {
-                
+                this.$el.find('.tapEnable').each(function(index, el){
+                    $(el).destroyHammer();
+                });
                 this.stopListening();
             },
             id: 'productLibrary',

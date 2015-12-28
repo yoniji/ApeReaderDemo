@@ -1,10 +1,23 @@
-﻿define(['marionette', 'mustache', 'jquery', 'modules/reader/cellview', 'text!modules/reader/card.html', 'text!modules/reader/cardaction.html', 'waves'],
-    function(Marionette, Mustache, $, CellView, template, actionTemplate, Waves) {
+﻿define(['marionette', 
+    'mustache', 
+    'jquery', 
+    'modules/reader/cellview', 
+    'text!modules/reader/card.html', 
+    'text!modules/reader/cardaction.html',
+    'hammerjs',
+    'jquery-hammerjs'],
+    function(Marionette, 
+        Mustache, 
+        $, 
+        CellView, 
+        template, 
+        emptyCardTemplate,
+        Hammer) {
 
         return CellView.extend({
             template: function(serialized_model) {
                 if (serialized_model.isAction) {
-                    return Mustache.render(actionTemplate, serialized_model);
+                    return Mustache.render(emptyCardTemplate, serialized_model);
                 } else {
                     return Mustache.render(template, serialized_model);
                 }
@@ -18,6 +31,9 @@
                 if (this.model.get('isAction')) {
                     this.$el.addClass('actionCard');
                 }
+                this.$el.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
             },
             onToggleLikeSuccess: function() {
                 if (!this.model.get('metadata').liked) {

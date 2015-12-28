@@ -1,5 +1,18 @@
-define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/ctrlbrandlist.html', 'modules/reader/brandmodel'],
-    function(Marionette, _, Mustache, $, template, SearchModel) {
+define(['marionette',
+ 'underscore', 
+ 'mustache', 
+ 'jquery', 
+ 'text!modules/reader/ctrlbrandlist.html', 
+ 'modules/reader/brandmodel',
+ 'hammerjs',
+ 'jquery-hammerjs'],
+    function(Marionette, 
+        _, 
+        Mustache, 
+        $, 
+        template, 
+        SearchModel,
+        Hammer) {
 
 
         return Marionette.ItemView.extend({
@@ -40,9 +53,14 @@ define(['marionette', 'underscore', 'mustache', 'jquery', 'text!modules/reader/c
             },
             onModelSync: function() {
                 this.render();
-
+                this.$el.find('.brandItem').each(function(index, el) {
+                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                });
             },
             onDestroy: function() {
+                this.$el.find('.brandItem').each(function(index, el){
+                    $(el).destroyHammer();
+                });
             }
         });
     });

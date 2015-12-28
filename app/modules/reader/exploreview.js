@@ -11,6 +11,8 @@
     'modules/reader/filterbarview', 
     'modules/reader/filterbarmodel', 
     'modules/reader/emptyview', 
+    'hammerjs',
+    'jquery-hammerjs',
     'refresh'],
     function(Marionette, 
         Mustache, 
@@ -24,7 +26,8 @@
         DropDownControl, 
         FilterBarView, 
         FilterBarModel, 
-        EmptyView) {
+        EmptyView,
+        Hammer) {
 
 
         function shouldStartLoadingNew(posts) {
@@ -59,7 +62,7 @@
                 'select @ui.filterMenuItem': 'onTapMenuItem',
                 'scroll @ui.streamWrapper': 'onScroll',
                 'beforeOpenMenu @ui.filterSwitch': 'beforeOpenMenu',
-                'tap .readCursor': 'onTapReadCursor',
+                'click .readCursor': 'onTapReadCursor',
                 'tap @ui.scrollTop': 'onTapReadCursor',
                 'touchmove @ui.streamWrapper': 'onTouchMove'
             },
@@ -219,6 +222,10 @@
                 } else {
                     this.ui.streamWrapper.scrollTop(0);
                 }
+
+                this.ui.scrollTop.hammer({
+                    recognizers:[[Hammer.Tap]]
+                });
                 
 
             },
@@ -251,7 +258,13 @@
                 this.filterView = null;
                 this.filterModel.destroy();
                 this.filterModel = null;
+
+                this.ui.scrollTop.destroyHammer();
+                
                 mRefresh.destroy();
+
+                
+
                 if (this.timeout) {
                     clearTimeout(this.timeout);
                     this.timeout = null;

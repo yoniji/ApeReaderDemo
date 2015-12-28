@@ -4,8 +4,16 @@
     'jquery', 
     'text!modules/reader/productitem.html', 
     'modules/reader/productview', 
-    'waves' ],
-    function(Marionette, Mustache, $, template, ProductView, Waves) {
+    'waves',
+    'hammerjs',
+    'jquery-hammerjs' ],
+    function(Marionette, 
+        Mustache, 
+        $, 
+        template, 
+        ProductView, 
+        Waves,
+        Hammer) {
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
@@ -37,9 +45,11 @@
                     }
                 };
             },
-            initialize: function() {
-
-
+            onRender: function() {
+                this.$el.hammer({ recognizers:[[Hammer.Tap]]});
+            },
+            onDestroy: function() {
+                this.$el.destroyHammer();
             },
             onTap: function(ev) {
                 Waves.ripple(this.$el[0]);

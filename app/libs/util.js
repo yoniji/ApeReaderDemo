@@ -452,7 +452,6 @@ define(function(require, exports, module) {
     };
     exports.stopPropagation = function(event) {
         event.stopPropagation();
-        //if (event.gesture) event.gesture.stopPropagation();
     };
     exports.setIconToLoading = function(iconEl) {
         iconEl.attr('originalClass', iconEl.attr('class'));
