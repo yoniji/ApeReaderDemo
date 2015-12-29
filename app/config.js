@@ -9,12 +9,13 @@ require.config({
         "hammerjs":"../vendor/bower/hammerjs/hammer",
         "jquery-hammerjs":"../vendor/bower/jquery-hammerjs/jquery.hammer",
         "iscroll": "../vendor/bower/iscroll/build/iscroll",
-        "util": 'libs/util',
-        "urls": "modules/common/urls",
-        "dropdown": "modules/ctrls/ctrldropdown",
-        "carousel":"modules/ctrls/ctrlcarousel",
         "waves": "../vendor/bower/waves/dist/waves",
-        "refresh": "../vendor/bower/material-refresh/material-refresh"
+        "refresh": "../vendor/bower/material-refresh/material-refresh",
+        "util": 'scripts/common/util',
+        "urls": "scripts/common/url",
+        "dropdown": "scripts/common/ctrl_dropdown",
+        "carousel":"scripts/common/ctrl_carousel",
+        "filter":"scripts/common/ctrl_filter"
     },
 
     deps: ["main"],
