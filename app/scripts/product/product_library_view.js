@@ -1,23 +1,22 @@
-﻿define(['marionette', 'mustache', 'jquery', 
-    'text!templates/product_library.html', 
-    'scripts/product/product_library_model', 
-    'scripts/product/product_search_view', 
-    'scripts/product/product_detail_view',
-    'waves',
-    'scripts/product/ctrl_product_list_view', 
-    'scripts/product/ctrl_brand_list_view', 
-    'scripts/product/ctrl_featured_carousel_view', 
-    'hammerjs',
-    'jquery-hammerjs',
-    'iscroll'],
-    function(Marionette, Mustache, $, 
-        template, 
-        ProductLibraryModel, 
-        ProductSearchView, 
-        ProductView, 
-        Waves, 
-        CtrlProductListView, 
-        CtrlBrandListView, 
+﻿define(['marionette', 'mustache', 'jquery',
+        'text!templates/product_library.html',
+        'scripts/product/product_library_model',
+        'scripts/product/product_detail_view',
+        'waves',
+        'scripts/product/ctrl_product_list_view',
+        'scripts/product/ctrl_brand_list_view',
+        'scripts/product/ctrl_featured_carousel_view',
+        'hammerjs',
+        'jquery-hammerjs',
+        'iscroll'
+    ],
+    function(Marionette, Mustache, $,
+        template,
+        ProductLibraryModel,
+        ProductView,
+        Waves,
+        CtrlProductListView,
+        CtrlBrandListView,
         CtrlFeatureSlideView,
         Hammer) {
 
@@ -30,7 +29,7 @@
                 'tap .roomsNav-item': 'onTapRoom',
                 'tap .brandItem': 'onTapBrand',
                 'tap .brand-slide': 'onTapBrand',
-                'touchmove':'onTouchMove'
+                'touchmove': 'onTouchMove'
             },
             ui: {
                 'tabs': '.tabs'
@@ -42,61 +41,61 @@
                 this.originalShare = _.clone(appConfig.share_info);
                 var share_info = appConfig.share_info;
 
-                share_info.timeline_title =  '产品首页「悟空家装」';
+                share_info.timeline_title = '产品首页「悟空家装」';
                 share_info.message_title = share_info.timeline_title;
 
                 var url = util.getUrlWithoutHashAndSearch();
                 url = url + '?hash=' + encodeURIComponent('#products');
-                share_info.link =url;
+                share_info.link = url;
 
                 this.shareInfo = share_info;
 
-                util.setWechatShare(share_info, null ,null);
+                util.setWechatShare(share_info, null, null);
             },
             onShow: function() {
-               
-               this.slides = new CtrlFeatureSlideView({
-                container: this.$el.find('.carousel-inner')
-               });
+
+                this.slides = new CtrlFeatureSlideView({
+                    container: this.$el.find('.carousel-inner')
+                });
 
                 //推荐产品
                 this.featureProducts = new CtrlProductListView({
                     container: this.$el.find('.horizontalProductListInner'),
                     filterJSON: {
-                        'limit':20,
-                        'sample':4
+                        'limit': 20,
+                        'sample': 4
                     }
                 });
 
 
                 this.brandsA = new CtrlBrandListView({
                     filterJSON: {
-                        'initial':'a,b,c,d,e,f,g'
+                        'initial': 'a,b,c,d,e,f,g'
                     },
                     container: this.$el.find('#paneA')
                 });
 
                 this.brandsH = new CtrlBrandListView({
                     filterJSON: {
-                        'initial':'h,i,j,k,l,m,n'
+                        'initial': 'h,i,j,k,l,m,n'
                     },
                     container: this.$el.find('#paneH')
                 });
 
                 this.brandsO = new CtrlBrandListView({
                     filterJSON: {
-                        'initial':'o,p,q,r,s'
+                        'initial': 'o,p,q,r,s'
                     },
                     container: this.$el.find('#paneO')
                 });
 
                 this.brandsT = new CtrlBrandListView({
                     filterJSON: {
-                        'initial':'t,u,v,w,x,y,z,0,#'
+                        'initial': 't,u,v,w,x,y,z,0,#'
                     },
                     container: this.$el.find('#paneT')
                 });
-                
+
                 //品牌tab固顶
                 var self = this;
                 this.lastScrollTop = 0;
@@ -108,10 +107,14 @@
 
 
                 this.$el.find('.tapEnable').each(function(index, el) {
-                    $(el).hammer({ recognizers:[[Hammer.Tap]]});
+                    $(el).hammer({
+                        recognizers: [
+                            [Hammer.Tap]
+                        ]
+                    });
                 });
             },
-            onTouchMove:function(ev) {
+            onTouchMove: function(ev) {
                 util.stopPropagation(ev);
             },
             onTapTab: function(ev) {
@@ -133,28 +136,25 @@
                 var id = '';
                 id = $(ev.currentTarget).attr('data-id');
 
-                var productSearchView = new ProductSearchView({
-                    'delay':true,
-                    'filters': {
-                        'roomId':id
-                    }
-                });
+                if (id) {
+                    app.appRouter.navigate('#products/search/room/' + id, {
+                        trigger: true
+                    });
+                } else {
+                    app.appRouter.navigate('#products/search/', {
+                        trigger: true
+                    });
+                }
+
             },
             onTapBrand: function(ev) {
-                var id = '',logo = '';
+                var id = '',
+                    logo = '';
                 id = $(ev.currentTarget).attr('data-id');
                 logo = $(ev.currentTarget).attr('data-logo');
 
-                var productSearchView = new ProductSearchView({
-                    'delay':true,
-                    'filters': {
-                        'brand': {
-                            id: id,
-                            logo: {
-                                url: logo
-                            }
-                        }
-                    }
+                app.appRouter.navigate('#products/search/brand/' + id + '/logo/' + util.base64_encode(logo), {
+                    trigger: true
                 });
             },
             onScroll: function(ev) {
@@ -199,7 +199,7 @@
                 }
             },
             onDestroy: function() {
-                this.$el.find('.tapEnable').each(function(index, el){
+                this.$el.find('.tapEnable').each(function(index, el) {
                     $(el).destroyHammer();
                 });
                 this.stopListening();

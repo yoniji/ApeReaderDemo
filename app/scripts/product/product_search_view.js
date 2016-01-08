@@ -26,6 +26,35 @@
 
         var limit = 20,startPage = 1;
         var filters = {};
+
+        function parseFilterString(originalFilterStr) {
+            var result = {};
+            var filterArray = originalFilterStr.split('/');
+            for (var i=0; i < filterArray.length - 1; i+=2 ) {
+                switch ( filterArray[i] ) {
+                    case 'brand':
+                    result.brand = {
+                        id : filterArray[i+1],
+                        logo:{}
+                    };
+                    break;
+                    case 'logo':
+                    if (result.brand) {
+                        result.brand.logo = { url: util.base64_decode(filterArray[i+1]) };
+                    }
+                    break;
+                    case 'room':
+                    result.roomId = filterArray[i+1];
+                    break;
+                    case 'type':
+                    result.typeId = filterArray[i+1];
+                    break;
+                }
+
+            }
+            return result;
+        }
+
         return Marionette.CompositeView.extend({
             template: function(serialized_model) {
                 return Mustache.render(template, serialized_model);
@@ -54,7 +83,13 @@
                 this.model = new ProductSearchModel();
                 this.collection = new ProductCollection();
                 if (options) {
+
+                    if (options.originalFilterStr) {
+                        filters = parseFilterString(options.originalFilterStr);
+                    }
+
                     if(options.filters) filters = options.filters;
+
                 }
 
                 this.render();
@@ -242,7 +277,6 @@
                     startPage++;
                     this.model.loadMore(this.getSearchFilter());
                 }
-                
             },
             onChangeBrand: function() {
                 if (this.enalbeFilters) {

@@ -132,7 +132,11 @@
                 util.setWechatShare(window.appConfig.share_info, null, null, 'products');
             },
             searchProducts: function(filter) {
-                var productSearchView = new ProductSearchView(filter);
+                if (this.productSearchView) {
+                    this.productSearchView.destroy();
+                    this.productSearchView = null;
+                }
+                this.productSearchView = new ProductSearchView({originalFilterStr:filter});
                 var productLibraryView = new ProductLibraryView();
                 setCurrentNavigationById('products');
             },
@@ -144,9 +148,7 @@
                 this.productView = new ProductView({
                     'id': id
                 });
-                var productLibraryView = new ProductLibraryView({
-                    'delay':true
-                });
+                var productLibraryView = new ProductLibraryView({'delay':true});
                 setCurrentNavigationById('products');
             },
             me: function() {

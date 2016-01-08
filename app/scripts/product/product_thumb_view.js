@@ -35,7 +35,7 @@
                     },
                     getImageSuffix: function() {
                         var outStr = '';
-                        outStr += '@' + imgWidth + 'w_' + imgWidth + 'h_1e_1c';
+                        outStr += '@' + imgWidth + 'w_' + imgWidth + 'h_1e_1c_1wh';
                         return outStr;
                     },
                     getImageSizeCss: function() {

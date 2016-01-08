@@ -6,16 +6,20 @@ define(['backbone', 'marionette'], function (Backbone, Marionette) {
         	'posts/:id(/)':'post',
 
         	'products(/)':'products',
-        	'products/search(/)':'searchProducts',  
+        	'products/search(/*filter)':'searchProducts',
         	'products/:id(/)':'productDetail',
 
             'share/posts/:id(/)':'sharePost',
             'share/products/:id(/)':'productDetail',
 
             'me(/)':'me',
-
+            /*
+            '': 'products',
+            '*action': 'products'
+            */
             '': 'explore',
             '*action': 'explore'
+            
         }
     });
 });

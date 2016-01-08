@@ -169,6 +169,6 @@
     <div class="tapEnable toolBar-item toolBar-back"><i class="icon icon-chevron-left"></i></div>
     <div class="tapEnable toolBar-item toolBar-like">{{#metadata.liked}}<i class="icon icon-heart3 main-color"></i>{{/metadata.liked}}{{^metadata.liked}}<i class="icon icon-heart2"></i>{{/metadata.liked}} 收藏</div>
     <div class="tapEnable toolBar-item toolBar-share"><i class="icon icon-share"></i> 分享</div>
-    <div class="tapEnable toolBar-item toolBar-brand"><img src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
+    <div class="tapEnable toolBar-item toolBar-brand" data-id="{{brand.id}}" data-logo="{{brand.logo.url}}"><img src="{{#brand.logo.url}}{{.}}{{/brand.logo.url}}{{^brand.logo.url}}http://imgopt.apecrafts.com/design/placeholder.jpg{{/brand.logo.url}}{{getBrandSuffix}}" style="{{getBrandSizeCss}}"></div>
 </div>
 {{/isSynced}}

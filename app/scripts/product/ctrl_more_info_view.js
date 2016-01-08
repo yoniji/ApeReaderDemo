@@ -61,7 +61,6 @@
                 util.stopPropagation(ev);
             },
             onTouchMove: function(ev) {
-                util.preventDefault(ev);
                 util.stopPropagation(ev);
             },
             onDestroy: function() {

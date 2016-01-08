@@ -15,9 +15,6 @@
 /* Normalize.css */
 @import "basic/normalize";
 
-/* The Grid System */
-//@import "basic/grid";
-
 /* Typography */
 @import "basic/typography";
 
@@ -40,6 +37,10 @@
 
 @import "wave";
 
-@import "demo";
+@import "common";
+
+@import "reader";
+
+@import "product";
 
 @import "tablet";

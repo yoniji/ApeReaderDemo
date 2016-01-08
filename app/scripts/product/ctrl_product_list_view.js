@@ -73,7 +73,7 @@ define([
                 return {
                     'getImageSuffix': function() {
                         var outStr = '';
-                        outStr += '@' + Math.round(listThumbSize * ratio) + 'w_' + Math.round(listThumbSize * ratio) + 'h_1e_1c';
+                        outStr += '@' + Math.round(listThumbSize * ratio) + 'w_' + Math.round(listThumbSize * ratio) + 'h_1e_1c_1wh';
                         return outStr;
                     }
                 };

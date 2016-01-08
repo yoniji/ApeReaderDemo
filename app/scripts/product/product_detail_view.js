@@ -131,7 +131,7 @@
                 return {
                     'getBannerSuffix': function() {
                         var outStr = '';
-                        outStr += '@' + Math.round(windowWidth * ratio) + 'w_' + Math.round(windowWidth * ratio) + 'h_1e_1c_1pr';
+                        outStr += '@' + Math.round(windowWidth * ratio) + 'w_' + Math.round(windowWidth * ratio) + 'h_1e_1c_1pr_1wh';
                         return outStr;
                     },
                     'getBannerSizeCss': function() {
@@ -141,7 +141,7 @@
                     },
                     'getBrandSuffix': function() {
                         var outStr = '';
-                        outStr += '@' + Math.round(brandIconSize * ratio) + 'w_' + Math.round(brandIconSize * ratio) + 'h_1e_1c';
+                        outStr += '@' + Math.round(brandIconSize * ratio) + 'w_' + Math.round(brandIconSize * ratio) + 'h_1e_1c_1wh';
                         return outStr;
                     },
                     'getBrandSizeCss': function() {
@@ -151,12 +151,12 @@
                     },
                     'getGridSuffix': function() {
                         var outStr = '';
-                        outStr += '@' + Math.round(gridSize * ratio) + 'w_' + Math.round(gridSize * ratio) + 'h_1e_1c';
+                        outStr += '@' + Math.round(gridSize * ratio) + 'w_' + Math.round(gridSize * ratio) + 'h_1e_1c_1wh';
                         return outStr;
                     },
                     'getListThumbSuffix': function() {
                         var outStr = '';
-                        outStr += '@' + Math.round(listThumbSize * ratio) + 'w_' + Math.round(listThumbSize * ratio) + 'h_1e_1c';
+                        outStr += '@' + Math.round(listThumbSize * ratio) + 'w_' + Math.round(listThumbSize * ratio) + 'h_1e_1c_1wh';
                         return outStr;
                     },
                     'getHorizontalThumbSuffix': function() {
@@ -171,7 +171,7 @@
                     },
                     'getAvatarSuffix': function() {
                         var outStr = '';
-                        outStr += '@' + Math.round(avatarSize * ratio) + 'w_' + Math.round(avatarSize * ratio) + 'h_1e_1c';
+                        outStr += '@' + Math.round(avatarSize * ratio) + 'w_' + Math.round(avatarSize * ratio) + 'h_1e_1c_1wh';
                         return outStr;
                     },
                     'getAvatarSizeCss': function() {
@@ -210,7 +210,7 @@
                             var image = this.allImages[0].url;
                             var imageWidth = windowWidth * ratio;
                             var imageHeight = 120 * ratio;
-                            var suffix = '@' + imageWidth + 'w_' + imageHeight + 'h_1e_1c';
+                            var suffix = '@' + imageWidth + 'w_' + imageHeight + 'h_1e_1c_1wh';
                             result = '<img src="' + image + suffix + '">';
                         }
 
@@ -347,7 +347,7 @@
                 share_info.link = url;
 
                 share_info.image = {
-                    url: this.model.get('display_image').url + '@180w_180h_1e_1c',
+                    url: this.model.get('display_image').url + '@180w_180h_1e_1c_1wh',
                     type: 'oss'
                 };
 
@@ -430,13 +430,25 @@
                 if (!current) current = '';
 
                 var images = _.pluck(this.model.get('allImages'), 'url');
-                util.previewImages(images, '');
+                util.previewImages(images, current);
             },
             onTapMoreAlternatives: function(ev) {
                 this.slideOut();
+                app.appRouter.navigate('#products/search/type/' + this.model.get('product_type').id, {
+                    trigger: true
+                });
             },
             onTapBrand: function(ev) {
                 this.slideOut();
+
+                 var id = '',
+                    logo = '';
+                id = $(ev.currentTarget).attr('data-id');
+                logo = $(ev.currentTarget).attr('data-logo');
+
+                app.appRouter.navigate('#products/search/brand/' + id + '/logo/' + util.base64_encode(logo), {
+                    trigger: true
+                });
             },
             slideOut: function() {
                 var self = this;

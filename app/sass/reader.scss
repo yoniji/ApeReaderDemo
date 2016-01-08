@@ -1,0 +1,937 @@
+@import "settings/settings";
+@import "settings/mixins";
+
+
+
+//***** Post Stream *****
+.streamWrapper {
+    @include position(relative);
+    .pullDown,
+    .pullUp {
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        color: #999;
+        font-size: 10px;
+        .icon {
+            display: inline-block;
+            @include animation(spin 1s linear infinite);
+        }
+        .icon:before {
+            content: "\e0be";
+        }
+        clear:both;
+        float:none;
+    }
+    .flip .icon {
+        display: inline-block;
+        @include animation(flip .5s linear both);
+    }
+    overflow-y: auto;
+    -webkit-overflow-scrolling:touch;
+
+    >.products {
+        @include clearfix;
+    }
+}
+
+
+
+.readCursor {
+    background: #f0f0f0;
+    color: $caption-color;
+    font-size: 12px;
+    line-height: $basic-gap*3;
+    height: $basic-gap*3;
+    text-align: center;
+}
+
+.scrollTopBtn {
+    @include position(absolute,$basic-gap*2 null null 50%);
+    margin-left: -28px;
+    @include size(56px);
+    background: $main-color;
+    color:$white;
+    border-radius:100%;
+    box-shadow:1px 1px 2px rgba(0,0,0,.5);
+    border:2px solid $white;
+    >.icon {
+        font-size: 24px;
+        line-height: 40px;
+        height: 40px;
+        display: block;
+        text-align: center;
+    }
+    >span {
+        font-size: 8px;
+        line-height:12px;
+        height: 12px;
+        display: block;
+        text-align: center;
+        position:relative;
+        top:-6px;
+    }
+    @include transition(.3s cubic-bezier(0,.99,.85,1.26));
+}
+.scrollTopBtn.hide {
+    @include transform(translate3d(0, -200%, 0));
+}
+.streanWrapperInner {
+    width: auto;
+    -webkit-transform: translate(0, 0);
+}
+
+//***** Stream Notification *****
+.notification {
+    padding: $basic-gap/2;
+    font-size: 10px;
+    line-height: 10px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-align: center;
+    @include reset-transform;
+    position:absolute;
+    left:0;
+    top:0;
+    width: 100%;
+}
+
+.notification-alert {
+    color: darken($red, 20%);
+    background: rgba(lighten($red, 40%),.8);
+}
+
+.notification-info {
+    color: darken($cyan, 30%);
+    background: rgba(lighten($cyan, 40%),.8);
+}
+
+.notification-normal {
+    color: darken($gray, 30%);
+    background: rgba(lighten($gray, 40%),.6);
+}
+
+@include keyframes(zoomInThenFadeOut) {
+    0% {
+        @include transform(scale3d(0, 0, 1));
+    }
+    10% {
+        @include transform(scale3d(1, 1, 1));
+    }
+    90% {
+        @include transform(scale3d(1, 1, 1));
+    }
+    100% {
+        @include transform(scale3d(1, 0, 1));
+    }
+}
+
+.streamWrapper {
+    .notification {
+        @include reset-transform;
+        @include transform-origin(center top);
+        @include animation(zoomInThenFadeOut 2s both);
+        top:$topBarHeight + 2;
+        z-index: 3;
+    }
+}
+
+//***** Cell *****
+.creditItem {
+    display: block;
+    @include clearfix();
+    line-height: 1em;
+    font-size: 0.8em;
+    padding-bottom: 0.2em;
+    color: $caption-color;
+}
+
+.creditImage {
+    float: left;
+    @include size(32px);
+    margin: 0 10px 0 0;
+    border-radius: 100%;
+    overflow: hidden;
+    >img {
+        min-width: 100%;
+        min-height: 100%;
+        max-height: 100%;
+        max-width: none;
+    }
+}
+
+.tags {
+    font-size: 0.8em;
+    color: $caption-color;
+    padding-left: $basic-gap;
+    line-height: $basic-gap;
+    padding-top: $basic-gap/2;
+}
+
+$cellBackground:#fafafa;
+$cellTextColor:#333;
+$cellBorderColor:#dedede;
+$actionBarWidth:64px;
+.cell {
+    font-size: $body-size;
+    background: $cellBackground;
+    color: $cellTextColor;
+    position: relative;
+    display: block;
+    @include reset-transform;
+    .inner {
+        background: $cellBackground;
+        border-bottom: 1px solid $cellBorderColor;
+    }
+    .creditItem {
+        padding: 0 $basic-gap 0.2em;
+    }
+    .title {
+        font-size: 1.2em;
+        line-height: 1.2em;
+        padding: 0 $basic-gap;
+    }
+    .viewed .title {
+        color: lighten($caption-color, 10%);
+    }
+    .excerpt,
+    .translatedTitle {
+        font-size: 1em;
+        line-height: 1.4em;
+        color: lighten($cellTextColor, 30%);
+        padding: 0 $basic-gap;
+    }
+    .subtitle {
+        color: lighten($cellTextColor, 30%);
+        font-size: 0.5em;
+    }
+    .translatedTitle {
+        padding-top: 0.2em;
+    }
+    .excerpt,
+    .translatedTitle {
+        display: none;
+    }
+    .recommendReason {
+        @include reset-transform();
+        @include position(absolute, null 0 0 null);
+        font-size: 14px;
+        color: lighten($cellTextColor, 60%);
+        font-size: 8px;
+        @include background-image(linear-gradient(to right, transparent 0, rgba(0, 0, 0, .9) 100%));
+        padding: $basic-gap/4 $basic-gap $basic-gap/4 $basic-gap*2;
+    }
+    .creditDetial {
+        line-height: 1.4em;
+        padding-top: $basic-gap;
+    }
+    .meta {
+        @include position(relative);
+        height: $basic-gap*1.5;
+    }
+    .more {
+        @include size(48px);
+        @include position(absolute, null 0 0-$basic-gap*1 null);
+    }
+    .more-line-1,
+    .more-line-2 {
+        @include size(12px 2px);
+        border-radius: 2px;
+        background: #e0e0e0;
+        @include reset-transform;
+        @include position(absolute, 50% null null 50%);
+        margin-left: -6px;
+        margin-top: -1px;
+    }
+    .more-line-2 {
+        @include transform(rotate(90deg));
+    }
+}
+
+$smallCellCoverSize:72px;
+.smallCell {
+    min-height: $smallCellCoverSize + $basic-gap*2;
+    padding: $basic-gap 0;
+    @include clearfix;
+    .image {
+        @include position(absolute, $basic-gap $basic-gap null null);
+    }
+    .cellDetail {
+        padding-right: $smallCellCoverSize + $basic-gap;
+    }
+    &.textCell .cellDetail{
+        padding-right:0;
+    }
+}
+
+.mediumCell,
+.largeCell,
+.fullCell {
+    padding: $basic-gap 0;
+    .title {
+        padding-bottom: $basic-gap/2;
+    }
+}
+
+
+
+.largeCell {
+    .image {
+        margin-left: $basic-gap;
+    }
+}
+.cellMoreImages {
+    margin:0 $basic-gap;
+    @include align-items(flex-start);
+    @include display(flex);
+    @include flex-direction(row nowrap);
+    @include justify-content(space-between);
+}
+
+.fullCell {
+    .cellCover {
+        margin-left: $basic-gap;
+    }
+    .cellMoreImages {
+        margin-top:$basic-gap/4;
+    }
+
+}
+
+
+.en .translatedTitle {
+    display: block;
+}
+
+
+
+
+//***** Feature *****
+.rankCell {
+    @include position(relative);
+    .title,
+    .creditItem {
+        padding-left: 44px;
+    }
+    .title {
+        font-size: 16px;
+    }
+    &:nth-child(1) .rank,&:nth-child(2) .rank,&:nth-child(3) .rank {
+        background: $main-color;
+        color: $white;
+    }
+    .rank {
+        @include position(absolute, 24px null null 14px);
+        @include size(24px);
+        color: $main-color;
+        border: 1px solid $main-color;
+        font-size: $body-size;
+        line-height: 22px;
+        text-align: center;
+        border-radius: 100%;
+        font-size: 12px;
+        font-family: 'Verdana';
+    }
+}
+
+
+
+
+//***** Explore *****
+#explore {
+    overflow:hidden;
+}
+
+#exploreTopBar-category-switch,
+#exploreTopBar-search-switch {
+    color: $topBarColor;
+    line-height: $topBarHeight;
+    >.icon {
+        color: $main-color;
+        @include pomeTransition();
+    }
+}
+
+#exploreTopBar-category-switch {
+    width: 100%;
+}
+
+#exploreTopBar-search-switch {
+    width: $topBarHeight;
+    @include position(absolute, 0 0 null null);
+}
+
+
+//***** Profile *****
+
+$profileHeaderHeight:56px;
+.profileHeader {
+    @include size(100% $profileHeaderHeight);
+    background: $white;
+    color: $black;
+    border-bottom: 1px solid $border-color;
+    position: relative;
+    z-index: 1;
+}
+
+.profileImage {
+    @include size($profileHeaderHeight - $basic-gap);
+    border-radius: 100%;
+    overflow: hidden;
+    float: left;
+    display: inline-block;
+    margin-right: $basic-gap;
+    @include position(relative, $basic-gap/2 null null $basic-gap/2);
+    background: #f0f0f0;
+    text-align: center;
+    .icon {
+        font-size: $profileHeaderHeight - $basic-gap*2;
+        line-height: $profileHeaderHeight - $basic-gap;
+        :before {
+            line-height: $profileHeaderHeight - $basic-gap;
+        }
+        color: $caption-color;
+    }
+}
+
+.profileInfo-name {
+    font-size: 16px;
+    line-height: 18px;
+    padding-top: $basic-gap;
+}
+
+.profileInfo-meta {
+    font-size: 10px;
+    color: $caption-color;
+    line-height: 12px;
+}
+
+.profileFilter {
+    @include position(absolute, $basic-gap*1.5 $basic-gap/2 null null);
+    font-size: 14px;
+    line-height: 1.2em;
+    &.dropDown-open {
+        position: absolute;
+    }
+    .dropDown-menu {
+        min-width: 140px;
+        right: 0;
+        left: auto;
+        margin-left: 0;
+        text-align: center;
+    }
+}
+
+#cards {
+    @include clearfix();
+}
+
+@include keyframes(cardFlyIn) {
+    0% {
+        @include transform( translate3d(-500px, 1000px, 0) rotate3d(0, 0, 1, 30deg));
+    }
+}
+
+.cardWrapper {
+    width: 48%;
+    margin: 4px 1%;
+    float: left;
+    display: inline-block;
+    border-radius: 2px;
+    font-size: 13px;
+    padding: 0;
+    border: none;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    background: $white;
+    position: relative;
+    .coverImage {
+        border-radius: 2px 2px 0 0;
+        overflow: hidden;
+        position: relative;
+        >img {
+            position: absolute;
+            max-width: none;
+        }
+    }
+    .creditMeta {
+        font-size: 8px;
+        line-height: 1.2em;
+        height: 1.2em;
+        overflow: hidden;
+    }
+    .title {
+        margin: 0.5em;
+        line-height: 1.2em;
+        height: 3.6em;
+        overflow: hidden;
+    }
+    .creditItem {
+        padding-left: $basic-gap/4;
+        padding-bottom: $basic-gap/4;
+    }
+    .creditName {
+        font-size: 10px;
+        line-height: 1.2em;
+    }
+    
+    .creditImage {
+        @include size(20px);
+        margin-right: $basic-gap/4;
+    }
+    &:nth-child(1) {
+        @include animation( cardFlyIn .5s both cubic-bezier(.36, 0, .15, 1));
+    }
+    &:nth-child(2) {
+        @include animation( cardFlyIn .5s .1s both cubic-bezier(.36, 0, .15, 1));
+    }
+    &:nth-child(3) {
+        @include animation( cardFlyIn .5s .2s both cubic-bezier(.36, 0, .15, 1));
+    }
+    &:nth-child(4) {
+        @include animation( cardFlyIn .5s .3s both cubic-bezier(.36, 0, .15, 1));
+    }
+    &:nth-child(5) {
+        @include animation( cardFlyIn .5s .4s both cubic-bezier(.36, 0, .15, 1));
+    }
+    &:nth-child(6) {
+        @include animation( cardFlyIn .5s .5s both cubic-bezier(.36, 0, .15, 1));
+    }
+    .action-more {
+        @include position(absolute, null 0 0 null);
+        @include size(48px);
+        text-align: center;
+        display: none;
+        >.icon {
+            font-size: 24px;
+            color: #e0e0e0;
+            padding-top: 20px;
+            display: block;
+            padding-left: 24px;
+        }
+    }
+}
+
+
+.actionCard {
+    height: 194px;
+    box-shadow: none;
+    background: none;
+    border: 1px dashed #a0a0a0;
+    border-radius: 5px;
+    text-align: center;
+    color: #a0a0a0;
+    padding: $basic-gap $basic-gap/2;
+}
+
+.addButton {
+    @include size($basic-gap*6);
+    font-size: $basic-gap*4;
+    margin: 0 auto;
+    border-radius: 100%;
+    padding: $basic-gap;
+}
+
+.addTitle {
+    font-size: 14px;
+    line-height: 16px;
+    margin-bottom: $basic-gap/4;
+}
+
+.addText {
+    font-size: 10px;
+    line-height: 12px;
+}
+
+
+
+
+
+
+//***** Cell Action *****
+
+@include keyframes(zoomInActions) {
+    0% {
+        @include transform(scale3d(0, 0, 1));
+    }
+    100% {
+        @include transform(scale3d(1, 1, 1));
+    }
+}
+
+.zoomInActions {
+    @include animation(zoomInActions .3s $default-timing-function);
+}
+
+
+$actionDialogBg:rgba(0, 0, 0, .8);
+
+.imageActionWrapper .overlay,
+.cellActionWrapper .overlay {
+    background: transparent;
+}
+
+.cellActions {
+    @include position(absolute, null $basic-gap null null);
+    @include clearfix;
+    width: auto;
+    background: $actionDialogBg;
+    color: $white;
+    border-radius: 5px;
+    z-index: 11;
+}
+
+.cellActions:after {
+    content: "";
+    display: block;
+    @include size(0);
+    line-height: 0;
+    font-size: 1px;
+    border-width: $basic-gap/4 $basic-gap/4;
+    border-style: solid;
+}
+
+.bottomCaret {
+    margin-bottom: -8px;
+    @include transform-origin(right bottom);
+}
+
+.topCaret {
+    margin-top: 36px;
+    @include transform-origin(right top);
+}
+
+.bottomCaret:after {
+    @include position(absolute, null $basic-gap 0-$basic-gap/2 null);
+    border-color: $actionDialogBg $actionDialogBg transparent transparent;
+}
+
+.topCaret:after {
+    @include position(absolute, 0-$basic-gap/2 $basic-gap null null);
+    border-color: transparent $actionDialogBg $actionDialogBg transparent;
+}
+
+.cellAction {
+    line-height: 24px;
+    height: 48px;
+    padding: 12px $basic-gap;
+    text-align: right;
+    border-bottom: 1px solid #555;
+    vertical-align: top;
+    >.icon,
+    >.icon:before {
+        line-height: 24px;
+        margin-left: 2px;
+    }
+}
+
+.cellAction:last-child {
+    border-bottom: none;
+}
+
+
+//***** Image Action *****
+.imageActions {
+    @include position(absolute);
+    @include clearfix;
+    width: auto;
+    background: $actionDialogBg;
+    z-index: 11;
+    border-radius: 5px;
+    color: white;
+    font-size: 10px;
+    line-height: 40px;
+    white-space:nowrap;
+}
+
+.imageActions:after {
+    content: "";
+    display: block;
+    @include size(0);
+    line-height: 0;
+    font-size: 1px;
+    border-width: $basic-gap/4 $basic-gap/4;
+    border-style: solid;
+}
+
+.imageActions.bottomCaret:after {
+    @include position(absolute, null $basic-gap 0-$basic-gap/2 null);
+    border-color: $actionDialogBg $actionDialogBg transparent transparent;
+}
+
+.imageActions.topCaret:after {
+    @include position(absolute, 0-$basic-gap/2 $basic-gap null null);
+    border-color: transparent $actionDialogBg $actionDialogBg transparent;
+}
+
+.imageActions.topCaret.leftCaret:after {
+    @include position(absolute, 0-$basic-gap/2 auto null $basic-gap);
+    border-color: transparent transparent $actionDialogBg $actionDialogBg;
+}
+
+.imageActions.bottomCaret.leftCaret:after {
+    @include position(absolute, null auto 0-$basic-gap/2 $basic-gap);
+    border-color: $actionDialogBg transparent transparent $actionDialogBg;
+}
+
+.imageAction {
+    float: left;
+    display: inline-block;
+    padding: 0 $basic-gap;
+    border-right: 1px solid #333;
+}
+
+.imageAction:last-child {
+    border-right: none;
+}
+
+
+//***** Article *****
+
+.articleWrapper {
+    .creditItem {
+        @include position(absolute, 0 null null 0);
+        @include size(100% auto);
+        background: $wrapperBackground;
+        padding: $basic-gap/2 $basic-gap;
+        background: #fff;
+        @include reset-transform;
+        z-index: 2;
+        border-bottom: 1px solid $border-color;
+    }
+    .creditName {
+        color: $black;
+        padding: 0 0 2px;
+    }
+    .creditDetial {
+        padding-top: $basic-gap/4;
+    }
+}
+
+
+.articleCore {
+    padding: $basic-gap*3 $basic-gap 0;
+}
+
+.articleMeta {
+    .tags {
+        padding-left: 0;
+        padding-top: 0;
+        padding-bottom: $basic-gap/2;
+    }
+    position:relative;
+}
+
+.thumbSwitch {
+    font-size: .8em;
+    height: 100%;
+    color: $caption-color;
+    @include position(absolute, 0 0 null null);
+    line-height: .8em;
+}
+
+.articleTitle {
+    padding: $basic-gap 0 $basic-gap/2;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.articleBody {
+    padding: $basic-gap/2 0 $basic-gap*2;
+    font-size: 15px;
+    line-height: 1.6em;
+    color: #444;
+    @include clearfix;
+    .image {
+        margin-bottom: 1.5em;
+        min-width: $basic-gap*2;
+        min-height: $basic-gap*2;
+        border-radius: 2px;
+        width: auto;
+        text-align: center;
+        background: transparent;
+        >img {
+            max-width: 100%;
+            border-radius: 2px;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+    .thumb {
+        margin: 0 auto 1.5em;
+        background: #f0f0f0;
+    }
+    .grid {
+        margin-bottom: 1.5em;
+    }
+}
+
+.grid {
+    @include clearfix;
+    .gridThumb {
+        float: left;
+        margin-right: 4px;
+        margin-bottom: 4px;
+    }
+    .grid1-3:nth-child(3n + 3) {
+        margin-right: 0;
+    }
+    .grid1-2:nth-child(2n + 2) {
+        margin-right: 0;
+    }
+}
+
+.articleOrignalLink {
+    display: block;
+    padding: $basic-gap/2;
+    background: $border-color;
+    font-size: 10px;
+    color: darken($border-color, 30%);
+    text-decoration: none;
+    margin: 2em 0 0;
+    text-align: center;
+    border-radius: 5px;
+    @include clearfix;
+    float: none;
+    clear: both;
+}
+
+
+
+.topActionBtn {
+    @include position(absolute, $basic-gap/4*3 $basic-gap/2 null null);
+    border-radius: 15px;
+}
+
+.articleWrapper .creditMeta {
+    font-size: 10px;
+    line-height: 1.2em;
+    height: 1.2em;
+    overflow:hidden;
+}
+
+
+//***** Shared Article *****
+.expand {
+    border-top: 1px solid $border-color;
+    height: $basic-gap*4;
+    position: relative;
+}
+
+.expandSwitch {
+    @include size(64px);
+    @include position(absolute, 0-$basic-gap null null 50%);
+    margin-left: -32px;
+    border-radius: 100%;
+    text-align: center;
+    font-size: 10px;
+    line-height: 12px;
+    background: #fff;
+    padding-top: 16px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .5);
+}
+
+.expandSwitch:active {
+    padding-top: 16px;
+    color: darken($main-color, 20%);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+}
+
+.fold .articleBody {
+    max-height: 600px;
+    overflow: hidden;
+}
+
+.shareBottom {
+    padding: $basic-gap 0 $basic-gap*2;
+}
+
+.share-readMore {
+    font-size: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.shareBottomActions {
+    @include clearfix;
+}
+
+.shareBottomAction {
+    float: left;
+    display: inline-block;
+    width: 33.33%;
+    margin-bottom: $basic-gap*2;
+    color: $caption-color;
+    border-right: 1px solid #f0f0f0;
+    >.icon,
+    >span {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+    .icon {
+        font-size: 24px;
+        margin-bottom: 6px;
+    }
+    span {
+        font-size: 10px;
+        line-height: 12px;
+    }
+}
+
+.shareBottomAction:last-child {
+    border-right: none;
+}
+
+
+
+.post-original-tags {
+    font-size: 10px;
+    color:$caption-color;
+    line-height: 12px;
+}
+.admin-info {
+    font-size: 10px;
+}
+
+
+.related-cells {
+    margin:0 -$basic-gap;
+}
+
+.shareBottom .streamWrapper {
+    overflow-y:visible;
+    overflow:visible;
+    -webkit-overflow-scrolling: auto;
+    margin-bottom:$basic-gap*2.5;
+}
+
+.relatedTitle {
+    font-size:10px;
+    color:$caption-color;
+    border-top:1px solid $border-color;
+    padding-top:$basic-gap;
+}
+
+
+//***** Subscribe Card *****
+
+.subscribeCard {
+    text-align: center;
+    padding: $basic-gap;
+    .creditItem {
+        margin-bottom: $basic-gap;
+    }
+    .creditImage {
+        display: block;
+        float: none;
+        margin: 0 auto;
+    }
+    .creditName {
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+        padding: 4px 0;
+    }
+}
+
+

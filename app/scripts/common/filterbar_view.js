@@ -43,7 +43,6 @@
                 },
                 getFilterMenuClass: function() {
                     if (this.children && this.children.length > 20) {
-
                     } else {
                         
                     }

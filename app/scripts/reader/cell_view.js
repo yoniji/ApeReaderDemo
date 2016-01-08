@@ -29,7 +29,7 @@
 
         return Marionette.ItemView.extend({
             template: function(serialized_model) {
-
+                //根据display_type渲染不同的template
                 switch (serialized_model.metadata.display_type) {
                     case 'medium':
                         return Mustache.render(mediumCellTemplate, serialized_model);
